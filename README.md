@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.48.5, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.48.5), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.48.6, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.48.6), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -30,8 +30,23 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.48.5.apk`: versiunea 1.48.5 (versionCode 12036), semnată cu o cheie de test.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.5; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `dist/DataEng-Learn-1.48.6.apk`: versiunea 1.48.6 (versionCode 12037), semnată cu o cheie de test.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.6; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## DP-750: 41 de întrebări noi în 1.48.6
+
+Pentru DP-750 am adăugat **41 de întrebări noi**, distribuite după ponderile oficiale:
+
+| Arie | Întrebări noi |
+|---|---|
+| Pregătirea și configurarea mediului Azure Databricks | 7 |
+| Securizarea și guvernanța obiectelor Unity Catalog | 7 |
+| Pregătirea și procesarea datelor | 14 |
+| Livrarea și întreținerea pipeline-urilor | 13 |
+
+Împreună cu cele 9 din 1.48.5, DP-750 are acum 50 de întrebări noi, iar banca are 388 de întrebări.
+
+**Lungimea variantelor:** la cele 41, varianta corectă e cea mai scurtă în 9 întrebări, pe pozițiile din mijloc în 22 și cea mai lungă în 10. Lungimea nu indică răspunsul.
 
 ## Întrebări de examen noi în 1.48.5
 
