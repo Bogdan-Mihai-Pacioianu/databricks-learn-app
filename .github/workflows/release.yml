@@ -39,6 +39,7 @@ jobs:
           body: |
             Build de test.
 
+            - **Termeni în două moduri, Învață și Practică:** în Practică alegi ce termeni exersezi (scadenți, greșiți, în curs, știuți, favorite), domeniul, tipul de exercițiu și câți termeni.
             - **Dicționar A–Z** cu toți termenii: denumiri alternative ca trimiteri, termenii folosiți în conținut fără fișă, unde apare fiecare termen (carduri, lecții, exerciții, studii de caz, întrebări, alte fișe), filtre pe domeniu și stadiu, inventar pe domenii.
             - **Învățarea termenilor:** repetiție spațiată, exerciții inverse și de scris din memorie, repetarea termenilor scadenți.
 

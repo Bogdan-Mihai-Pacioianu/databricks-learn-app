@@ -10,11 +10,36 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
 - `tools/test_dictionary.js`: test Playwright pentru dicționar.
 - `docs/inventar-termeni.md`: raportul inventarului, cu termenii fără fișă.
+- `tools/patch_modes.py`: împarte tabul Termeni în modurile Învață și Practică. Se aplică după `patch_dictionary.py`.
+- `tools/test_modes.js`: test Playwright pentru cele două moduri.
 - `tools/patch_terms.py`: aplică aceleași îmbunătățiri peste alt `app.js`, de exemplu cel din sursa 1.54. Scriptul se oprește dacă o bucată de cod nu se potrivește.
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.48.0-dictionar.apk`: build de test, semnat cu o cheie de test.
+- `dist/DataEng-Learn-1.48.0-practica.apk`: build de test, semnat cu o cheie de test.
+
+## Modurile Învață și Practică
+
+Tabul Termeni are sus un comutator între două moduri. Aplicația ține minte ultimul mod ales.
+
+- **Învață:** glosarul, dicționarul A–Z și lecțiile pe domenii, ca înainte.
+- **Practică:** exersezi termeni pe care îi alegi tu:
+  - butonul **Repetă termenii scadenți**;
+  - **Practică la alegere**, unde alegi:
+    - **ce termeni:** scadenți, greșiți recent, în curs, știuți, toți cei învățați, favorite sau toți;
+    - **domeniul**;
+    - **tipul de exercițiu:** mixt după nivel, alege definiția, alege termenul, scrie termenul sau potriviri;
+    - **câți termeni:** 10, 20, 30 sau 50;
+  - **Pe domenii:** o sesiune rapidă pentru fiecare domeniu început. Domeniile neîncepute sunt strânse la final.
+
+Ordinea în care se aplică patch-urile peste un `app.js` original:
+
+```
+python tools/patch_terms.py app/assets/app.js
+python tools/patch_dictionary.py app/assets
+python tools/patch_modes.py app/assets
+node tools/build_dictionary.js app/assets
+```
 
 ## Dicționarul termenilor
 
