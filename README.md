@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.48.3, cu conținutul din 1.48.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.48.4, cu conținutul din 1.48.0 plus fișele noi din 1.48.4), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -21,12 +21,61 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `tools/check_links.js` și `.github/workflows/check-links.yml`: verificarea automată a linkurilor din GitHub Actions. Rezultatul se salvează în `app/assets/resources-status156.json`.
 - `tools/test_resources.js`: test Playwright pentru bibliotecă.
 - `reports/` și `research_notes/`: raportul de cercetare și notițele lui.
+- `content/enrich157_*.json`: fișele scrise în 1.48.4 (65 de termeni, 18 carduri, 17 întrebări, sinonime noi).
+- `tools/build_enrich.py`: le transformă în `app/assets/enrich157.js`, iar `tools/patch_enrich.py` îl încarcă după `cards.js`.
+- `tools/test_enrich.js`: test Playwright pentru fișele noi.
 - `tools/patch_terms.py`: aplică aceleași îmbunătățiri peste alt `app.js`, de exemplu cel din sursa 1.54. Scriptul se oprește dacă o bucată de cod nu se potrivește.
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.48.3.apk`: versiunea 1.48.3 (versionCode 12034), semnată cu o cheie de test.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.3; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `dist/DataEng-Learn-1.48.4.apk`: versiunea 1.48.4 (versionCode 12035), semnată cu o cheie de test.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.4; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## Conținut nou în 1.48.4
+
+Pe baza cercetării, aplicația are acum conținut nou scris în română.
+
+**65 de fișe de termeni noi.** Fiecare are definiție, detalii, exemplu, întrebare de verificare și sursă oficială verificată. Sunt termeni folosiți des în materiale, dar care nu aveau fișă:
+- SQL, NULL, DDL, DML, JDBC;
+- JSON, CSV, YAML, Parquet, Avro, ORC;
+- API, REST, HTTP, DNS, TLS, TTL;
+- AWS, S3, ARN, IAM, KMS, CloudWatch, DMS, EMR;
+- GCP, BigQuery, GCS;
+- ADLS Gen2, ADF, Databricks Runtime, Lakeflow pipelines, Databricks Free Edition;
+- DataFrame, PySpark, JVM, OOM, SparkContext, PushedFilters, Garbage collection;
+- pandas 3.0, Polars;
+- SCD, BI, DAX;
+- ParDo, DoFn;
+- SLA, LTS, SIGTERM, DST, CLI, SDK;
+- PII, GDPR, DLP, SHA-2, ACL;
+- ZooKeeper, Airflow 3, HDFS, NameNode, ML, Snowpark, XTable.
+
+Termenii noi apar în lecții, glosar, dicționar și practică.
+
+**18 carduri cu noutățile din 2026:**
+- DP-203 retras;
+- DP-750 nou;
+- DP-700;
+- ghidurile Databricks din 2026;
+- Spark Developer;
+- AWS DEA-C01;
+- Google PDE și mutarea pe Google Skills;
+- SnowPro Core COF-C03;
+- redenumirile Lakeflow;
+- Kafka 4 fără ZooKeeper;
+- Airflow 3;
+- pandas 3;
+- Soda Core 4 și GX 1.x;
+- Terraform 004 și OpenTofu;
+- laboratoare gratuite;
+- DE Zoomcamp;
+- versiunile Spark, Delta și Iceberg.
+
+**17 întrebări grilă noi.** Fiecare are explicație pentru varianta corectă și pentru fiecare variantă greșită.
+
+**Sinonime noi la termenii existenți:** UC, SCD2, CDF.
+
+Faptele neconfirmate oficial în cercetare sunt marcate ca atare în text.
 
 ## Biblioteca de resurse externe
 
@@ -98,6 +147,8 @@ python tools/patch_modes.py app/assets
 python tools/patch_tabmodes.py app/assets
 python tools/patch_setup.py app/assets
 python tools/patch_resources.py app/assets
+python tools/patch_enrich.py app/assets
+python tools/build_enrich.py content app/assets
 python tools/build_resources.py "research_notes/Resurse învățare data engineering" app/assets
 node tools/build_dictionary.js app/assets
 ```

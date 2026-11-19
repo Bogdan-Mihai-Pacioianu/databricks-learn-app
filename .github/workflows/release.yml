@@ -40,6 +40,7 @@ jobs:
           body: |
             ## Ce e nou
 
+            - **1.48.4 · Conținut nou:** 65 de fișe de termeni (S3, DataFrame, NULL, IAM, TLS, Lakeflow pipelines, pandas 3.0, HDFS, GDPR…), 18 carduri cu noutățile din 2026 (certificări, redenumiri, versiuni) și 17 întrebări noi.
             - **1.48.3 · Bibliotecă de resurse externe:** 372 de linkuri oficiale și gratuite, pe 40 de domenii și examene, cu rezumat în română, verificate automat (356 funcționează). Se găsesc în Concepte, Termeni, SQL, Python, Certificări și configurare.
             - **1.48.2 · Configurare:** contor de domenii bifate, bifare rapidă (toate, principale, certificări), domenii grupate și, în dreapta fiecărui domeniu, tot ce conține: carduri, termeni, întrebări, scenarii, lecții, exerciții.
             - **Învață și Practică pe fiecare tab:** lecțiile și informațiile sunt separate de întrebări, teste, exerciții și laboratoare. Practica la alegere: domeniu, curs sau etapă, tip, greșite sau nefăcute, număr.

@@ -7,6 +7,8 @@ const fs = require("fs"), path = require("path");
 const dir = process.argv[2] || "app/assets";
 global.window = {};
 eval(fs.readFileSync(path.join(dir, "cards.js"), "utf8"));
+// Fișele adăugate în 1.48.4 fac parte din glosar.
+if (fs.existsSync(path.join(dir, "enrich157.js"))) eval(fs.readFileSync(path.join(dir, "enrich157.js"), "utf8"));
 const S = window.SEED;
 
 const REFS_PER_KIND = 6;
