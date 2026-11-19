@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.48.6, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.48.6), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.48.6, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.48.7), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -30,8 +30,28 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.48.6.apk`: versiunea 1.48.6 (versionCode 12037), semnată cu o cheie de test.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.6; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `dist/DataEng-Learn-1.48.7.apk`: versiunea 1.48.7 (versionCode 12038), semnată cu o cheie de test.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.7; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## Databricks DE Associate: 40 de întrebări noi în 1.48.7
+
+Pentru Databricks Data Engineer Associate am adăugat **40 de întrebări noi**, după ponderile din ghidul din mai 2026:
+
+| Domeniu | Întrebări noi |
+|---|---|
+| Platformă | 3 |
+| Ingestie | 8 |
+| Transformare | 9 |
+| Lakeflow Jobs | 6 |
+| CI/CD | 4 |
+| Depanare | 4 |
+| Guvernanță | 6 |
+
+**Subiecte:** volumes, `read_files`, streaming tables în SQL, Kafka, Lakeflow Connect, schema hints, checkpoint-uri, CREATE OR REPLACE, INSERT OVERWRITE, `explode`, JSON cu `:`, funcții fereastră, deduplicare cu watermark, funcții SQL în Unity Catalog, PIVOT, For each, If/else, job cluster partajat, cron cu fus orar, notificări, retry, `bundle init`, mode development, OAuth pentru service principal, query profile, compactare, skew, Photon, MODIFY, vederi dinamice, Delta Sharing, REVOKE, workspace-catalog binding.
+
+Împreună cu cele 10 din 1.48.5, DE Associate are acum 50 de întrebări noi, iar banca are 365 de întrebări.
+
+**Lungimea variantelor:** varianta corectă e cea mai scurtă în 6 întrebări, pe pozițiile din mijloc în 25 și cea mai lungă în 9.
 
 ## DP-750: 41 de întrebări noi în 1.48.6
 
