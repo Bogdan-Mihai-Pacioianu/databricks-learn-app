@@ -33,11 +33,12 @@ jobs:
         with:
           tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || steps.meta.outputs.tag }}
           target_commitish: ${{ github.sha }}
-          name: DataEng Learn ${{ steps.meta.outputs.tag }} (test)
-          prerelease: true
+          name: DataEng Learn ${{ steps.meta.outputs.tag }}
+          # Versiunile cu sufix (v1.48.0-termeni) sunt build-uri de test; v1.48.1 e versiune normală.
+          prerelease: ${{ contains(steps.meta.outputs.tag, '-') }}
           files: dist/*.apk
           body: |
-            Build de test.
+            ## Ce e nou în 1.48.1
 
             - **Învață și Practică pe fiecare tab:** lecțiile și informațiile sunt separate de întrebări, teste, exerciții și laboratoare. Practica la alegere: domeniu, curs sau etapă, tip, greșite sau nefăcute, număr.
             - **Termeni în două moduri, Învață și Practică:** în Practică alegi ce termeni exersezi (scadenți, greșiți, în curs, știuți, favorite), domeniul, tipul de exercițiu și câți termeni.

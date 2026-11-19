@@ -19,6 +19,9 @@ with zipfile.ZipFile(src_apk) as zin, open(unsigned, "wb") as f:
         data = zin.read(info.filename)
         present.add(info.filename)
         local = os.path.join(assets_dir, info.filename[len("assets/"):]) if info.filename.startswith("assets/") else None
+        # Manifestul binar (versiune) se ia din directorul părinte al assets, dacă există.
+        if info.filename == "AndroidManifest.xml":
+            local = os.path.join(os.path.dirname(os.path.abspath(assets_dir)), "AndroidManifest.xml")
         if local and os.path.exists(local):
             data = open(local, "rb").read()
         zi = zipfile.ZipInfo(info.filename, date_time=info.date_time)
