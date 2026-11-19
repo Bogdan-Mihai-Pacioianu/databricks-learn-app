@@ -20,16 +20,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Tag-ul vine din numele APK-ului: dist/DataEng-Learn-1.48.0-dictionar.apk → v1.48.0-dictionar
+      - name: Tag din numele APK-ului
+        id: meta
+        run: |
+          f=$(ls dist/*.apk | head -n1)
+          n=$(basename "$f" .apk)
+          echo "tag=v${n#DataEng-Learn-}" >> "$GITHUB_OUTPUT"
+
       - name: Creează release-ul cu APK-ul
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'v1.48.0-termeni' }}
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || steps.meta.outputs.tag }}
           target_commitish: ${{ github.sha }}
-          name: DataEng Learn 1.48.0 + termeni (test)
+          name: DataEng Learn ${{ steps.meta.outputs.tag }} (test)
           prerelease: true
           files: dist/*.apk
           body: |
-            Build de test: învățarea termenilor îmbunătățită (repetiție spațiată, exerciții inverse și de scris din memorie, repetarea termenilor scadenți).
+            Build de test.
+
+            - **Dicționar A–Z** cu toți termenii: denumiri alternative ca trimiteri, termenii folosiți în conținut fără fișă, unde apare fiecare termen (carduri, lecții, exerciții, studii de caz, întrebări, alte fișe), filtre pe domeniu și stadiu, inventar pe domenii.
+            - **Învățarea termenilor:** repetiție spațiată, exerciții inverse și de scris din memorie, repetarea termenilor scadenți.
 
             ## Instalare pe telefon
             1. În aplicația instalată: **Setări → Export backup**.

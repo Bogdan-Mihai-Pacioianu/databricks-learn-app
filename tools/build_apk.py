@@ -1,4 +1,4 @@
-# Reîmpachetează APK-ul cu asset-urile modificate, aliniază intrările necomprimate
+# Reîmpachetează APK-ul cu asset-urile din director (modificate sau noi), aliniază intrările necomprimate
 # și semnează cu APK Signature Scheme v2 (minSdk 24, deci v1 nu e necesar).
 import hashlib, os, struct, sys, zipfile, datetime
 from cryptography import x509
@@ -7,18 +7,20 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 
 src_apk, assets_dir, out_apk, key_dir = sys.argv[1:5]
-REPLACE = ["assets/app.js", "assets/index.html"]
 
 # ---- 1. zip nou, cu aceeași ordine și aceeași compresie ----
 unsigned = out_apk + ".unsigned"
 with zipfile.ZipFile(src_apk) as zin, open(unsigned, "wb") as f:
     zout = zipfile.ZipFile(f, "w")
+    present = set()
     for info in zin.infolist():
         if info.filename.startswith("META-INF/"):
             continue
         data = zin.read(info.filename)
-        if info.filename in REPLACE:
-            data = open(os.path.join(assets_dir, info.filename[len("assets/"):]), "rb").read()
+        present.add(info.filename)
+        local = os.path.join(assets_dir, info.filename[len("assets/"):]) if info.filename.startswith("assets/") else None
+        if local and os.path.exists(local):
+            data = open(local, "rb").read()
         zi = zipfile.ZipInfo(info.filename, date_time=info.date_time)
         zi.compress_type = info.compress_type
         zi.external_attr = info.external_attr
@@ -30,6 +32,13 @@ with zipfile.ZipFile(src_apk) as zin, open(unsigned, "wb") as f:
             pad = (-hdr) % align
             zi.extra = b"\x00" * pad
         zout.writestr(zi, data)
+    # Fișierele noi din assets (de exemplu dictionary156.js) se adaugă comprimate.
+    for root, _, files in os.walk(assets_dir):
+        for name in sorted(files):
+            rel = "assets/" + os.path.relpath(os.path.join(root, name), assets_dir).replace(os.sep, "/")
+            if rel not in present:
+                zout.write(os.path.join(root, name), rel, compress_type=zipfile.ZIP_DEFLATED)
+                print("adăugat:", rel)
     zout.close()
 
 apk = open(unsigned, "rb").read()

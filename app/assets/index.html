@@ -743,6 +743,19 @@ section:not([hidden]) > .wrap{animation:intra .18s ease-out}
 <link rel="stylesheet" href="today139.css">
 <link rel="stylesheet" href="courses145.css">
 <link rel="icon" type="image/svg+xml" href="app-icon139.svg">
+<style>
+.dict-letters156{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;position:sticky;top:-1px;z-index:2;background:var(--surface,var(--bg));padding:6px 0}
+.dict-letter156{min-width:36px;min-height:36px;border-radius:10px;border:1px solid var(--line,#8884);background:var(--surface2);color:var(--txt);font-weight:700;cursor:pointer}
+.dict-letter156.on{background:var(--accent);color:var(--accent-on,#111);border-color:var(--accent)}
+.dict-chip156{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;font-size:.72em;font-weight:700;vertical-align:middle;border:1px solid var(--line,#8884);color:var(--muted)}
+.dict-chip156.known{color:var(--ok,#3c9);border-color:currentColor}.dict-chip156.due{color:var(--accent-txt,#e9b949);border-color:currentColor}
+.dict-chip156.learning{color:var(--txt)}.dict-chip156.missing{border-style:dashed}
+.dict-alias156{display:block;width:100%;text-align:left;padding:10px 4px;background:none;border:0;border-bottom:1px solid var(--line,#8883);color:var(--txt);cursor:pointer;min-height:44px}
+.dict-refs156{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px;align-items:center}
+.dict-refs156 .btn{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}
+.dict-inv-rows156{display:grid;gap:6px;margin-top:8px}
+.dict-inv-row156{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:10px;border-radius:12px;border:1px solid var(--line,#8884);background:var(--surface2);color:var(--txt);cursor:pointer}
+</style>
 </head>
 <body class="loading">
 
@@ -886,7 +899,7 @@ section:not([hidden]) > .wrap{animation:intra .18s ease-out}
       <button class="btn mini danger" id="set-reset">Resetează progresul</button>
       <div class="muted" style="margin-top:6px">Șterge progresul cursurilor, XP, repetițiile, jurnalul și seria, încercările, ciornele SQL/Python și dovezile/notițele proiectelor. Cardurile proprii și notele personale din bibliotecă rămân. Exportă un backup înainte, dacă vrei să poți reveni.</div>
     </div>
-    <p class="muted center" style="margin:14px 0 4px">DataEng Learn · 1.48.0 + termeni (test) · învățare offline, progres salvat pe telefon</p>
+    <p class="muted center" style="margin:14px 0 4px">DataEng Learn · 1.48.0 + termeni + dicționar (test) · învățare offline, progres salvat pe telefon</p>
   </div>
 </section>
 
@@ -1010,6 +1023,7 @@ section:not([hidden]) > .wrap{animation:intra .18s ease-out}
 <script src="py.js"></script>
 <script src="discovery129.js"></script>
 <script src="glossary133.js"></script>
+<script src="dictionary156.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
