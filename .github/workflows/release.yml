@@ -1,0 +1,32 @@
+name: Release APK
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Creează release-ul cu APK-ul
+        uses: softprops/action-gh-release@v2
+        with:
+          name: DataEng Learn ${{ github.ref_name }}
+          prerelease: true
+          files: dist/*.apk
+          body: |
+            Build de test: învățarea termenilor îmbunătățită (repetiție spațiată, exerciții inverse și de scris din memorie, repetarea termenilor scadenți).
+
+            ## Instalare pe telefon
+            1. În aplicația instalată: **Setări → Export backup**.
+            2. Dezinstalează aplicația. APK-ul e semnat cu o cheie de test, așa că nu se poate instala peste versiunea existentă.
+            3. Descarcă fișierul `.apk` de mai jos și deschide-l. Permite instalarea din surse necunoscute, dacă ți se cere.
+            4. În aplicația nouă: **Setări → Import backup**.
+
+            ⚠️ Conținutul este cel din 1.48.0. Dacă pe telefon ai o versiune mai nouă (de exemplu 1.54), instalarea te întoarce la conținutul din 1.48.
