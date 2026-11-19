@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - "v*"
+    branches:
+      - "claude/etapa-d-private-repo-fo4avo"
+    paths:
+      - "dist/**"
+      - ".github/workflows/release.yml"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,7 +23,9 @@ jobs:
       - name: Creează release-ul cu APK-ul
         uses: softprops/action-gh-release@v2
         with:
-          name: DataEng Learn ${{ github.ref_name }}
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'v1.48.0-termeni' }}
+          target_commitish: ${{ github.sha }}
+          name: DataEng Learn 1.48.0 + termeni (test)
           prerelease: true
           files: dist/*.apk
           body: |
