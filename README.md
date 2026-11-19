@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.48.2, cu conținutul din 1.48.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.48.3, cu conținutul din 1.48.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -16,12 +16,32 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `tools/test_tabmodes.js`: test Playwright care parcurge fiecare tab în ambele moduri.
 - `tools/patch_setup.py`: modifică pasul 1 al configurării. Adaugă contorul de domenii bifate, butoanele de bifare rapidă, gruparea pe tipuri și săgeata cu tot ce conține fiecare domeniu.
 - `tools/test_setup.js`: test Playwright pentru configurare.
+- `tools/patch_resources.py`: adaugă biblioteca de resurse externe. Se aplică după `patch_setup.py`.
+- `tools/build_resources.py`: transformă cataloagele din cercetare în `app/assets/resources156.js`.
+- `tools/check_links.js` și `.github/workflows/check-links.yml`: verificarea automată a linkurilor din GitHub Actions. Rezultatul se salvează în `app/assets/resources-status156.json`.
+- `tools/test_resources.js`: test Playwright pentru bibliotecă.
+- `reports/` și `research_notes/`: raportul de cercetare și notițele lui.
 - `tools/patch_terms.py`: aplică aceleași îmbunătățiri peste alt `app.js`, de exemplu cel din sursa 1.54. Scriptul se oprește dacă o bucată de cod nu se potrivește.
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.48.2.apk`: versiunea 1.48.2 (versionCode 12033), semnată cu o cheie de test.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.2; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `dist/DataEng-Learn-1.48.3.apk`: versiunea 1.48.3 (versionCode 12034), semnată cu o cheie de test.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.3; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## Biblioteca de resurse externe
+
+Biblioteca are 372 de linkuri unice, în 40 de domenii și examene: documentație oficială, cursuri gratuite, ghiduri de examen, cărți deschise și laboratoare. Fiecare are un rezumat în română. Linkurile au fost alese prin cercetare și verificate automat pe 19.11.2026:
+- **356 funcționează;**
+- **9 site-uri** blochează verificarea automată;
+- **7 linkuri** au probleme. Aplicația le ascunde implicit.
+
+**Unde găsești biblioteca:**
+- Concepte și Termeni (modul Învață): toată biblioteca;
+- SQL și Python: resursele domeniului;
+- Certificări: „Resurse oficiale” la fiecare examen;
+- configurare: numărul de resurse al fiecărui domeniu.
+
+Conținutul aparține autorilor, așa că aplicația pune linkuri, nu copiază materialele.
 
 ## Configurare: ce vrei să înveți
 
@@ -77,6 +97,8 @@ python tools/patch_dictionary.py app/assets
 python tools/patch_modes.py app/assets
 python tools/patch_tabmodes.py app/assets
 python tools/patch_setup.py app/assets
+python tools/patch_resources.py app/assets
+python tools/build_resources.py "research_notes/Resurse învățare data engineering" app/assets
 node tools/build_dictionary.js app/assets
 ```
 

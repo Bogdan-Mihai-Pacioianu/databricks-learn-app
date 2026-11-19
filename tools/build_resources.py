@@ -99,9 +99,12 @@ for rows in decks.values():
     for r in rows:
         st = status.get("urls", {}).get(r["u"])
         if st:
-            r["h"] = st.get("code")
+            if st.get("code") is not None:
+                r["h"] = st["code"]
             if st.get("final") and st["final"] != r["u"]:
                 r["f"] = st["final"]
+            if st.get("note"):
+                r["n"] = st["note"]
 
 out = {"version": 1, "built": datetime.date.today().isoformat(), "checked": checked,
        "decks": decks}

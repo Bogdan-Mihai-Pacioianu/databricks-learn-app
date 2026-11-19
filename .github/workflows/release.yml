@@ -40,6 +40,7 @@ jobs:
           body: |
             ## Ce e nou
 
+            - **1.48.3 · Bibliotecă de resurse externe:** 372 de linkuri oficiale și gratuite, pe 40 de domenii și examene, cu rezumat în română, verificate automat (356 funcționează). Se găsesc în Concepte, Termeni, SQL, Python, Certificări și configurare.
             - **1.48.2 · Configurare:** contor de domenii bifate, bifare rapidă (toate, principale, certificări), domenii grupate și, în dreapta fiecărui domeniu, tot ce conține: carduri, termeni, întrebări, scenarii, lecții, exerciții.
             - **Învață și Practică pe fiecare tab:** lecțiile și informațiile sunt separate de întrebări, teste, exerciții și laboratoare. Practica la alegere: domeniu, curs sau etapă, tip, greșite sau nefăcute, număr.
             - **Termeni în două moduri, Învață și Practică:** în Practică alegi ce termeni exersezi (scadenți, greșiți, în curs, știuți, favorite), domeniul, tipul de exercițiu și câți termeni.
