@@ -3943,23 +3943,77 @@
     if (setupStep === 0) {
       body.appendChild(el("h2", "su-title", "Ce vrei să înveți?"));
       body.appendChild(el("p", "muted", "Sesiunile zilnice se construiesc doar din domeniile bifate. Le poți schimba oricând."));
-      var box = el("div", "srow");
-      allDecks().forEach(function (d) {
-        var n = allCards().filter(function (c) { return c.deck === d.id; }).length;
-        if (!n) return;
-        var row = el("label", "switch");
-        var cb = el("input"); cb.type = "checkbox";
-        cb.checked = setupTmp.decks[d.id] !== false;
-        cb.onchange = function () { setupTmp.decks[d.id] = cb.checked; };
-        row.appendChild(cb);
-        var nume = el("span", "sw-name");
-        nume.appendChild(ico(icoDeck(d.id), "sw-ico"));
-        nume.appendChild(el("span", null, d.name));
-        row.appendChild(nume);
-        row.appendChild(el("span", "muted", String(n)));
-        box.appendChild(row);
+      var stats = setupDeckStats156();
+      var decks = allDecks().filter(function (d) { return stats[d.id] && stats[d.id].total; });
+      var counter = el("div", "su-counter156"); counter.id = "su-counter156"; counter.setAttribute("aria-live", "polite");
+      body.appendChild(counter);
+      var quick = el("div", "su-quick156");
+      [["all", "Bifează toate"], ["main", "Doar principale"], ["cert", "Doar certificări"], ["none", "Debifează tot"]].forEach(function (q) {
+        var b = el("button", "btn mini secondary", q[1]); b.setAttribute("data-su-quick", q[0]);
+        b.onclick = function () {
+          decks.forEach(function (d) { var cert = isCertDeck156(d.id); setupTmp.decks[d.id] = q[0] === "all" || (q[0] === "main" && !cert) || (q[0] === "cert" && cert); });
+          renderSetup();
+        };
+        quick.appendChild(b);
       });
-      body.appendChild(box);
+      body.appendChild(quick);
+      var boxes = [];
+      function refresh() {
+        var on = decks.filter(function (d) { return setupTmp.decks[d.id] !== false; });
+        var mat = on.reduce(function (s, d) { return s + stats[d.id].total; }, 0);
+        counter.textContent = on.length + " din " + decks.length + " domenii bifate · " + mat + " materiale în sesiuni";
+        counter.classList.toggle("warn", !on.length);
+        boxes.forEach(function (g) {
+          var n = g.decks.filter(function (d) { return setupTmp.decks[d.id] !== false; }).length;
+          g.count.textContent = n + "/" + g.decks.length;
+        });
+      }
+      [["Domenii principale", decks.filter(function (d) { return !isCertDeck156(d.id); })],
+       ["Module de certificare", decks.filter(function (d) { return isCertDeck156(d.id); })]].forEach(function (group) {
+        if (!group[1].length) return;
+        var head = el("div", "su-group156"); head.appendChild(el("b", null, group[0]));
+        var gc = el("span", "muted"); head.appendChild(gc);
+        body.appendChild(head);
+        var box = el("div", "srow");
+        boxes.push({ decks: group[1], count: gc });
+        group[1].forEach(function (d) {
+          var st = stats[d.id];
+          var wrap = el("div", "su-deck156"); wrap.setAttribute("data-su-deck", d.id);
+          var row = el("label", "switch");
+          var cb = el("input"); cb.type = "checkbox";
+          cb.checked = setupTmp.decks[d.id] !== false;
+          cb.onchange = function () { setupTmp.decks[d.id] = cb.checked; refresh(); };
+          row.appendChild(cb);
+          var nume = el("span", "sw-name");
+          nume.appendChild(ico(icoDeck(d.id), "sw-ico"));
+          nume.appendChild(el("span", null, d.name));
+          row.appendChild(nume);
+          row.appendChild(el("span", "muted su-total156", String(st.total)));
+          wrap.appendChild(row);
+          // Săgeata din dreapta: tot ce conține domeniul.
+          var more = el("button", "su-more156", "›");
+          more.setAttribute("aria-label", "Ce conține " + d.name); more.setAttribute("aria-expanded", "false");
+          var detail = el("div", "su-detail156"); detail.hidden = true;
+          if (d.desc) detail.appendChild(el("p", null, d.desc));
+          var list = el("div", "su-chips156");
+          [["cards", "carduri"], ["terms", "termeni"], ["questions", "întrebări"], ["scen", "scenarii"], ["lessons", "lecții de curs"], ["sql", "exerciții SQL"], ["py", "laboratoare Python"]].forEach(function (k) {
+            if (st[k[0]]) list.appendChild(el("span", "su-chip156", st[k[0]] + " " + k[1]));
+          });
+          detail.appendChild(list);
+          if (st.courses.length) detail.appendChild(el("p", "muted", "Curs: " + st.courses.join(", ")));
+          more.onclick = function (e) {
+            e.preventDefault();
+            detail.hidden = !detail.hidden;
+            more.setAttribute("aria-expanded", String(!detail.hidden));
+            more.classList.toggle("open", !detail.hidden);
+          };
+          wrap.appendChild(more);
+          wrap.appendChild(detail);
+          box.appendChild(wrap);
+        });
+        body.appendChild(box);
+      });
+      refresh();
       return;
     }
 
@@ -3986,6 +4040,28 @@
       b.onclick = function () { setupTmp.goal = o.xp; renderSetup(); };
       body.appendChild(b);
     });
+  }
+
+  /** Modulele de certificare sunt deck-urile cu sufix -mN (ex. dp750-m1). */
+  function isCertDeck156(id) { return /-m\d+$/.test(id) || !!examenById(id); }
+  /** Ce conține fiecare domeniu: carduri, termeni, întrebări, scenarii, lecții, laboratoare. */
+  function setupDeckStats156() {
+    var out = {};
+    function bump(deck, key) { if (!deck) return; var s = out[deck] || (out[deck] = { cards: 0, terms: 0, questions: 0, scen: 0, lessons: 0, sql: 0, py: 0, total: 0, courses: [] }); s[key]++; s.total++; }
+    allCards().forEach(function (c) { bump(c.deck, "cards"); });
+    allTerms().forEach(function (t) { bump(t.deck, "terms"); });
+    (SEED.questions || []).forEach(function (q) { bump(q.deck, "questions"); });
+    scenAll().forEach(function (s) { bump(s.deck, "scen"); });
+    (((SEED.courses145 || {}).courses) || []).forEach(function (c) {
+      var n = (c.levels || []).reduce(function (s, l) { return s + (l.unitIds || []).length; }, 0);
+      (c.deckIds || []).forEach(function (d) {
+        bump(d, "lessons"); out[d].lessons += n - 1; out[d].total += n - 1;
+        out[d].courses.push(c.name);
+      });
+    });
+    ((labData() || {}).exercises || []).forEach(function () { bump("sql", "sql"); });
+    pyAll().forEach(function () { bump("python", "py"); });
+    return out;
   }
 
   function setupNext() {
@@ -7185,7 +7261,7 @@
     imparteCard: imparteCard, blocuri: blocuri,
     startSession: startSession, reveal: reveal, rate: rate, save: save, flush: flush,
     defaultState: defaultState, migrate: migrate, interleave: interleave, isDarkNow: isDarkNow,
-    learnUnits: learnUnits, buildLesson: buildLesson, tabMode156: tabMode156, setTabMode156: setTabMode156, practiceScopes156: practiceScopes156, practicePool2156: practicePool2156, practicePool156: practicePool156, startTermPractice156: startTermPractice156, openDictionary156: openDictionary156, dictEntries156: dictEntries156, dueTerms: dueTerms, termDue: termDue, startTermReview: startTermReview,
+    learnUnits: learnUnits, buildLesson: buildLesson, setupDeckStats156: setupDeckStats156, tabMode156: tabMode156, setTabMode156: setTabMode156, practiceScopes156: practiceScopes156, practicePool2156: practicePool2156, practicePool156: practicePool156, startTermPractice156: startTermPractice156, openDictionary156: openDictionary156, dictEntries156: dictEntries156, dueTerms: dueTerms, termDue: termDue, startTermReview: startTermReview,
     checkRecall: checkRecall, maskTerm: maskTerm, termAnswers: termAnswers, revItem: revItem, recallItem: recallItem, termExercise: termExercise, markTerm: markTerm, startLesson: startLesson, openGlossary: openGlossary,
     endLesson: endLesson, learnProgress: learnProgress, termStrength: termStrength,
     distractors: distractors, get L() { return L; },

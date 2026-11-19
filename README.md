@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.48.1, cu conținutul din 1.48.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.48.2, cu conținutul din 1.48.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -14,12 +14,22 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `tools/test_modes.js`: test Playwright pentru cele două moduri.
 - `tools/patch_tabmodes.py`: adaugă modurile Învață și Practică la toate taburile. Se aplică după `patch_modes.py`.
 - `tools/test_tabmodes.js`: test Playwright care parcurge fiecare tab în ambele moduri.
+- `tools/patch_setup.py`: modifică pasul 1 al configurării. Adaugă contorul de domenii bifate, butoanele de bifare rapidă, gruparea pe tipuri și săgeata cu tot ce conține fiecare domeniu.
+- `tools/test_setup.js`: test Playwright pentru configurare.
 - `tools/patch_terms.py`: aplică aceleași îmbunătățiri peste alt `app.js`, de exemplu cel din sursa 1.54. Scriptul se oprește dacă o bucată de cod nu se potrivește.
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.48.1.apk`: versiunea 1.48.1 (versionCode 12032), semnată cu o cheie de test.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.1; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `dist/DataEng-Learn-1.48.2.apk`: versiunea 1.48.2 (versionCode 12033), semnată cu o cheie de test.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.2; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## Configurare: ce vrei să înveți
+
+La pasul 1 al configurării:
+- **contorul** „N din 71 domenii bifate · M materiale în sesiuni” se actualizează la fiecare bifă;
+- **butoanele de bifare rapidă:** Bifează toate, Doar principale (40), Doar certificări (31), Debifează tot;
+- **domeniile sunt grupate** în Domenii principale și Module de certificare, fiecare grup cu contorul lui;
+- **în dreapta fiecărui domeniu** apar totalul materialelor și o săgeată. Săgeata deschide tot ce conține domeniul: carduri, termeni, întrebări, scenarii, lecții de curs, exerciții SQL, laboratoare Python și cursul asociat.
 
 ## Învață și Practică pe toate taburile
 
@@ -66,6 +76,7 @@ python tools/patch_terms.py app/assets/app.js
 python tools/patch_dictionary.py app/assets
 python tools/patch_modes.py app/assets
 python tools/patch_tabmodes.py app/assets
+python tools/patch_setup.py app/assets
 node tools/build_dictionary.js app/assets
 ```
 
