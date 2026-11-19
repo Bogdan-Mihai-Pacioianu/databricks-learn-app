@@ -3,3 +3,4 @@ signing/
 *.unsigned
 node_modules/
 __pycache__/
+shot_*.png
