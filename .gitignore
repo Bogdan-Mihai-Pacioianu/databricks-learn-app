@@ -4,3 +4,5 @@ signing/
 node_modules/
 __pycache__/
 shot_*.png
+*.png
+!app/**/*.png

@@ -2,7 +2,7 @@
 const { chromium } = require("playwright");
 const path = require("path");
 (async () => {
-  const dir = path.resolve(process.argv[2] || "app/assets"), shots = process.argv[3] || ".";
+  const dir = path.resolve(process.argv[2] || "app/assets"), shots = process.argv[3] || require("os").tmpdir();
   const b = await chromium.launch(), p = await b.newPage({ viewport: { width: 400, height: 860 } });
   const errs = []; p.on("pageerror", e => errs.push(String(e))); p.on("console", m => { if (m.type() === "error") errs.push(m.text()); });
   await p.goto("file://" + dir + "/index.html");
