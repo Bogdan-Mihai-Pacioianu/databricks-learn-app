@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="dark" data-style="retro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>DataEng Learn</title>
+<style>
+:root{
+  --fs:1;
+  /* suprascrise de Android prin window.__setInsets când fereastra e edge-to-edge */
+  --sat:env(safe-area-inset-top); --sab:env(safe-area-inset-bottom);
+  --sal:env(safe-area-inset-left); --sar:env(safe-area-inset-right);
+  --ime:0px;
+  --bg:#0e1116; --surface:#161a22; --surface2:#1d222c; --line:#272d39;
+  --txt:#e7ebf2; --muted:#8b94a6; --accent:#49d6c4; --accent-d:#0f3f3a;
+  --accent-txt:#49d6c4;   /* accentul folosit ca TEXT; pe fundal deschis e prea slab */
+  --again:#ef4444; --hard:#f59e0b; --good:#22c55e; --easy:#3b82f6;
+  --nou:#60a5fa; --invat:#f59e0b; --rev:#22c55e; --tanar:#38bdf8; --matur:#22c55e;
+  --radius:14px;
+}
+:root[data-theme="light"]{
+  --bg:#f5f6f8; --surface:#ffffff; --surface2:#eef0f4; --line:#dde1e8;
+  --txt:#161a22; --muted:#5f6878; --accent:#0d9488; --accent-d:#ccfbf1;
+  --accent-txt:#0b6f66;   /* 0d9488 pe fundal deschis dă 3.46:1, sub pragul AA */
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]):not([data-theme="light"]){
+    --bg:#f5f6f8; --surface:#ffffff; --surface2:#eef0f4; --line:#dde1e8;
+    --txt:#161a22; --muted:#5f6878; --accent:#0d9488; --accent-d:#ccfbf1;
+    --accent-txt:#0b6f66;
+  }
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--txt)}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:calc(15px * var(--fs)); line-height:1.5;
+  padding-bottom:calc(58px + var(--sab));
+  overscroll-behavior-y:none;
+}
+body.loading{opacity:0}
+h1,h2,h3{margin:0;font-weight:650}
+p{margin:.45em 0}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+input,select,textarea{font:inherit;color:var(--txt);background:var(--surface2);
+  border:1px solid var(--line);border-radius:10px;padding:8px 10px;width:100%}
+/* era `input:focus,select,textarea:focus`: lipsea `:focus` după `select`, deci
+   toate listele derulante purtau permanent inelul de focus */
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent-d)}
+
+/* Focus vizibil pentru navigarea cu tastatura sau cu un comutator. Doar
+   :focus-visible, ca să nu apară inelul la atingere. */
+:where(button,a,input,select,textarea,summary,[tabindex]):focus-visible{
+  outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+
+/* ---- pictograme ---- */
+.ico{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
+  width:1em;height:1em;color:inherit}
+.ico svg{width:100%;height:100%;display:block}
+hr{border:0;border-top:1px solid var(--line);margin:10px 0}
+.muted{color:var(--muted);font-size:.86em}
+.center{text-align:center}
+.wrap{padding:12px calc(14px + var(--sar)) 6px calc(14px + var(--sal));max-width:640px;margin:0 auto}
+.sec-title{font-size:.78em;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--muted);margin:16px 0 7px}
+
+/* ---- topbar ---- */
+.topbar{display:flex;align-items:center;justify-content:space-between;
+  padding:calc(8px + var(--sat)) calc(14px + var(--sar)) 8px calc(14px + var(--sal));max-width:640px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:7px;font-weight:700;font-size:1.02em}
+.brand i{width:9px;height:9px;border-radius:50%;background:var(--accent);display:block}
+
+/* ---- hero ---- */
+.hero{display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 16px}
+.hero-num{font-size:2.3em;font-weight:750;line-height:1;letter-spacing:-.02em}
+.hero-lbl{color:var(--muted);font-size:.84em;margin-top:3px}
+.hero-r{text-align:right}
+.streak{display:flex;align-items:center;gap:4px;justify-content:flex-end}
+.streak-ico{font-size:1.15em}
+.streak-n{font-size:1.5em;font-weight:700}
+.hero-sub{color:var(--muted);font-size:.78em}
+.today{display:flex;gap:8px;margin-top:8px}
+.pill{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:7px 10px;display:flex;justify-content:space-between;align-items:center}
+.pill-l{color:var(--muted);font-size:.82em}
+.pill-v{font-weight:650;font-size:.9em}
+
+/* ---- butoane ---- */
+.btn{background:var(--surface2);border:1px solid var(--line);border-radius:11px;
+  padding:9px 14px;font-weight:600;transition:transform .06s}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.45}
+.btn.big{display:block;width:100%;padding:13px;margin-top:10px;font-size:1.02em}
+.btn.primary{background:var(--accent);color:#06211e;border-color:transparent}
+:root[data-theme="light"] .btn.primary{color:#fff}
+.btn.mini{padding:6px 11px;font-size:.85em;border-radius:9px}
+.btn.danger{color:var(--again);border-color:var(--again)}
+.btn.ghost{background:transparent}
+
+/* ---- deck-uri ---- */
+.deck{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:11px 13px;margin-bottom:8px}
+.deck-h{display:flex;align-items:center;gap:10px}
+.deck-ico{width:22px;height:22px;color:var(--accent-txt);margin-top:1px}
+.deck-name{font-weight:650;font-size:.97em}
+.deck-desc{color:var(--muted);font-size:.79em;margin-top:1px}
+.counts{display:flex;align-items:center;gap:6px;margin-top:9px}
+.cnt{min-width:26px;text-align:center;font-size:.8em;font-weight:650;
+  padding:2px 7px;border-radius:20px;background:var(--surface2)}
+.c-nou{color:var(--nou)} .c-invat{color:var(--invat)} .c-rev{color:var(--rev)}
+.counts .btn{margin-left:auto}
+
+/* ---- nav ---- */
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;
+  background:var(--surface);border-top:1px solid var(--line);
+  padding-bottom:var(--sab)}
+#nav button{flex:1;min-height:52px;padding:7px 0 8px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:3px;color:var(--muted);
+  font-size:.68em;font-weight:600;transition:color .15s}
+#nav button span.ic{display:block;width:22px;height:22px}
+#nav button.on{color:var(--accent-txt)}
+/* punct discret sub secțiunea curentă: culoarea singură nu e suficientă */
+#nav button.on::after{content:"";width:4px;height:4px;border-radius:50%;
+  background:currentColor;margin-top:1px}
+#nav button:not(.on)::after{content:"";width:4px;height:4px;margin-top:1px}
+@media (prefers-reduced-motion:reduce){#nav button{transition:none}}
+
+/* ---- studiu ---- */
+#study{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column}
+.st-top{display:flex;align-items:center;gap:9px;
+  padding:calc(7px + var(--sat)) calc(13px + var(--sar)) 7px calc(13px + var(--sal))}
+.st-top .muted{white-space:nowrap}
+#st-close{color:var(--muted)}
+#st-deck,#lab-cap{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#st-left,#st-close,#ls-close,#lab-close{flex-shrink:0}
+.progress{height:3px;background:var(--surface2)}
+#st-bar{height:100%;background:var(--accent);width:0;transition:width .2s}
+#st-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px calc(14px + var(--sar)) 10px calc(14px + var(--sal))}
+#st-card{max-width:640px;margin:0 auto}
+.badge{font-size:.68em;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+  padding:2px 7px;border-radius:20px;background:var(--surface2);color:var(--muted)}
+.b-new{color:var(--nou)} .b-learn,.b-relearn{color:var(--invat)} .b-review{color:var(--rev)}
+.b-susp{color:var(--muted)}
+.q{font-size:1.12em;font-weight:600}
+#st-answer{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.tag{font-size:.72em;color:var(--muted);background:var(--surface2);
+  border-radius:20px;padding:2px 8px}
+.st-foot{padding:9px calc(12px + var(--sar)) calc(12px + var(--sab)) calc(12px + var(--sal));
+  border-top:1px solid var(--line);background:var(--surface)}
+#st-rate{display:flex;gap:6px;max-width:640px;margin:0 auto}
+.rbtn{flex:1;border-radius:11px;padding:9px 2px;display:flex;flex-direction:column;
+  align-items:center;gap:1px;background:var(--surface2);border:1px solid var(--line)}
+.rbtn b{font-size:.88em;font-weight:650}
+.rbtn span{font-size:.7em;color:var(--muted)}
+.r-1{border-color:var(--again)} .r-1 b{color:var(--again)}
+.r-2{border-color:var(--hard)}  .r-2 b{color:var(--hard)}
+.r-3{border-color:var(--good)}  .r-3 b{color:var(--good)}
+.r-4{border-color:var(--easy)}  .r-4 b{color:var(--easy)}
+#st-reveal{max-width:640px;margin:0 auto}
+
+/* ---- markdown ---- */
+.md p:first-child{margin-top:0}
+.md ul,.md ol{margin:.4em 0;padding-left:1.25em}
+.md li{margin:.22em 0}
+.md code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86em;
+  background:var(--surface2);padding:1px 5px;border-radius:5px;
+  word-break:break-word}
+.md pre.code{background:var(--surface2);border:1px solid var(--line);border-radius:10px;
+  padding:10px 11px;overflow-x:auto;margin:.6em 0}
+.md pre.code code{background:none;padding:0;font-size:.8em;line-height:1.45;white-space:pre}
+.md strong{font-weight:700}
+
+/* ---- browse ---- */
+.filters{display:flex;gap:7px;margin-bottom:9px}
+.filters input{flex:2} .filters select{flex:1.2;min-width:0}
+.brow{background:var(--surface);border:1px solid var(--line);border-radius:11px;
+  padding:9px 11px;margin-bottom:6px}
+.brow.susp{opacity:.5}
+.brow-top{display:flex;gap:8px;align-items:flex-start}
+.brow-ico{width:16px;height:16px;color:var(--muted);margin-top:.18em}
+.brow-q{font-size:.9em;font-weight:550;overflow:hidden;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical}
+.brow-sub{display:flex;gap:8px;align-items:center;margin-top:5px;padding-left:22px}
+.bar-actions{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+
+/* ---- modal / editor ---- */
+#modal,#editor{position:fixed;left:0;right:0;top:0;bottom:var(--ime);z-index:50;background:rgba(0,0,0,.55);
+  display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:640px;max-height:92%;
+  border-radius:16px 16px 0 0;display:flex;flex-direction:column;
+  padding-bottom:max(0px, calc(var(--sab) - var(--ime)))}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;
+  padding:11px 14px;border-bottom:1px solid var(--line)}
+.sheet-h b{font-size:.95em}
+.sheet-b{overflow-y:auto;padding:13px 14px}
+.sheet-f{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--line)}
+.sheet-f .btn{flex:1}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:.8em;color:var(--muted);margin-bottom:4px}
+textarea{min-height:88px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.86em}
+.detail-info{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:12px;
+  padding-top:10px;border-top:1px solid var(--line)}
+.modal-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+
+/* ---- stats ---- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.stat-v{font-size:1.5em;font-weight:700;line-height:1.1}
+.stat-l{color:var(--muted);font-size:.76em;margin-top:2px}
+.stackbar{display:flex;height:12px;border-radius:7px;overflow:hidden;background:var(--surface2)}
+.seg.s-nou{background:var(--nou)} .seg.s-invat{background:var(--invat)}
+.seg.s-tanar{background:var(--tanar)} .seg.s-matur{background:var(--matur)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:7px;font-size:.78em;color:var(--muted)}
+.leg{display:flex;align-items:center;gap:5px}
+.dot{width:8px;height:8px;border-radius:2px;display:block}
+.dot.s-nou{background:var(--nou)} .dot.s-invat{background:var(--invat)}
+.dot.s-tanar{background:var(--tanar)} .dot.s-matur{background:var(--matur)}
+.chart{display:flex;align-items:flex-end;gap:3px;height:96px;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 9px 4px}
+.col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;gap:3px}
+.bar{background:var(--accent);border-radius:3px;min-height:2px;width:100%}
+.bar.alt{background:var(--nou)}
+.bar.zero{background:var(--line);height:2px!important}
+.xlab{font-size:.6em;color:var(--muted);text-align:center;height:10px}
+.acc{height:12px;border-radius:7px;background:var(--surface2);overflow:hidden}
+.acc-f{height:100%;background:var(--good)}
+.prow{margin-bottom:9px}
+.prow-h{display:flex;justify-content:space-between;font-size:.86em;margin-bottom:4px}
+.pbar{height:6px;border-radius:4px;background:var(--surface2);overflow:hidden}
+.pbar-f{height:100%;background:var(--accent)}
+
+/* ---- setari ---- */
+.srow{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:10px 12px;margin-bottom:8px}
+.srow-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.srow-h input{width:92px;text-align:center}
+.srow-h select{width:auto;min-width:118px;max-width:60%;text-align:left}
+.srow .muted{margin-top:3px}
+.switch{display:flex;align-items:center;gap:9px;min-height:44px;padding:4px 0;
+  border-bottom:1px solid var(--line)}
+.sw-ico{width:16px;height:16px;color:var(--muted);margin-right:7px}
+.sw-name{display:flex;align-items:center;min-width:0}
+.switch:last-child{border-bottom:0}
+.switch input{width:17px;height:17px;flex:0 0 auto;accent-color:var(--accent)}
+.sw-name{flex:1;font-size:.9em}
+.sw-name>span{min-width:0;overflow-wrap:anywhere}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.actions .btn{flex:1;min-width:120px}
+
+/* ---- lecții ---- */
+.unit{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:11px 13px;margin-bottom:8px}
+.unit .pbar{margin:9px 0 10px}
+.nodes{display:flex;flex-wrap:wrap;gap:7px}
+.node{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);
+  background:var(--surface2);color:var(--muted);font-weight:700;font-size:.92em;
+  display:flex;align-items:center;justify-content:center;transition:transform .08s}
+.node .ico{width:1.05em;height:1.05em}
+.node:active{transform:scale(.94)}
+@media (prefers-reduced-motion:reduce){.node{transition:none}}
+.node.done{background:var(--accent);border-color:transparent;color:#06211e}
+:root[data-theme="light"] .node.done{color:#fff}
+.node.next{border-color:var(--accent);color:var(--accent-txt)}
+/* bottom:var(--ime) — lecția conține editoare de cod, deci trebuie să urce
+   deasupra tastaturii pe Android-urile unde adjustResize nu mai redimensionează */
+#lesson{position:fixed;left:0;right:0;top:0;bottom:var(--ime);z-index:45;background:var(--bg);
+  display:flex;flex-direction:column}
+.ls-top{display:flex;align-items:center;gap:10px;
+  padding:calc(7px + var(--sat)) calc(13px + var(--sar)) 7px calc(13px + var(--sal))}
+#ls-close{color:var(--muted)}
+#ls-hearts{margin-left:auto;display:flex;gap:3px;color:var(--again)}
+#ls-hearts .viata{width:15px;height:15px}
+#ls-hearts .viata.plina svg{fill:currentColor}
+#ls-hearts .viata.goala{opacity:.3}
+#ls-hearts.low{animation:puls .8s ease-in-out infinite}
+@keyframes puls{50%{opacity:.4}}
+#ls-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:16px calc(14px + var(--sar)) 10px calc(14px + var(--sal));
+  display:flex;flex-direction:column}
+/* Conținutul scurt (o prezentare de termen) stătea lipit de marginea de sus, cu
+   două treimi de ecran goale dedesubt. `margin:auto 0` îl centrează pe verticală,
+   iar când conținutul e lung se comportă ca înainte și curge normal. */
+#ls-body{width:100%;max-width:640px;margin:auto;padding-bottom:4px}
+.ls-kicker{font-size:.78em;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);
+  margin-bottom:6px}
+.ls-term{font-size:1.5em;font-weight:700;line-height:1.2;margin-bottom:10px}
+.ls-def{color:var(--txt);font-size:1.02em}
+.ls-big{width:52px;height:52px;margin:0 auto 10px;stroke-width:1.5}
+.ls-big.bun{color:var(--good)}
+.ls-big.rau{color:var(--again)}
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.opt{text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:12px;
+  padding:11px 13px;font-size:.92em;line-height:1.4}
+.opt.sel{border-color:var(--accent);background:var(--surface2)}
+.opt.ok{border-color:var(--good);background:color-mix(in srgb, var(--good) 14%, transparent)}
+.opt.rau{border-color:var(--again);background:color-mix(in srgb, var(--again) 14%, transparent)}
+.opt[disabled]{opacity:1}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0 14px}
+.chip{background:var(--surface);border:2px solid var(--line);border-radius:20px;
+  padding:7px 13px;font-size:.88em;font-weight:600}
+.chip.sel{border-color:var(--accent);background:var(--surface2)}
+.chip.ok{border-color:transparent;background:var(--accent-d);color:var(--accent-txt);opacity:.55}
+.defs{display:flex;flex-direction:column;gap:7px}
+.defrow{text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:11px;
+  padding:10px 12px;font-size:.86em;line-height:1.4}
+.defrow.ok{border-color:var(--good);opacity:.5}
+.defrow.rau{border-color:var(--again)}
+/* cu tastatura deschisă, ecranul se oprește deja deasupra ei: nu mai rezerva
+   și spațiul barei de sistem, altfel compensezi de două ori */
+.ls-foot{padding:9px calc(12px + var(--sar))
+  calc(12px + max(0px, calc(var(--sab) - var(--ime)))) calc(12px + var(--sal));
+  border-top:1px solid var(--line);background:var(--surface)}
+.ls-fb{max-width:640px;margin:0 auto 9px;padding:9px 12px;border-radius:11px;
+  display:flex;flex-direction:column;gap:2px;font-size:.86em}
+.ls-fb b{font-size:.95em}
+.ls-fb.good{background:color-mix(in srgb, var(--good) 16%, transparent);color:var(--good)}
+.ls-fb.bad{background:color-mix(in srgb, var(--again) 16%, transparent);color:var(--again)}
+.ls-fb.bad span,.ls-fb.good span{color:var(--txt)}
+#ls-go{display:block;width:100%;max-width:640px;margin:0 auto}
+#ls-alt{display:block;width:100%;max-width:640px;margin:8px auto 0;color:var(--muted);
+  font-size:.86em;padding:6px}
+
+/* ---- ecranul Azi, inel de obiectiv ---- */
+.ring{width:160px;height:160px;border-radius:50%;margin:10px auto 14px;
+  background:conic-gradient(var(--accent) var(--p,0%), var(--surface2) 0);
+  display:flex;align-items:center;justify-content:center}
+.ring-in{width:128px;height:128px;border-radius:50%;background:var(--surface);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.ring-in b{font-size:2.1em;line-height:1;letter-spacing:-.02em}
+.ring-in span{color:var(--muted);font-size:.76em}
+.secundar{display:flex;gap:8px;margin-top:12px}
+.secundar .btn{flex:1;min-height:44px;font-size:.92em}
+.quests{margin:14px 0 18px;padding:12px 14px;background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--radius)}
+.quests-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.quests-head h2{font-size:1em}
+.quests-total{font-size:.82em;color:var(--muted);font-weight:650}
+.quest{padding:9px 0;border-bottom:1px solid var(--line)}
+.quest:last-child{border-bottom:0;padding-bottom:0}
+.quest-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.quest-title{font-weight:600;font-size:.91em}
+.quest-reward{color:var(--muted);font-size:.8em;font-weight:650;white-space:nowrap}
+.quest.done .quest-reward{color:var(--good)}
+.quest-track{height:5px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:6px}
+.quest-fill{height:100%;background:var(--accent);border-radius:inherit;transition:width .3s ease-out}
+.quest.done .quest-fill{background:var(--good)}
+.quest-count{font-size:.74em;color:var(--muted);text-align:right;margin-top:2px}
+@media (prefers-reduced-motion:reduce){.quest-fill{transition:none}}
+
+/* ---- mișcare discretă ----
+   Doar cât să lege o stare de următoarea. Totul se oprește dacă utilizatorul
+   a cerut mai puțină mișcare din setările telefonului. */
+section:not([hidden]) > .wrap{animation:intra .18s ease-out}
+@keyframes intra{from{opacity:0;transform:translateY(5px)}}
+#lesson:not([hidden]),#lab:not([hidden]),#study:not([hidden]){animation:urca .2s ease-out}
+@keyframes urca{from{opacity:0;transform:translateY(10px)}}
+.pytest{animation:intra .16s ease-out both}
+.pbar-f,.acc-f{transition:width .35s ease-out}
+@media (prefers-reduced-motion:reduce){
+  section:not([hidden]) > .wrap,#lesson:not([hidden]),#lab:not([hidden]),
+  #study:not([hidden]),.pytest{animation:none}
+  .pbar-f,.acc-f,.btn,.node{transition:none}
+}
+
+/* ---- schelet de încărcare ---- */
+.schelet{padding:4px 0}
+.schelet-cap{display:flex;align-items:center;gap:9px;color:var(--muted);
+  font-size:.86em;margin-bottom:14px}
+.spin{width:15px;height:15px;flex:0 0 auto;border-radius:50%;
+  border:2px solid var(--line);border-top-color:var(--accent);
+  animation:invarte .7s linear infinite}
+@keyframes invarte{to{transform:rotate(360deg)}}
+.sk{background:var(--surface2);border-radius:7px;margin-bottom:9px;
+  animation:pulsa 1.4s ease-in-out infinite}
+.sk-l{height:13px}
+.sk-box{height:140px;border-radius:11px;margin-top:16px}
+@keyframes pulsa{0%,100%{opacity:1}50%{opacity:.45}}
+@media (prefers-reduced-motion:reduce){
+  .spin{animation-duration:2s}
+  .sk{animation:none}
+}
+
+/* ---- stări goale ---- */
+.gol{background:var(--surface);border:1px dashed var(--line);border-radius:var(--radius);
+  padding:13px 15px;margin-bottom:4px;display:flex;align-items:flex-start;gap:12px}
+.gol-ico{width:20px;height:20px;color:var(--muted);opacity:.75;margin-top:2px}
+.gol-t{font-weight:600;font-size:.92em}
+.gol-s{color:var(--muted);font-size:.84em;margin:2px 0 0}
+.gol > div:not(.gol-ico), .gol > p{min-width:0}
+
+/* ---- bilanț de competență ---- */
+.comp-bilant{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:9px}
+.cb{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:9px 5px;text-align:center;border-top:2px solid var(--line)}
+.cb b{display:block;font-size:1.3em;line-height:1.1}
+.cb span{display:block;color:var(--muted);font-size:.68em;margin-top:2px;line-height:1.25}
+.cb-solid{border-top-color:var(--good)}
+.cb-indicii{border-top-color:var(--hard)}
+.cb-recap{border-top-color:var(--nou)}
+.comp-rest{margin-top:8px}
+.comp-rest summary{color:var(--muted);font-size:.84em;padding:7px 2px;cursor:pointer;
+  min-height:34px;display:flex;align-items:center}
+
+/* ---- „unde ai rămas” ---- */
+.undelist{background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:2px 13px;margin-bottom:8px}
+.undelist-r{display:flex;align-items:center;gap:11px;width:100%;text-align:left;
+  min-height:52px;padding:9px 0}
+.undelist-r .deck-ico{width:20px;height:20px}
+.undelist-go{width:15px;height:15px;color:var(--muted);margin-left:auto;flex:0 0 auto}
+.undelist-r:active{opacity:.6}
+
+/* ---- carduri în sesiune ---- */
+.ls-ans{border-top:1px solid var(--line);margin-top:12px;padding-top:11px}
+#ls-rate{display:flex;gap:6px;max-width:640px;margin:0 auto}
+
+/* ---- configurare ---- */
+#setup{position:fixed;inset:0;z-index:55;background:var(--bg);display:flex;flex-direction:column}
+.su-top{padding:calc(10px + var(--sat)) calc(14px + var(--sar)) 8px calc(14px + var(--sal));
+  color:var(--muted);font-size:.78em;text-transform:uppercase;letter-spacing:.09em}
+#su-scroll{flex:1;overflow-y:auto;
+  padding:4px calc(14px + var(--sar)) 10px calc(14px + var(--sal))}
+#su-body{max-width:640px;margin:0 auto}
+.su-title{font-size:1.35em;font-weight:700;margin-bottom:6px}
+.pick{display:flex;flex-direction:column;align-items:flex-start;gap:3px;width:100%;
+  text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:12px;
+  padding:12px 14px;margin-top:9px}
+.pick b{font-size:1em}
+.pick span{color:var(--muted);font-size:.84em}
+.pick.on{border-color:var(--accent);background:var(--surface2)}
+.su-foot{display:flex;gap:8px;max-width:640px;margin:0 auto;width:100%}
+.su-wrap{padding:9px calc(12px + var(--sar)) calc(12px + var(--sab)) calc(12px + var(--sal));
+  border-top:1px solid var(--line);background:var(--surface)}
+#su-next{flex:2}
+#su-back{flex:1}
+
+/* ---- laborator ---- */
+.seg{display:flex;gap:4px;background:var(--surface2);border-radius:11px;padding:3px;margin-bottom:12px}
+.seg-b{flex:1;padding:7px 10px;border-radius:9px;font-size:.88em;font-weight:600;color:var(--muted)}
+.seg-b.on{background:var(--surface);color:var(--txt)}
+#lab{position:fixed;left:0;right:0;top:0;bottom:var(--ime);z-index:46;background:var(--bg);
+  display:flex;flex-direction:column}
+.lab-top{display:flex;align-items:center;gap:10px;
+  padding:calc(7px + var(--sat)) calc(13px + var(--sar)) 7px calc(13px + var(--sal))}
+#lab-close{color:var(--muted)}
+#st-close,#ls-close,#lab-close{display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;margin-left:-11px;flex:0 0 auto}
+#st-close .ico,#ls-close .ico,#lab-close .ico{width:20px;height:20px}
+#lab-cap{color:var(--muted);font-size:.84em}
+#lab-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:14px calc(14px + var(--sar)) 10px calc(14px + var(--sal))}
+#lab-body{max-width:640px;margin:0 auto}
+.lab-foot{padding:9px calc(12px + var(--sar))
+  calc(12px + max(0px, calc(var(--sab) - var(--ime)))) calc(12px + var(--sal));
+  border-top:1px solid var(--line);background:var(--surface)}
+#lab-go{display:block;width:100%;max-width:640px;margin:0 auto}
+.sqled{width:100%;min-height:130px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.86em;line-height:1.5;resize:vertical;white-space:pre;overflow-wrap:normal;
+  overflow-x:auto;margin-top:10px}
+.lab-bar{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;
+  gap:8px;margin-top:8px}
+.lab-bar .btn.hintbtn{margin-top:0}
+.lab-zona{margin-top:4px}
+.lab-rez{margin-top:12px}
+.lab-lbl{font-size:.74em;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+  margin:10px 0 5px}
+.hint{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;
+  padding:8px 11px;margin-top:8px;font-size:.88em}
+.hint p:first-child{margin-top:0}
+.hint p:last-child{margin-bottom:0}
+.term-origin{margin:14px 0;min-width:0;overflow-wrap:anywhere}
+.term-origin h3{margin:0 0 8px;font-size:1.05em;line-height:1.3}
+.term-origin p{margin:7px 0}
+.term-origin a{color:var(--accent-txt);text-decoration:underline}
+.btn.hintbtn{margin-top:10px;border-left:0;background:transparent;border:1px solid var(--line);
+  border-radius:9px;padding:6px 11px}
+
+/* ---- laborator Python ---- */
+.seg4 .seg-b{padding:7px 4px;font-size:.8em}
+.pyed{min-height:200px;tab-size:4}
+.pydate{margin-top:12px;background:var(--surface2);border:1px solid var(--line);
+  border-radius:10px;overflow:hidden}
+.pydate summary{padding:9px 12px;font-size:.84em;font-weight:600;color:var(--muted);
+  cursor:pointer;list-style:none}
+.pydate summary::-webkit-details-marker{display:none}
+.pydate summary::before{content:"▸ ";color:var(--accent-txt)}
+.pydate[open] summary::before{content:"▾ "}
+.pycod{margin:0;padding:0 12px 11px;font-size:.78em;line-height:1.5;white-space:pre;
+  overflow-x:auto;color:var(--txt)}
+.pyteste{display:flex;flex-direction:column;gap:5px}
+.pytest{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;border-radius:9px;
+  background:var(--surface2);border:1px solid var(--line);font-size:.85em}
+.pytest.ok{border-color:color-mix(in srgb,var(--good) 45%,var(--line))}
+.pytest.rau{border-color:color-mix(in srgb,var(--again) 45%,var(--line))}
+.pytest-ico{flex:0 0 auto;width:1.05em;height:1.05em;margin-top:.15em}
+.pytest.ok .pytest-ico{color:var(--good)}
+.pytest.rau .pytest-ico{color:var(--again)}
+.pytest-m{min-width:0;flex:1}
+.pytest-n{line-height:1.45}
+.pytest-d{font-size:.84em;color:var(--muted);margin-top:3px;white-space:pre-wrap;
+  overflow-wrap:anywhere}
+.pyerr pre{background:var(--surface2);border:1px solid color-mix(in srgb,var(--again) 45%,var(--line));
+  border-radius:9px;padding:9px 11px;margin:0;font-size:.82em;white-space:pre-wrap;
+  overflow-wrap:anywhere;color:var(--txt)}
+.ls-sub{font-size:.8em;color:var(--muted);margin:-4px 0 10px}
+
+/* ---- diagnostic ---- */
+.nivel.tip{margin-left:6px;text-transform:capitalize}
+.greseala{margin-top:14px;padding:11px 13px;border-radius:12px;
+  background:color-mix(in srgb,var(--hard) 10%,transparent);
+  border:1px solid color-mix(in srgb,var(--hard) 28%,transparent)}
+.greseala .cheie-et{color:var(--hard)}
+.mat-row{display:flex;gap:10px;align-items:center;width:100%;text-align:left;
+  min-height:48px;padding:10px 12px;margin:7px 0;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line);color:var(--fg);
+  font:inherit;font-size:.94em;cursor:pointer}
+.mat-tip{flex-shrink:0;font-size:.72em;font-weight:700;letter-spacing:.03em;
+  padding:3px 8px;border-radius:999px;background:var(--surface-2);
+  border:1px solid var(--line);color:var(--muted)}
+/* ---- secțiunea de certificări ---- */
+.seg5 .seg-b{font-size:.78em;padding:7px 4px}
+.learning-tabs{flex-wrap:wrap;gap:5px}
+.learning-tabs .seg-b{flex:1 1 calc(25% - 6px);min-width:0;min-height:44px;padding:8px 4px;font-size:.83em}
+.content-filters{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 16px}
+.filter-field{display:flex;flex-direction:column;gap:5px;flex:1 1 150px;font-size:.85em;color:var(--muted)}
+.filter-field select{width:100%;min-height:44px;color:var(--txt)}
+.level-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0}
+.level-actions .btn{white-space:normal;min-height:54px;padding:10px 5px;font-size:.9em}
+.curriculum-unit summary{font-weight:650;cursor:pointer;line-height:1.5}
+.curriculum-unit select{width:100%;margin-top:8px}
+.project-criterion{display:flex;align-items:flex-start;gap:10px;margin:14px 0}
+.project-criterion input{width:22px;height:22px;flex:0 0 22px;margin-top:3px}
+.exam-act select,.exam-act>.btn{width:100%;margin-top:10px}
+.personal-controls{flex:1 1 100%;width:100%;margin:10px 0;font-size:.9em}
+.personal-note{margin-top:8px;padding:10px;border:1px solid var(--line);border-radius:12px}
+.personal-note summary{cursor:pointer;color:var(--muted);font-size:.92em}
+.personal-note textarea{display:block;box-sizing:border-box;width:100%;min-height:105px;margin:10px 0;resize:vertical}
+.personal-note .muted{display:block;margin-top:7px;font-size:.85em}
+.personal-home{display:grid;gap:10px;margin:16px 0}
+.personal-home>.btn{width:100%;white-space:normal}
+.resume-card{margin:0}.resume-card h3{margin:0 0 8px}.resume-card .btn{margin:5px 5px 0 0}
+.practice-field{display:block;margin:12px 0}.practice-field span{display:block;color:var(--muted);margin-bottom:6px}
+.practice-field select,#saved-search,#saved-kind{width:100%;margin:6px 0;min-height:44px}
+.saved-title{width:100%;text-align:left;white-space:normal;padding:6px 0}
+.related-learning{margin:14px 0;padding:12px;border:1px solid var(--line);border-radius:12px}
+.related-learning summary{cursor:pointer;min-height:32px;font-weight:650}
+.related-link{display:block;width:100%;white-space:normal;text-align:left;margin-top:8px;min-height:44px}
+.domain-mastery{margin-top:20px}.domain-row h4{margin:0 0 8px}.domain-row p{overflow-wrap:anywhere}
+.domain-row progress{display:block;width:100%;height:12px;margin:12px 0;accent-color:var(--accent)}
+.domain-row .btn{margin:5px 5px 0 0;white-space:normal;min-height:44px}
+.saved-note{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.9em;color:var(--muted);max-height:160px;overflow:auto}
+.exam-row{cursor:pointer}
+.exam-top{display:flex;gap:12px;align-items:flex-start}
+.exam-txt{min-width:0;flex:1}
+.exam-titlu{display:flex;flex-wrap:wrap;gap:7px;align-items:baseline;font-weight:650}
+.exam-cod{font-size:.72em;font-weight:700;letter-spacing:.03em;padding:2px 7px;
+  border-radius:6px;background:var(--surface-2);border:1px solid var(--line);
+  color:var(--accent-txt)}
+.exam-sub{font-size:.85em;margin-top:2px}
+.exam-dece{font-size:.86em;margin:8px 0 10px;line-height:1.5}
+.exam-h{margin:0 0 4px;font-size:1.3em;line-height:1.25}
+.exam-oficial{font-size:.84em;margin-bottom:10px}
+.fisa{margin:14px 0;padding:12px 13px;border-radius:12px;background:var(--surface-2);
+  border:1px solid var(--line)}
+.fisa-rand{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:.9em}
+.fisa-rand+.fisa-rand{border-top:1px solid var(--line)}
+.fisa-et{color:var(--muted);min-width:88px;flex-shrink:0}
+.fisa-val{flex:1}
+.domeniu{margin:10px 0;padding:11px 13px;border-radius:12px;border:1px solid var(--line)}
+.domeniu-cap{display:flex;gap:10px;align-items:baseline;justify-content:space-between}
+.domeniu-nume{font-weight:600;font-size:.95em}
+.domeniu-pond{flex-shrink:0;font-size:.78em;font-weight:700;color:var(--accent-txt);
+  padding:2px 8px;border-radius:999px;
+  background:color-mix(in srgb,var(--accent) 13%,transparent)}
+.domeniu-lista{margin:8px 0 0;padding-left:19px;font-size:.88em;color:var(--muted)}
+.domeniu-lista li{margin:3px 0;line-height:1.45}
+.nesigur{margin-top:14px;padding:11px 13px;border-radius:12px;
+  background:color-mix(in srgb,var(--hard) 10%,transparent);
+  border:1px solid color-mix(in srgb,var(--hard) 28%,transparent);font-size:.9em}
+.nesigur .cheie-et{color:var(--hard)}
+.exam-act{margin-top:18px}
+/* ---- cardul structurat pe trei pași ---- */
+.nivel{display:inline-block;font-size:.72em;font-weight:600;letter-spacing:.02em;
+  padding:3px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted);
+  border:1px solid var(--line)}
+.nivel.n-introductiv{color:var(--accent-txt);
+  background:color-mix(in srgb,var(--accent) 14%,transparent);
+  border-color:color-mix(in srgb,var(--accent) 34%,transparent)}
+.nivel.n-avansat{color:var(--again);
+  background:color-mix(in srgb,var(--again) 12%,transparent);
+  border-color:color-mix(in srgb,var(--again) 30%,transparent)}
+.rezumat{color:var(--muted);font-size:.92em;margin:6px 0 2px}
+.pas-tabs{display:flex;gap:6px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:13px;padding:5px;margin:14px 0 13px}
+.pas-t{flex:1;min-width:0;min-height:46px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1px;border:0;border-radius:9px;
+  background:transparent;color:var(--muted);font:inherit;font-size:.8em;cursor:pointer;
+  padding:5px 3px}
+.pas-t b{font-size:1.06em;font-weight:700;line-height:1.1}
+.pas-t span{font-size:.94em;line-height:1.15;text-align:center;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.pas-t.sel{background:var(--accent);color:#06211e;font-weight:600}
+:root[data-theme="light"] .pas-t.sel{color:#fff}
+.pas-t.gata{color:var(--good)}
+.pas-h{font-weight:650;font-size:1.02em;margin:0 0 7px}
+.cheie{margin-top:13px;padding:11px 13px;border-radius:12px;
+  background:color-mix(in srgb,var(--accent) 9%,transparent);
+  border:1px solid color-mix(in srgb,var(--accent) 26%,transparent)}
+.cheie-et{font-size:.7em;letter-spacing:.09em;font-weight:700;color:var(--accent-txt);
+  margin-bottom:4px}
+.ex-ta{width:100%;min-height:104px;resize:vertical;border-radius:12px;padding:11px 12px;
+  border:1px solid var(--line);background:var(--surface-2);color:var(--fg);
+  font:inherit;font-size:.95em;line-height:1.5;margin:8px 0 10px}
+.ex-model{margin-top:12px;padding:12px 13px;border-radius:12px;background:var(--surface-2);
+  border:1px solid var(--line)}
+.surse{margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.surse-et{font-size:.7em;letter-spacing:.09em;font-weight:700;color:var(--muted);
+  margin-bottom:7px}
+.surse a{display:inline-block;margin:0 14px 4px 0;font-size:.88em;color:var(--accent-txt)}
+.slab{font-size:.78em;color:var(--muted);margin-top:9px;font-style:italic}
+.diag{display:flex;gap:11px;align-items:flex-start;margin-bottom:12px;padding:11px 13px;
+  border-radius:11px;background:color-mix(in srgb,var(--hard) 11%,transparent);
+  border:1px solid color-mix(in srgb,var(--hard) 42%,var(--line))}
+.diag-ico{width:19px;height:19px;color:var(--hard);flex:0 0 auto;margin-top:1px}
+.diag-m{min-width:0;flex:1}
+.diag-t{font-weight:650;font-size:.88em;color:var(--hard)}
+.diag-p{font-size:.88em;margin-top:3px}
+.diag-p p:first-child{margin-top:0}
+.diag-p p:last-child{margin-bottom:0}
+.diag-p + .diag-p{margin-top:7px;padding-top:7px;
+  border-top:1px solid color-mix(in srgb,var(--hard) 25%,transparent)}
+
+/* ---- buton „întreabă un asistent” ---- */
+.btn.asistent{display:inline-flex;align-items:center;gap:6px;margin-top:0}
+.btn.asistent .ico{width:14px;height:14px;color:var(--muted)}
+
+/* ---- „de ce nu varianta ta” ---- */
+.de-ce-nu{background:color-mix(in srgb,var(--again) 10%,transparent);
+  border-left:3px solid var(--again);border-radius:0 8px 8px 0;
+  padding:9px 12px;margin-top:9px;font-size:.88em}
+.de-ce-nu p:first-child{margin-top:0}
+.de-ce-nu p:last-child{margin-bottom:0}
+
+/* ---- justifică decizia ---- */
+.dec-q{font-weight:650;font-size:1.02em;margin:2px 0 12px;line-height:1.45}
+.dec-q p:first-child{margin-top:0}
+.dec-q p:last-child{margin-bottom:0}
+.dec-opts{display:flex;flex-direction:column;gap:8px}
+.dec-o{display:block;width:100%;text-align:left;padding:12px 14px;border-radius:12px;
+  background:var(--surface2);border:1.5px solid var(--line);font-size:.92em;line-height:1.45}
+.dec-o.sel{border-color:var(--accent)}
+.dec-o.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,transparent)}
+.dec-o.rau{border-color:var(--again);background:color-mix(in srgb,var(--again) 14%,transparent)}
+.dec-t{display:block;color:var(--txt)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;background:var(--surface)}
+.tbl{border-collapse:collapse;font-size:.8em;width:100%;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tbl th,.tbl td{padding:5px 9px;text-align:left;border-bottom:1px solid var(--line);
+  white-space:nowrap}
+.tbl th{color:var(--muted);font-weight:650;font-size:.92em;background:var(--surface2)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td.nul{color:var(--muted);font-style:italic}
+.tbl-err{padding:9px 11px;color:var(--again);font-size:.84em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.schema{margin-bottom:12px}
+.schema-h{font-size:.82em;color:var(--accent-txt);padding:4px 0}
+.schema-b{margin-top:6px;font-size:.8em;color:var(--muted);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.7}
+.schema-t{color:var(--txt)}
+.optbox{display:block;width:100%;text-align:left;background:var(--surface);
+  border:2px solid var(--line);border-radius:12px;padding:9px;margin-top:9px}
+.optbox.sel{border-color:var(--accent)}
+.optbox.ok{border-color:var(--good)}
+.optbox.rau{border-color:var(--again)}
+.optbox-h{font-size:.76em;color:var(--muted);margin-bottom:6px;text-transform:uppercase;
+  letter-spacing:.07em}
+.asamblat{min-height:40px;border:1px dashed var(--line);border-radius:10px;padding:7px;
+  display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78em;
+  font-weight:400;border-radius:9px;text-align:left}
+.chip.mono.on{border-color:var(--accent);background:var(--surface2);color:var(--txt);opacity:1}
+.exrow{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  padding:8px 2px;border-bottom:1px solid var(--line)}
+.exrow:last-child{border-bottom:0}
+.exrow-ico{width:24px;height:24px;border-radius:50%;background:var(--surface2);color:var(--muted);
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.exrow-ico svg{width:14px;height:14px}
+.exrow.done .exrow-ico{background:var(--accent);color:#06211e}
+:root[data-theme="light"] .exrow.done .exrow-ico{color:#fff}
+.exrow.next .exrow-ico{color:var(--accent-txt);background:transparent}
+.exrow-t{font-size:.9em;font-weight:550}
+.exrow-s{font-size:.76em;color:var(--muted)}
+
+.comp{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:7px 0;border-bottom:1px solid var(--line)}
+.comp:last-child{border-bottom:0}
+.comp-n{font-size:.9em}
+.comp-s{font-size:.76em;font-weight:650;padding:2px 9px;border-radius:20px;
+  background:var(--surface2);white-space:nowrap}
+.comp-s.s-solid{color:var(--good)}
+.comp-s.s-indicii{color:var(--invat)}
+.comp-s.s-recap{color:var(--again)}
+.comp-s.s-nou{color:var(--muted)}
+
+.scen-s{background:var(--surface);border-left:3px solid var(--line);border-radius:0 10px 10px 0;
+  padding:10px 13px;margin:4px 0 12px;font-size:.94em}
+.scen-s p:first-child{margin-top:0}
+.scen-s p:last-child{margin-bottom:0}
+.scen-q{font-weight:650;font-size:1.02em}
+.mod-final{font-size:.84em;color:var(--txt);margin:9px 0 4px}
+.mod-sursa{font-size:.76em;color:var(--muted);font-style:italic}
+.mod-bar{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.seg-b{padding:7px 6px}
+
+/* ---- toast ---- */
+#toast{position:fixed;left:50%;bottom:calc(74px + var(--sab));transform:translateX(-50%) translateY(14px);
+  background:var(--surface2);border:1px solid var(--line);color:var(--txt);
+  padding:9px 15px;border-radius:22px;font-size:.85em;opacity:0;pointer-events:none;
+  transition:.2s;z-index:60;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%)}
+[hidden]{display:none!important}
+
+.sr-only {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.simulation-grid {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:12px 0}
+.simulation-grid .btn {padding:9px 2px;min-width:0}
+.simulation-grid [aria-current="step"] {border-color:var(--accent);outline:2px solid var(--accent)}
+.simulation-options {border:0;padding:0;margin:14px 0}
+.simulation-option {display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:9px;cursor:pointer}
+.simulation-option input {width:22px;height:22px;flex-shrink:0;accent-color:var(--accent)}
+.simulation-option .md {min-width:0}
+.simulation-option .md p {margin:0}
+#case-note {width:100%;margin:10px 0;min-height:150px}
+
+.discovery-filters{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.discovery-filters label{min-width:0}.discovery-filters select{width:100%;display:block}.discovery-result .discovery-title{text-align:left;width:100%;white-space:normal}.discovery-snippet{font-size:.92em;overflow-wrap:anywhere;white-space:pre-wrap}.discovery-evidence{margin:4px 0 14px;font-size:.9em}.knowledge-link{width:100%;margin:10px 0;white-space:normal}#modal-body [data-knowledge-to]{width:100%;white-space:normal;text-align:left;overflow-wrap:anywhere}#global-search{width:100%}
+</style>
+<link rel="stylesheet" href="retro.css">
+<link rel="stylesheet" href="cozy.css">
+<link rel="stylesheet" href="adventure.css">
+<link rel="stylesheet" href="today139.css">
+<link rel="stylesheet" href="courses145.css">
+<link rel="icon" type="image/svg+xml" href="app-icon139.svg">
+</head>
+<body class="loading">
+
+<header class="topbar">
+  <div class="brand"><img src="app-icon139.svg" alt="">DataEng Learn</div>
+  <div class="muted" id="hdr-right">repetiție spațiată</div>
+</header>
+
+<!-- ACASA -->
+<section id="sc-home"><div class="wrap" id="home-body"></div></section>
+
+<!-- LECTII -->
+<section id="sc-learn" hidden><div class="wrap" id="learn-body"></div></section>
+
+<!-- CARDURI -->
+<section id="sc-browse" hidden>
+  <div class="wrap">
+    <div class="filters">
+      <input id="browse-q" type="search" placeholder="Caută în carduri…" autocomplete="off">
+      <select id="browse-deck"><option value="">Toate deck-urile</option></select>
+    </div>
+    <div class="bar-actions">
+      <span class="muted" id="browse-count"></span>
+      <button class="btn mini" id="browse-add">+ Card nou</button>
+    </div>
+    <div id="browse-list"></div>
+  </div>
+</section>
+
+<!-- STATISTICI -->
+<section id="sc-stats" hidden><div class="wrap" id="stats-body"></div></section>
+
+<!-- SETARI -->
+<section id="sc-settings" hidden>
+  <div class="wrap">
+    <h2 class="sec-title">Limite zilnice</h2>
+    <div class="srow">
+      <div class="srow-h"><span>Carduri noi pe zi</span>
+        <input id="set-new" type="number" min="0" max="200" inputmode="numeric"></div>
+      <div class="muted">Câte carduri nevăzute îți propune aplicația într-o zi.</div>
+    </div>
+    <div class="srow">
+      <div class="srow-h"><span>Repetări pe zi</span>
+        <input id="set-rev" type="number" min="0" max="999" inputmode="numeric"></div>
+      <div class="muted">Plafon pentru cardurile scadente, ca să nu se adune sesiuni uriașe.</div>
+    </div>
+
+    <h2 class="sec-title">Lecții</h2>
+    <div class="srow">
+      <label class="switch" style="border:0;padding:0">
+        <input type="checkbox" id="set-hearts">
+        <span class="sw-name">Vieți în lecții</span>
+      </label>
+      <div class="muted" style="margin-top:6px">Cinci vieți per lecție; la zero, lecția se reia.
+        Oprește-le dacă vrei exerciții fără presiune.</div>
+    </div>
+
+    <div class="srow">
+      <label class="switch" style="border:0;padding:0">
+        <input type="checkbox" id="set-hideanswer">
+        <span class="sw-name">Ascunde răspunsul până apăs</span>
+      </label>
+      <div class="muted" style="margin-top:6px">Implicit, răspunsul se vede odată cu întrebarea.
+        Pornește asta dacă vrei să te testezi întâi.</div>
+    </div>
+
+    <div class="srow">
+      <label class="switch" style="border:0;padding:0">
+        <input type="checkbox" id="set-asistent">
+        <span class="sw-name">Buton „Întreabă un asistent”</span>
+      </label>
+      <div class="muted" style="margin-top:6px">În laboratoare apare un buton care
+        <strong>compune întrebarea</strong> — exercițiul, datele și codul tău — și o copiază
+        în clipboard. Aplicația nu are acces la internet și nu trimite nimic nicăieri:
+        tu alegi dacă o lipești undeva și unde.</div>
+    </div>
+
+    <h2 class="sec-title">Personalizare</h2>
+    <div class="srow">
+      <div class="srow-h"><span>Nivel</span>
+        <select id="set-level">
+          <option value="incepator">Început</option>
+          <option value="mediu">Mediu</option>
+          <option value="avansat">Avansat</option>
+        </select></div>
+      <div class="muted" style="margin-top:4px">Câte lucruri noi primești într-o sesiune.</div>
+    </div>
+    <div class="srow">
+      <div class="srow-h"><span>Obiectiv zilnic</span>
+        <select id="set-goal">
+          <option value="30">Ușor · 30 XP</option>
+          <option value="60">Normal · 60 XP</option>
+          <option value="120">Serios · 120 XP</option>
+        </select></div>
+    </div>
+    <div class="srow">
+      <button class="btn mini" id="set-personalize">Reia personalizarea</button>
+      <div class="muted" style="margin-top:6px">Alegi din nou domeniile, nivelul și obiectivul.</div>
+    </div>
+
+    <h2 class="sec-title">Deck-uri active</h2>
+    <div class="srow" id="set-decks"></div>
+
+    <h2 class="sec-title">Afișare</h2>
+    <div class="srow">
+      <div class="srow-h"><span>Temă</span>
+        <select id="set-theme">
+          <option value="dark">Întunecată</option>
+          <option value="light">Luminoasă</option>
+          <option value="auto">După sistem</option>
+        </select></div>
+    </div>
+    <div class="srow">
+      <div class="srow-h"><span>Aspect</span>
+        <select id="set-style" aria-label="Aspectul aplicației">
+          <option value="retro">Retro cozy · Aventură</option>
+          <option value="classic">Clasic</option>
+        </select>
+      </div>
+    </div>
+    <div class="srow">
+      <div class="srow-h"><span>Mărime text</span>
+        <select id="set-font">
+          <option value="0.9">Mic</option>
+          <option value="1">Normal</option>
+          <option value="1.12">Mare</option>
+          <option value="1.25">Foarte mare</option>
+        </select></div>
+    </div>
+
+    <h2 class="sec-title">Date</h2>
+    <div class="srow">
+      <div class="actions">
+        <button class="btn mini" id="set-export">Exportă backup</button>
+        <button class="btn mini" id="set-import">Importă backup</button>
+      </div>
+      <button class="btn secondary" id="set-audit" style="width:100%;margin:12px 0">Bibliotecă și audit</button>
+      <div class="muted" style="margin-top:8px" id="set-info"></div>
+    </div>
+    <div class="srow">
+      <button class="btn mini danger" id="set-reset">Resetează progresul</button>
+      <div class="muted" style="margin-top:6px">Șterge progresul cursurilor, XP, repetițiile, jurnalul și seria, încercările, ciornele SQL/Python și dovezile/notițele proiectelor. Cardurile proprii și notele personale din bibliotecă rămân. Exportă un backup înainte, dacă vrei să poți reveni.</div>
+    </div>
+    <p class="muted center" style="margin:14px 0 4px">DataEng Learn · 1.48.0 + termeni (test) · învățare offline, progres salvat pe telefon</p>
+  </div>
+</section>
+
+<!-- NAV -->
+<!-- pictogramele se injectează din app.js (setul SVG), ca să fie identice pe orice telefon -->
+<nav id="nav" aria-label="Secțiuni">
+  <button id="tab-home" class="on" data-ico="tinta" aria-current="page"><span class="ic"></span>Azi</button>
+  <button id="tab-learn" data-ico="invata"><span class="ic"></span>Învață</button>
+  <button id="tab-browse" data-ico="carduri"><span class="ic"></span>Carduri</button>
+  <button id="tab-stats" data-ico="statistici"><span class="ic"></span>Statistici</button>
+  <button id="tab-settings" data-ico="setari"><span class="ic"></span>Setări</button>
+</nav>
+
+<!-- STUDIU -->
+<div id="study" hidden>
+  <div class="st-top">
+    <span class="badge" id="st-state"></span>
+    <span class="muted" id="st-deck"></span>
+    <span class="muted" id="st-left" style="margin-left:auto"></span>
+    <button id="st-close" aria-label="Închide" data-ico="inchide"></button>
+  </div>
+  <div class="progress"><div id="st-bar"></div></div>
+  <div id="st-scroll">
+    <div id="st-card">
+      <div class="md q" id="st-q"></div>
+      <div id="st-nivel"></div>
+      <div id="st-answer" hidden>
+        <div class="md" id="st-a"></div>
+        <div class="tags" id="st-tags"></div>
+      </div>
+    </div>
+  </div>
+  <div class="st-foot">
+    <button class="btn big primary" id="st-reveal" style="margin:0">Arată răspunsul</button>
+    <div id="st-rate" hidden>
+      <button class="rbtn r-1" data-rate="1"><b>Din nou</b><span id="iv-again"></span></button>
+      <button class="rbtn r-2" data-rate="2"><b>Greu</b><span id="iv-hard"></span></button>
+      <button class="rbtn r-3" data-rate="3"><b>Bine</b><span id="iv-good"></span></button>
+      <button class="rbtn r-4" data-rate="4"><b>Ușor</b><span id="iv-easy"></span></button>
+    </div>
+  </div>
+</div>
+
+<!-- LECTIE -->
+<div id="lesson" hidden>
+  <div class="ls-top">
+    <button id="ls-close" aria-label="Închide" data-ico="inchide"></button>
+    <div class="progress" style="flex:1"><div id="ls-bar"></div></div>
+    <span id="ls-hearts"></span>
+  </div>
+  <div id="ls-scroll"><div id="ls-body"></div></div>
+  <div class="ls-foot">
+    <div class="ls-fb" id="ls-fb" hidden></div>
+    <button class="btn big primary" id="ls-go" style="margin:0">Continuă</button>
+    <div id="ls-rate" hidden></div>
+    <button id="ls-alt" hidden></button>
+  </div>
+</div>
+
+<!-- LABORATOR -->
+<div id="lab" hidden>
+  <div class="lab-top">
+    <button id="lab-close" aria-label="Închide" data-ico="inchide"></button>
+    <span id="lab-cap"></span>
+  </div>
+  <div id="lab-scroll"><div id="lab-body"></div></div>
+  <div class="lab-foot">
+    <div class="ls-fb" id="lab-fb" hidden></div>
+    <button class="btn big primary" id="lab-go" style="margin:0">Rulează</button>
+  </div>
+</div>
+
+<!-- CONFIGURARE -->
+<div id="setup" hidden>
+  <div class="su-top" id="su-step"></div>
+  <div id="su-scroll"><div id="su-body"></div></div>
+  <div class="su-wrap">
+    <div class="su-foot">
+      <button class="btn" id="su-back">Înapoi</button>
+      <button class="btn primary" id="su-next">Continuă</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETALIU -->
+<div id="modal" hidden>
+  <div class="sheet">
+    <div class="sheet-h"><b id="modal-title"></b>
+      <button id="modal-close" class="btn mini ghost">Închide</button></div>
+    <div class="sheet-b md" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- EDITOR -->
+<div id="editor" hidden>
+  <div class="sheet">
+    <div class="sheet-h"><b id="ed-title">Card nou</b></div>
+    <div class="sheet-b">
+      <div class="field"><label for="ed-deck">Deck</label><select id="ed-deck"></select></div>
+      <div class="field"><label for="ed-q">Întrebare</label>
+        <textarea id="ed-q" placeholder="Ce verifici?"></textarea></div>
+      <div class="field"><label for="ed-a">Răspuns</label>
+        <textarea id="ed-a" placeholder="Markdown simplu: **bold**, `cod`, liste cu -, blocuri cu ```"></textarea></div>
+      <div class="field"><label for="ed-tags">Etichete (separate prin virgulă)</label>
+        <input id="ed-tags" type="text" placeholder="spark, performanță"></div>
+    </div>
+    <div class="sheet-f">
+      <button class="btn" id="ed-cancel">Anulează</button>
+      <button class="btn primary" id="ed-save">Salvează</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="cards.js"></script>
+<script src="practice141.js"></script>
+<script src="career142.js"></script>
+<script src="courses145-data.js"></script>
+<script src="courses145.js"></script>
+<script src="py.js"></script>
+<script src="discovery129.js"></script>
+<script src="glossary133.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

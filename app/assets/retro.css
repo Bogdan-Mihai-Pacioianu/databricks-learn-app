@@ -1,0 +1,65 @@
+/* Local fonts, SIL Open Font License; see fonts/OFL-*.txt. */
+@font-face{font-family:"DataEng Terminal";src:url("fonts/VT323-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"DataEng Mono";src:url("fonts/IBMPlexMono-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+:root[data-style="retro"]{
+ --bg:#0b1110;--surface:#111d18;--surface2:#19281f;--line:#4e6b48;
+ --txt:#e9f0d6;--muted:#b1c5a8;--accent:#a5d65f;--accent-txt:#bddf8a;--accent-d:#23381e;
+ --retro-amber:#e4b754;--retro-ink:#101a12;--retro-shadow:#030806;--radius:2px;
+ --again:#ff8080;--hard:#efc36b;--good:#a5d65f;--easy:#95c8f2;--nou:#95c8f2;--invat:#efc36b;--rev:#a5d65f;
+}
+:root[data-style="retro"][data-theme="light"]{
+ --bg:#ece9d8;--surface:#f8f5e7;--surface2:#e0decc;--line:#6b7d5b;
+ --txt:#15231a;--muted:#46523f;--accent:#2f582c;--accent-txt:#254a23;--accent-d:#d2dcb8;
+ --retro-amber:#755000;--retro-ink:#f8f5e7;--retro-shadow:#b9bca4;
+ --again:#9e2626;--hard:#795000;--good:#2f582c;--easy:#1b5275;
+}
+@media(prefers-color-scheme:light){
+ :root[data-style="retro"]:not([data-theme="dark"]):not([data-theme="light"]){
+  --bg:#ece9d8;--surface:#f8f5e7;--surface2:#e0decc;--line:#6b7d5b;
+  --txt:#15231a;--muted:#46523f;--accent:#2f582c;--accent-txt:#254a23;--accent-d:#d2dcb8;
+  --retro-amber:#755000;--retro-ink:#f8f5e7;--retro-shadow:#b9bca4;
+  --again:#9e2626;--hard:#795000;--good:#2f582c;--easy:#1b5275;
+ }
+}
+[data-style="retro"] body{
+ font-family:"DataEng Mono",Consolas,monospace;font-size:calc(15px * var(--fs));line-height:1.65;
+ background-image:linear-gradient(90deg,transparent 99%,rgba(165,214,95,.025) 99%),linear-gradient(transparent 99%,rgba(165,214,95,.025) 99%);background-size:24px 24px;
+}
+[data-style="retro"] :is(h1,h2,h3,h4,.brand,.hero-num,.ls-term,.pas-h){font-family:"DataEng Terminal","DataEng Mono",monospace;font-weight:400;line-height:1.13;letter-spacing:.015em}
+[data-style="retro"] h2{font-size:calc(29px * var(--fs));margin:0 0 12px}
+[data-style="retro"] h3{font-size:calc(26px * var(--fs));margin:0 0 9px}
+[data-style="retro"] h4{font-size:calc(23px * var(--fs))}
+[data-style="retro"] .pas-h{font-size:calc(25px * var(--fs))}
+[data-style="retro"] .brand{font-size:calc(28px * var(--fs));min-width:0;overflow-wrap:anywhere}
+[data-style="retro"] .brand i{border-radius:0;width:9px;height:9px;box-shadow:0 0 8px rgba(165,214,95,.35)}
+[data-style="retro"] .topbar{gap:12px;align-items:center;border-bottom:1px solid var(--line);margin-bottom:12px}
+[data-style="retro"] .topbar>.muted{font-size:.7em;max-width:112px;text-align:right;color:var(--retro-amber)}
+[data-style="retro"] :is(.btn,.unit,.hero,.exrow,.mod,.card,.domeniu,.cheie,.greseala,.nesigur,.pas-tabs,.opt,.qbox,.simulation-option,.mat-row,.resume-box){border-radius:2px}
+[data-style="retro"] :is(input,select,textarea,.tag,.badge,.exam-cod){border-radius:1px}
+[data-style="retro"] .btn{border:1px solid var(--line);box-shadow:2px 2px 0 var(--retro-shadow)}
+[data-style="retro"] .btn:active:not(:disabled){transform:translate(1px,1px);box-shadow:1px 1px 0 var(--retro-shadow)}
+[data-style="retro"] .btn.primary{background:var(--accent);color:var(--retro-ink);border-color:var(--accent)}
+[data-style="retro"] .btn.ghost{box-shadow:none}
+[data-style="retro"] .sec-title{color:var(--retro-amber);letter-spacing:.08em}
+[data-style="retro"] .pas-t{border-radius:1px;font-size:.83em}
+[data-style="retro"] .pas-t.sel{color:var(--retro-ink)}
+[data-style="retro"] :is(.md,.exam-txt,.mat-row,.opt,.ls-term,h1,h2,h3,h4){overflow-wrap:anywhere}
+[data-style="retro"] :is(.md pre,.sqled,.pyed,.py-code,code){font-family:"DataEng Mono",Consolas,monospace;letter-spacing:0}
+[data-style="retro"] .md pre{border:1px solid var(--line);border-left:3px solid var(--retro-amber);border-radius:0;box-shadow:inset 0 1px 0 var(--line)}
+[data-style="retro"] :is(.md pre code,.sqled,.pyed){overflow-wrap:normal}
+[data-style="retro"] :is(#nav,.ls-foot,.lab-foot){border-top:2px solid var(--line)}
+[data-style="retro"] .nav-btn{border-radius:0}
+[data-style="retro"] :is(#lesson,#lab,#study){animation:none}
+[data-style="retro"] .exam-titlu{line-height:1.4}
+[data-style="retro"] .exam-cod{color:var(--retro-amber);border-color:var(--retro-amber)}
+[data-style="retro"] .cheie-et{color:var(--retro-amber)}
+[data-style="retro"] .progress{border-radius:0;border:1px solid var(--line)}
+[data-style="retro"] .progress>div{border-radius:0}
+[data-style="retro"] :where(button,a,input,select,textarea,summary,[tabindex]):focus-visible{outline-color:var(--retro-amber);outline-offset:3px;border-radius:0}
+.audit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:14px 0}
+.audit-stat{border:1px solid var(--line);background:var(--surface);padding:12px;min-width:0}
+.audit-stat strong{display:block;font-size:1.6em;color:var(--accent-txt)}
+.audit-stat span{display:block;font-size:.8em;color:var(--muted)}
+.audit-priority{display:inline-block;padding:2px 7px;border:1px solid var(--line);margin:0 8px 7px 0;font-size:.78em}
+.audit-entry{padding:12px;border:1px solid var(--line);margin:10px 0;background:var(--surface)}
+@media(prefers-reduced-motion:reduce){[data-style="retro"] .btn:active:not(:disabled){transform:none}}

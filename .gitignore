@@ -1,0 +1,5 @@
+signing/
+*.pem
+*.unsigned
+node_modules/
+__pycache__/
