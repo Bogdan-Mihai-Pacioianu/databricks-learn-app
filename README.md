@@ -12,13 +12,39 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `docs/inventar-termeni.md`: raportul inventarului, cu termenii fără fișă.
 - `tools/patch_modes.py`: împarte tabul Termeni în modurile Învață și Practică. Se aplică după `patch_dictionary.py`.
 - `tools/test_modes.js`: test Playwright pentru cele două moduri.
+- `tools/patch_tabmodes.py`: adaugă modurile Învață și Practică la toate taburile. Se aplică după `patch_modes.py`.
+- `tools/test_tabmodes.js`: test Playwright care parcurge fiecare tab în ambele moduri.
 - `tools/patch_terms.py`: aplică aceleași îmbunătățiri peste alt `app.js`, de exemplu cel din sursa 1.54. Scriptul se oprește dacă o bucată de cod nu se potrivește.
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.48.0-practica.apk`: build de test, semnat cu o cheie de test.
+- `dist/DataEng-Learn-1.48.0-moduri.apk`: build de test, semnat cu o cheie de test.
 
-## Modurile Învață și Practică
+## Învață și Practică pe toate taburile
+
+Fiecare tab din ecranul Învață are sus un comutator între **Învață**, pentru lecții și informații, și **Practică**, pentru întrebări și exerciții. Aplicația ține minte modul ales separat pentru fiecare tab.
+
+| Tab | Învață | Practică |
+|---|---|---|
+| Cursuri | catalogul de cursuri, cu lecții | întrebări, carduri, termeni și scenarii din cursul ales |
+| Parcurs | etapele de carieră | materia unei etape |
+| Concepte | conceptele pe domenii | un domeniu ales: întrebări, carduri, termeni, scenarii |
+| Termeni | lecții de termeni, glosar, dicționar | termeni scadenți și practică la alegere |
+| Scenarii | situațiile rezolvate, de citit (răspuns și explicație) | rezolvarea scenariilor |
+| SQL | cursul SQL și termenii domeniului | exercițiile SQL executabile și întrebări de verificare |
+| Python | cursurile Python și Spark și termenii lor | laboratoarele Python și PySpark și întrebări de verificare |
+| Certificări | certificările, programa, materialele | test scurt, toate întrebările, greșelile, progres pe domenii, simulări |
+| Proiecte | proiectele finale | studiile de caz și exercițiile practice |
+| Salvate | favoritele și notițele | repetă favoritele, greșelile sau cardurile scadente |
+
+Practica la alegere are aceleași filtre peste tot:
+- **ce exersezi:** mixt, întrebări, carduri, termeni sau scenarii;
+- **care:** nefăcute, greșite și scadente; doar greșite; toate;
+- **câte:** 10, 20, 30 sau 50.
+
+Greșelile vin primele în sesiune.
+
+## Modurile Învață și Practică la Termeni
 
 Tabul Termeni are sus un comutator între două moduri. Aplicația ține minte ultimul mod ales.
 
@@ -38,6 +64,7 @@ Ordinea în care se aplică patch-urile peste un `app.js` original:
 python tools/patch_terms.py app/assets/app.js
 python tools/patch_dictionary.py app/assets
 python tools/patch_modes.py app/assets
+python tools/patch_tabmodes.py app/assets
 node tools/build_dictionary.js app/assets
 ```
 

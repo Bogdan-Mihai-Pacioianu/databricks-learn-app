@@ -39,6 +39,7 @@ jobs:
           body: |
             Build de test.
 
+            - **Învață și Practică pe fiecare tab:** lecțiile și informațiile sunt separate de întrebări, teste, exerciții și laboratoare. Practica la alegere: domeniu, curs sau etapă, tip, greșite sau nefăcute, număr.
             - **Termeni în două moduri, Învață și Practică:** în Practică alegi ce termeni exersezi (scadenți, greșiți, în curs, știuți, favorite), domeniul, tipul de exercițiu și câți termeni.
             - **Dicționar A–Z** cu toți termenii: denumiri alternative ca trimiteri, termenii folosiți în conținut fără fișă, unde apare fiecare termen (carduri, lecții, exerciții, studii de caz, întrebări, alte fișe), filtre pe domeniu și stadiu, inventar pe domenii.
             - **Învățarea termenilor:** repetiție spațiată, exerciții inverse și de scris din memorie, repetarea termenilor scadenți.

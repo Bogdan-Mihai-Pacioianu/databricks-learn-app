@@ -17,12 +17,12 @@ const path = require("path");
     });
     D.learnTab = "terms"; D.state.settings.termMode156 = "learn"; D.show("learn");
   });
-  await p.waitForSelector("#term-mode-learn");
+  await p.waitForSelector("#tab-mode-learn");
   if (!(await p.$("#open-dictionary156"))) fail("modul Învață nu mai arată dicționarul");
   if (!(await p.$("[data-lesson]"))) fail("modul Învață nu mai arată lecțiile");
   await p.screenshot({ path: path.join(shots, "mode_learn.png") });
 
-  await p.click("#term-mode-practice");
+  await p.click("#tab-mode-practice");
   await p.waitForSelector("#practice-start156");
   if (await p.$("[data-lesson]")) fail("modul Practică arată lecțiile");
   console.log("scadenți:", await p.textContent("#practice-due156"));
@@ -42,7 +42,7 @@ const path = require("path");
   if (types.length !== 20) fail("sesiunea nu are 20 de exerciții");
   await p.screenshot({ path: path.join(shots, "mode_practice_run.png") });
   await p.evaluate(() => window.DECARDS.endLesson());
-  await p.waitForSelector("#term-mode-practice.on");
+  await p.waitForSelector("#tab-mode-practice.on");
   console.log("după sesiune rămâne în Practică: da");
   // pe domenii
   await p.click('[data-practice-deck="spark"]');
