@@ -1,0 +1,860 @@
+[
+{
+"exam": "dbra",
+"dom": "Ingestie și încărcare",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "Fișiere JSON noi ajung continuu într-un director din cloud storage, iar schema primește uneori câmpuri noi. Vrei să încarci doar fișierele noi, fără să le urmărești manual. Ce folosești?",
+"ok": "Auto Loader (`cloudFiles`) cu checkpoint și `schemaLocation`",
+"bad": [
+[
+"`spark.read.json` pe tot directorul la fiecare rulare.",
+"Recitește toate fișierele și nu ține evidența celor deja încărcate."
+],
+[
+"Un job care listează directorul și compară manual numele fișierelor.",
+"Reinventezi ce face Auto Loader și riști erori la scară."
+],
+[
+"`CREATE TABLE AS SELECT` rulat zilnic.",
+"Rescrie tot tabelul și nu e incremental."
+]
+],
+"e": "Răspunsul complet: Auto Loader (`cloudFiles`) cu checkpoint și `schemaLocation`, care detectează fișierele noi și evoluția schemei. Auto Loader procesează incremental fișierele noi, păstrează starea în checkpoint și poate urmări evoluția schemei prin `schemaLocation`."
+},
+{
+"exam": "dbra",
+"dom": "Ingestie și încărcare",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "Rulezi de două ori, din greșeală, același `COPY INTO` peste același director. Ce se întâmplă cu fișierele deja încărcate?",
+"ok": "Sunt sărite.",
+"bad": [
+[
+"Se încarcă din nou și apar duplicate.",
+"COPY INTO evită reîncărcarea, dacă nu forțezi cu opțiunea `force`."
+],
+[
+"Comanda eșuează cu eroare de fișier existent.",
+"Nu eșuează; doar nu reîncarcă fișierele."
+],
+[
+"Tabelul e golit și reîncărcat complet.",
+"COPY INTO nu golește tabelul."
+]
+],
+"e": "Răspunsul complet: Sunt sărite: COPY INTO ține evidența fișierelor încărcate, deci operația e idempotentă pentru fișierele deja procesate. COPY INTO păstrează în metadatele tabelului lista fișierelor încărcate și le sare la rulări repetate; `force = true` ar reîncărca."
+},
+{
+"exam": "dbra",
+"dom": "Transformare și modelare",
+"src": "https://docs.databricks.com/aws/en/delta/",
+"q": "Un `MERGE INTO clienti USING actualizari ON clienti.id = actualizari.id` eșuează pentru că mai multe rânduri sursă se potrivesc aceluiași rând țintă. Ce corectezi?",
+"ok": "Deduplici sursa pe `id`.",
+"bad": [
+[
+"Adaugi `OPTIMIZE` pe tabelul țintă înainte de MERGE.",
+"Compactarea nu rezolvă ambiguitatea mai multor rânduri sursă."
+],
+[
+"Schimbi MERGE cu `INSERT INTO`.",
+"Ai obține duplicate în loc de actualizări."
+],
+[
+"Mai multă memorie.",
+"Eroarea e logică, nu de resurse."
+]
+],
+"e": "Răspunsul complet: Deduplici sursa înainte de MERGE, păstrând un singur rând per `id` (de exemplu cel mai recent după `updated_at`). MERGE cere ca fiecare rând țintă să fie potrivit de cel mult un rând sursă; deduplici sursa (de exemplu cu `row_number()` pe cheie)."
+},
+{
+"exam": "dbra",
+"dom": "Transformare și modelare",
+"src": "https://docs.databricks.com/gcp/en/resources/product-name-changes",
+"q": "Într-un pipeline Lakeflow vrei ca rândurile cu `suma` negativă să fie eliminate din tabelul silver, dar pipeline-ul să continue și să raporteze câte au fost eliminate. Ce expectation folosești?",
+"ok": "`expect_or_drop`.",
+"bad": [
+[
+"`expect_or_fail`.",
+"Ar opri actualizarea la primul rând invalid."
+],
+[
+"O expectation simplă de avertizare.",
+"Păstrează rândurile invalide în tabel; doar le numără."
+],
+[
+"Un `WHERE suma >= 0` fără expectation.",
+"Elimină rândurile, dar pierzi metricile de calitate."
+]
+],
+"e": "Răspunsul complet: O expectation cu acțiunea drop (de exemplu `expect_or_drop`), care elimină rândurile invalide și înregistrează metrici. În Lakeflow pipelines, expectations pot doar avertiza, elimina rândurile (drop) sau opri actualizarea (fail); drop păstrează metricile în jurnalul pipeline-ului."
+},
+{
+"exam": "dbra",
+"dom": "Lucrul cu Lakeflow Jobs",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Un job cu 5 taskuri a eșuat la taskul 4. Taskurile 1–3 au reușit și sunt scumpe. Cum reiei cel mai eficient?",
+"ok": "Repair run.",
+"bad": [
+[
+"Pornești din nou tot jobul, de la primul task.",
+"Reruleaza inutil taskurile 1–3, deja reușite."
+],
+[
+"Ștergi jobul și îl recreezi fără taskurile 1–3.",
+"Pierzi istoricul și configurarea; nu e necesar."
+],
+[
+"Rulezi manual notebook-ul taskului 4 din interfață.",
+"Nu păstrezi contextul jobului (parametri, task values, istoric)."
+]
+],
+"e": "Răspunsul complet: Cu repair run, care reia doar taskul eșuat și pe cele dependente de el. Repair run în Lakeflow Jobs reia selectiv taskurile eșuate și dependențele lor, refolosind rezultatele taskurilor reușite."
+},
+{
+"exam": "dbra",
+"dom": "Lucrul cu Lakeflow Jobs",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Taskul `extragere` calculează numărul de rânduri noi, iar taskul următor trebuie să sară procesarea dacă numărul e 0. Cum transmiți valoarea între taskuri?",
+"ok": "Cu task values (`dbutils.jobs.taskValues.set` și citirea în taskul următor).",
+"bad": [
+[
+"Cu o variabilă Python globală.",
+"Taskurile rulează în procese separate; variabilele nu se partajează."
+],
+[
+"Scriind valoarea într-un fișier local pe driver.",
+"Driverul poate fi diferit între taskuri."
+],
+[
+"Prin variabile de mediu setate în primul task.",
+"Nu se propagă către alte taskuri."
+]
+],
+"e": "Răspunsul complet: Cu task values: `dbutils.jobs.taskValues.set(...)` în primul task și citirea în al doilea sau într-o condiție if/else a jobului. Task values permit transmiterea de valori mici între taskurile unui job și pot fi folosite în taskuri condiționale."
+},
+{
+"exam": "dbra",
+"dom": "CI/CD",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "Vrei ca joburile, pipeline-urile și notebook-urile proiectului să fie definite în cod și publicate identic în dev și prod din CI. Ce folosești?",
+"ok": "Databricks Asset Bundles.",
+"bad": [
+[
+"Export manual de notebook-uri din interfață și import în prod.",
+"Nu e repetabil și nu include joburile."
+],
+[
+"Copiere în DBFS.",
+"Nu definește joburi și permisiuni."
+],
+[
+"Un singur workspace pentru dev și prod, cu foldere separate.",
+"Nu izolează mediile și nu automatizează deploy-ul."
+]
+],
+"e": "Răspunsul complet: Databricks Asset Bundles, cu targeturi `dev` și `prod` și comanda `databricks bundle deploy -t prod` în pipeline-ul CI. Asset Bundles descriu resursele în YAML și le publică per target; CI rulează validate și deploy."
+},
+{
+"exam": "dbra",
+"dom": "Guvernanță și securitate",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Grupul `analisti` are `SELECT` pe `prod.vanzari.comenzi`, dar interogarea dă eroare de permisiune. Ce lipsește cel mai probabil?",
+"ok": "`USE CATALOG` și `USE SCHEMA`.",
+"bad": [
+[
+"`MODIFY` pe tabel.",
+"MODIFY permite scrierea, nu e necesar pentru citire."
+],
+[
+"Dreptul de proprietar pe tabel.",
+"Ownership nu e necesar pentru SELECT."
+],
+[
+"Un cluster dedicat grupului.",
+"Permisiunile Unity Catalog nu depind de cluster."
+]
+],
+"e": "Răspunsul complet: `USE CATALOG` pe `prod` și `USE SCHEMA` pe `prod.vanzari`. În Unity Catalog, citirea unui tabel cere SELECT pe tabel plus USE CATALOG și USE SCHEMA pe părinți."
+},
+{
+"exam": "dbra",
+"dom": "Depanare, monitorizare, optimizare",
+"src": "https://docs.databricks.com/aws/en/optimizations/",
+"q": "Un tabel nou e filtrat azi după `client_id`, mâine poate după `data`. Partiționarea pe dată ar crea multe fișiere mici. Ce strategie de layout alegi?",
+"ok": "Liquid clustering pe coloanele de filtrare.",
+"bad": [
+[
+"Partiționare pe `client_id`.",
+"Cardinalitate mare: mii de partiții și fișiere mici."
+],
+[
+"Fără nicio organizare.",
+"Filtrele vor scana tot tabelul."
+],
+[
+"Partiționare dublă pe `client_id` și `data`.",
+"Agravează problema fișierelor mici."
+]
+],
+"e": "Răspunsul complet: Liquid clustering pe coloanele de filtrare, care se poate schimba fără rescrierea manuală a tabelului. Liquid clustering înlocuiește partiționarea și ZORDER pentru multe tabele: alegi cheile de clustering și le poți schimba ulterior."
+},
+{
+"exam": "dbra",
+"dom": "Platforma Databricks Intelligence",
+"src": "https://www.databricks.com/learn/free-edition",
+"q": "Un analist rulează interogări scurte, de câteva ori pe zi, și se plânge că pornirea clusterului durează minute. Ce opțiune de compute rezolvă cel mai simplu?",
+"ok": "Un SQL warehouse serverless.",
+"bad": [
+[
+"Un cluster all-purpose mare, pornit permanent.",
+"Plătești non-stop pentru câteva interogări pe zi."
+],
+[
+"Un job cluster.",
+"E pentru joburi programate, nu pentru interogări ad-hoc."
+],
+[
+"Mărirea timpului de auto-terminare la 24 de ore.",
+"Reduce pornirile, dar crește mult costul."
+]
+],
+"e": "Răspunsul complet: Un SQL warehouse serverless, care pornește în câteva secunde și nu cere administrarea clusterului. Compute serverless e gestionat de Databricks, pornește rapid și se facturează pe utilizare, potrivit pentru sarcini SQL intermitente."
+},
+{
+"exam": "dbrp",
+"dom": "Scrierea codului de procesare",
+"src": "https://docs.databricks.com/structured-streaming/watermarks",
+"q": "Un stream face join între comenzi și plăți, ambele streamuri. Starea crește fără limită. Ce adaugi?",
+"ok": "Watermark pe ambele și limită de timp.",
+"bad": [
+[
+"Un trigger mai rar, la fiecare oră, pentru stream.",
+"Reduce frecvența, nu dimensiunea stării."
+],
+[
+"Cache pe streamul de comenzi.",
+"Nu limitează starea join-ului."
+],
+[
+"Mai mulți executori.",
+"Amână problema, starea tot crește."
+]
+],
+"e": "Răspunsul complet: Watermark pe ambele streamuri și o condiție de timp în join (de exemplu plata în maximum 1 oră după comandă). La stream-stream join, Spark poate curăța starea doar dacă are watermark-uri și o limită de timp între evenimentele celor două părți."
+},
+{
+"exam": "dbrp",
+"dom": "Scrierea codului de procesare",
+"src": "https://docs.databricks.com/aws/en/delta/",
+"q": "În `foreachBatch` faci MERGE într-un tabel Delta. După o cădere, micro-batch-ul e reprocesat. Cum eviți aplicarea lui de două ori?",
+"ok": "Scrii idempotent, de exemplu cu `txnAppId`/`txnVersion` pe baza `batchId`.",
+"bad": [
+[
+"Dezactivezi checkpoint-ul.",
+"Fără checkpoint pierzi progresul și reprocesezi mai mult."
+],
+[
+"Folosești `outputMode('complete')`.",
+"Nu se aplică la foreachBatch cu MERGE și nu asigură idempotența."
+],
+[
+"Adaugi `dropDuplicates()` pe tabelul țintă după fiecare batch.",
+"Scump și nu rezolvă actualizările duble."
+]
+],
+"e": "Răspunsul complet: Scrii idempotent: folosești `batchId` (de exemplu cu opțiunile `txnAppId`/`txnVersion`) sau un MERGE care dă același rezultat la reaplicare. Structured Streaming garantează cel puțin o dată pentru foreachBatch; idempotența scrierii (txnAppId/txnVersion sau MERGE determinist) dă efect exact o dată."
+},
+{
+"exam": "dbrp",
+"dom": "Manipularea datelor",
+"src": "https://docs.databricks.com/aws/en/delta/",
+"q": "Vrei să propagi doar modificările dintr-un tabel Delta silver spre gold, inclusiv ștergerile. Tabelul are Change Data Feed activ. Ce citești?",
+"ok": "Change Data Feed (`readChangeFeed`).",
+"bad": [
+[
+"Tot tabelul silver și compari cu gold.",
+"Funcționează, dar e scump și pierde ușor ștergerile."
+],
+[
+"Doar fișierele adăugate recent din directorul tabelului.",
+"Nu reflectă actualizările și ștergerile corect."
+],
+[
+"Istoricul `DESCRIBE HISTORY`.",
+"Arată operațiile, nu rândurile modificate."
+]
+],
+"e": "Răspunsul complet: Fluxul de schimbări (`readChangeFeed`) de la ultima versiune procesată, folosind `_change_type` pentru insert, update și delete. CDF expune rândurile modificate cu `_change_type` (insert, update_preimage, update_postimage, delete) și versiunea commit-ului."
+},
+{
+"exam": "dbrp",
+"dom": "Modelarea datelor",
+"src": "https://docs.databricks.com/gcp/en/resources/product-name-changes",
+"q": "Primești un flux CDC cu evenimente care pot sosi neordonate și vrei o dimensiune SCD tip 2 într-un pipeline Lakeflow. Ce folosești?",
+"ok": "AUTO CDC (fost APPLY CHANGES) cu SCD tip 2.",
+"bad": [
+[
+"Un INSERT simplu pentru fiecare eveniment primit.",
+"Nu închide versiunile vechi și nu tratează ordinea."
+],
+[
+"Un MERGE care suprascrie mereu rândul.",
+"Asta e SCD tip 1, fără istoric."
+],
+[
+"Un tabel separat pentru fiecare zi.",
+"Nu oferă istoric pe cheie."
+]
+],
+"e": "Răspunsul complet: API-ul de CDC automat al pipeline-urilor (fostul APPLY CHANGES, acum AUTO CDC), cu coloana de secvențiere și stocare SCD tip 2. Fluxul AUTO CDC (fost APPLY CHANGES INTO) ordonează evenimentele după coloana de secvență și poate menține istoricul ca SCD tip 2."
+},
+{
+"exam": "dbrp",
+"dom": "Cost și performanță",
+"src": "https://docs.databricks.com/aws/en/optimizations/",
+"q": "Un join durează mult: un singur task procesează de 50 de ori mai multe date decât restul, din cauza unei chei foarte frecvente. Ce încerci întâi?",
+"ok": "AQE pentru skew, apoi salting.",
+"bad": [
+[
+"Mărești numărul de executori.",
+"Taskul dezechilibrat rămâne la fel de mare."
+],
+[
+"Treci la `collect()` și join în Python.",
+"Mută datele pe driver și riști OOM."
+],
+[
+"Elimini cheia frecventă din date.",
+"Schimbi rezultatul; nu e o optimizare."
+]
+],
+"e": "Răspunsul complet: Verifici că AQE și tratarea skew join sunt active; dacă nu ajunge, aplici salting pe cheia dezechilibrată. Skew-ul concentrează datele într-o partiție; AQE poate împărți partițiile mari în join, iar salting distribuie manual cheia."
+},
+{
+"exam": "dbrp",
+"dom": "Monitorizare și alertare",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Vrei să afli ce echipă consumă cele mai multe DBU-uri luna aceasta. Joburile au tag-ul `echipa`. Ce interoghezi?",
+"ok": "Tabelele de sistem pentru facturare.",
+"bad": [
+[
+"Spark UI pentru fiecare job.",
+"Arată execuția, nu costul agregat."
+],
+[
+"Jurnalul driverului.",
+"Nu conține date de facturare."
+],
+[
+"`DESCRIBE HISTORY` pe tabelele scrise.",
+"Arată operațiile pe tabel, nu consumul de compute."
+]
+],
+"e": "Răspunsul complet: Tabelele de sistem pentru facturare (de exemplu `system.billing.usage`), grupând după tag-ul `echipa`. Tabelele de sistem expun consumul pe resurse și tag-uri, deci poți atribui costul pe echipe sau proiecte."
+},
+{
+"exam": "dbrp",
+"dom": "Securitate și conformitate",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Utilizatorii din fiecare țară trebuie să vadă doar rândurile țării lor, iar coloana `cnp` trebuie mascată pentru toți cu excepția echipei HR. Ce mecanisme Unity Catalog folosești?",
+"ok": "Row filter și column mask.",
+"bad": [
+[
+"Copii separate ale tabelului pentru fiecare țară.",
+"Multiplici datele și riscul de nesincronizare."
+],
+[
+"ACL-uri pe fișiere.",
+"Nu filtrează rânduri și nu maschează coloane."
+],
+[
+"O vedere cu `WHERE tara = 'RO'` pentru fiecare țară.",
+"Funcționează parțial, dar e greu de întreținut și nu maschează CNP-ul."
+]
+],
+"e": "Răspunsul complet: Un row filter pe coloana `tara` și un column mask pe `cnp`, ambele bazate pe apartenența la grupuri. Row filters și column masks se atașează tabelului și se aplică automat la fiecare interogare, după identitatea utilizatorului."
+},
+{
+"exam": "dbrp",
+"dom": "Guvernanță",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Un partener extern, care nu folosește Databricks, trebuie să citească un tabel actualizat, fără să îi trimiți copii zilnice. Ce folosești?",
+"ok": "Delta Sharing.",
+"bad": [
+[
+"Export CSV zilnic pe e-mail.",
+"Creezi copii și pierzi controlul accesului."
+],
+[
+"Acces direct la storage-ul tabelului.",
+"Ocolești guvernanța Unity Catalog."
+],
+[
+"Un cont Databricks pentru partener în workspace-ul tău.",
+"Nu e necesar și expune mai mult decât tabelul."
+]
+],
+"e": "Răspunsul complet: Delta Sharing, cu un share și un destinatar de tip deschis. Delta Sharing permite partajarea tabelelor fără copiere, inclusiv către destinatari care nu folosesc Databricks."
+},
+{
+"exam": "dbrp",
+"dom": "Depanare și livrare",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "În producție, joburile publicate prin Asset Bundles rulează acum cu identitatea dezvoltatorului care a făcut deploy. Ce schimbi?",
+"ok": "Setezi `run_as` pe un service principal în targetul de producție.",
+"bad": [
+[
+"Dai drepturi de admin dezvoltatorului.",
+"Problema e identitatea de rulare, nu lipsa drepturilor."
+],
+[
+"Rulezi deploy-ul manual dintr-un notebook.",
+"Nu schimbă identitatea și elimină automatizarea."
+],
+[
+"Ștergi joburile după fiecare rulare.",
+"Nu are legătură cu identitatea."
+]
+],
+"e": "Răspunsul complet: Setezi `run_as` pe un service principal în targetul de producție. În producție joburile ar trebui să ruleze ca service principal, independent de persoana care face deploy."
+},
+{
+"exam": "dbrp",
+"dom": "Ingestie și achiziție",
+"src": "https://spark.apache.org/docs/latest/streaming/index.html",
+"q": "Un stream citește din Kafka. După o pauză lungă, primul micro-batch încearcă să proceseze milioane de mesaje și cade. Ce opțiune limitezi?",
+"ok": "`maxOffsetsPerTrigger`",
+"bad": [
+[
+"`startingOffsets = latest`.",
+"Ar sări mesajele acumulate, deci pierzi date."
+],
+[
+"`failOnDataLoss = false`.",
+"Nu limitează volumul; doar tolerează offset-uri lipsă."
+],
+[
+"Șterge checkpoint-ul.",
+"Pierzi poziția și poți reprocesa sau pierde date."
+]
+],
+"e": "Răspunsul complet: `maxOffsetsPerTrigger`, ca fiecare micro-batch să ia un număr maxim de offset-uri. `maxOffsetsPerTrigger` limitează volumul fiecărui micro-batch, ca stream-ul să recupereze treptat restanța."
+},
+{
+"exam": "sparkcert",
+"dom": "Arhitectura Spark",
+"src": "https://spark.apache.org/docs/latest/",
+"q": "Ce operație marchează granița dintre două stage-uri într-un job Spark?",
+"ok": "O transformare largă, cu shuffle.",
+"bad": [
+[
+"Orice `filter` aplicat pe DataFrame.",
+"Filter e o transformare îngustă, fără shuffle."
+],
+[
+"Orice `select`.",
+"Select nu mută datele între partiții."
+],
+[
+"Apelul `cache()`.",
+"Cache nu creează un stage nou."
+]
+],
+"e": "Răspunsul complet: O transformare largă (wide), cum ar fi `groupBy` sau `join`, care necesită shuffle. Shuffle-ul cerut de transformările largi separă stage-urile; transformările înguste rămân în același stage."
+},
+{
+"exam": "sparkcert",
+"dom": "Arhitectura Spark",
+"src": "https://spark.apache.org/docs/latest/",
+"q": "Unde ajung datele după `df.collect()`?",
+"ok": "În memoria driverului, ca listă de rânduri Python.",
+"bad": [
+[
+"Rămân distribuite pe executori.",
+"collect le aduce explicit pe driver."
+],
+[
+"Sunt scrise în storage.",
+"collect nu scrie nimic."
+],
+[
+"În cache-ul executorilor.",
+"Pentru asta folosești cache/persist."
+]
+],
+"e": "Răspunsul complet: În memoria driverului, ca listă de rânduri. `collect()` aduce toate rândurile pe driver; pe date mari poate cauza OOM."
+},
+{
+"exam": "sparkcert",
+"dom": "API-ul DataFrame",
+"src": "https://spark.apache.org/docs/latest/api/python/index.html",
+"q": "Ai nevoie de clienții din `clienti` care nu apar în `comenzi`. Ce tip de join folosești?",
+"ok": "`left_anti`.",
+"bad": [
+[
+"`left_semi`.",
+"Întoarce clienții care au comenzi."
+],
+[
+"`inner`.",
+"Întoarce doar potrivirile."
+],
+[
+"`full_outer`.",
+"Întoarce tot, din ambele părți."
+]
+],
+"e": "Răspunsul complet: `left_anti` (`clienti.join(comenzi, 'client_id', 'left_anti')`). Left anti join păstrează rândurile din stânga fără corespondent în dreapta, fără coloanele din dreapta."
+},
+{
+"exam": "sparkcert",
+"dom": "API-ul DataFrame",
+"src": "https://spark.apache.org/docs/latest/api/python/index.html",
+"q": "Vrei ultima stare a fiecărei comenzi, după `updated_at`. Ce abordare e corectă și deterministă?",
+"ok": "`row_number()` pe fereastră, păstrând rândul 1.",
+"bad": [
+[
+"`dropDuplicates(['comanda_id'])` după sortarea DataFrame-ului.",
+"Păstrează un rând arbitrar, nu neapărat ultimul."
+],
+[
+"`groupBy('comanda_id').agg(max('stare'))`.",
+"Maximul stării nu e starea cea mai recentă."
+],
+[
+"`orderBy('updated_at').distinct()`.",
+"Distinct pe toate coloanele nu elimină versiunile vechi."
+]
+],
+"e": "Răspunsul complet: `row_number()` peste o fereastră partiționată după `comanda_id` și ordonată după `updated_at` descrescător, apoi păstrezi rândul 1. Funcțiile fereastră cu ordine completă aleg determinist rândul dorit per cheie."
+},
+{
+"exam": "sparkcert",
+"dom": "Spark SQL",
+"src": "https://spark.apache.org/docs/latest/sql-programming-guide.html",
+"q": "Creezi `df.createOrReplaceTempView('comenzi')`. Cine poate interoga vederea?",
+"ok": "Doar sesiunea Spark curentă.",
+"bad": [
+[
+"Toate sesiunile din cluster, permanent.",
+"Pentru asta ar fi o vedere globală temporară sau un tabel."
+],
+[
+"Orice utilizator din metastore.",
+"Vederea temporară nu e înregistrată în metastore."
+],
+[
+"Doar codul Scala.",
+"E disponibilă și din SQL și Python în aceeași sesiune."
+]
+],
+"e": "Răspunsul complet: Doar sesiunea Spark curentă; vederea dispare când sesiunea se termină. Vederile temporare sunt legate de sesiune; `createGlobalTempView` le partajează între sesiunile aceleiași aplicații."
+},
+{
+"exam": "sparkcert",
+"dom": "Depanare și reglaj",
+"src": "https://spark.apache.org/docs/latest/sql-performance-tuning.html",
+"q": "Faci join între un tabel de 2 TB și unul de 5 MB. Ce reduce cel mai mult shuffle-ul?",
+"ok": "Broadcast join pentru tabelul mic.",
+"bad": [
+[
+"`repartition(1000)` pe ambele tabele înainte de join.",
+"Adaugă shuffle în plus."
+],
+[
+"Sort-merge join forțat.",
+"Implică shuffle pe ambele părți."
+],
+[
+"`coalesce(1)` pe tabelul mare.",
+"Distruge paralelismul."
+]
+],
+"e": "Răspunsul complet: Broadcast join pentru tabelul mic (`broadcast(mic)` sau lăsat automat sub prag). Broadcast trimite tabelul mic la fiecare executor, deci tabelul mare nu mai trebuie amestecat."
+},
+{
+"exam": "sparkcert",
+"dom": "Depanare și reglaj",
+"src": "https://spark.apache.org/docs/latest/sql-performance-tuning.html",
+"q": "Vrei să reduci numărul de partiții de la 200 la 20 înainte de scriere, fără un shuffle complet. Ce folosești?",
+"ok": "`coalesce(20)`.",
+"bad": [
+[
+"`repartition(20)`.",
+"Face un shuffle complet."
+],
+[
+"`repartition(200)`.",
+"Nu reduce partițiile."
+],
+[
+"`sortWithinPartitions`.",
+"Nu schimbă numărul de partiții."
+]
+],
+"e": "`coalesce` combină partiții existente fără shuffle complet; `repartition` redistribuie toate datele."
+},
+{
+"exam": "sparkcert",
+"dom": "Structured Streaming",
+"src": "https://spark.apache.org/docs/latest/streaming/index.html",
+"q": "O agregare pe ferestre de timp trebuie scrisă în modul append. Ce e obligatoriu?",
+"ok": "Un watermark pe coloana de timp a evenimentelor.",
+"bad": [
+[
+"Modul de trigger `once`.",
+"Nu rezolvă finalizarea ferestrelor."
+],
+[
+"Un checkpoint dezactivat.",
+"Checkpoint-ul e necesar pentru recuperare."
+],
+[
+"Sortarea streamului după timp.",
+"Sortarea nu e suportată așa și nu finalizează ferestre."
+]
+],
+"e": "Răspunsul complet: Un watermark pe coloana de timp, ca Spark să știe când o fereastră e finală și poate fi emisă. În append, un rezultat agregat se emite o singură dată, deci Spark are nevoie de watermark ca să știe că fereastra nu mai primește date."
+},
+{
+"exam": "sparkcert",
+"dom": "Spark Connect",
+"src": "https://spark.apache.org/docs/latest/spark-connect-overview.html",
+"q": "Rulezi cod PySpark printr-un client Spark Connect. Ce parte a API-ului nu e disponibilă pe client?",
+"ok": "API-ul RDD și SparkContext.",
+"bad": [
+[
+"`spark.sql()`.",
+"SQL e disponibil prin Spark Connect."
+],
+[
+"Funcțiile din `pyspark.sql.functions`.",
+"Funcțiile DataFrame sunt suportate."
+],
+[
+"`df.write`.",
+"Scrierea DataFrame e suportată."
+]
+],
+"e": "Răspunsul complet: API-ul RDD și SparkContext; clientul folosește doar DataFrame și SQL. Spark Connect separă clientul de server printr-un protocol bazat pe planuri DataFrame; RDD și SparkContext rămân pe server."
+},
+{
+"exam": "sparkcert",
+"dom": "Pandas API pe Spark",
+"src": "https://spark.apache.org/docs/latest/api/python/index.html",
+"q": "Ce import folosești pentru pandas API on Spark și ce obții?",
+"ok": "`import pyspark.pandas as ps`.",
+"bad": [
+[
+"`import pandas as pd`; pandas devine automat distribuit.",
+"pandas obișnuit rulează pe o singură mașină."
+],
+[
+"`from pyspark import pandas_udf`.",
+"E pentru UDF-uri vectorizate, nu API-ul pandas complet."
+],
+[
+"`import koalas`; e pachetul actual.",
+"Koalas a fost integrat în PySpark ca `pyspark.pandas`."
+]
+],
+"e": "Răspunsul complet: `import pyspark.pandas as ps`; obții un DataFrame cu API asemănător pandas, executat distribuit de Spark. pandas API on Spark (fost Koalas) oferă sintaxă pandas peste execuția distribuită Spark."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și configurarea mediului Azure Databricks",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Un workspace Azure Databricks trebuie să citească date din ADLS Gen2 prin Unity Catalog, fără chei de acces în cod. Ce configurezi?",
+"ok": "Un storage credential bazat pe managed identity.",
+"bad": [
+[
+"Cheia contului de storage într-o variabilă de notebook.",
+"Expune secretul și ocolește guvernanța."
+],
+[
+"Montarea storage-ului în DBFS cu un SAS token.",
+"Abordare veche, fără guvernanța Unity Catalog."
+],
+[
+"Acces anonim public pe container.",
+"Inacceptabil pentru date de business."
+]
+],
+"e": "Răspunsul complet: Un storage credential bazat pe managed identity (Access Connector) și un external location peste calea ADLS. Unity Catalog accesează storage-ul prin storage credentials (de exemplu managed identity) și external locations, cu permisiuni acordate pe acestea."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și configurarea mediului Azure Databricks",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Vrei să împiedici utilizatorii să creeze clustere cu noduri foarte scumpe sau fără auto-terminare. Ce folosești?",
+"ok": "Cluster policies.",
+"bad": [
+[
+"Un e-mail.",
+"Nu impune nimic."
+],
+[
+"Ștergerea manuală a clusterelor scumpe.",
+"Reactiv și costul apare deja."
+],
+[
+"Un singur cluster partajat pentru toată firma.",
+"Nu rezolvă controlul și creează conflicte de resurse."
+]
+],
+"e": "Răspunsul complet: Cluster policies care limitează tipurile de noduri, numărul de workeri și impun auto-terminarea. Cluster policies definesc limite și valori implicite pentru configurările de compute permise utilizatorilor."
+},
+{
+"exam": "dp750",
+"dom": "Securizarea și guvernanța obiectelor Unity Catalog",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Ce se întâmplă cu fișierele de date când rulezi `DROP TABLE` pe un tabel managed din Unity Catalog, comparativ cu un tabel external?",
+"ok": "La tabelul managed datele sunt șterse.",
+"bad": [
+[
+"În ambele cazuri datele rămân în storage.",
+"Tabelele managed au datele gestionate de Unity Catalog și sunt șterse."
+],
+[
+"În ambele cazuri datele sunt șterse imediat.",
+"Tabelele external nu își pierd fișierele la DROP."
+],
+[
+"DROP e interzis pe tabelele managed.",
+"Este permis, cu drepturile corespunzătoare."
+]
+],
+"e": "Răspunsul complet: La tabelul managed datele sunt șterse (după perioada de recuperare); la cel external rămân în storage, doar metadatele dispar. Diferența managed vs external: cine gestionează ciclul de viață al fișierelor. La external, DROP elimină doar definiția."
+},
+{
+"exam": "dp750",
+"dom": "Securizarea și guvernanța obiectelor Unity Catalog",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Echipa de vânzări din Iași trebuie să vadă doar rândurile regiunii Moldova din tabelul `vanzari`. Ce soluție respectă principiul unei singure surse de adevăr?",
+"ok": "Un row filter pe tabel.",
+"bad": [
+[
+"O copie a tabelului.",
+"Duplici datele și trebuie sincronizate."
+],
+[
+"Un notebook care filtrează înainte de afișare.",
+"Utilizatorii pot ocoli filtrul interogând direct tabelul."
+],
+[
+"Acces la storage doar pe folderul Moldova.",
+"Tabelele nu sunt neapărat partiționate pe regiune, iar accesul la fișiere ocolește UC."
+]
+],
+"e": "Răspunsul complet: Un row filter pe tabel, bazat pe grupul utilizatorului. Row filters aplică filtrarea la nivelul tabelului, indiferent de unealta folosită pentru interogare."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Un container ADLS primește sute de mii de fișiere pe zi. Auto Loader în modul de listare devine lent. Ce schimbi?",
+"ok": "Treci Auto Loader pe modul de notificare a fișierelor din storage.",
+"bad": [
+[
+"Reduci frecvența rulării la o dată pe săptămână.",
+"Crești latența și volumul per rulare."
+],
+[
+"Folosești `spark.read` pe tot containerul.",
+"Recitește totul, mai lent."
+],
+[
+"Muți fișierele manual în alt container.",
+"Nu rezolvă cauza."
+]
+],
+"e": "Răspunsul complet: Treci Auto Loader pe modul de notificare a fișierelor (evenimente de storage), ca să nu listeze tot directorul. Modul de notificare folosește evenimentele de storage și o coadă, evitând listarea repetată a directoarelor mari."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://docs.databricks.com/aws/en/delta/",
+"q": "Datele sursă primesc o coloană nouă, iar MERGE-ul în tabelul Delta trebuie să o adauge automat. Ce activezi?",
+"ok": "Evoluția schemei pentru MERGE.",
+"bad": [
+[
+"`overwriteSchema` la fiecare MERGE.",
+"Se aplică la suprascriere, nu la MERGE."
+],
+[
+"Ștergerea și recrearea tabelului.",
+"Pierzi istoricul și datele."
+],
+[
+"Fără verificare.",
+"Delta impune schema; nu există o astfel de opțiune sigură."
+]
+],
+"e": "Răspunsul complet: Evoluția automată a schemei pentru MERGE (de exemplu `WITH SCHEMA EVOLUTION` sau setarea de auto-merge). Delta Lake permite evoluția schemei în MERGE când e activată explicit; altfel coloanele noi sunt respinse."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/ldp/where-is-dlt",
+"q": "Ce s-a întâmplat cu Delta Live Tables în Azure Databricks și ce faci cu codul existent?",
+"ok": "Redenumit Lakeflow pipelines; codul merge.",
+"bad": [
+[
+"A fost retras, iar codul trebuie rescris ca joburi Spark.",
+"Nu a fost retras, doar redenumit."
+],
+[
+"A devenit Lakeflow Jobs.",
+"Lakeflow Jobs e numele orchestrării (fostul Workflows)."
+],
+[
+"Rulează doar pe clustere clasice.",
+"Pipeline-urile suportă și compute serverless."
+]
+],
+"e": "Răspunsul complet: A devenit Lakeflow pipelines; codul existent funcționează fără migrare, iar codul nou poate folosi `pyspark.pipelines`. Documentația Microsoft pentru Azure Databricks: „DLT is now Lakeflow pipelines”, fără migrare obligatorie."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Un job zilnic trebuie reîncercat de 2 ori la eșec, iar echipa anunțată dacă durează peste 2 ore. Ce configurezi în Lakeflow Jobs?",
+"ok": "Retry de 2 ori pe task și o regulă de durată cu notificare.",
+"bad": [
+[
+"Un al doilea job identic, programat la 5 minute după.",
+"Dublezi rulările și complici dependențele."
+],
+[
+"Un `while True` în notebook.",
+"Ascunde eșecurile și consumă compute."
+],
+[
+"Timeout de 2 ore fără notificare.",
+"Oprește jobul, dar nu anunță echipa."
+]
+],
+"e": "Răspunsul complet: Politica de retry pe task (2 încercări) și un prag de durată cu notificare (health rule / alertă pe durată). Lakeflow Jobs suportă reîncercări pe task, timeouts și reguli de sănătate pe durată, cu notificări."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Vrei CI/CD din GitHub: la merge în `main`, joburile și pipeline-urile se publică în workspace-ul de producție. Ce combinație folosești?",
+"ok": "Asset Bundles, GitHub Actions cu `bundle deploy` și un service principal.",
+"bad": [
+[
+"Sincronizare manuală a notebook-urilor din interfață.",
+"Nu e automatizată și nu include joburile."
+],
+[
+"Token personal al unui dezvoltator salvat în repo.",
+"Expune un secret și leagă producția de o persoană."
+],
+[
+"Deploy direct din laptopul dezvoltatorului.",
+"Nu e reproductibil și nu are control."
+]
+],
+"e": "Răspunsul complet: Databricks Asset Bundles în repo, GitHub Actions care rulează `databricks bundle deploy -t prod`, autentificat ca service principal. Bundles + CI + service principal dau un deploy repetabil, versionat și independent de persoane."
+}
+]

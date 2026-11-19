@@ -1,151 +1,639 @@
 {
-"aliases": {
- "t-az-01": ["UC"],
- "t-mo-09": ["SCD2", "SCD tip 2"],
- "t-dl-11": ["CDF"]
-},
-"nosource": ["DST", "TTL"],
-"cards": [
-{"deck":"azure","tags":["noutăți 2026","certificare"],"src":"https://learn.microsoft.com/en-us/credentials/certifications/azure-data-engineer/renew",
-"q":"Mai poți susține DP-203 (Azure Data Engineer Associate) în 2026?",
-"a":"**Nu.** Certificarea DP-203, examenul și evaluarea de reînnoire au fost **retrase pe 31 martie 2025**. Cursul cu instructor DP-203T00 a mai fost disponibil până la 31 decembrie 2025.\n\nMicrosoft îndrumă spre **DP-700** (Fabric Data Engineer Associate), iar pentru Azure Databricks spre **DP-750**. Materialele DP-203 rămân utile pentru concepte (ADLS, ADF, Synapse), dar nu mai duc la o certificare."},
-{"deck":"azure","tags":["noutăți 2026","certificare"],"src":"https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-750",
-"q":"Ce este examenul DP-750 și ce acoperă?",
-"a":"**DP-750 · Implementing Data Engineering Solutions Using Azure Databricks** duce la certificarea **Microsoft Certified: Azure Databricks Data Engineer Associate**. A intrat în beta în martie 2026.\n\nAriile din ghidul de studiu, cu ponderi aproximative:\n- configurarea mediului Azure Databricks: 15–20%;\n- securitatea și guvernanța obiectelor Unity Catalog: 15–20%;\n- pregătirea și procesarea datelor: 30–35%;\n- implementarea și întreținerea pipeline-urilor și workload-urilor: 30–35%.\n\nVerifică ghidul oficial pentru data ultimei actualizări și statusul (beta sau disponibil general). Ponderile de mai sus vin din surse secundare concordante."},
-{"deck":"fabric","tags":["noutăți 2026","certificare"],"src":"https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-700",
-"q":"Cum arată examenul DP-700 (Fabric Data Engineer Associate)?",
-"a":"DP-700 măsoară trei arii, fiecare cu **30–35%**:\n1. implementarea și gestionarea unei soluții analitice;\n2. ingestia și transformarea datelor;\n3. monitorizarea și optimizarea soluției.\n\nDurata e de aproximativ **100 de minute**, reînnoirea e anuală și gratuită, iar pe Microsoft Learn există o **evaluare de practică gratuită**. Pentru exersare poți folosi **trial-ul Fabric de 60 de zile**."},
-{"deck":"azure","tags":["noutăți 2026","certificare","Databricks"],"src":"https://www.databricks.com/learn/free-edition",
-"q":"Ce s-a schimbat în 2026 la Databricks Certified Data Engineer Associate?",
-"a":"Ghidul de examen din **4 mai 2026** reorganizează domeniile. Ponderile raportate:\n- Databricks Intelligence Platform: 6%;\n- ingestie și încărcare: 21%;\n- transformare și modelare: 22%;\n- **Lakeflow Jobs: 16%**;\n- **CI/CD: 10%**;\n- depanare, monitorizare și optimizare: 10%;\n- guvernanță și securitate: 15%.\n\nExamenul are 45 de întrebări punctate, durează 90 de minute și costă 200 USD.\n\nApar explicit orchestrarea cu **Lakeflow Jobs** și **CI/CD** (de exemplu Databricks Asset Bundles). Pentru practică gratuită folosești **Databricks Free Edition** și cursurile gratuite din Databricks Academy.\n\nPonderile provin din surse secundare concordante; verifică PDF-ul oficial înainte de examen."},
-{"deck":"azure","tags":["noutăți 2026","certificare","Databricks"],"src":"https://www.databricks.com/learn/free-edition",
-"q":"Ce s-a schimbat la Databricks Certified Data Engineer Professional în 2026?",
-"a":"Un ghid nou, datat **9 octombrie 2026**, ar avea 9 secțiuni. Ponderile raportate:\n- dezvoltare de cod: 23%;\n- ingestie: 12%;\n- manipularea datelor: 12%;\n- monitorizare și alertare: 10%;\n- cost și performanță: 15%;\n- securitate și conformitate: 8%;\n- guvernanță: 5%;\n- depanare și deploy: 10%;\n- modelare: 5%.\n\nO sursă indică 60 de întrebări în 120 de minute.\n\n**Atenție:** pagina oficială a examenului arăta încă vechea structură în 10 domenii. Verifică ghidul oficial înainte să îți planifici studiul."},
-{"deck":"spark","tags":["noutăți 2026","certificare"],"src":"https://spark.apache.org/docs/latest/spark-connect-overview.html",
-"q":"Ce domenii are Databricks Certified Associate Developer for Apache Spark?",
-"a":"Ponderile raportate:\n- arhitectura Spark: 20%;\n- Spark SQL: 20%;\n- **API-ul DataFrame/Dataset: 30%**;\n- depanare și tuning: 10%;\n- Structured Streaming: 10%;\n- **Spark Connect: 5%**;\n- **pandas API on Spark: 5%**.\n\nNoutatea față de versiunile vechi sunt întrebările despre Spark Connect și pandas API on Spark. Numărul de întrebări, durata și versiunea Spark vizată nu sunt confirmate oficial în cercetare. Databricks nu oferă examen de probă."},
-{"deck":"aws","tags":["noutăți 2026","certificare"],"src":"https://docs.aws.amazon.com/aws-certification/latest/data-engineer-associate-01/data-engineer-associate-01.html",
-"q":"Cum e structurat examenul AWS Certified Data Engineer – Associate (DEA-C01)?",
-"a":"**65 de întrebări în 130 de minute**, pe patru domenii:\n- ingestie și transformare: **34%**;\n- gestionarea stocării datelor: **26%**;\n- operare și suport: **22%**;\n- securitate și guvernanță: **18%**.\n\nGhidul oficial e pe docs.aws.amazon.com. Prețul de 150 USD apare într-un FAQ AWS, nu pe pagina examenului. Practică pe AWS Workshops (Data Engineering Immersion Day) și cu nivelul gratuit AWS."},
-{"deck":"gcp","tags":["noutăți 2026","certificare"],"src":"https://cloud.google.com/learn/certification/data-engineer",
-"q":"Ce trebuie să știi despre Google Cloud Professional Data Engineer în 2026?",
-"a":"Examenul durează **2 ore**, are **40–50 de întrebări** și costă **200 USD**. Reînnoirea se face printr-un examen scurt (1 oră, 20 de întrebări, 100 USD).\n\nGoogle oferă un formular gratuit cu întrebări exemplu. Cursurile s-au mutat: **Cloud Skills Boost a devenit Google Skills** (skills.google), iar documentația e acum pe **docs.cloud.google.com**. Pentru practică fără cost folosești **sandbox-ul BigQuery**."},
-{"deck":"snow","tags":["noutăți 2026","certificare"],"src":"https://learn.snowflake.com/en/certifications/snowpro-core-c03",
-"q":"Care e versiunea curentă a examenului SnowPro Core?",
-"a":"**COF-C03**, lansat în engleză pe **16 februarie 2026**, a înlocuit COF-C02. Versiunile în spaniolă, coreeană și japoneză au apărut pe 30 martie 2026. Primul domeniu, „AI Data Cloud Features and Architecture”, are aproximativ 31%.\n\nPentru pregătire gratuită ai cursurile **Hands-On Essentials**, cu insigne Credly; primul este Data Warehousing Workshop, de 8–12 ore. Ai și **trial-ul Snowflake de 30 de zile**. Ghidurile Quickstarts s-au mutat la snowflake.com/en/developers/guides."},
-{"deck":"azure","tags":["noutăți 2026","Databricks"],"src":"https://docs.databricks.com/gcp/en/resources/product-name-changes",
-"q":"Cum se numesc acum Delta Live Tables și Databricks Workflows?",
-"a":"- **Delta Live Tables (DLT)** se numește acum **Lakeflow pipelines**. În unele materiale apare ca Lakeflow (Spark) Declarative Pipelines. Codul vechi funcționează fără migrare, dar modulul Python nou este **`pyspark.pipelines`** în loc de `dlt`.\n- **Databricks Workflows/Jobs** se numește **Lakeflow Jobs**.\n- Baza open source este **Apache Spark Declarative Pipelines (SDP)**.\n\nÎn examene și documentație poți întâlni oricare dintre nume, deci recunoaște-le pe toate."},
-{"deck":"kafka","tags":["noutăți 2026","versiuni"],"src":"https://kafka.apache.org/blog/2025/03/18/apache-kafka-4.0.0-release-announcement/",
-"q":"Ce s-a schimbat fundamental în Apache Kafka 4.x?",
-"a":"Kafka 4.0 a **eliminat ZooKeeper**: clusterele rulează doar în modul **KRaft**, în care controllerii Kafka gestionează metadatele printr-un jurnal replicat intern. Clusterele vechi trebuie migrate la KRaft înainte de upgrade.\n\nTutorialele care pornesc ZooKeeper înainte de broker sunt pentru versiunile 3.x și mai vechi."},
-{"deck":"orchestrare","tags":["noutăți 2026","versiuni"],"src":"https://airflow.apache.org/docs/apache-airflow/stable/installation/upgrading_to_airflow3.html",
-"q":"Ce trebuie să schimbi când treci un DAG de pe Airflow 2 pe Airflow 3?",
-"a":"- **Importurile:** decoratorii și clasele de bază vin din **Task SDK**, adică `from airflow.sdk import dag, task`.\n- **Accesul la baza de metadate:** taskurile nu mai au acces direct la ea, ci trec printr-un API. Codul care folosea sesiuni ORM în task trebuie rescris.\n- **Datasets** se numesc acum **assets**.\n- **Programarea pe date** și **versionarea DAG-urilor** sunt funcții noi.\n\nAstronomer are două certificări pentru Airflow 3: Fundamentals și DAG Authoring. Cursurile de pregătire sunt gratuite, iar examenul costă 150 USD. Urmează ghidul oficial de upgrade."},
-{"deck":"python","tags":["noutăți 2026","versiuni"],"src":"https://pandas.pydata.org/docs/whatsnew/v3.0.0.html",
-"q":"Ce aduce pandas 3.0 și de ce contează pentru codul vechi?",
-"a":"pandas 3.0, lansat pe **21 ianuarie 2026**, schimbă trei lucruri:\n- **Copy-on-Write** e activ implicit. O selecție nu mai modifică DataFrame-ul original, iar atribuirea în lanț (`df[c]['x'] = 1`) nu mai are efect; folosești `df.loc[c, 'x'] = 1`.\n- **Tipul string** devine implicit pentru coloanele de text, în locul lui `object`.\n- Biblioteca cere **Python 3.11+**.\n\nCărțile și tutorialele scrise pentru pandas 1.x/2.x (inclusiv ediția a 3-a din *Python for Data Analysis*) trebuie citite împreună cu notele de lansare 3.0."},
-{"deck":"quality","tags":["noutăți 2026","versiuni"],"src":"https://github.com/sodadata/soda-core",
-"q":"Ce s-a schimbat la uneltele open source de calitate a datelor (Soda, Great Expectations)?",
-"a":"- **Soda Core 4** este acum un motor open source de **contracte de date**. Prima versiune publică, 4.0.5, a apărut pe 28 ianuarie 2026, iar documentația v3 e considerată veche.\n- **Great Expectations** are API-ul **GX Core 1.x**, diferit de vechiul 0.x. Multe exemple găsite prin căutare sunt încă pentru 0.x.\n\nCând înveți, verifică versiunea documentației înainte să copiezi cod."},
-{"deck":"iac","tags":["noutăți 2026","certificare"],"src":"https://developer.hashicorp.com/terraform/tutorials/certification-004/associate-study-004",
-"q":"Ce versiune are certificarea Terraform Associate și ce alternativă open source există?",
-"a":"**Terraform Associate 004** testează Terraform 1.12; examenul 003 a fost retras pe 8 ianuarie 2026. Traseul de studiu și întrebările exemplu sunt gratuite, iar examenul e plătit.\n\nTerraform are acum o licență care nu mai e open source. Alternativa open source este **OpenTofu**, sub licența MPL; versiunile 1.12 și 1.13 au apărut în 2026."},
-{"deck":"docker","tags":["noutăți 2026","unelte"],"src":"https://killercoda.com/playgrounds",
-"q":"Unde exersezi gratuit Docker și Kubernetes în browser în 2026?",
-"a":"- **Play with Docker** și **Play with Kubernetes** au o notificare de indisponibilitate din 1 martie 2026.\n- **Katacoda** s-a închis în 2023.\n- Tutorialul de bază Kubernetes nu mai are laborator în browser; comenzile se rulează local cu **minikube**.\n\nAlternative gratuite: **Killercoda** (cont gratuit), **iximiuz Labs** și **SadServers** pentru depanare Linux."},
-{"deck":"engineering","tags":["noutăți 2026","curs gratuit"],"src":"https://github.com/DataTalksClub/data-engineering-zoomcamp",
-"q":"Ce este Data Engineering Zoomcamp și când începe următoarea serie?",
-"a":"Un curs complet și **gratuit** de la DataTalksClub, cu 7 module și un proiect final. Acoperă Docker, Terraform, orchestrare (Kestra), ingestie cu dlt, BigQuery, dbt cu DuckDB, Spark și Kafka.\n\nUrmătoarea **serie live începe în ianuarie 2027**. Îl poți urma și în ritm propriu, oricând, cu videoclipuri și teme gratuite, dar atunci temele nu sunt evaluate și nu primești certificat."},
-{"deck":"spark","tags":["noutăți 2026","versiuni"],"src":"https://spark.apache.org/docs/latest/",
-"q":"Ce versiuni de Spark, Delta și Iceberg folosesc ghidurile oficiale de pornire în 2026?",
-"a":"- **Spark:** liniile întreținute sunt 4.0, 4.1 și 4.2. Din 4.3 lansările de funcționalități ar urma să fie trimestriale. Anunțul pentru Spark 4.3.0 vine dintr-o sursă secundară și nu e confirmat pe pagina oficială.\n- **Iceberg:** ghidul de pornire folosește Iceberg 1.11 pe Spark 4.1.\n- **Delta Lake:** ghidul de pornire folosește artefactul `delta-spark` 4.0. Vechiul `delta-core` e pentru versiunile 0.x–2.x.\n\nCând copiezi exemple, potrivește versiunile între Spark și formatul de tabel."}
-],
-"questions": [
-{"deck":"azure","dom":"Certificări Microsoft","level":"understand","certs":["dp750","dp700"],"src":"https://learn.microsoft.com/en-us/credentials/certifications/azure-data-engineer/renew",
-"q":"Un coleg vrea să susțină DP-203 în decembrie 2026. Ce îi recomanzi?",
-"ok":"DP-203 a fost retras pe 31 martie 2025; alege DP-700 pentru Fabric sau DP-750 pentru Azure Databricks.",
-"bad":[["Să se grăbească, pentru că DP-203 se retrage la finalul lui 2026.","Retragerea a avut loc deja, pe 31 martie 2025."],["Să susțină doar evaluarea de reînnoire DP-203, care rămâne activă.","Și evaluarea de reînnoire a fost retrasă odată cu certificarea."],["Să susțină DP-203 în beta, pentru că a fost relansat.","Nu există o relansare; succesorii sunt DP-700 și DP-750."]],
-"e":"Microsoft a retras DP-203 (examen, certificare și reînnoire) pe 31 martie 2025. Pentru Fabric există DP-700, iar pentru Azure Databricks DP-750."},
-{"deck":"azure","dom":"Certificări Microsoft","level":"understand","certs":["dp750"],"src":"https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-750",
-"q":"Care arii au cea mai mare pondere în DP-750?",
-"ok":"Pregătirea și procesarea datelor, respectiv implementarea și întreținerea pipeline-urilor, fiecare 30–35%.",
-"bad":[["Configurarea mediului Azure Databricks, 50%.","Configurarea are aproximativ 15–20%."],["Guvernanța Unity Catalog, 40–45%.","Guvernanța și securitatea Unity Catalog au aproximativ 15–20%."],["Power BI și modelele semantice, 30–35%.","Power BI nu e o arie a DP-750."]],
-"e":"Conform ghidului de studiu DP-750: mediul 15–20%, securitate și guvernanță Unity Catalog 15–20%, pregătirea și procesarea datelor 30–35%, pipeline-uri și workload-uri 30–35%."},
-{"deck":"azure","dom":"Databricks: denumiri actuale","level":"understand","certs":["dbra","dbrp","dp750"],"src":"https://docs.databricks.com/gcp/en/resources/product-name-changes",
-"q":"Într-un pipeline scris acum, ce modul Python folosești pentru tabelele declarative Databricks (fostul DLT)?",
-"ok":"`pyspark.pipelines`, pentru Lakeflow pipelines.",
-"bad":[["`dlt`, singurul modul suportat.","`dlt` încă funcționează, dar modulul nou recomandat este `pyspark.pipelines`."],["`databricks.workflows`.","Nu e modulul pentru pipeline-uri declarative; Workflows a devenit Lakeflow Jobs."],["`delta.live`.","Nu există un astfel de modul."]],
-"e":"Delta Live Tables a devenit Lakeflow pipelines; codul vechi merge fără migrare, iar modulul Python nou este `pyspark.pipelines`."},
-{"deck":"azure","dom":"Databricks: denumiri actuale","level":"understand","certs":["dbra","dbrp"],"src":"https://docs.databricks.com/gcp/en/resources/product-name-changes",
-"q":"Cum se numește acum serviciul de orchestrare cunoscut ca Databricks Workflows?",
-"ok":"Lakeflow Jobs.",
-"bad":[["Lakeflow Connect.","Lakeflow Connect e partea de ingestie din surse, nu orchestrarea."],["Delta Jobs.","Nu este un nume de produs Databricks."],["Unity Workflows.","Unity Catalog e guvernanța; orchestrarea se numește Lakeflow Jobs."]],
-"e":"Tabelul oficial de redenumiri Databricks: Workflows/Jobs a devenit Lakeflow Jobs, iar DLT a devenit Lakeflow pipelines."},
-{"deck":"azure","dom":"Certificări Databricks","level":"understand","certs":["dbra"],"src":"https://www.databricks.com/learn/free-edition",
-"q":"Ce două zone apar explicit în ghidul din mai 2026 pentru Databricks Data Engineer Associate?",
-"ok":"Lakeflow Jobs (aproximativ 16%) și CI/CD (aproximativ 10%).",
-"bad":[["MLflow și Feature Store.","Acestea țin de certificările de ML, nu de Data Engineer Associate."],["Power BI și DAX.","Nu fac parte din examenul Databricks."],["Hadoop MapReduce și HDFS.","Nu sunt arii ale examenului actual."]],
-"e":"Ghidul din 4 mai 2026 include domenii dedicate pentru Lakeflow Jobs (orchestrare) și CI/CD, pe lângă ingestie, transformare, guvernanță și depanare."},
-{"deck":"spark","dom":"Certificări Databricks","level":"understand","certs":["sparkcert"],"src":"https://spark.apache.org/docs/latest/spark-connect-overview.html",
-"q":"Ce subiecte noi apar în domeniile examenului Spark Developer Associate?",
-"ok":"Spark Connect și pandas API on Spark, cu pondere mică fiecare.",
-"bad":[["RDD-uri și programare MapReduce, cu pondere de 50%.","Accentul e pe DataFrame/Dataset (30%), nu pe RDD."],["Delta Live Tables, cu 20%.","Pipeline-urile declarative nu sunt un domeniu al acestui examen."],["Unity Catalog și ACL-uri.","Guvernanța nu e domeniu al examenului Spark Developer."]],
-"e":"Domeniile raportate: arhitectură 20%, Spark SQL 20%, DataFrame/Dataset API 30%, depanare și tuning 10%, Structured Streaming 10%, Spark Connect 5%, pandas API on Spark 5%."},
-{"deck":"aws","dom":"Certificări AWS","level":"understand","certs":["awsdea"],"src":"https://docs.aws.amazon.com/aws-certification/latest/data-engineer-associate-01/data-engineer-associate-01.html",
-"q":"Ce domeniu are cea mai mare pondere în examenul AWS DEA-C01?",
-"ok":"Ingestia și transformarea datelor, 34%.",
-"bad":[["Securitatea și guvernanța, 34%.","Securitatea are 18%."],["Operarea și suportul, 40%.","Operarea are 22%."],["Machine learning cu SageMaker, 30%.","ML nu e un domeniu al DEA-C01."]],
-"e":"DEA-C01: ingestie și transformare 34%, gestionarea stocării 26%, operare și suport 22%, securitate și guvernanță 18%; 65 de întrebări în 130 de minute."},
-{"deck":"snow","dom":"Certificări Snowflake","level":"understand","certs":["snowcore"],"src":"https://learn.snowflake.com/en/certifications/snowpro-core-c03",
-"q":"Care este codul versiunii curente a examenului SnowPro Core?",
-"ok":"COF-C03, lansat în februarie 2026.",
-"bad":[["COF-C02, singura versiune activă.","COF-C02 a fost înlocuit de COF-C03."],["SPC-2026.","Nu este un cod de examen Snowflake."],["DEA-C01.","Acesta e examenul AWS Data Engineer Associate."]],
-"e":"SnowPro Core COF-C03 a fost lansat în engleză pe 16 februarie 2026 și a înlocuit COF-C02."},
-{"deck":"kafka","dom":"Kafka: arhitectură actuală","level":"understand","certs":[],"src":"https://kafka.apache.org/blog/2025/03/18/apache-kafka-4.0.0-release-announcement/",
-"q":"Instalezi un cluster Kafka 4.x nou. Ce faci cu ZooKeeper?",
-"ok":"Nimic: Kafka 4.x nu mai folosește ZooKeeper, rulează doar în modul KRaft.",
-"bad":[["Pornești întâi un ansamblu ZooKeeper de 3 noduri, apoi brokerii.","Așa se configurau versiunile 3.x și mai vechi."],["Pornești ZooKeeper doar pentru Schema Registry.","Kafka 4.x nu are nevoie de ZooKeeper pentru metadate."],["Activezi ZooKeeper ca rezervă pentru KRaft.","Nu există un astfel de mod; ZooKeeper a fost eliminat."]],
-"e":"Kafka 4.0 a eliminat ZooKeeper; metadatele sunt gestionate de controllerii KRaft."},
-{"deck":"orchestrare","dom":"Airflow: versiunea 3","level":"apply","certs":[],"src":"https://airflow.apache.org/docs/apache-airflow/stable/installation/upgrading_to_airflow3.html",
-"q":"Migrezi un DAG pe Airflow 3. Ce import folosești pentru decoratorii `dag` și `task`?",
-"ok":"`from airflow.sdk import dag, task`",
-"bad":[["`from airflow.decorators import dag, task`, obligatoriu în Airflow 3.","Acesta e stilul din Airflow 2; în 3 importul recomandat e din Task SDK."],["`from airflow.models import dag, task`.","Modulul models nu e locul decoratorilor în Airflow 3."],["`import airflow3 as af`.","Nu există un astfel de pachet."]],
-"e":"Airflow 3 introduce Task SDK; DAG-urile importă din `airflow.sdk`, iar taskurile nu mai accesează direct baza de metadate."},
-{"deck":"python","dom":"pandas 3","level":"debug","certs":[],"src":"https://pandas.pydata.org/docs/whatsnew/v3.0.0.html",
-"q":"După upgrade la pandas 3.0, linia `df[df.tara == 'RO']['scor'] = 0` nu mai modifică `df`. De ce?",
-"ok":"Copy-on-Write e activ implicit: atribuirea în lanț modifică o copie; folosești `df.loc[df.tara == 'RO', 'scor'] = 0`.",
-"bad":[["pandas 3.0 a interzis valoarea 0 în coloanele numerice.","Nu există o astfel de restricție."],["Filtrarea cu `==` nu mai funcționează în pandas 3.0.","Filtrarea funcționează; problema e atribuirea în lanț."],["Trebuie apelat `df.commit()` după modificări.","pandas nu are commit; modifici cu `.loc`."]],
-"e":"În pandas 3.0, Copy-on-Write e implicit, deci atribuirea în lanț nu mai are efect asupra originalului. Atribuirea corectă se face într-un singur pas, cu `.loc`."},
-{"deck":"sql","dom":"SQL: NULL","level":"debug","certs":[],"src":"https://www.postgresql.org/docs/current/tutorial.html",
-"q":"`SELECT * FROM clienti WHERE id NOT IN (SELECT client_id FROM comenzi)` întoarce zero rânduri, deși știi că există clienți fără comenzi. Cauza probabilă?",
-"ok":"Subinterogarea conține cel puțin un `client_id` NULL, iar `NOT IN` cu NULL dă UNKNOWN pentru toate rândurile.",
-"bad":[["`NOT IN` nu funcționează cu subinterogări în SQL standard.","Funcționează; problema apare doar când lista conține NULL."],["Tabelul `clienti` e gol.","Ai stabilit că există clienți fără comenzi."],["Trebuie adăugat `DISTINCT` în subinterogare.","Duplicatele nu schimbă rezultatul lui NOT IN; NULL-ul da."]],
-"e":"Orice comparație cu NULL dă UNKNOWN. Folosești `NOT EXISTS` sau filtrezi `WHERE client_id IS NOT NULL` în subinterogare."},
-{"deck":"aws","dom":"AWS: securitate","level":"debug","certs":["awsdea"],"src":"https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
-"q":"Un job are `s3:GetObject` pe bucket, dar citirea dă AccessDenied. Obiectele sunt criptate cu o cheie KMS gestionată de client. Ce lipsește cel mai probabil?",
-"ok":"Permisiunea `kms:Decrypt` pe cheia KMS folosită la criptare.",
-"bad":[["Permisiunea `s3:ListAllMyBuckets`.","Listarea bucket-urilor nu e necesară pentru a citi un obiect cunoscut."],["Un ARN cu regiune în politica S3.","ARN-urile bucket-urilor S3 nu conțin regiunea."],["Activarea versionării pe bucket.","Versionarea nu influențează dreptul de citire."]],
-"e":"Accesul la cheia KMS e separat de accesul la S3: fără `kms:Decrypt` pe cheie, obiectul criptat nu poate fi citit."},
-{"deck":"net","dom":"Rețele: DNS","level":"debug","certs":["dp750","dp700"],"src":"https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview",
-"q":"Clusterul nu ajunge la un storage pentru care ai creat private endpoint. `nslookup` din rețeaua clusterului întoarce o adresă publică. Ce lipsește?",
-"ok":"Legătura cu zona DNS privată, ca numele storage-ului să se rezolve la adresa privată a endpoint-ului.",
-"bad":[["Un certificat TLS nou pentru storage.","Problema e rezolvarea numelui, nu certificatul."],["Mărirea numărului de workeri.","Capacitatea clusterului nu schimbă rezolvarea DNS."],["Un ACL de citire pe container.","Fără conectivitate, permisiunile nici nu ajung să fie verificate."]],
-"e":"Un private endpoint funcționează doar dacă numele serviciului se rezolvă, din rețeaua clientului, la adresa privată; altfel traficul merge spre endpoint-ul public."},
-{"deck":"quality","dom":"Protecția datelor","level":"apply","certs":[],"src":"https://eur-lex.europa.eu/legal-content/RO/TXT/?uri=CELEX:32016R0679",
-"q":"Primești o cerere GDPR de ștergere pentru un client dintr-un tabel Delta. Ce pași asigură că datele nu mai pot fi recuperate prin time travel?",
-"ok":"DELETE pentru rândurile clientului, apoi VACUUM după perioada de retenție, ca fișierele vechi să fie eliminate.",
-"bad":[["Doar DELETE; time travel nu păstrează rânduri șterse.","Versiunile vechi păstrează fișierele cu rândurile până la VACUUM."],["OPTIMIZE ZORDER pe coloana client_id.","OPTIMIZE reorganizează fișierele, dar nu șterge versiunile vechi."],["RESTORE la o versiune anterioară.","RESTORE ar readuce datele, nu le-ar șterge."]],
-"e":"Delta păstrează fișierele vechi pentru time travel; după DELETE, VACUUM le elimină după expirarea retenției, inclusiv din istoricul accesibil."},
-{"deck":"formats","dom":"Formate de fișier","level":"understand","certs":[],"src":"https://parquet.apache.org/docs/",
-"q":"De ce o interogare care cere 2 coloane din 40 e mult mai rapidă pe Parquet decât pe CSV?",
-"ok":"Parquet e columnar: motorul citește doar coloanele cerute și poate sări row groups după statistici.",
-"bad":[["Parquet e text comprimat, deci se parsează mai repede.","Parquet e binar și columnar; avantajul vine din citirea pe coloane."],["CSV nu permite filtrarea rândurilor.","Poți filtra, dar trebuie să citești și să parsezi tot fișierul."],["Parquet ține datele sortate întotdeauna.","Sortarea nu e garantată; statisticile ajută mai mult când datele sunt grupate."]],
-"e":"Formatul columnar și statisticile min/max permit citirea doar a coloanelor necesare și sărirea blocurilor irelevante."},
-{"deck":"stream","dom":"Apache Beam","level":"understand","certs":["gcppde"],"src":"https://beam.apache.org/documentation/programming-guide/",
-"q":"Unde deschizi o conexiune scumpă la un serviciu extern într-un DoFn din Apache Beam?",
-"ok":"În metoda `setup`, care rulează o dată per instanță, și o închizi în `teardown`.",
-"bad":[["În `process`, pentru fiecare element.","Ar deschide o conexiune pentru fiecare element, foarte scump."],["În afara pipeline-ului, transmisă ca argument serializat.","Conexiunile de obicei nu se pot serializa către workeri."],["În `finish_bundle`.","Rulează la finalul unui pachet, prea târziu pentru elementele procesate."]],
-"e":"Ciclul de viață DoFn: `setup` pentru resurse scumpe, `process` per element, `teardown` pentru eliberare."}
-]
+ "aliases": {
+  "t-az-01": [
+   "UC"
+  ],
+  "t-mo-09": [
+   "SCD2",
+   "SCD tip 2"
+  ],
+  "t-dl-11": [
+   "CDF"
+  ]
+ },
+ "nosource": [
+  "DST",
+  "TTL"
+ ],
+ "cards": [
+  {
+   "deck": "azure",
+   "tags": [
+    "noutăți 2026",
+    "certificare"
+   ],
+   "src": "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-engineer/renew",
+   "q": "Mai poți susține DP-203 (Azure Data Engineer Associate) în 2026?",
+   "a": "**Nu.** Certificarea DP-203, examenul și evaluarea de reînnoire au fost **retrase pe 31 martie 2025**. Cursul cu instructor DP-203T00 a mai fost disponibil până la 31 decembrie 2025.\n\nMicrosoft îndrumă spre **DP-700** (Fabric Data Engineer Associate), iar pentru Azure Databricks spre **DP-750**. Materialele DP-203 rămân utile pentru concepte (ADLS, ADF, Synapse), dar nu mai duc la o certificare."
+  },
+  {
+   "deck": "azure",
+   "tags": [
+    "noutăți 2026",
+    "certificare"
+   ],
+   "src": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-750",
+   "q": "Ce este examenul DP-750 și ce acoperă?",
+   "a": "**DP-750 · Implementing Data Engineering Solutions Using Azure Databricks** duce la certificarea **Microsoft Certified: Azure Databricks Data Engineer Associate**. A intrat în beta în martie 2026.\n\nAriile din ghidul de studiu, cu ponderi aproximative:\n- configurarea mediului Azure Databricks: 15–20%;\n- securitatea și guvernanța obiectelor Unity Catalog: 15–20%;\n- pregătirea și procesarea datelor: 30–35%;\n- implementarea și întreținerea pipeline-urilor și workload-urilor: 30–35%.\n\nVerifică ghidul oficial pentru data ultimei actualizări și statusul (beta sau disponibil general). Ponderile de mai sus vin din surse secundare concordante."
+  },
+  {
+   "deck": "fabric",
+   "tags": [
+    "noutăți 2026",
+    "certificare"
+   ],
+   "src": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-700",
+   "q": "Cum arată examenul DP-700 (Fabric Data Engineer Associate)?",
+   "a": "DP-700 măsoară trei arii, fiecare cu **30–35%**:\n1. implementarea și gestionarea unei soluții analitice;\n2. ingestia și transformarea datelor;\n3. monitorizarea și optimizarea soluției.\n\nDurata e de aproximativ **100 de minute**, reînnoirea e anuală și gratuită, iar pe Microsoft Learn există o **evaluare de practică gratuită**. Pentru exersare poți folosi **trial-ul Fabric de 60 de zile**."
+  },
+  {
+   "deck": "azure",
+   "tags": [
+    "noutăți 2026",
+    "certificare",
+    "Databricks"
+   ],
+   "src": "https://www.databricks.com/learn/free-edition",
+   "q": "Ce s-a schimbat în 2026 la Databricks Certified Data Engineer Associate?",
+   "a": "Ghidul de examen din **4 mai 2026** reorganizează domeniile. Ponderile raportate:\n- Databricks Intelligence Platform: 6%;\n- ingestie și încărcare: 21%;\n- transformare și modelare: 22%;\n- **Lakeflow Jobs: 16%**;\n- **CI/CD: 10%**;\n- depanare, monitorizare și optimizare: 10%;\n- guvernanță și securitate: 15%.\n\nExamenul are 45 de întrebări punctate, durează 90 de minute și costă 200 USD.\n\nApar explicit orchestrarea cu **Lakeflow Jobs** și **CI/CD** (de exemplu Databricks Asset Bundles). Pentru practică gratuită folosești **Databricks Free Edition** și cursurile gratuite din Databricks Academy.\n\nPonderile provin din surse secundare concordante; verifică PDF-ul oficial înainte de examen."
+  },
+  {
+   "deck": "azure",
+   "tags": [
+    "noutăți 2026",
+    "certificare",
+    "Databricks"
+   ],
+   "src": "https://www.databricks.com/learn/free-edition",
+   "q": "Ce s-a schimbat la Databricks Certified Data Engineer Professional în 2026?",
+   "a": "Un ghid nou, datat **9 octombrie 2026**, ar avea 9 secțiuni. Ponderile raportate:\n- dezvoltare de cod: 23%;\n- ingestie: 12%;\n- manipularea datelor: 12%;\n- monitorizare și alertare: 10%;\n- cost și performanță: 15%;\n- securitate și conformitate: 8%;\n- guvernanță: 5%;\n- depanare și deploy: 10%;\n- modelare: 5%.\n\nO sursă indică 60 de întrebări în 120 de minute.\n\n**Atenție:** pagina oficială a examenului arăta încă vechea structură în 10 domenii. Verifică ghidul oficial înainte să îți planifici studiul."
+  },
+  {
+   "deck": "spark",
+   "tags": [
+    "noutăți 2026",
+    "certificare"
+   ],
+   "src": "https://spark.apache.org/docs/latest/spark-connect-overview.html",
+   "q": "Ce domenii are Databricks Certified Associate Developer for Apache Spark?",
+   "a": "Ponderile raportate:\n- arhitectura Spark: 20%;\n- Spark SQL: 20%;\n- **API-ul DataFrame/Dataset: 30%**;\n- depanare și tuning: 10%;\n- Structured Streaming: 10%;\n- **Spark Connect: 5%**;\n- **pandas API on Spark: 5%**.\n\nNoutatea față de versiunile vechi sunt întrebările despre Spark Connect și pandas API on Spark. Numărul de întrebări, durata și versiunea Spark vizată nu sunt confirmate oficial în cercetare. Databricks nu oferă examen de probă."
+  },
+  {
+   "deck": "aws",
+   "tags": [
+    "noutăți 2026",
+    "certificare"
+   ],
+   "src": "https://docs.aws.amazon.com/aws-certification/latest/data-engineer-associate-01/data-engineer-associate-01.html",
+   "q": "Cum e structurat examenul AWS Certified Data Engineer – Associate (DEA-C01)?",
+   "a": "**65 de întrebări în 130 de minute**, pe patru domenii:\n- ingestie și transformare: **34%**;\n- gestionarea stocării datelor: **26%**;\n- operare și suport: **22%**;\n- securitate și guvernanță: **18%**.\n\nGhidul oficial e pe docs.aws.amazon.com. Prețul de 150 USD apare într-un FAQ AWS, nu pe pagina examenului. Practică pe AWS Workshops (Data Engineering Immersion Day) și cu nivelul gratuit AWS."
+  },
+  {
+   "deck": "gcp",
+   "tags": [
+    "noutăți 2026",
+    "certificare"
+   ],
+   "src": "https://cloud.google.com/learn/certification/data-engineer",
+   "q": "Ce trebuie să știi despre Google Cloud Professional Data Engineer în 2026?",
+   "a": "Examenul durează **2 ore**, are **40–50 de întrebări** și costă **200 USD**. Reînnoirea se face printr-un examen scurt (1 oră, 20 de întrebări, 100 USD).\n\nGoogle oferă un formular gratuit cu întrebări exemplu. Cursurile s-au mutat: **Cloud Skills Boost a devenit Google Skills** (skills.google), iar documentația e acum pe **docs.cloud.google.com**. Pentru practică fără cost folosești **sandbox-ul BigQuery**."
+  },
+  {
+   "deck": "snow",
+   "tags": [
+    "noutăți 2026",
+    "certificare"
+   ],
+   "src": "https://learn.snowflake.com/en/certifications/snowpro-core-c03",
+   "q": "Care e versiunea curentă a examenului SnowPro Core?",
+   "a": "**COF-C03**, lansat în engleză pe **16 februarie 2026**, a înlocuit COF-C02. Versiunile în spaniolă, coreeană și japoneză au apărut pe 30 martie 2026. Primul domeniu, „AI Data Cloud Features and Architecture”, are aproximativ 31%.\n\nPentru pregătire gratuită ai cursurile **Hands-On Essentials**, cu insigne Credly; primul este Data Warehousing Workshop, de 8–12 ore. Ai și **trial-ul Snowflake de 30 de zile**. Ghidurile Quickstarts s-au mutat la snowflake.com/en/developers/guides."
+  },
+  {
+   "deck": "azure",
+   "tags": [
+    "noutăți 2026",
+    "Databricks"
+   ],
+   "src": "https://docs.databricks.com/gcp/en/resources/product-name-changes",
+   "q": "Cum se numesc acum Delta Live Tables și Databricks Workflows?",
+   "a": "- **Delta Live Tables (DLT)** se numește acum **Lakeflow pipelines**. În unele materiale apare ca Lakeflow (Spark) Declarative Pipelines. Codul vechi funcționează fără migrare, dar modulul Python nou este **`pyspark.pipelines`** în loc de `dlt`.\n- **Databricks Workflows/Jobs** se numește **Lakeflow Jobs**.\n- Baza open source este **Apache Spark Declarative Pipelines (SDP)**.\n\nÎn examene și documentație poți întâlni oricare dintre nume, deci recunoaște-le pe toate."
+  },
+  {
+   "deck": "kafka",
+   "tags": [
+    "noutăți 2026",
+    "versiuni"
+   ],
+   "src": "https://kafka.apache.org/blog/2025/03/18/apache-kafka-4.0.0-release-announcement/",
+   "q": "Ce s-a schimbat fundamental în Apache Kafka 4.x?",
+   "a": "Kafka 4.0 a **eliminat ZooKeeper**: clusterele rulează doar în modul **KRaft**, în care controllerii Kafka gestionează metadatele printr-un jurnal replicat intern. Clusterele vechi trebuie migrate la KRaft înainte de upgrade.\n\nTutorialele care pornesc ZooKeeper înainte de broker sunt pentru versiunile 3.x și mai vechi."
+  },
+  {
+   "deck": "orchestrare",
+   "tags": [
+    "noutăți 2026",
+    "versiuni"
+   ],
+   "src": "https://airflow.apache.org/docs/apache-airflow/stable/installation/upgrading_to_airflow3.html",
+   "q": "Ce trebuie să schimbi când treci un DAG de pe Airflow 2 pe Airflow 3?",
+   "a": "- **Importurile:** decoratorii și clasele de bază vin din **Task SDK**, adică `from airflow.sdk import dag, task`.\n- **Accesul la baza de metadate:** taskurile nu mai au acces direct la ea, ci trec printr-un API. Codul care folosea sesiuni ORM în task trebuie rescris.\n- **Datasets** se numesc acum **assets**.\n- **Programarea pe date** și **versionarea DAG-urilor** sunt funcții noi.\n\nAstronomer are două certificări pentru Airflow 3: Fundamentals și DAG Authoring. Cursurile de pregătire sunt gratuite, iar examenul costă 150 USD. Urmează ghidul oficial de upgrade."
+  },
+  {
+   "deck": "python",
+   "tags": [
+    "noutăți 2026",
+    "versiuni"
+   ],
+   "src": "https://pandas.pydata.org/docs/whatsnew/v3.0.0.html",
+   "q": "Ce aduce pandas 3.0 și de ce contează pentru codul vechi?",
+   "a": "pandas 3.0, lansat pe **21 ianuarie 2026**, schimbă trei lucruri:\n- **Copy-on-Write** e activ implicit. O selecție nu mai modifică DataFrame-ul original, iar atribuirea în lanț (`df[c]['x'] = 1`) nu mai are efect; folosești `df.loc[c, 'x'] = 1`.\n- **Tipul string** devine implicit pentru coloanele de text, în locul lui `object`.\n- Biblioteca cere **Python 3.11+**.\n\nCărțile și tutorialele scrise pentru pandas 1.x/2.x (inclusiv ediția a 3-a din *Python for Data Analysis*) trebuie citite împreună cu notele de lansare 3.0."
+  },
+  {
+   "deck": "quality",
+   "tags": [
+    "noutăți 2026",
+    "versiuni"
+   ],
+   "src": "https://github.com/sodadata/soda-core",
+   "q": "Ce s-a schimbat la uneltele open source de calitate a datelor (Soda, Great Expectations)?",
+   "a": "- **Soda Core 4** este acum un motor open source de **contracte de date**. Prima versiune publică, 4.0.5, a apărut pe 28 ianuarie 2026, iar documentația v3 e considerată veche.\n- **Great Expectations** are API-ul **GX Core 1.x**, diferit de vechiul 0.x. Multe exemple găsite prin căutare sunt încă pentru 0.x.\n\nCând înveți, verifică versiunea documentației înainte să copiezi cod."
+  },
+  {
+   "deck": "iac",
+   "tags": [
+    "noutăți 2026",
+    "certificare"
+   ],
+   "src": "https://developer.hashicorp.com/terraform/tutorials/certification-004/associate-study-004",
+   "q": "Ce versiune are certificarea Terraform Associate și ce alternativă open source există?",
+   "a": "**Terraform Associate 004** testează Terraform 1.12; examenul 003 a fost retras pe 8 ianuarie 2026. Traseul de studiu și întrebările exemplu sunt gratuite, iar examenul e plătit.\n\nTerraform are acum o licență care nu mai e open source. Alternativa open source este **OpenTofu**, sub licența MPL; versiunile 1.12 și 1.13 au apărut în 2026."
+  },
+  {
+   "deck": "docker",
+   "tags": [
+    "noutăți 2026",
+    "unelte"
+   ],
+   "src": "https://killercoda.com/playgrounds",
+   "q": "Unde exersezi gratuit Docker și Kubernetes în browser în 2026?",
+   "a": "- **Play with Docker** și **Play with Kubernetes** au o notificare de indisponibilitate din 1 martie 2026.\n- **Katacoda** s-a închis în 2023.\n- Tutorialul de bază Kubernetes nu mai are laborator în browser; comenzile se rulează local cu **minikube**.\n\nAlternative gratuite: **Killercoda** (cont gratuit), **iximiuz Labs** și **SadServers** pentru depanare Linux."
+  },
+  {
+   "deck": "engineering",
+   "tags": [
+    "noutăți 2026",
+    "curs gratuit"
+   ],
+   "src": "https://github.com/DataTalksClub/data-engineering-zoomcamp",
+   "q": "Ce este Data Engineering Zoomcamp și când începe următoarea serie?",
+   "a": "Un curs complet și **gratuit** de la DataTalksClub, cu 7 module și un proiect final. Acoperă Docker, Terraform, orchestrare (Kestra), ingestie cu dlt, BigQuery, dbt cu DuckDB, Spark și Kafka.\n\nUrmătoarea **serie live începe în ianuarie 2027**. Îl poți urma și în ritm propriu, oricând, cu videoclipuri și teme gratuite, dar atunci temele nu sunt evaluate și nu primești certificat."
+  },
+  {
+   "deck": "spark",
+   "tags": [
+    "noutăți 2026",
+    "versiuni"
+   ],
+   "src": "https://spark.apache.org/docs/latest/",
+   "q": "Ce versiuni de Spark, Delta și Iceberg folosesc ghidurile oficiale de pornire în 2026?",
+   "a": "- **Spark:** liniile întreținute sunt 4.0, 4.1 și 4.2. Din 4.3 lansările de funcționalități ar urma să fie trimestriale. Anunțul pentru Spark 4.3.0 vine dintr-o sursă secundară și nu e confirmat pe pagina oficială.\n- **Iceberg:** ghidul de pornire folosește Iceberg 1.11 pe Spark 4.1.\n- **Delta Lake:** ghidul de pornire folosește artefactul `delta-spark` 4.0. Vechiul `delta-core` e pentru versiunile 0.x–2.x.\n\nCând copiezi exemple, potrivește versiunile între Spark și formatul de tabel."
+  }
+ ],
+ "questions": [
+  {
+   "deck": "azure",
+   "dom": "Certificări Microsoft",
+   "level": "understand",
+   "certs": [
+    "dp750",
+    "dp700"
+   ],
+   "src": "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-engineer/renew",
+   "q": "Un coleg vrea să susțină DP-203 în decembrie 2026. Ce îi recomanzi?",
+   "ok": "DP-203 e retras; alege DP-700 sau DP-750.",
+   "bad": [
+    [
+     "Să se grăbească, pentru că DP-203 se retrage la finalul lui 2026.",
+     "Retragerea a avut loc deja, pe 31 martie 2025."
+    ],
+    [
+     "Să susțină doar evaluarea de reînnoire DP-203, care rămâne activă.",
+     "Și evaluarea de reînnoire a fost retrasă odată cu certificarea."
+    ],
+    [
+     "Să susțină DP-203 în beta, pentru că a fost relansat.",
+     "Nu există o relansare; succesorii sunt DP-700 și DP-750."
+    ]
+   ],
+   "e": "Răspunsul complet: DP-203 a fost retras pe 31 martie 2025; alege DP-700 pentru Fabric sau DP-750 pentru Azure Databricks. Microsoft a retras DP-203 (examen, certificare și reînnoire) pe 31 martie 2025. Pentru Fabric există DP-700, iar pentru Azure Databricks DP-750."
+  },
+  {
+   "deck": "azure",
+   "dom": "Certificări Microsoft",
+   "level": "understand",
+   "certs": [
+    "dp750"
+   ],
+   "src": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-750",
+   "q": "Care arii au cea mai mare pondere în DP-750?",
+   "ok": "Procesarea datelor și pipeline-urile, câte 30–35%.",
+   "bad": [
+    [
+     "Configurarea mediului Azure Databricks, 50%.",
+     "Configurarea are aproximativ 15–20%."
+    ],
+    [
+     "Guvernanța Unity Catalog, 40–45%.",
+     "Guvernanța și securitatea Unity Catalog au aproximativ 15–20%."
+    ],
+    [
+     "Power BI și modelele semantice, 30–35%.",
+     "Power BI nu e o arie a DP-750."
+    ]
+   ],
+   "e": "Răspunsul complet: Pregătirea și procesarea datelor, respectiv implementarea și întreținerea pipeline-urilor, fiecare 30–35%. Conform ghidului de studiu DP-750: mediul 15–20%, securitate și guvernanță Unity Catalog 15–20%, pregătirea și procesarea datelor 30–35%, pipeline-uri și workload-uri 30–35%."
+  },
+  {
+   "deck": "azure",
+   "dom": "Databricks: denumiri actuale",
+   "level": "understand",
+   "certs": [
+    "dbra",
+    "dbrp",
+    "dp750"
+   ],
+   "src": "https://docs.databricks.com/gcp/en/resources/product-name-changes",
+   "q": "Într-un pipeline scris acum, ce modul Python folosești pentru tabelele declarative Databricks (fostul DLT)?",
+   "ok": "`pyspark.pipelines`, pentru Lakeflow pipelines.",
+   "bad": [
+    [
+     "`dlt`, singurul modul suportat.",
+     "`dlt` încă funcționează, dar modulul nou recomandat este `pyspark.pipelines`."
+    ],
+    [
+     "`databricks.workflows`.",
+     "Nu e modulul pentru pipeline-uri declarative; Workflows a devenit Lakeflow Jobs."
+    ],
+    [
+     "`delta.live`.",
+     "Nu există un astfel de modul."
+    ]
+   ],
+   "e": "Delta Live Tables a devenit Lakeflow pipelines; codul vechi merge fără migrare, iar modulul Python nou este `pyspark.pipelines`."
+  },
+  {
+   "deck": "azure",
+   "dom": "Databricks: denumiri actuale",
+   "level": "understand",
+   "certs": [
+    "dbra",
+    "dbrp"
+   ],
+   "src": "https://docs.databricks.com/gcp/en/resources/product-name-changes",
+   "q": "Cum se numește acum serviciul de orchestrare cunoscut ca Databricks Workflows?",
+   "ok": "Lakeflow Jobs.",
+   "bad": [
+    [
+     "Lakeflow Connect.",
+     "Lakeflow Connect e partea de ingestie din surse, nu orchestrarea."
+    ],
+    [
+     "Delta Jobs.",
+     "Nu este un nume de produs Databricks."
+    ],
+    [
+     "Unity Workflows.",
+     "Unity Catalog e guvernanța; orchestrarea se numește Lakeflow Jobs."
+    ]
+   ],
+   "e": "Tabelul oficial de redenumiri Databricks: Workflows/Jobs a devenit Lakeflow Jobs, iar DLT a devenit Lakeflow pipelines."
+  },
+  {
+   "deck": "azure",
+   "dom": "Certificări Databricks",
+   "level": "understand",
+   "certs": [
+    "dbra"
+   ],
+   "src": "https://www.databricks.com/learn/free-edition",
+   "q": "Ce două zone apar explicit în ghidul din mai 2026 pentru Databricks Data Engineer Associate?",
+   "ok": "Lakeflow Jobs și CI/CD.",
+   "bad": [
+    [
+     "MLflow, Feature Store și Model Serving.",
+     "Acestea țin de certificările de ML, nu de Data Engineer Associate."
+    ],
+    [
+     "Power BI și DAX.",
+     "Nu fac parte din examenul Databricks."
+    ],
+    [
+     "Hadoop MapReduce și HDFS.",
+     "Nu sunt arii ale examenului actual."
+    ]
+   ],
+   "e": "Răspunsul complet: Lakeflow Jobs (aproximativ 16%) și CI/CD (aproximativ 10%). Ghidul din 4 mai 2026 include domenii dedicate pentru Lakeflow Jobs (orchestrare) și CI/CD, pe lângă ingestie, transformare, guvernanță și depanare."
+  },
+  {
+   "deck": "spark",
+   "dom": "Certificări Databricks",
+   "level": "understand",
+   "certs": [
+    "sparkcert"
+   ],
+   "src": "https://spark.apache.org/docs/latest/spark-connect-overview.html",
+   "q": "Ce subiecte noi apar în domeniile examenului Spark Developer Associate?",
+   "ok": "Spark Connect și pandas API on Spark.",
+   "bad": [
+    [
+     "RDD-uri și programare MapReduce, cu pondere de 50%.",
+     "Accentul e pe DataFrame/Dataset (30%), nu pe RDD."
+    ],
+    [
+     "Delta Live Tables, cu 20%.",
+     "Pipeline-urile declarative nu sunt un domeniu al acestui examen."
+    ],
+    [
+     "Unity Catalog și ACL-uri.",
+     "Guvernanța nu e domeniu al examenului Spark Developer."
+    ]
+   ],
+   "e": "Răspunsul complet: Spark Connect și pandas API on Spark, cu pondere mică fiecare. Domeniile raportate: arhitectură 20%, Spark SQL 20%, DataFrame/Dataset API 30%, depanare și tuning 10%, Structured Streaming 10%, Spark Connect 5%, pandas API on Spark 5%."
+  },
+  {
+   "deck": "aws",
+   "dom": "Certificări AWS",
+   "level": "understand",
+   "certs": [
+    "awsdea"
+   ],
+   "src": "https://docs.aws.amazon.com/aws-certification/latest/data-engineer-associate-01/data-engineer-associate-01.html",
+   "q": "Ce domeniu are cea mai mare pondere în examenul AWS DEA-C01?",
+   "ok": "Ingestia și transformarea, 34%.",
+   "bad": [
+    [
+     "Securitatea și guvernanța, 34%.",
+     "Securitatea are 18%."
+    ],
+    [
+     "Operarea și suportul, 40%.",
+     "Operarea are 22%."
+    ],
+    [
+     "Machine learning cu Amazon SageMaker, 30%.",
+     "ML nu e un domeniu al DEA-C01."
+    ]
+   ],
+   "e": "Răspunsul complet: Ingestia și transformarea datelor, 34%. DEA-C01: ingestie și transformare 34%, gestionarea stocării 26%, operare și suport 22%, securitate și guvernanță 18%; 65 de întrebări în 130 de minute."
+  },
+  {
+   "deck": "snow",
+   "dom": "Certificări Snowflake",
+   "level": "understand",
+   "certs": [
+    "snowcore"
+   ],
+   "src": "https://learn.snowflake.com/en/certifications/snowpro-core-c03",
+   "q": "Care este codul versiunii curente a examenului SnowPro Core?",
+   "ok": "COF-C03, lansat în februarie 2026.",
+   "bad": [
+    [
+     "COF-C02, singura versiune activă.",
+     "COF-C02 a fost înlocuit de COF-C03."
+    ],
+    [
+     "SPC-2026.",
+     "Nu este un cod de examen Snowflake."
+    ],
+    [
+     "DEA-C01.",
+     "Acesta e examenul AWS Data Engineer Associate."
+    ]
+   ],
+   "e": "SnowPro Core COF-C03 a fost lansat în engleză pe 16 februarie 2026 și a înlocuit COF-C02."
+  },
+  {
+   "deck": "kafka",
+   "dom": "Kafka: arhitectură actuală",
+   "level": "understand",
+   "certs": [],
+   "src": "https://kafka.apache.org/blog/2025/03/18/apache-kafka-4.0.0-release-announcement/",
+   "q": "Instalezi un cluster Kafka 4.x nou. Ce faci cu ZooKeeper?",
+   "ok": "Nimic: Kafka 4.x rulează doar în KRaft.",
+   "bad": [
+    [
+     "Pornești întâi un ansamblu ZooKeeper de 3 noduri, apoi brokerii.",
+     "Așa se configurau versiunile 3.x și mai vechi."
+    ],
+    [
+     "Pornești ZooKeeper doar pentru Schema Registry.",
+     "Kafka 4.x nu are nevoie de ZooKeeper pentru metadate."
+    ],
+    [
+     "Activezi ZooKeeper ca rezervă pentru KRaft.",
+     "Nu există un astfel de mod; ZooKeeper a fost eliminat."
+    ]
+   ],
+   "e": "Răspunsul complet: Nimic: Kafka 4.x nu mai folosește ZooKeeper, rulează doar în modul KRaft. Kafka 4.0 a eliminat ZooKeeper; metadatele sunt gestionate de controllerii KRaft."
+  },
+  {
+   "deck": "orchestrare",
+   "dom": "Airflow: versiunea 3",
+   "level": "apply",
+   "certs": [],
+   "src": "https://airflow.apache.org/docs/apache-airflow/stable/installation/upgrading_to_airflow3.html",
+   "q": "Migrezi un DAG pe Airflow 3. Ce import folosești pentru decoratorii `dag` și `task`?",
+   "ok": "`from airflow.sdk import dag, task`",
+   "bad": [
+    [
+     "`from airflow.decorators import dag, task`, obligatoriu în Airflow 3.",
+     "Acesta e stilul din Airflow 2; în 3 importul recomandat e din Task SDK."
+    ],
+    [
+     "`from airflow.models import dag, task`.",
+     "Modulul models nu e locul decoratorilor în Airflow 3."
+    ],
+    [
+     "`import airflow3 as af`.",
+     "Nu există un astfel de pachet."
+    ]
+   ],
+   "e": "Airflow 3 introduce Task SDK; DAG-urile importă din `airflow.sdk`, iar taskurile nu mai accesează direct baza de metadate."
+  },
+  {
+   "deck": "python",
+   "dom": "pandas 3",
+   "level": "debug",
+   "certs": [],
+   "src": "https://pandas.pydata.org/docs/whatsnew/v3.0.0.html",
+   "q": "După upgrade la pandas 3.0, linia `df[df.tara == 'RO']['scor'] = 0` nu mai modifică `df`. De ce?",
+   "ok": "Copy-on-Write; folosești `df.loc[...]`.",
+   "bad": [
+    [
+     "pandas 3.0 a interzis valoarea 0 în coloanele numerice.",
+     "Nu există o astfel de restricție."
+    ],
+    [
+     "Filtrarea cu `==` nu mai funcționează în pandas 3.0.",
+     "Filtrarea funcționează; problema e atribuirea în lanț."
+    ],
+    [
+     "Trebuie apelat `df.commit()` după modificări.",
+     "pandas nu are commit; modifici cu `.loc`."
+    ]
+   ],
+   "e": "Răspunsul complet: Copy-on-Write e activ implicit: atribuirea în lanț modifică o copie; folosești `df.loc[df.tara == 'RO', 'scor'] = 0`. În pandas 3.0, Copy-on-Write e implicit, deci atribuirea în lanț nu mai are efect asupra originalului. Atribuirea corectă se face într-un singur pas, cu `.loc`."
+  },
+  {
+   "deck": "sql",
+   "dom": "SQL: NULL",
+   "level": "debug",
+   "certs": [],
+   "src": "https://www.postgresql.org/docs/current/tutorial.html",
+   "q": "`SELECT * FROM clienti WHERE id NOT IN (SELECT client_id FROM comenzi)` întoarce zero rânduri, deși știi că există clienți fără comenzi. Cauza probabilă?",
+   "ok": "Un `client_id` NULL în subinterogare.",
+   "bad": [
+    [
+     "`NOT IN` nu funcționează cu subinterogări în SQL standard.",
+     "Funcționează; problema apare doar când lista conține NULL."
+    ],
+    [
+     "Tabelul `clienti` e gol.",
+     "Ai stabilit că există clienți fără comenzi."
+    ],
+    [
+     "Trebuie adăugat `DISTINCT` în subinterogare.",
+     "Duplicatele nu schimbă rezultatul lui NOT IN; NULL-ul da."
+    ]
+   ],
+   "e": "Răspunsul complet: Subinterogarea conține cel puțin un `client_id` NULL, iar `NOT IN` cu NULL dă UNKNOWN pentru toate rândurile. Orice comparație cu NULL dă UNKNOWN. Folosești `NOT EXISTS` sau filtrezi `WHERE client_id IS NOT NULL` în subinterogare."
+  },
+  {
+   "deck": "aws",
+   "dom": "AWS: securitate",
+   "level": "debug",
+   "certs": [
+    "awsdea"
+   ],
+   "src": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+   "q": "Un job are `s3:GetObject` pe bucket, dar citirea dă AccessDenied. Obiectele sunt criptate cu o cheie KMS gestionată de client. Ce lipsește cel mai probabil?",
+   "ok": "`kms:Decrypt` pe cheia KMS.",
+   "bad": [
+    [
+     "Permisiunea `s3:ListAllMyBuckets`.",
+     "Listarea bucket-urilor nu e necesară pentru a citi un obiect cunoscut."
+    ],
+    [
+     "Un ARN cu regiune în politica S3.",
+     "ARN-urile bucket-urilor S3 nu conțin regiunea."
+    ],
+    [
+     "Activarea versionării pe bucket.",
+     "Versionarea nu influențează dreptul de citire."
+    ]
+   ],
+   "e": "Răspunsul complet: Permisiunea `kms:Decrypt` pe cheia KMS folosită la criptare. Accesul la cheia KMS e separat de accesul la S3: fără `kms:Decrypt` pe cheie, obiectul criptat nu poate fi citit."
+  },
+  {
+   "deck": "net",
+   "dom": "Rețele: DNS",
+   "level": "debug",
+   "certs": [
+    "dp750",
+    "dp700"
+   ],
+   "src": "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview",
+   "q": "Clusterul nu ajunge la un storage pentru care ai creat private endpoint. `nslookup` din rețeaua clusterului întoarce o adresă publică. Ce lipsește?",
+   "ok": "Zona DNS privată legată de rețea.",
+   "bad": [
+    [
+     "Un certificat TLS nou pentru storage.",
+     "Problema e rezolvarea numelui, nu certificatul."
+    ],
+    [
+     "Mărirea numărului de workeri.",
+     "Capacitatea clusterului nu schimbă rezolvarea DNS."
+    ],
+    [
+     "Un ACL de citire pe container.",
+     "Fără conectivitate, permisiunile nici nu ajung să fie verificate."
+    ]
+   ],
+   "e": "Răspunsul complet: Legătura cu zona DNS privată, ca numele storage-ului să se rezolve la adresa privată a endpoint-ului. Un private endpoint funcționează doar dacă numele serviciului se rezolvă, din rețeaua clientului, la adresa privată; altfel traficul merge spre endpoint-ul public."
+  },
+  {
+   "deck": "quality",
+   "dom": "Protecția datelor",
+   "level": "apply",
+   "certs": [],
+   "src": "https://eur-lex.europa.eu/legal-content/RO/TXT/?uri=CELEX:32016R0679",
+   "q": "Primești o cerere GDPR de ștergere pentru un client dintr-un tabel Delta. Ce pași asigură că datele nu mai pot fi recuperate prin time travel?",
+   "ok": "DELETE, apoi VACUUM după retenție.",
+   "bad": [
+    [
+     "Doar DELETE; time travel nu păstrează rânduri șterse.",
+     "Versiunile vechi păstrează fișierele cu rândurile până la VACUUM."
+    ],
+    [
+     "OPTIMIZE ZORDER pe coloana client_id.",
+     "OPTIMIZE reorganizează fișierele, dar nu șterge versiunile vechi."
+    ],
+    [
+     "RESTORE la o versiune anterioară.",
+     "RESTORE ar readuce datele, nu le-ar șterge."
+    ]
+   ],
+   "e": "Răspunsul complet: DELETE pentru rândurile clientului, apoi VACUUM după perioada de retenție, ca fișierele vechi să fie eliminate. Delta păstrează fișierele vechi pentru time travel; după DELETE, VACUUM le elimină după expirarea retenției, inclusiv din istoricul accesibil."
+  },
+  {
+   "deck": "formats",
+   "dom": "Formate de fișier",
+   "level": "understand",
+   "certs": [],
+   "src": "https://parquet.apache.org/docs/",
+   "q": "De ce o interogare care cere 2 coloane din 40 e mult mai rapidă pe Parquet decât pe CSV?",
+   "ok": "Formatul columnar și statisticile.",
+   "bad": [
+    [
+     "Parquet e text comprimat, deci se parsează mai repede.",
+     "Parquet e binar și columnar; avantajul vine din citirea pe coloane."
+    ],
+    [
+     "CSV nu permite filtrarea rândurilor.",
+     "Poți filtra, dar trebuie să citești și să parsezi tot fișierul."
+    ],
+    [
+     "Parquet ține datele sortate întotdeauna.",
+     "Sortarea nu e garantată; statisticile ajută mai mult când datele sunt grupate."
+    ]
+   ],
+   "e": "Răspunsul complet: Parquet e columnar: motorul citește doar coloanele cerute și poate sări row groups după statistici. Formatul columnar și statisticile min/max permit citirea doar a coloanelor necesare și sărirea blocurilor irelevante."
+  },
+  {
+   "deck": "stream",
+   "dom": "Apache Beam",
+   "level": "understand",
+   "certs": [
+    "gcppde"
+   ],
+   "src": "https://beam.apache.org/documentation/programming-guide/",
+   "q": "Unde deschizi o conexiune scumpă la un serviciu extern într-un DoFn din Apache Beam?",
+   "ok": "În `setup`, închisă în `teardown`.",
+   "bad": [
+    [
+     "În `process`, pentru fiecare element.",
+     "Ar deschide o conexiune pentru fiecare element, foarte scump."
+    ],
+    [
+     "În afara pipeline-ului, transmisă ca argument serializat.",
+     "Conexiunile de obicei nu se pot serializa către workeri."
+    ],
+    [
+     "În `finish_bundle`.",
+     "Rulează la finalul unui pachet, prea târziu pentru elementele procesate."
+    ]
+   ],
+   "e": "Răspunsul complet: În metoda `setup`, care rulează o dată per instanță, și o închizi în `teardown`. Ciclul de viață DoFn: `setup` pentru resurse scumpe, `process` per element, `teardown` pentru eliberare."
+  }
+ ]
 }

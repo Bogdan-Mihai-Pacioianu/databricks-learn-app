@@ -1,0 +1,970 @@
+[
+{
+"exam": "dp700",
+"dom": "Implementarea și administrarea unei soluții de analiză",
+"src": "https://learn.microsoft.com/en-us/fabric/",
+"q": "Un analist trebuie să poată vedea și interoga elementele dintr-un workspace Fabric, dar nu să le modifice. Ce rol de workspace primește?",
+"ok": "Viewer.",
+"bad": [
+[
+"Contributor.",
+"Poate crea și modifica elemente."
+],
+[
+"Member.",
+"Poate modifica și partaja conținut."
+],
+[
+"Admin.",
+"Are control complet asupra workspace-ului."
+]
+],
+"e": "Rolurile de workspace Fabric, de la cel mai restrâns: Viewer, Contributor, Member, Admin."
+},
+{
+"exam": "dp700",
+"dom": "Implementarea și administrarea unei soluții de analiză",
+"src": "https://learn.microsoft.com/en-us/fabric/",
+"q": "Vrei să promovezi controlat elementele Fabric din dezvoltare în test și apoi în producție. Ce folosești?",
+"ok": "Deployment pipelines, împreună cu integrarea Git a workspace-urilor.",
+"bad": [
+[
+"Export manual și import al fiecărui element.",
+"Nu e repetabil și se pierde ușor ceva."
+],
+[
+"Un singur workspace cu foldere dev/test/prod.",
+"Nu izolează mediile."
+],
+[
+"Copierea datelor din OneLake între workspace-uri.",
+"Mută date, nu definițiile elementelor."
+]
+],
+"e": "Răspunsul complet: Deployment pipelines, de preferat împreună cu integrarea Git a workspace-urilor. Deployment pipelines compară și promovează conținutul între etape; Git oferă versionarea."
+},
+{
+"exam": "dp700",
+"dom": "Implementarea și administrarea unei soluții de analiză",
+"src": "https://learn.microsoft.com/en-us/fabric/",
+"q": "Ai nevoie de tranzacții T-SQL pe mai multe tabele și de DML complet (INSERT, UPDATE, DELETE) prin SQL. Ce element Fabric alegi pentru stocare?",
+"ok": "Un Warehouse Fabric.",
+"bad": [
+[
+"Un Lakehouse, folosind doar SQL analytics endpoint.",
+"Endpoint-ul SQL al lakehouse-ului e doar pentru citire."
+],
+[
+"Un Eventhouse.",
+"E pentru date de tip eveniment și KQL."
+],
+[
+"Un semantic model.",
+"E stratul de modelare pentru BI, nu stocare tranzacțională."
+]
+],
+"e": "Warehouse-ul Fabric suportă T-SQL complet, cu DML și tranzacții; SQL analytics endpoint al lakehouse-ului e read-only."
+},
+{
+"exam": "dp700",
+"dom": "Ingestia și transformarea datelor",
+"src": "https://learn.microsoft.com/en-us/fabric/",
+"q": "Datele sunt deja în ADLS Gen2, iar echipa vrea să le folosească în Fabric fără să le copieze. Ce folosești?",
+"ok": "Un shortcut OneLake.",
+"bad": [
+[
+"Un pipeline de copiere programat zilnic din ADLS în lakehouse.",
+"Copiază datele, ceea ce vrei să eviți."
+],
+[
+"Mirroring.",
+"E pentru baze de date operaționale, nu pentru fișiere din ADLS."
+],
+[
+"Export CSV și upload manual.",
+"Creează copii și e manual."
+]
+],
+"e": "Răspunsul complet: Un shortcut OneLake către locația ADLS Gen2. Shortcuts expun date externe în OneLake fără copiere, ca și cum ar fi locale."
+},
+{
+"exam": "dp700",
+"dom": "Ingestia și transformarea datelor",
+"src": "https://learn.microsoft.com/en-us/fabric/",
+"q": "Vrei o replică aproape în timp real a unei baze Azure SQL Database în OneLake, pentru analiză, fără să construiești un pipeline de CDC. Ce folosești?",
+"ok": "Mirroring pentru Azure SQL Database.",
+"bad": [
+[
+"Un shortcut către baza de date.",
+"Shortcut-urile sunt pentru stocare, nu pentru baze operaționale."
+],
+[
+"Un Dataflow Gen2 rulat la fiecare minut.",
+"Nu e replicare continuă și e costisitor."
+],
+[
+"Export zilnic în CSV.",
+"Nu e aproape în timp real."
+]
+],
+"e": "Mirroring replică continuu tabelele bazei sursă în OneLake, în format Delta."
+},
+{
+"exam": "dp700",
+"dom": "Ingestia și transformarea datelor",
+"src": "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/",
+"q": "Evenimente de la senzori trebuie captate continuu și analizate cu KQL în câteva secunde. Ce combinație Fabric folosești?",
+"ok": "Eventstream și Eventhouse.",
+"bad": [
+[
+"Pipeline de copiere programat la o oră.",
+"Latența e prea mare."
+],
+[
+"Warehouse și T-SQL.",
+"Nu e optimizat pentru streaming și KQL."
+],
+[
+"Dataflow Gen2.",
+"E pentru transformări batch low-code."
+]
+],
+"e": "Răspunsul complet: Eventstream pentru ingestie și Eventhouse (bază KQL) pentru stocare și interogare. Real-Time Intelligence în Fabric: Eventstream preia evenimentele, Eventhouse le stochează și le face interogabile cu KQL."
+},
+{
+"exam": "dp700",
+"dom": "Ingestia și transformarea datelor",
+"src": "https://learn.microsoft.com/en-us/fabric/",
+"q": "Un analist fără experiență în cod trebuie să curețe și să combine fișiere Excel și o listă SharePoint, apoi să scrie rezultatul într-un lakehouse. Ce unealtă e potrivită?",
+"ok": "Dataflow Gen2.",
+"bad": [
+[
+"Un notebook Spark cu PySpark și pandas.",
+"Cere cod."
+],
+[
+"Eventstream.",
+"E pentru date în flux."
+],
+[
+"Un KQL queryset.",
+"E pentru interogarea datelor din Eventhouse."
+]
+],
+"e": "Răspunsul complet: Dataflow Gen2 (Power Query). Dataflow Gen2 oferă transformări low-code în Power Query, cu destinații precum lakehouse sau warehouse."
+},
+{
+"exam": "dp700",
+"dom": "Monitorizarea și optimizarea soluției",
+"src": "https://learn.microsoft.com/en-us/fabric/",
+"q": "Utilizatorii raportează încetiniri, iar operațiile sunt uneori întârziate sau respinse. Suspectezi throttling pe capacitate. Unde verifici?",
+"ok": "Aplicația Microsoft Fabric Capacity Metrics, pe capacitatea afectată.",
+"bad": [
+[
+"În istoricul Git al workspace-ului.",
+"Nu arată consumul de capacitate."
+],
+[
+"În setările de partajare ale rapoartelor.",
+"Nu au legătură cu consumul."
+],
+[
+"În lista de shortcut-uri OneLake.",
+"Nu arată utilizarea capacității."
+]
+],
+"e": "Răspunsul complet: În aplicația Microsoft Fabric Capacity Metrics. Capacity Metrics arată consumul de CU, vârfurile și evenimentele de throttling pe capacitate."
+},
+{
+"exam": "dp700",
+"dom": "Monitorizarea și optimizarea soluției",
+"src": "https://learn.microsoft.com/en-us/fabric/",
+"q": "Un tabel Delta dintr-un lakehouse are mii de fișiere mici, iar interogările sunt lente. Ce operație de întreținere rulezi?",
+"ok": "OPTIMIZE, apoi VACUUM periodic.",
+"bad": [
+[
+"Recrearea completă a lakehouse-ului din surse.",
+"Nu e necesară și pierzi configurarea."
+],
+[
+"Mărirea capacității Fabric.",
+"Ascunde problema, nu o rezolvă."
+],
+[
+"Conversia tabelului în CSV.",
+"CSV e mai lent pentru analiză."
+]
+],
+"e": "Răspunsul complet: OPTIMIZE (compactarea fișierelor, cu V-Order), urmat periodic de VACUUM pentru fișierele vechi. OPTIMIZE compactează fișierele mici și poate aplica V-Order pentru citire mai rapidă; VACUUM curăță fișierele nereferite."
+},
+{
+"exam": "dp700",
+"dom": "Monitorizarea și optimizarea soluției",
+"src": "https://learn.microsoft.com/en-us/fabric/",
+"q": "Vrei o vedere centralizată a rulărilor de pipeline-uri, notebook-uri și dataflow-uri din workspace-urile la care ai acces. Unde te uiți?",
+"ok": "În Monitoring hub.",
+"bad": [
+[
+"OneLake catalog.",
+"Arată elementele și datele, nu rulările."
+],
+[
+"În setările capacității.",
+"Arată administrarea capacității, nu istoricul rulărilor."
+],
+[
+"În istoricul versiunilor rapoartelor.",
+"Nu conține rulările de pipeline."
+]
+],
+"e": "Răspunsul complet: În Monitoring hub (Monitor) din Fabric. Monitoring hub centralizează activitățile și rulările elementelor Fabric."
+},
+{
+"exam": "awsdea",
+"dom": "Ingestia și transformarea datelor",
+"src": "https://docs.aws.amazon.com/streams/latest/dev/introduction.html",
+"q": "Vrei să livrezi un flux de evenimente direct în S3, cu buffer și conversie în Parquet, fără să scrii un consumator. Ce serviciu alegi?",
+"ok": "Amazon Data Firehose.",
+"bad": [
+[
+"Kinesis Data Streams cu un consumator Lambda scris de tine.",
+"Funcționează, dar cere cod pe care cerința vrea să-l evite."
+],
+[
+"Amazon SQS.",
+"E o coadă de mesaje, fără livrare automată în S3."
+],
+[
+"AWS Glue Crawler.",
+"Catalogează date, nu le livrează."
+]
+],
+"e": "Firehose livrează gestionat fluxuri către S3, Redshift și alte destinații, cu buffer și conversie de format."
+},
+{
+"exam": "awsdea",
+"dom": "Ingestia și transformarea datelor",
+"src": "https://docs.aws.amazon.com/glue/latest/dg/what-is-glue.html",
+"q": "Un job Glue zilnic trebuie să proceseze doar fișierele noi din S3, nu tot prefixul. Ce funcționalitate folosești?",
+"ok": "Job bookmarks în AWS Glue.",
+"bad": [
+[
+"Un crawler rulat înaintea jobului.",
+"Actualizează catalogul, dar nu ține evidența procesării."
+],
+[
+"Versionarea bucket-ului S3.",
+"Păstrează versiuni de obiecte, nu progresul jobului."
+],
+[
+"S3 Inventory.",
+"Listează obiectele, dar nu integrează starea jobului."
+]
+],
+"e": "Job bookmarks păstrează starea procesării, ca rulările următoare să ia doar datele noi."
+},
+{
+"exam": "awsdea",
+"dom": "Ingestia și transformarea datelor",
+"src": "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/",
+"q": "O funcție Lambda declanșată de evenimente S3 primește uneori același eveniment de două ori. Cum previi dublarea rezultatelor?",
+"ok": "Faci procesarea idempotentă.",
+"bad": [
+[
+"Dezactivezi reîncercările Lambda.",
+"Pierzi evenimente la erori temporare."
+],
+[
+"Mărești memoria funcției.",
+"Nu influențează livrarea duplicată."
+],
+[
+"Reduci concurența la 1.",
+"Nu elimină livrările duplicate."
+]
+],
+"e": "Răspunsul complet: Faci procesarea idempotentă, de exemplu înregistrând cheia obiectului și ETag-ul procesat și ignorând repetările. Notificările S3 și invocările asincrone pot livra de mai multe ori; idempotența procesării e soluția corectă."
+},
+{
+"exam": "awsdea",
+"dom": "Administrarea stocării datelor",
+"src": "https://docs.aws.amazon.com/athena/latest/ug/what-is.html",
+"q": "Interogările Athena pe datele de clic costă mult, deși filtrează pe o singură zi. Datele sunt CSV într-un singur prefix. Ce schimbi?",
+"ok": "Parquet partiționat pe dată.",
+"bad": [
+[
+"Treci pe un tip de instanță Athena mai mare și mai rapid.",
+"Athena e serverless și plătești după datele scanate."
+],
+[
+"Compresezi CSV-ul cu ZIP.",
+"ZIP nu e un format de compresie pe care Athena îl citește direct."
+],
+[
+"Mărești timeout-ul interogării.",
+"Nu reduce datele scanate."
+]
+],
+"e": "Răspunsul complet: Le convertești în Parquet și le partiționezi pe dată, ca Athena să scaneze doar coloanele și partițiile necesare. Athena taxează după datele scanate; formatul columnar și partiționarea reduc drastic volumul citit."
+},
+{
+"exam": "awsdea",
+"dom": "Administrarea stocării datelor",
+"src": "https://docs.aws.amazon.com/athena/latest/ug/what-is.html",
+"q": "Fișierele brute mai vechi de 90 de zile sunt accesate extrem de rar, dar trebuie păstrate 7 ani. Cum reduci costul automat?",
+"ok": "O regulă S3 Lifecycle spre Glacier.",
+"bad": [
+[
+"Un script manual care mută fișierele o dată pe an.",
+"Fragil și nu e automat."
+],
+[
+"Ștergerea după 90 de zile.",
+"Încalcă cerința de retenție."
+],
+[
+"Mutarea în EBS.",
+"EBS e stocare bloc, mai scumpă pentru arhivare."
+]
+],
+"e": "Răspunsul complet: O regulă S3 Lifecycle care le mută într-o clasă de arhivare (S3 Glacier) după 90 de zile și le șterge după 7 ani. Lifecycle tranzitionează automat obiectele între clase de stocare și le expiră după perioada de retenție."
+},
+{
+"exam": "awsdea",
+"dom": "Administrarea stocării datelor",
+"src": "https://docs.aws.amazon.com/redshift/latest/gsg/new-user-serverless.html",
+"q": "În Redshift, două tabele mari se unesc frecvent după `client_id`, iar join-ul redistribuie multe date. Ce ajustezi?",
+"ok": "Aceeași DISTKEY `client_id` pe ambele.",
+"bad": [
+[
+"Distribuție ALL pe ambele tabele mari, pe fiecare nod.",
+"ALL copiază tot tabelul pe fiecare nod, potrivit doar pentru tabele mici."
+],
+[
+"Sort key pe o coloană aleatoare.",
+"Nu reduce redistribuirea."
+],
+[
+"Mai multe coloane VARCHAR(MAX).",
+"Crește dimensiunea, nu ajută join-ul."
+]
+],
+"e": "Răspunsul complet: Folosești `client_id` ca cheie de distribuție (DISTKEY) pe ambele tabele, ca rândurile potrivite să stea pe același nod. Colocarea prin aceeași DISTKEY evită redistribuirea datelor la join în Redshift."
+},
+{
+"exam": "awsdea",
+"dom": "Operarea și suportul datelor",
+"src": "https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html",
+"q": "Un flux are pașii: job Glue, apoi validare Lambda, apoi încărcare în Redshift, cu reîncercări și ramură de eroare. Ce serviciu orchestrează cel mai simplu?",
+"ok": "AWS Step Functions.",
+"bad": [
+[
+"Cron pe o instanță EC2.",
+"Nu oferă reîncercări, stare și ramuri de eroare gestionate."
+],
+[
+"S3 Event Notifications.",
+"Declanșează evenimente, nu orchestrează pași."
+],
+[
+"CloudWatch Logs.",
+"Colectează jurnale, nu orchestrează."
+]
+],
+"e": "Step Functions definește mașini de stare cu reîncercări, ramuri și integrări directe cu Glue, Lambda și Redshift."
+},
+{
+"exam": "awsdea",
+"dom": "Operarea și suportul datelor",
+"src": "https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/analytics-lens.html",
+"q": "Vrei să fii anunțat dacă jobul zilnic nu a produs date noi, chiar dacă nu a raportat eroare. Ce configurezi?",
+"ok": "O alarmă pe volumul de date scrise.",
+"bad": [
+[
+"Doar o alarmă CloudWatch pe erorile raportate de job.",
+"Un job care nu primește date nu produce eroare."
+],
+[
+"Creșterea retenției jurnalelor.",
+"Nu notifică nimic."
+],
+[
+"Un dashboard verificat manual.",
+"Depinde de cineva care se uită."
+]
+],
+"e": "Răspunsul complet: O metrică de volum sau prospețime (de exemplu rânduri scrise) cu o alarmă CloudWatch pe lipsa ei sau pe valoare zero. Monitorizarea pipeline-urilor include prospețimea și volumul datelor, nu doar erorile tehnice."
+},
+{
+"exam": "awsdea",
+"dom": "Securitate și guvernanță",
+"src": "https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html",
+"q": "Analiștii trebuie să interogheze tabelul `clienti` prin Athena, dar fără acces la coloanele `email` și `telefon`. Ce folosești?",
+"ok": "Lake Formation, la nivel de coloană.",
+"bad": [
+[
+"O politică IAM restrictivă pe bucket-ul S3 al tabelului.",
+"IAM pe S3 nu poate restricționa coloane dintr-un fișier."
+],
+[
+"Două copii ale tabelului.",
+"Duplici datele și trebuie sincronizate."
+],
+[
+"Criptare SSE-S3.",
+"Criptarea nu ascunde coloane utilizatorilor autorizați."
+]
+],
+"e": "Răspunsul complet: Permisiuni la nivel de coloană în AWS Lake Formation. Lake Formation oferă control fin pe tabele, coloane și rânduri pentru serviciile integrate ca Athena."
+},
+{
+"exam": "awsdea",
+"dom": "Securitate și guvernanță",
+"src": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+"q": "Un job Glue se conectează la o bază RDS. Parola trebuie rotită automat și nu trebuie să apară în cod. Ce folosești?",
+"ok": "AWS Secrets Manager cu rotire automată, citit printr-un rol IAM.",
+"bad": [
+[
+"Parola în parametrii jobului.",
+"E vizibilă în configurare și nu se rotește."
+],
+[
+"Parola într-un fișier din S3.",
+"Rămâne un secret în clar, fără rotire."
+],
+[
+"Parola în codul sursă, criptată Base64.",
+"Base64 nu e criptare."
+]
+],
+"e": "Răspunsul complet: AWS Secrets Manager, cu rotire automată, iar jobul citește secretul printr-un rol IAM. Secrets Manager stochează și rotește secretele; accesul se controlează prin IAM."
+},
+{
+"exam": "gcppde",
+"dom": "Ingestia și procesarea",
+"src": "https://beam.apache.org/documentation/programming-guide/",
+"q": "Evenimente din Pub/Sub pot întârzia până la 10 minute. Agregi pe ferestre de 5 minute în Dataflow și vrei rezultate corecte inclusiv pentru datele întârziate. Ce configurezi?",
+"ok": "Ferestre pe event time, cu watermark și allowed lateness de 10 minute.",
+"bad": [
+[
+"Ferestre pe processing time.",
+"Ar plasa evenimentele întârziate în fereastra greșită."
+],
+[
+"Fără ferestre, o singură agregare globală.",
+"Pierzi granularitatea de 5 minute."
+],
+[
+"Ștergerea evenimentelor întârziate.",
+"Rezultatele devin incomplete."
+]
+],
+"e": "Răspunsul complet: Ferestre pe event time, cu watermark și allowed lateness de cel puțin 10 minute, plus triggere pentru actualizări. Modelul Beam: event time, watermark, allowed lateness și triggere controlează când și cum se emit rezultatele."
+},
+{
+"exam": "gcppde",
+"dom": "Proiectarea sistemelor de procesare",
+"src": "https://docs.cloud.google.com/dataflow/docs/overview",
+"q": "Firma are multe joburi Spark existente și vrea să le mute în Google Cloud cu modificări minime. Ce serviciu alegi?",
+"ok": "Serviciul gestionat Spark/Hadoop din Google Cloud.",
+"bad": [
+[
+"Rescrierea tuturor joburilor în Apache Beam pentru Dataflow.",
+"Posibil, dar nu cu modificări minime."
+],
+[
+"BigQuery cu proceduri SQL.",
+"Ar cere rescrierea logicii."
+],
+[
+"Cloud Functions.",
+"Nu sunt potrivite pentru procesare Spark distribuită."
+]
+],
+"e": "Răspunsul complet: Serviciul gestionat Spark/Hadoop din Google Cloud (Dataproc, inclusiv varianta serverless). Pentru lift-and-shift Spark, serviciul gestionat Spark/Hadoop e alegerea naturală; Dataflow e pentru Beam."
+},
+{
+"exam": "gcppde",
+"dom": "Proiectarea sistemelor de procesare",
+"src": "https://docs.cloud.google.com/architecture/framework",
+"q": "Reglementările cer ca datele din BigQuery să fie criptate cu chei controlate de firmă, care pot fi revocate. Ce configurezi?",
+"ok": "CMEK cu Cloud KMS.",
+"bad": [
+[
+"Criptarea implicită gestionată de Google.",
+"Cheile nu sunt controlate de firmă."
+],
+[
+"Export local.",
+"Nu rezolvă stocarea în BigQuery."
+],
+[
+"Vederi autorizate.",
+"Controlează accesul, nu cheile de criptare."
+]
+],
+"e": "Răspunsul complet: CMEK (customer-managed encryption keys) cu Cloud KMS. CMEK permite folosirea cheilor din Cloud KMS controlate de client pentru criptarea datelor."
+},
+{
+"exam": "gcppde",
+"dom": "Stocarea datelor",
+"src": "https://docs.cloud.google.com/bigquery/docs/introduction",
+"q": "Un tabel BigQuery de evenimente e interogat aproape mereu pe un interval de date și filtrat după `client_id`. Ce design reduce costul?",
+"ok": "Partiționare pe dată, clustering pe client.",
+"bad": [
+[
+"Clustering pe dată și partiționare pe `client_id`.",
+"Partiționarea pe un ID cu cardinalitate mare nu e potrivită."
+],
+[
+"Un tabel separat pentru fiecare client.",
+"Greu de întreținut și de interogat."
+],
+[
+"Fără partiționare, dar cu `LIMIT 100`.",
+"LIMIT nu reduce datele scanate."
+]
+],
+"e": "Răspunsul complet: Partiționare pe data evenimentului și clustering pe `client_id`. Partiționarea limitează partițiile citite, iar clustering-ul ordonează datele în partiție pentru filtrele frecvente."
+},
+{
+"exam": "gcppde",
+"dom": "Stocarea datelor",
+"src": "https://cloud.google.com/bigtable/docs/schema-design",
+"q": "Ai nevoie de citiri și scrieri cu latență de milisecunde, la volum foarte mare, după o cheie (de exemplu ultimele valori ale unui senzor). Ce stocare alegi?",
+"ok": "Bigtable, cu cheia de rând proiectată pentru tiparul de acces.",
+"bad": [
+[
+"BigQuery.",
+"E optimizat pentru analiză, nu pentru citiri punctuale cu latență mică."
+],
+[
+"Cloud Storage.",
+"Nu oferă acces pe cheie cu latență de milisecunde."
+],
+[
+"Un fișier CSV pe un disc persistent.",
+"Nu scalează."
+]
+],
+"e": "Răspunsul complet: Bigtable, cu o cheie de rând proiectată pentru tiparul de acces. Bigtable e o bază wide-column pentru volume mari și latență mică; designul cheii de rând decide performanța."
+},
+{
+"exam": "gcppde",
+"dom": "Stocarea datelor",
+"src": "https://docs.cloud.google.com/architecture/framework",
+"q": "O aplicație globală are nevoie de o bază relațională cu tranzacții puternic consistente între regiuni. Ce alegi?",
+"ok": "Spanner.",
+"bad": [
+[
+"Bigtable.",
+"Nu e relațional și nu oferă tranzacții SQL între rânduri arbitrare."
+],
+[
+"BigQuery.",
+"E un data warehouse analitic."
+],
+[
+"Memorystore.",
+"E un cache în memorie."
+]
+],
+"e": "Răspunsul complet: Cloud Spanner. Spanner oferă SQL relațional cu consistență puternică și scalare globală."
+},
+{
+"exam": "gcppde",
+"dom": "Pregătirea și utilizarea datelor",
+"src": "https://docs.cloud.google.com/bigquery/docs/introduction",
+"q": "Un partener trebuie să vadă doar agregatele pe regiune dintr-un tabel BigQuery, fără acces la tabelul de bază. Ce folosești?",
+"ok": "O vedere autorizată.",
+"bad": [
+[
+"Acces de citire pe tot setul de date al tabelului.",
+"Partenerul ar vedea tabelul de bază."
+],
+[
+"Export zilnic.",
+"Creează copii de gestionat."
+],
+[
+"Partajarea parolei unui cont de serviciu.",
+"Practică nesigură."
+]
+],
+"e": "Răspunsul complet: O vedere autorizată care expune doar agregatele, cu acces acordat partenerului doar pe vedere. O vedere autorizată poate citi tabelul sursă în numele utilizatorilor care au acces doar la vedere."
+},
+{
+"exam": "gcppde",
+"dom": "Pregătirea și utilizarea datelor",
+"src": "https://docs.cloud.google.com/bigquery/docs/introduction",
+"q": "Analiștii vor un model simplu de predicție a abandonului direct pe datele din BigQuery, scris în SQL, fără să exporte date. Ce folosesc?",
+"ok": "BigQuery ML (`CREATE MODEL`).",
+"bad": [
+[
+"Export în CSV și antrenare locală.",
+"Mută datele și iese din warehouse."
+],
+[
+"Pub/Sub.",
+"E pentru mesagerie."
+],
+[
+"Cloud Storage cu reguli de ciclu de viață.",
+"Nu antrenează modele."
+]
+],
+"e": "BigQuery ML permite antrenarea și folosirea modelelor cu SQL, direct pe datele din BigQuery."
+},
+{
+"exam": "gcppde",
+"dom": "Întreținerea și automatizarea",
+"src": "https://docs.cloud.google.com/architecture/framework",
+"q": "Ai un lanț de joburi BigQuery și Dataflow cu dependențe, reîncercări și programare zilnică, definit în Python. Ce serviciu gestionat folosești?",
+"ok": "Cloud Composer (Apache Airflow gestionat).",
+"bad": [
+[
+"Cloud Scheduler pentru fiecare job, independent.",
+"Nu gestionează dependențele dintre joburi."
+],
+[
+"Cron pe o mașină virtuală.",
+"Fără reîncercări și vizibilitate gestionate."
+],
+[
+"Pub/Sub.",
+"Transportă mesaje, nu orchestrează DAG-uri."
+]
+],
+"e": "Composer rulează Airflow gestionat, cu DAG-uri Python, dependențe, reîncercări și programare."
+},
+{
+"exam": "snowcore",
+"dom": "Arhitectura și funcționalitățile Snowflake AI Data Cloud",
+"src": "https://docs.snowflake.com/en/user-guide/data-time-travel",
+"q": "Care sunt cele trei straturi ale arhitecturii Snowflake?",
+"ok": "Stocare, calcul și servicii cloud.",
+"bad": [
+[
+"Driver, executori și shuffle service.",
+"Descrie Spark, nu Snowflake."
+],
+[
+"Master, slave și arbitru.",
+"Nu e arhitectura Snowflake."
+],
+[
+"Bronze, silver și gold.",
+"E un model de organizare a datelor, nu arhitectura platformei."
+]
+],
+"e": "Răspunsul complet: Stocarea bazei de date, calculul (virtual warehouses) și serviciile cloud. Snowflake separă stocarea, calculul și serviciile cloud (metadate, optimizare, securitate)."
+},
+{
+"exam": "snowcore",
+"dom": "Arhitectura și funcționalitățile Snowflake AI Data Cloud",
+"src": "https://docs.snowflake.com/en/user-guide/data-time-travel",
+"q": "Un tabel a fost șters accidental acum 3 zile. Retenția Time Travel e de 1 zi. Poate utilizatorul să-l recupereze singur?",
+"ok": "Nu: Time Travel a expirat.",
+"bad": [
+[
+"Da, cu `UNDROP TABLE`.",
+"UNDROP funcționează doar în perioada Time Travel."
+],
+[
+"Da, interogând tabelul `AT` cu 3 zile în urmă.",
+"Depășește retenția Time Travel."
+],
+[
+"Da, Fail-safe e accesibil oricărui utilizator cu ACCOUNTADMIN.",
+"Fail-safe nu e accesibil utilizatorilor."
+]
+],
+"e": "Răspunsul complet: Nu: Time Travel a expirat, iar datele mai pot fi doar în Fail-safe, recuperabile numai prin Snowflake Support. După Time Travel urmează Fail-safe (7 zile pentru tabelele permanente), destinat recuperării de către Snowflake, nu utilizatorilor."
+},
+{
+"exam": "snowcore",
+"dom": "Arhitectura și funcționalitățile Snowflake AI Data Cloud",
+"src": "https://docs.snowflake.com/en/user-guide/data-time-travel",
+"q": "Vrei un mediu de test cu o copie a bazei de producție, fără să dublezi imediat costul de stocare. Ce folosești?",
+"ok": "Zero-copy clone al bazei de producție (`CLONE`).",
+"bad": [
+[
+"Export și reimport al tuturor tabelelor.",
+"Copiază efectiv datele și durează."
+],
+[
+"O vedere peste producție.",
+"Testele ar modifica sau citi direct producția."
+],
+[
+"Replicarea în alt cont.",
+"Copiază datele și e pentru alt scop."
+]
+],
+"e": "Răspunsul complet: Zero-copy clone (`CREATE DATABASE test CLONE prod`). Clonarea zero-copy partajează micro-partițiile existente; costul de stocare apare doar pentru modificările ulterioare."
+},
+{
+"exam": "snowcore",
+"dom": "Încărcare, descărcare și conectivitate",
+"src": "https://docs.snowflake.com/en/user-guide/data-load-snowpipe-intro",
+"q": "Fișiere noi ajung continuu într-un bucket, iar datele trebuie disponibile în câteva minute, fără un warehouse pornit permanent. Ce folosești?",
+"ok": "Snowpipe cu auto-ingest.",
+"bad": [
+[
+"Un COPY INTO programat la fiecare minut pe un warehouse pornit permanent.",
+"Ține un warehouse activ non-stop."
+],
+[
+"Încărcare manuală din interfață.",
+"Nu e continuă."
+],
+[
+"Un clone.",
+"Clonarea se aplică obiectelor Snowflake, nu bucket-urilor."
+]
+],
+"e": "Răspunsul complet: Snowpipe cu auto-ingest pe baza notificărilor de evenimente din cloud storage. Snowpipe încarcă fișierele pe măsură ce sosesc, cu compute gestionat de Snowflake."
+},
+{
+"exam": "snowcore",
+"dom": "Încărcare, descărcare și conectivitate",
+"src": "https://docs.snowflake.com/en/user-guide/data-load-snowpipe-intro",
+"q": "Rulezi din nou același `COPY INTO` peste aceleași fișiere, a doua zi. Ce se întâmplă implicit?",
+"ok": "Sunt sărite.",
+"bad": [
+[
+"Se încarcă din nou și apar duplicate.",
+"Implicit, COPY nu reîncarcă fișierele cunoscute."
+],
+[
+"Comanda eșuează.",
+"Nu eșuează; sare fișierele."
+],
+[
+"Tabelul e trunchiat automat.",
+"COPY nu trunchiază tabelul."
+]
+],
+"e": "Răspunsul complet: Fișierele deja încărcate sunt sărite, pe baza metadatelor de încărcare păstrate de Snowflake. COPY INTO păstrează metadatele fișierelor încărcate (64 de zile) și le sare; `FORCE = TRUE` le-ar reîncărca."
+},
+{
+"exam": "snowcore",
+"dom": "Administrarea contului și guvernanța datelor",
+"src": "https://docs.snowflake.com/en/user-guide/data-time-travel",
+"q": "Care e practica recomandată pentru rolul ACCOUNTADMIN?",
+"ok": "Folosit rar, de puține persoane, cu MFA; munca zilnică cu roluri restrânse.",
+"bad": [
+[
+"Rol implicit pentru toți inginerii.",
+"Încalcă principiul celui mai mic privilegiu."
+],
+[
+"Rolul folosit de toate conexiunile de aplicații.",
+"O compromitere ar da acces total."
+],
+[
+"Se șterge după configurarea contului.",
+"Rolul nu se șterge; doar i se limitează folosirea."
+]
+],
+"e": "Răspunsul complet: Folosit rar, de puține persoane, cu MFA; munca zilnică se face cu roluri personalizate, cu privilegiile minime necesare. Snowflake folosește RBAC cu ierarhie de roluri; ACCOUNTADMIN e cel mai privilegiat și trebuie protejat."
+},
+{
+"exam": "snowcore",
+"dom": "Administrarea contului și guvernanța datelor",
+"src": "https://docs.snowflake.com/en/user-guide/data-time-travel",
+"q": "Coloana `email` trebuie afișată complet doar rolului `SUPORT`, iar celorlalți mascată, în aceeași interogare. Ce folosești?",
+"ok": "O masking policy.",
+"bad": [
+[
+"Două tabele separate, unul cu email mascat.",
+"Duplici datele."
+],
+[
+"O vedere.",
+"Greu de întreținut și ușor de ocolit."
+],
+[
+"Criptarea coloanei în aplicație.",
+"Nu permite afișare diferențiată în aceeași interogare SQL."
+]
+],
+"e": "Răspunsul complet: O masking policy atașată coloanei, care verifică rolul curent. Masking policies (Dynamic Data Masking) transformă valoarea la interogare, în funcție de context, de exemplu rolul."
+},
+{
+"exam": "snowcore",
+"dom": "Optimizare, interogare și transformare",
+"src": "https://docs.snowflake.com/en/user-guide/data-time-travel",
+"q": "Dimineața, zeci de analiști rulează simultan interogări mici, iar acestea stau la coadă. Fiecare interogare în sine e rapidă. Ce schimbi?",
+"ok": "Un multi-cluster warehouse.",
+"bad": [
+[
+"Mărești warehouse-ul de la M la 4XL.",
+"Scale up ajută interogările complexe, nu concurența."
+],
+[
+"Dezactivezi cache-ul de rezultate.",
+"Ar înrăutăți performanța."
+],
+[
+"Programare pe ore.",
+"Nu e o soluție tehnică."
+]
+],
+"e": "Răspunsul complet: Folosești un multi-cluster warehouse (scale out), care adaugă clustere când crește concurența. Multi-cluster warehouses rezolvă cozile cauzate de concurență; mărimea warehouse-ului ajută interogările grele."
+},
+{
+"exam": "snowcore",
+"dom": "Optimizare, interogare și transformare",
+"src": "https://docs.snowflake.com/en/user-guide/streams-intro",
+"q": "Vrei să procesezi incremental doar rândurile modificate într-un tabel, la fiecare 10 minute, direct în Snowflake. Ce combinație folosești?",
+"ok": "Un stream și un task.",
+"bad": [
+[
+"Time Travel interogat manual la fiecare 10 minute.",
+"Nu ține evidența consumului."
+],
+[
+"Snowpipe.",
+"E pentru încărcarea fișierelor, nu pentru schimbările din tabele."
+],
+[
+"Un clone la fiecare 10 minute.",
+"Nu identifică schimbările."
+]
+],
+"e": "Răspunsul complet: Un stream pe tabel pentru schimbări și un task programat care le consumă. Streams urmăresc schimbările (CDC) dintr-un tabel, iar tasks le procesează programat; offset-ul streamului avansează la consum."
+},
+{
+"exam": "snowcore",
+"dom": "Optimizare, interogare și transformare",
+"src": "https://docs.snowflake.com/en/user-guide/data-time-travel",
+"q": "Aceeași interogare e rulată de mai multe ori într-o oră, iar datele nu s-au schimbat. De ce a doua rulare e aproape instantanee și fără cost de warehouse?",
+"ok": "Rezultatul vine din result cache, valabil 24 de ore dacă nimic nu s-a schimbat.",
+"bad": [
+[
+"Warehouse-ul ține datele în memorie permanent.",
+"Cache-ul local se pierde la suspendare."
+],
+[
+"Snowflake precalculează toate interogările.",
+"Nu există o astfel de funcționalitate generală."
+],
+[
+"Interogarea rulează pe Fail-safe.",
+"Fail-safe e pentru recuperare, nu pentru interogări."
+]
+],
+"e": "Răspunsul complet: Rezultatul vine din result cache, păstrat 24 de ore dacă datele și interogarea nu s-au schimbat. Result cache-ul din stratul de servicii cloud reutilizează rezultatele identice timp de 24 de ore, fără să pornească warehouse-ul."
+},
+{
+"exam": "snowcore",
+"dom": "Colaborarea asupra datelor",
+"src": "https://docs.snowflake.com/en/user-guide/data-time-travel",
+"q": "Vrei să partajezi un tabel cu un partener care are cont Snowflake, fără să copiezi datele și cu acces mereu actualizat. Ce folosești?",
+"ok": "Secure Data Sharing.",
+"bad": [
+[
+"Export zilnic în CSV pe e-mail.",
+"Copiază datele și nu e actualizat."
+],
+[
+"Zero-copy clone în contul partenerului.",
+"Clonarea funcționează în același cont."
+],
+[
+"Parola ta.",
+"Practică nesigură."
+]
+],
+"e": "Răspunsul complet: Secure Data Sharing, printr-un share către contul partenerului. Secure Data Sharing dă acces live la obiecte, fără copierea datelor; pentru parteneri fără cont există reader accounts."
+},
+{
+"exam": "examen",
+"dom": "Citire și alegere",
+"src": "https://docs.aws.amazon.com/aws-certification/latest/data-engineer-associate-01/data-engineer-associate-01.html",
+"q": "O întrebare cere soluția „cu cel mai mic efort operațional”. Două variante funcționează: una cu un serviciu gestionat, alta cu un cluster administrat de tine. Pe care o alegi?",
+"ok": "Varianta cu serviciul gestionat.",
+"bad": [
+[
+"Varianta cu clusterul propriu, fiindcă oferă mai mult control.",
+"Controlul nu e criteriul cerut."
+],
+[
+"Oricare, ambele sunt corecte.",
+"Doar una respectă constrângerea din enunț."
+],
+[
+"Varianta cea mai ieftină, indiferent de efort.",
+"Costul nu e criteriul cerut aici."
+]
+],
+"e": "Răspunsul complet: Varianta cu serviciul gestionat, pentru că cerința prioritizează efortul operațional, nu controlul. La examenele cloud, constrângerea explicită (cost, latență, efort operațional) decide între variante tehnic posibile."
+},
+{
+"exam": "examen",
+"dom": "Citire și alegere",
+"src": "https://cloud.google.com/learn/certification/data-engineer",
+"q": "Trei variante par corecte. Una menționează un serviciu retras sau redenumit. Ce faci?",
+"ok": "O elimini.",
+"bad": [
+[
+"O alegi, fiindcă examenul testează istoria produselor.",
+"Examenele testează soluțiile actuale."
+],
+[
+"Alegi varianta cea mai lungă.",
+"Lungimea nu indică corectitudinea."
+],
+[
+"Sari întrebarea definitiv.",
+"Poți elimina variante și alege informat."
+]
+],
+"e": "Răspunsul complet: O elimini și alegi între celelalte după constrângerile enunțului. Eliminarea variantelor depășite sau care încalcă o constrângere e o tehnică de bază; lungimea variantei nu e un indiciu."
+},
+{
+"exam": "examen",
+"dom": "Dovezi și pregătire",
+"src": "https://www.databricks.com/learn/free-edition",
+"q": "Ai trei săptămâni până la examen. Cum împarți timpul de studiu între domenii?",
+"ok": "După ponderi și după punctele tale slabe.",
+"bad": [
+[
+"Egal între toate domeniile, indiferent de ponderi.",
+"Ignoră ponderile și punctele tale slabe."
+],
+[
+"Doar pe domeniul preferat.",
+"Lasă descoperite domenii cu pondere mare."
+],
+[
+"Doar întrebări de pe site-uri de tip „dump”.",
+"Încalcă regulile examenului și nu construiește înțelegere."
+]
+],
+"e": "Răspunsul complet: Proporțional cu ponderile oficiale și invers proporțional cu rezultatele tale pe domenii, verificând ghidul oficial curent. Ghidul oficial dă ponderile; rezultatele pe domenii (de exemplu din „Progres pe domenii”) arată unde pierzi puncte."
+},
+{
+"exam": "examen",
+"dom": "Diagnostic și transfer",
+"src": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-750",
+"q": "Ai învățat după materiale din 2024 pentru un examen cu ghid actualizat în 2026. Ce verifici întâi?",
+"ok": "Ghidul oficial curent: domeniile, ponderile și denumirile noi.",
+"bad": [
+[
+"Nimic, materia nu se schimbă.",
+"Ghidurile se actualizează și introduc subiecte noi."
+],
+[
+"Doar prețul examenului.",
+"Nu îți spune ce trebuie să știi."
+],
+[
+"Forumurile cu întrebări reale de examen.",
+"Nesigur și încalcă regulile."
+]
+],
+"e": "Răspunsul complet: Ghidul oficial curent: domeniile, ponderile și denumirile noi (de exemplu Lakeflow în loc de DLT), apoi compari cu materialele tale. Ghidurile oficiale se schimbă (ponderi, domenii noi precum CI/CD, redenumiri); materialele vechi trebuie confruntate cu ghidul curent."
+}
+]

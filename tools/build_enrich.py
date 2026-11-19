@@ -7,7 +7,7 @@ import glob, hashlib, json, os, re, sys
 
 src_dir, assets = sys.argv[1], sys.argv[2]
 TODAY = "2026-11-19"
-REV = "1.48.4"
+REV = "1.48.5"
 
 
 def slug(s):
@@ -57,7 +57,16 @@ for q in updates["questions"]:
                       "sources": [["Sursă oficială", q["src"]]], "reviewedOn": TODAY,
                       "provenance": {"kind": "authored", "method": "enrich157", "reviewedOn": TODAY}})
 
-payload = {"terms": terms, "cards": cards, "questions": questions, "aliases": updates.get("aliases", {})}
+# Întrebările de examen (1.48.5) intră direct în testele certificărilor (SEED.teste).
+exams = {}
+for path in sorted(glob.glob(os.path.join(src_dir, "exam158_*.json"))):
+    for q in json.load(open(path, encoding="utf-8")):
+        opts = [{"t": q["ok"], "ok": True, "w": None}] + [{"t": b[0], "ok": False, "w": b[1]} for b in q["bad"]]
+        exams.setdefault(q["exam"], []).append({"id": "t158-" + q["exam"] + "-" + slug(q["q"]), "dom": q["dom"], "q": q["q"], "o": opts,
+            "e": q["e"], "mode": "single", "sources": [["Sursă oficială", q["src"]]], "reviewedOn": TODAY,
+            "provenance": {"kind": "authored", "method": "exam158", "reviewedOn": TODAY}})
+
+payload = {"terms": terms, "cards": cards, "questions": questions, "aliases": updates.get("aliases", {}), "exams": exams}
 js = """/* Generat de tools/build_enrich.py din content/enrich157_*.json. Nu edita manual. */
 (function () {
   var S = window.SEED, E = %s;
@@ -67,15 +76,25 @@ js = """/* Generat de tools/build_enrich.py din content/enrich157_*.json. Nu edi
   E.cards.forEach(function (c) { if (!has(S.cards, c.id)) S.cards.push(c); });
   S.questions = S.questions || [];
   E.questions.forEach(function (q) { if (!has(S.questions, q.id)) S.questions.push(q); });
+  S.teste = S.teste || {};
+  Object.keys(E.exams || {}).forEach(function (ex) {
+    var bank = S.teste[ex] = S.teste[ex] || [];
+    E.exams[ex].forEach(function (q) { if (!has(bank, q.id)) bank.push(q); });
+  });
   Object.keys(E.aliases).forEach(function (id) {
     var t = (S.terms || []).filter(function (x) { return x.id === id; })[0];
     if (!t) return;
     t.aliases = (t.aliases || []).concat(E.aliases[id].filter(function (a) { return (t.aliases || []).indexOf(a) < 0; }));
   });
-  S.enrich157 = { revision: "%s", terms: E.terms.length, cards: E.cards.length, questions: E.questions.length };
+  S.enrich157 = { revision: "%s", terms: E.terms.length, cards: E.cards.length, questions: E.questions.length,
+    examQuestions: Object.keys(E.exams || {}).reduce(function (n, k) { return n + E.exams[k].length; }, 0) };
 })();
 """ % (json.dumps(payload, ensure_ascii=False, separators=(",", ":")), REV)
 open(os.path.join(assets, "enrich157.js"), "w", encoding="utf-8").write(js)
+print("întrebări de examen:", {k: len(v) for k, v in exams.items()})
+L = [q for v in exams.values() for q in v]
+longest = sum(1 for q in L if len(q["o"][0]["t"]) >= max(len(o["t"]) for o in q["o"]))
+print("varianta corectă e cea mai lungă în %d din %d (%.0f%%)" % (longest, len(L), 100.0 * longest / max(1, len(L))))
 print("termeni:", len(terms), "· carduri:", len(cards), "· întrebări:", len(questions), "· sinonime:", sum(len(v) for v in payload["aliases"].values()))
 by = {}
 for t in terms:

@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.48.4, cu conținutul din 1.48.0 plus fișele noi din 1.48.4), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.48.5, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.48.5), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -24,12 +24,38 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `content/enrich157_*.json`: fișele scrise în 1.48.4 (65 de termeni, 18 carduri, 17 întrebări, sinonime noi).
 - `tools/build_enrich.py`: le transformă în `app/assets/enrich157.js`, iar `tools/patch_enrich.py` îl încarcă după `cards.js`.
 - `tools/test_enrich.js`: test Playwright pentru fișele noi.
+- `content/exam158_*.json`: întrebările de examen din 1.48.5; `tools/build_enrich.py` le adaugă în testele certificărilor și raportează cât de des varianta corectă e cea mai lungă.
+- `tools/test_exams.js`: verifică întrebările noi, atribuirea pe domenii și pornirea unui test.
 - `tools/patch_terms.py`: aplică aceleași îmbunătățiri peste alt `app.js`, de exemplu cel din sursa 1.54. Scriptul se oprește dacă o bucată de cod nu se potrivește.
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.48.4.apk`: versiunea 1.48.4 (versionCode 12035), semnată cu o cheie de test.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.4; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `dist/DataEng-Learn-1.48.5.apk`: versiunea 1.48.5 (versionCode 12036), semnată cu o cheie de test.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.5; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## Întrebări de examen noi în 1.48.5
+
+Am adăugat 83 de întrebări de tip scenariu în testele certificărilor:
+
+| Certificare | Întrebări noi |
+|---|---|
+| Databricks DE Associate | 10 |
+| Databricks DE Professional | 10 |
+| Spark Developer Associate | 10 |
+| DP-750 | 9 |
+| DP-700 | 10 |
+| AWS DEA-C01 | 10 |
+| Google PDE | 9 |
+| SnowPro Core COF-C03 | 11 |
+| Tehnica de examen | 4 |
+
+**Domenii:** fiecare întrebare e atribuită unui domeniu oficial al examenului, deci intră în testele scurte, în testele complete, în recapitularea greșelilor și în „Progres pe domenii”.
+
+**Subiecte:** accent pe ce s-a schimbat în 2026 (Lakeflow Jobs și pipelines, Asset Bundles, AUTO CDC, Spark Connect, Fabric, Unity Catalog, COF-C03) și pe subiectele cu pondere mare.
+
+**Explicații:** fiecare variantă greșită are o explicație.
+
+**Lungimea variantelor:** varianta corectă e cea mai lungă în doar 20% din cazuri, sub nivelul hazardului de 25%, deci testul nu se poate trece alegând răspunsul cel mai lung. Justificarea completă apare în explicația de după răspuns. Am echilibrat la fel și cele 17 întrebări din 1.48.4.
 
 ## Conținut nou în 1.48.4
 
