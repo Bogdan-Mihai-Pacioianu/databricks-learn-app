@@ -40,6 +40,7 @@ jobs:
           body: |
             ## Ce e nou
 
+            - **1.49.0 · Atelier:** tab nou cu 6 competențe și 36 de exerciții de 5 tipuri (decizie, capcană, ordinea pașilor, completare, verificare pe date rulată local), scor de stăpânire cu repetare la 1/3/7/21 de zile, Repară lacunele pe ecranul Azi, sertarul Materiale în orice sesiune și secțiunea Autonomie în Statistici.
             - **1.48.7 · Databricks DE Associate:** 40 de întrebări noi de tip scenariu, după ponderile ghidului din mai 2026 (ingestie, transformare, Lakeflow Jobs, CI/CD, depanare, guvernanță, platformă).
             - **1.48.6 · DP-750:** 41 de întrebări noi de tip scenariu, după ponderile oficiale: mediul Azure Databricks (7), Unity Catalog (7), procesarea datelor (14), pipeline-uri și workload-uri (13).
             - **1.48.5 · Întrebări de examen:** 83 de întrebări noi de tip scenariu pentru Databricks DE Associate și Professional, Spark Developer, DP-750, DP-700, AWS DEA-C01, Google PDE, SnowPro Core COF-C03 și Tehnica de examen, pe domeniile oficiale, cu explicații și lungimi echilibrate ale variantelor.

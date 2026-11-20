@@ -788,6 +788,31 @@ section:not([hidden]) > .wrap{animation:intra .18s ease-out}
 .dict-chip156.res-broken{color:var(--bad,#e66);border-color:currentColor}
 .res-open156{margin:6px 0}
 </style>
+<style>
+.fx-head159{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px}.fx-type159{color:var(--accent-txt,var(--accent));border-color:currentColor}.fx-skill159{font-size:.82em}
+.fx-code159,.fx-table-wrap159{overflow-x:auto;border-radius:12px;background:var(--surface2);padding:6px;margin:10px 0}
+.fx-line159{display:flex;gap:10px;width:100%;text-align:left;padding:10px 8px;border:0;border-radius:8px;background:none;color:var(--txt);font:13px/1.5 "DataEng Mono",monospace;white-space:pre;min-height:44px;cursor:pointer}
+.fx-line159.sel{outline:2px solid var(--accent)}.fx-line159.ok{background:rgba(60,200,140,.18)}.fx-line159.rau{background:rgba(230,90,90,.2)}.fx-ln159{color:var(--muted);min-width:1.5em}
+.fx-table159{border-collapse:collapse;font:13px/1.5 "DataEng Mono",monospace;white-space:nowrap}.fx-table159 th,.fx-table159 td{padding:6px 10px;border-bottom:1px solid var(--line,#8884);text-align:left}.fx-null159{color:var(--muted);font-style:italic}
+.opt.mono{font-family:"DataEng Mono",monospace;font-size:.88em}
+.fx-seq159{padding-left:1.4em;margin:10px 0;min-height:44px}.fx-seq159 li{margin:6px 0}.fx-avail159{display:grid;gap:8px}
+.fx-step159{display:block;width:100%;text-align:left;padding:12px;border-radius:12px;border:1px solid var(--line,#8884);background:var(--surface2);color:var(--txt);min-height:48px;cursor:pointer}
+.fx-step159.on{border-color:var(--accent)}.fx-step159.ok{border-color:var(--ok,#3c9)}.fx-step159.rau{border-color:var(--bad,#e66)}
+.fx-tpl159{white-space:pre-wrap;font:14px/2 "DataEng Mono",monospace;background:var(--surface2);padding:10px;border-radius:12px;overflow-x:auto}
+.fx-slot159{font:inherit;padding:2px 8px;border-radius:8px;border:1px dashed var(--accent);background:none;color:var(--accent-txt,var(--accent));min-height:36px;cursor:pointer}
+.fx-slot159.on{border-style:solid}.fx-slot159.ok{border-color:var(--ok,#3c9);color:var(--ok,#3c9)}.fx-slot159.rau{border-color:var(--bad,#e66);color:var(--bad,#e66)}
+.fx-chips159 .chip{min-height:44px}.fx-impact159>summary{min-height:44px;cursor:pointer;font-weight:700}
+#ls-materials159{margin:0 6px;min-height:36px}
+.fx-bar159{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 14px}.fx-stat159{display:flex;flex-direction:column;padding:8px 12px;border-radius:12px;background:var(--surface2);min-width:80px}.fx-stat159 b{font-size:1.2em}.fx-find159{margin-left:auto}
+.fx-path159{display:grid;gap:12px;padding-bottom:16px}.fx-node159{display:flex;gap:12px;padding:12px;border-radius:16px;border:1px solid var(--line,#8884);background:var(--surface)}
+.fx-dot159{flex:0 0 40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--surface2);border:2px solid var(--line,#8884)}
+.fx-node159.progress .fx-dot159{border-color:var(--accent)}.fx-node159.solid .fx-dot159{background:var(--ok,#3c9);color:#062;border-color:var(--ok,#3c9)}.fx-node159.rusty .fx-dot159{border-color:#e9b949;color:#e9b949}
+.fx-node-txt159{flex:1;min-width:0}.fx-node-txt159 h3{margin:0 0 4px}.fx-crowns159{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.fx-crown159{font-size:.78em;padding:2px 8px;border-radius:999px;border:1px solid var(--line,#8884);color:var(--muted)}.fx-crown159.on{color:#e9b949;border-color:#e9b949}
+.fx-repair159{width:100%;margin:0 0 14px}
+.fx-cov159{display:grid;grid-template-columns:1fr 90px auto;gap:8px;align-items:center;margin:6px 0;font-size:.9em}
+.repair159 h2{margin:4px 0}
+</style>
 </head>
 <body class="loading">
 
@@ -931,7 +956,7 @@ section:not([hidden]) > .wrap{animation:intra .18s ease-out}
       <button class="btn mini danger" id="set-reset">Resetează progresul</button>
       <div class="muted" style="margin-top:6px">Șterge progresul cursurilor, XP, repetițiile, jurnalul și seria, încercările, ciornele SQL/Python și dovezile/notițele proiectelor. Cardurile proprii și notele personale din bibliotecă rămân. Exportă un backup înainte, dacă vrei să poți reveni.</div>
     </div>
-    <p class="muted center" style="margin:14px 0 4px">DataEng Learn · 1.48.7 · învățare offline, progres salvat pe telefon</p>
+    <p class="muted center" style="margin:14px 0 4px">DataEng Learn · 1.49.0 · învățare offline, progres salvat pe telefon</p>
   </div>
 </section>
 
@@ -980,6 +1005,7 @@ section:not([hidden]) > .wrap{animation:intra .18s ease-out}
   <div class="ls-top">
     <button id="ls-close" aria-label="Închide" data-ico="inchide"></button>
     <div class="progress" style="flex:1"><div id="ls-bar"></div></div>
+    <button id="ls-materials159" class="btn mini secondary" type="button">Materiale</button>
     <span id="ls-hearts"></span>
   </div>
   <div id="ls-scroll"><div id="ls-body"></div></div>
@@ -1058,6 +1084,7 @@ section:not([hidden]) > .wrap{animation:intra .18s ease-out}
 <script src="glossary133.js"></script>
 <script src="dictionary156.js"></script>
 <script src="resources156.js"></script>
+<script src="atelier159.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.48.6, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.48.7), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.49.0, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.49.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -26,12 +26,67 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `tools/test_enrich.js`: test Playwright pentru fișele noi.
 - `content/exam158_*.json`: întrebările de examen din 1.48.5; `tools/build_enrich.py` le adaugă în testele certificărilor și raportează cât de des varianta corectă e cea mai lungă.
 - `tools/test_exams.js`: verifică întrebările noi, atribuirea pe domenii și pornirea unui test.
+- `content/atelier159.json`: pachetul de conținut Atelier, cu competențe, exerciții de 5 tipuri și fișe de referință.
+- `tools/build_atelier.js`: validează pachetul și generează `app/assets/atelier159.js`. Rulează fiecare exercițiu cu date și refuză pachetul dacă altă variantă decât cea corectă dă rezultatul așteptat.
+- `tools/patch_atelier.py`: motorul de exerciții, planificatorul, Repară lacunele, sertarul Materiale și Autonomie.
+- `tools/test_atelier.js`: test Playwright pentru toate tipurile de exerciții, indicii, sertar, reluare, coada de reparat și statistici.
 - `tools/patch_terms.py`: aplică aceleași îmbunătățiri peste alt `app.js`, de exemplu cel din sursa 1.54. Scriptul se oprește dacă o bucată de cod nu se potrivește.
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.48.7.apk`: versiunea 1.48.7 (versionCode 12038), semnată cu o cheie de test.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.48.7; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `dist/DataEng-Learn-1.49.0.apk`: versiunea 1.49.0 (versionCode 12039), semnată cu o cheie de test.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.49.0; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## Atelier (1.49.0): exersare locală pe competențe
+
+Tabul nou **Învață → Atelier** pune în practică arhitectura de tip local-first. Totul rulează pe telefon, fără server.
+
+### Pachetul de conținut
+
+Fișierul este `atelier159.js`, generat din `content/atelier159.json` și separat de cod: competențele noi se adaugă fără schimbarea interfeței. Pachetul conține:
+- **6 competențe:** SQL și NULL, Delta MERGE, performanță Spark, streaming cu stare, Unity Catalog, operarea pipeline-urilor;
+- **36 de exerciții**, câte 2 pe fiecare treaptă;
+- **12 fișe de referință:** reguli scurte, capcane frecvente și incidente.
+
+### Motorul de exerciții
+
+Are cinci tipuri de exerciții:
+
+| Tip | Ce faci |
+|---|---|
+| **Alege decizia** | alegi varianta corectă dintr-un trade-off |
+| **Găsește capcana** | atingi linia de cod sau de configurare care produce problema |
+| **Ordinea pașilor** | atingi pașii în ordine; atingi un pas ca să-l scoți |
+| **Completează** | pui jetoanele în spațiile libere |
+| **Verifică pe date** | varianta aleasă rulează local pe un tabel mic, cu NULL, duplicate și cazuri limită |
+
+**Rezultatul unei verificări pe date:** dacă trece, rândurile obținute, rândurile așteptate și diferențele („În plus” / „Lipsă”).
+
+**Feedback-ul:** verde sau roșu, cu motivul, explicația și secțiunea expandabilă „De ce contează în producție”.
+
+### Planificatorul
+
+- **Scor de stăpânire 0–100 pe exercițiu:** +25 fără indiciu, +10 cu indiciu, −20 la greșeală.
+- **Recapitulare** la 1, 3, 7 sau 21 de zile, după scor.
+- **Repară lacunele:** exercițiile greșite, apoi cele rezolvate cu indiciu, apoi cele scadente. Apare pe ecranul Azi și în Atelier, într-o sesiune de până la 6 exerciții.
+
+### Ecranele
+
+- **Traseul** (Atelier → Practică):
+  - bara de sus: zile la rând, rata fără indicii, stăpânirea medie și căutarea în materiale;
+  - nodurile: neînceput, în progres, solid sau necesită recapitulare, cu patru trepte: Bază, Edge cases, Trade-offs, Fără indicii;
+  - sesiunile au 6 exerciții, iar treapta neterminată vine prima.
+- **Sertarul Materiale**: butonul din bara oricărei sesiuni. Răspunsul în curs se păstrează. Are trei taburi: Cheat-sheet, Capcane și incidente, Notițele mele (cu notiță legată de exercițiul curent), plus legături spre dicționar și bibliotecă.
+- **Autonomie** (în Statistici):
+  - rata de rezolvări fără indicii;
+  - încercările;
+  - câte exerciții sunt de reparat;
+  - acoperirea pe competențe;
+  - greșelile frecvente, grupate pe tipuri.
+
+### Unde se salvează
+
+Progresul stă în starea aplicației (`focus159`): se salvează pe telefon și intră în exportul de backup.
 
 ## Databricks DE Associate: 40 de întrebări noi în 1.48.7
 
@@ -209,6 +264,8 @@ python tools/patch_tabmodes.py app/assets
 python tools/patch_setup.py app/assets
 python tools/patch_resources.py app/assets
 python tools/patch_enrich.py app/assets
+python tools/patch_atelier.py app/assets
+node tools/build_atelier.js content/atelier159.json app/assets
 python tools/build_enrich.py content app/assets
 python tools/build_resources.py "research_notes/Resurse învățare data engineering" app/assets
 node tools/build_dictionary.js app/assets

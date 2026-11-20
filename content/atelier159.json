@@ -1,0 +1,1371 @@
+{
+ "skills": [
+  {
+   "id": "sql-null",
+   "title": "SQL: NULL, join-uri și agregări",
+   "deck": "sql",
+   "order": 1,
+   "prereq": null,
+   "summary": "Logica cu trei valori, join-uri care multiplică rânduri, agregări corecte."
+  },
+  {
+   "id": "delta-merge",
+   "title": "Delta: MERGE, idempotență și istoric",
+   "deck": "delta",
+   "order": 2,
+   "prereq": "sql-null",
+   "summary": "Upsert corect, reluări fără duplicate, time travel și VACUUM."
+  },
+  {
+   "id": "spark-perf",
+   "title": "Spark: shuffle, skew și fișiere",
+   "deck": "spark",
+   "order": 3,
+   "prereq": "sql-null",
+   "summary": "Unde apare shuffle-ul, cum recunoști skew-ul, fișiere mici și broadcast."
+  },
+  {
+   "id": "stream-state",
+   "title": "Streaming: watermark, checkpoint, exactly-once",
+   "deck": "stream",
+   "order": 4,
+   "prereq": "delta-merge",
+   "summary": "Timp al evenimentului, stare limitată, scrieri idempotente."
+  },
+  {
+   "id": "uc-access",
+   "title": "Unity Catalog: permisiuni și guvernanță",
+   "deck": "azure",
+   "order": 5,
+   "prereq": null,
+   "summary": "Ierarhia de privilegii, filtre pe rânduri, măști pe coloane, proprietari."
+  },
+  {
+   "id": "pipeline-ops",
+   "title": "Pipeline-uri: retry, idempotență, alertare",
+   "deck": "orchestrare",
+   "order": 6,
+   "prereq": "delta-merge",
+   "summary": "Ce reiei automat, ce nu, cum afli că datele lipsesc."
+  }
+ ],
+ "exercises": [
+  {
+   "id": "sn-1",
+   "skill": "sql-null",
+   "level": 1,
+   "type": "slot",
+   "tag": "null-logic",
+   "prompt": "Completează interogarea care găsește clienții fără e-mail completat.",
+   "payload": {
+    "template": "SELECT id FROM clienti WHERE email {0};",
+    "answers": [
+     "IS NULL"
+    ],
+    "chips": [
+     "IS NULL",
+     "= NULL",
+     "== NULL",
+     "<> ''"
+    ]
+   },
+   "hint": "Orice comparație cu `=` față de NULL dă UNKNOWN.",
+   "explanation": "`IS NULL` e singura formă care testează lipsa valorii. `= NULL` dă UNKNOWN pentru fiecare rând, deci nu întoarce nimic.",
+   "impact": "Un filtru `= NULL` într-un raport de calitate arată „0 clienți fără e-mail”, deși sunt mii: problema rămâne nevăzută."
+  },
+  {
+   "id": "sn-2",
+   "skill": "sql-null",
+   "level": 1,
+   "type": "tradeoff",
+   "tag": "null-logic",
+   "prompt": "Tabelul `angajati` are 10 rânduri; 3 au `bonus` NULL, restul au valori. Ce întoarce `SELECT COUNT(bonus), COUNT(*) FROM angajati`?",
+   "payload": {
+    "options": [
+     {
+      "t": "7 și 10",
+      "ok": true
+     },
+     {
+      "t": "10 și 10",
+      "ok": false,
+      "why": "COUNT(coloană) ignoră NULL-urile."
+     },
+     {
+      "t": "7 și 7",
+      "ok": false,
+      "why": "COUNT(*) numără rândurile, inclusiv cele cu NULL."
+     },
+     {
+      "t": "Eroare: COUNT nu acceptă NULL",
+      "ok": false,
+      "why": "COUNT funcționează; doar ignoră NULL-urile."
+     }
+    ]
+   },
+   "hint": "Una dintre forme numără rânduri, cealaltă valori.",
+   "explanation": "`COUNT(*)` numără rândurile; `COUNT(bonus)` numără doar valorile nenule. Similar, `AVG(bonus)` împarte la 7, nu la 10.",
+   "impact": "O medie calculată „pe angajat” cu AVG pe o coloană cu NULL e, de fapt, media celor care au valoare. Raportul supraestimează bonusul mediu."
+  },
+  {
+   "id": "sn-3",
+   "skill": "sql-null",
+   "level": 2,
+   "type": "datacheck",
+   "tag": "null-logic",
+   "prompt": "Vrei comenzile care NU sunt anulate. `stare` poate fi NULL pentru comenzile noi, care trebuie incluse. Ce filtru dă rezultatul corect?",
+   "payload": {
+    "columns": [
+     "id",
+     "stare"
+    ],
+    "rows": [
+     [
+      1,
+      "livrat"
+     ],
+     [
+      2,
+      "anulat"
+     ],
+     [
+      3,
+      null
+     ],
+     [
+      4,
+      "in_curs"
+     ],
+     [
+      5,
+      "anulat"
+     ]
+    ],
+    "expected": [
+     1,
+     3,
+     4
+    ],
+    "key": "id",
+    "options": [
+     {
+      "t": "stare <> 'anulat'",
+      "fn": "r => r.stare !== null && r.stare !== 'anulat'",
+      "ok": false
+     },
+     {
+      "t": "stare IS DISTINCT FROM 'anulat'",
+      "fn": "r => r.stare !== 'anulat'",
+      "ok": true
+     },
+     {
+      "t": "stare NOT IN ('anulat', NULL)",
+      "fn": "r => false",
+      "ok": false
+     },
+     {
+      "t": "stare = 'livrat'",
+      "fn": "r => r.stare === 'livrat'",
+      "ok": false
+     }
+    ]
+   },
+   "hint": "Ce dă `NULL <> 'anulat'` în SQL?",
+   "explanation": "`stare <> 'anulat'` dă UNKNOWN pentru NULL și exclude comanda nouă. `IS DISTINCT FROM` tratează NULL ca valoare comparabilă și o păstrează.",
+   "impact": "Comenzile noi dispar din raportul de comenzi active: echipa de livrare nu le vede până nu primesc o stare."
+  },
+  {
+   "id": "sn-4",
+   "skill": "sql-null",
+   "level": 2,
+   "type": "flaw",
+   "tag": "join-fanout",
+   "prompt": "Raportul de venit pe client dă valori prea mari. Ce linie produce problema?",
+   "payload": {
+    "lines": [
+     "SELECT c.id, SUM(o.suma) AS venit",
+     "FROM clienti c",
+     "JOIN comenzi o ON o.client_id = c.id",
+     "JOIN adrese a ON a.client_id = c.id",
+     "GROUP BY c.id;"
+    ],
+    "bad": 3
+   },
+   "hint": "Câte adrese poate avea un client?",
+   "explanation": "Un client cu 3 adrese își dublează sau triplează fiecare comandă după join-ul cu `adrese`, deci suma crește. Join-ul cu o tabelă 1:N care nu e folosită în agregare multiplică rândurile.",
+   "impact": "Venitul raportat e umflat exact pentru clienții cu mai multe adrese; diferența nu se vede la un test pe date mici unde fiecare client are o adresă."
+  },
+  {
+   "id": "sn-5",
+   "skill": "sql-null",
+   "level": 3,
+   "type": "tradeoff",
+   "tag": "join-fanout",
+   "prompt": "Ai nevoie de venitul pe client și de orașul adresei principale. Clienții pot avea mai multe adrese. Ce abordare alegi?",
+   "payload": {
+    "options": [
+     {
+      "t": "Agregi comenzile pe client, apoi faci join cu adresa principală.",
+      "ok": true
+     },
+     {
+      "t": "Join cu toate adresele și `SUM(DISTINCT o.suma)`.",
+      "ok": false,
+      "why": "DISTINCT pe sume elimină și comenzi legitime cu aceeași valoare."
+     },
+     {
+      "t": "Join cu toate adresele, apoi împarți suma la numărul de adrese.",
+      "ok": false,
+      "why": "Fragil și greșit când numărul de adrese diferă de factorul real de multiplicare."
+     },
+     {
+      "t": "Renunți la oraș în raport.",
+      "ok": false,
+      "why": "Elimini o cerință în loc să rezolvi modelarea."
+     }
+    ]
+   },
+   "hint": "Ce granularitate are fiecare parte înainte de join?",
+   "explanation": "Aduci fiecare parte la granularitatea țintei (un rând pe client) înainte de join: agregare pe comenzi și filtrare pe adresa principală.",
+   "impact": "Regula „agregă înainte de join când părțile au granularități diferite” previne o clasă întreagă de cifre umflate în rapoarte."
+  },
+  {
+   "id": "sn-6",
+   "skill": "sql-null",
+   "level": 3,
+   "type": "order",
+   "tag": "join-fanout",
+   "prompt": "Ordonează pașii prin care verifici dacă un join a multiplicat rânduri.",
+   "payload": {
+    "steps": [
+     "Numeri rândurile tabelului de bază",
+     "Verifici unicitatea cheii în tabelul din dreapta",
+     "Numeri rândurile după join",
+     "Compari totalurile unei măsuri înainte și după join"
+    ]
+   },
+   "hint": "Începi cu referința, apoi cauza posibilă, apoi efectul.",
+   "explanation": "Știi câte rânduri ar trebui să rămână, verifici dacă cheia din dreapta e unică, apoi confirmi prin numărare și printr-un total de control.",
+   "impact": "Un total de control (de exemplu suma vânzărilor) comparat înainte și după join prinde multiplicarea chiar și când numărul de rânduri pare plauzibil."
+  },
+  {
+   "id": "dm-1",
+   "skill": "delta-merge",
+   "level": 1,
+   "type": "slot",
+   "tag": "merge-dup",
+   "prompt": "Completează MERGE-ul care actualizează clienții existenți și îi inserează pe cei noi.",
+   "payload": {
+    "template": "MERGE INTO clienti t USING noi s ON t.id = s.id\nWHEN {0} THEN UPDATE SET *\nWHEN {1} THEN INSERT *;",
+    "answers": [
+     "MATCHED",
+     "NOT MATCHED"
+    ],
+    "chips": [
+     "MATCHED",
+     "NOT MATCHED",
+     "NOT MATCHED BY SOURCE",
+     "EXISTS"
+    ]
+   },
+   "hint": "Ce se întâmplă când cheia există în țintă și când nu?",
+   "explanation": "`WHEN MATCHED` tratează rândurile care există în țintă, `WHEN NOT MATCHED` pe cele noi. `NOT MATCHED BY SOURCE` e pentru rândurile din țintă care lipsesc din sursă.",
+   "impact": "Un MERGE corect face upsert-ul atomic: fie se aplică tot lotul, fie nimic, fără stări intermediare vizibile."
+  },
+  {
+   "id": "dm-2",
+   "skill": "delta-merge",
+   "level": 1,
+   "type": "tradeoff",
+   "tag": "merge-dup",
+   "prompt": "Un job zilnic încarcă fișierul de comenzi al zilei. Uneori rulează de două ori. Ce scriere evită duplicatele?",
+   "payload": {
+    "options": [
+     {
+      "t": "MERGE pe `comanda_id`.",
+      "ok": true
+     },
+     {
+      "t": "`INSERT INTO` la fiecare rulare.",
+      "ok": false,
+      "why": "A doua rulare inserează din nou aceleași rânduri."
+     },
+     {
+      "t": "`INSERT INTO`, apoi `SELECT DISTINCT` în rapoarte.",
+      "ok": false,
+      "why": "Muți problema la fiecare consumator."
+     },
+     {
+      "t": "`OPTIMIZE` după fiecare încărcare.",
+      "ok": false,
+      "why": "Compactarea nu elimină duplicatele."
+     }
+    ]
+   },
+   "hint": "Ce operație dă același rezultat dacă o rulezi de două ori?",
+   "explanation": "MERGE pe cheia naturală e idempotent: a doua rulare găsește rândurile și le actualizează cu aceleași valori.",
+   "impact": "Reîncercările automate devin sigure doar dacă scrierea e idempotentă; altfel fiecare retry e un risc de dublare a cifrelor."
+  },
+  {
+   "id": "dm-3",
+   "skill": "delta-merge",
+   "level": 2,
+   "type": "datacheck",
+   "tag": "merge-dup",
+   "prompt": "Sursa unui MERGE are mai multe versiuni pentru același `id`. Ce filtru păstrează doar ultima versiune per id, ca MERGE-ul să nu eșueze?",
+   "payload": {
+    "columns": [
+     "id",
+     "versiune",
+     "updated_at"
+    ],
+    "rows": [
+     [
+      1,
+      "a",
+      "2026-11-01"
+     ],
+     [
+      1,
+      "b",
+      "2026-11-03"
+     ],
+     [
+      2,
+      "c",
+      "2026-11-02"
+     ],
+     [
+      3,
+      "d",
+      "2026-11-01"
+     ],
+     [
+      3,
+      "e",
+      "2026-11-01"
+     ]
+    ],
+    "expected": [
+     1,
+     2,
+     3
+    ],
+    "key": "versiune",
+    "expectedKeys": [
+     "b",
+     "c",
+     "e"
+    ],
+    "options": [
+     {
+      "t": "row_number() OVER (PARTITION BY id ORDER BY updated_at DESC, versiune DESC) = 1",
+      "fn": "(r, all) => !all.some(o => o.id === r.id && (o.updated_at > r.updated_at || (o.updated_at === r.updated_at && o.versiune > r.versiune)))",
+      "ok": true
+     },
+     {
+      "t": "row_number() OVER (PARTITION BY id ORDER BY updated_at DESC) = 1",
+      "fn": "(r, all) => all.filter(o => o.id === r.id && o.updated_at === r.updated_at).length > 1 ? !all.some(o => o.id === r.id && (o.updated_at > r.updated_at || (o.updated_at === r.updated_at && o.versiune < r.versiune))) : !all.some(o => o.id === r.id && o.updated_at > r.updated_at)",
+      "ok": false
+     },
+     {
+      "t": "MAX(updated_at) per id, apoi join înapoi pe (id, updated_at)",
+      "fn": "(r, all) => !all.some(o => o.id === r.id && o.updated_at > r.updated_at)",
+      "ok": false
+     },
+     {
+      "t": "DISTINCT id",
+      "fn": "(r, all) => all.find(o => o.id === r.id) === r",
+      "ok": false
+     }
+    ]
+   },
+   "hint": "Ce se întâmplă când două versiuni au același `updated_at`?",
+   "explanation": "Ordinea trebuie să fie completă: fără coloana de departajare, două rânduri cu același `updated_at` dau un rezultat arbitrar sau două rânduri pentru același id, iar MERGE-ul eșuează.",
+   "impact": "Un MERGE care merge în teste poate cădea în producție exact în ziua în care două actualizări au același timestamp."
+  },
+  {
+   "id": "dm-4",
+   "skill": "delta-merge",
+   "level": 2,
+   "type": "flaw",
+   "tag": "vacuum-retention",
+   "prompt": "După un incident, echipa nu mai poate face time travel la versiunea de ieri. Ce linie a cauzat problema?",
+   "payload": {
+    "lines": [
+     "OPTIMIZE vanzari;",
+     "SET spark.databricks.delta.retentionDurationCheck.enabled = false;",
+     "VACUUM vanzari RETAIN 0 HOURS;",
+     "DESCRIBE HISTORY vanzari;"
+    ],
+    "bad": 2
+   },
+   "hint": "Ce comandă șterge fișierele necesare versiunilor vechi?",
+   "explanation": "VACUUM cu retenție 0 șterge toate fișierele nereferite de versiunea curentă; versiunile anterioare rămân în istoric, dar nu mai pot fi citite. Linia 2 doar dezactivează protecția.",
+   "impact": "Fără time travel, o suprascriere greșită nu mai poate fi anulată cu RESTORE; recuperarea cere reîncărcare din surse."
+  },
+  {
+   "id": "dm-5",
+   "skill": "delta-merge",
+   "level": 3,
+   "type": "tradeoff",
+   "tag": "vacuum-retention",
+   "prompt": "Stocarea crește, iar echipa vrea să ruleze VACUUM. Auditul cere posibilitatea de a reveni la orice versiune din ultimele 30 de zile. Ce configurezi?",
+   "payload": {
+    "options": [
+     {
+      "t": "Retenție de cel puțin 30 de zile pentru fișierele șterse și jurnal.",
+      "ok": true
+     },
+     {
+      "t": "VACUUM cu retenția implicită de 7 zile.",
+      "ok": false,
+      "why": "Nu acoperă cerința de 30 de zile."
+     },
+     {
+      "t": "Fără VACUUM niciodată.",
+      "ok": false,
+      "why": "Respecți auditul, dar stocarea crește nelimitat."
+     },
+     {
+      "t": "VACUUM zilnic cu retenție 0.",
+      "ok": false,
+      "why": "Elimină complet time travel."
+     }
+    ]
+   },
+   "hint": "Ce leagă cerința de audit de setările tabelului?",
+   "explanation": "Retenția fișierelor șterse (deletedFileRetentionDuration) și a jurnalului (logRetentionDuration) trebuie să acopere fereastra de audit; VACUUM respectă apoi pragul.",
+   "impact": "Costul de stocare și posibilitatea de recuperare sunt un trade-off explicit: retenția se alege din cerințe, nu din obișnuință."
+  },
+  {
+   "id": "dm-6",
+   "skill": "delta-merge",
+   "level": 3,
+   "type": "order",
+   "tag": "merge-dup",
+   "prompt": "Un job a suprascris greșit tabelul `clienti`. Ordonează pașii de recuperare.",
+   "payload": {
+    "steps": [
+     "Oprești jobul care scrie în tabel",
+     "Găsești în DESCRIBE HISTORY versiunea bună",
+     "Verifici conținutul cu VERSION AS OF",
+     "Rulezi RESTORE la versiunea bună",
+     "Repornești jobul după corectare"
+    ]
+   },
+   "hint": "Întâi oprești sursa problemei.",
+   "explanation": "Dacă jobul rulează în continuare, poate suprascrie din nou după restaurare. Verifici versiunea înainte de RESTORE, ca să nu restaurezi alta greșită.",
+   "impact": "O recuperare făcută în ordinea greșită poate produce încă o versiune proastă și pierde timp prețios în timpul incidentului."
+  },
+  {
+   "id": "sp-1",
+   "skill": "spark-perf",
+   "level": 1,
+   "type": "tradeoff",
+   "tag": "shuffle",
+   "prompt": "Care dintre aceste operații produce shuffle?",
+   "payload": {
+    "options": [
+     {
+      "t": "`groupBy('client').sum('suma')`",
+      "ok": true
+     },
+     {
+      "t": "`filter(col('tara') == 'RO')`",
+      "ok": false,
+      "why": "Filter e o transformare îngustă."
+     },
+     {
+      "t": "`withColumn('an', year('data'))`",
+      "ok": false,
+      "why": "Calculează pe fiecare rând, fără mutarea datelor."
+     },
+     {
+      "t": "`select('id', 'suma')`",
+      "ok": false,
+      "why": "Selecția de coloane e îngustă."
+     }
+    ]
+   },
+   "hint": "Ce operație are nevoie de toate rândurile aceleiași chei împreună?",
+   "explanation": "Agregarea pe cheie cere ca rândurile fiecărui client să ajungă în aceeași partiție, deci date mutate între executori.",
+   "impact": "Shuffle-ul e de obicei partea scumpă a unui job: rețea, disc, risc de skew. Îl recunoști ca să-l poți reduce."
+  },
+  {
+   "id": "sp-2",
+   "skill": "spark-perf",
+   "level": 1,
+   "type": "slot",
+   "tag": "broadcast",
+   "prompt": "Completează join-ul ca tabelul mic de țări să fie trimis tuturor executorilor.",
+   "payload": {
+    "template": "vanzari.join({0}(tari), 'cod_tara')",
+    "answers": [
+     "broadcast"
+    ],
+    "chips": [
+     "broadcast",
+     "repartition",
+     "coalesce",
+     "cache"
+    ]
+   },
+   "hint": "Tabelul mic ajunge întreg la fiecare executor.",
+   "explanation": "`broadcast(tari)` evită shuffle-ul tabelului mare: fiecare executor are copia completă a tabelului mic.",
+   "impact": "Un hint de broadcast potrivit poate transforma un join de zeci de minute într-unul de câteva minute; pe un tabel mare, poate duce la OOM."
+  },
+  {
+   "id": "sp-3",
+   "skill": "spark-perf",
+   "level": 2,
+   "type": "datacheck",
+   "tag": "skew",
+   "prompt": "Ai numărul de rânduri pe partiție după un shuffle. Ce regulă semnalează skew-ul (o partiție de cel puțin 5 ori peste mediana celorlalte)?",
+   "payload": {
+    "columns": [
+     "partitie",
+     "randuri"
+    ],
+    "rows": [
+     [
+      0,
+      1200
+     ],
+     [
+      1,
+      1100
+     ],
+     [
+      2,
+      9800
+     ],
+     [
+      3,
+      1300
+     ],
+     [
+      4,
+      1000
+     ],
+     [
+      5,
+      8900
+     ],
+     [
+      6,
+      1250
+     ],
+     [
+      7,
+      4000
+     ]
+    ],
+    "expected": [
+     2,
+     5
+    ],
+    "key": "partitie",
+    "options": [
+     {
+      "t": "randuri >= 5 × mediana",
+      "fn": "(r, all) => { const v = all.map(x => x.randuri).sort((a,b)=>a-b); const m = v[Math.floor(v.length/2)]; return r.randuri >= 5*m; }",
+      "ok": true
+     },
+     {
+      "t": "randuri > media",
+      "fn": "(r, all) => r.randuri > all.reduce((s,x)=>s+x.randuri,0)/all.length",
+      "ok": false
+     },
+     {
+      "t": "randuri > 1000",
+      "fn": "r => r.randuri > 1000",
+      "ok": false
+     },
+     {
+      "t": "randuri = maximul",
+      "fn": "(r, all) => r.randuri === Math.max(...all.map(x=>x.randuri))",
+      "ok": false
+     }
+    ]
+   },
+   "hint": "Media e trasă în sus chiar de partiția mare; mediana nu.",
+   "explanation": "Comparația cu mediana izolează partiția anormală. Media e influențată de valoarea extremă, iar „maximul” semnalează mereu o partiție, chiar fără skew.",
+   "impact": "O regulă de alertare greșită pentru skew fie țipă la fiecare rulare, fie ratează exact cazul care încetinește jobul."
+  },
+  {
+   "id": "sp-4",
+   "skill": "spark-perf",
+   "level": 2,
+   "type": "flaw",
+   "tag": "small-files",
+   "prompt": "Jobul de mai jos produce zeci de mii de fișiere mici pe zi. Ce linie e cauza?",
+   "payload": {
+    "lines": [
+     "df = spark.read.table('raw.evenimente')",
+     "df = df.repartition(2000)",
+     "df = df.withColumn('zi', to_date('ts'))",
+     "df.write.partitionBy('zi', 'client_id').mode('append').saveAsTable('silver.evenimente')"
+    ],
+    "bad": 3
+   },
+   "hint": "Câte combinații de partiții produce scrierea?",
+   "explanation": "Partiționarea pe `client_id` (cardinalitate mare) creează un director pentru fiecare client și zi; fiecare task scrie câte un fișier în fiecare director atins.",
+   "impact": "Milioane de fișiere mici încetinesc listarea, citirea și întreținerea; problema crește în fiecare zi."
+  },
+  {
+   "id": "sp-5",
+   "skill": "spark-perf",
+   "level": 3,
+   "type": "tradeoff",
+   "tag": "skew",
+   "prompt": "Un join pe `client_id` are o cheie (clientul „anonim”) cu 40% din rânduri. AQE e activ, dar taskul tot durează mult. Ce alegi?",
+   "payload": {
+    "options": [
+     {
+      "t": "Tratezi separat cheia dominantă sau aplici salting pe ea.",
+      "ok": true
+     },
+     {
+      "t": "Mărești numărul de partiții de shuffle de 10 ori.",
+      "ok": false,
+      "why": "Toate rândurile cheii dominante ajung tot într-o partiție."
+     },
+     {
+      "t": "Treci join-ul pe broadcast pentru ambele tabele.",
+      "ok": false,
+      "why": "Tabelele mari nu pot fi difuzate."
+     },
+     {
+      "t": "Elimini clientul anonim din date.",
+      "ok": false,
+      "why": "Schimbi rezultatul afacerii."
+     }
+    ]
+   },
+   "hint": "Unde ajung toate rândurile unei singure chei?",
+   "explanation": "O singură cheie nu se poate împărți prin mai multe partiții fără intervenție: salting sau procesarea separată a cheii dominante.",
+   "impact": "Skew-ul pe o cheie dominantă e frecvent în date reale (client anonim, valoare implicită); recunoașterea lui economisește ore de tuning inutil."
+  },
+  {
+   "id": "sp-6",
+   "skill": "spark-perf",
+   "level": 3,
+   "type": "order",
+   "tag": "shuffle",
+   "prompt": "Un job a devenit de 3 ori mai lent. Ordonează pașii de diagnostic.",
+   "payload": {
+    "steps": [
+     "Găsești în Spark UI stage-ul cel mai lung",
+     "Compari durata mediană cu maximul taskurilor",
+     "Verifici volumul de shuffle și spill",
+     "Verifici planul fizic pentru join-uri și filtre"
+    ]
+   },
+   "hint": "De la localizare la cauză.",
+   "explanation": "Localizezi stage-ul, apoi decizi tipul problemei (skew vs volum), confirmi prin shuffle și spill, iar planul îți arată de ce.",
+   "impact": "Un diagnostic ordonat evită schimbările aleatorii de configurare, care adesea mută problema în altă parte."
+  },
+  {
+   "id": "ss-1",
+   "skill": "stream-state",
+   "level": 1,
+   "type": "tradeoff",
+   "tag": "watermark",
+   "prompt": "Ce face un watermark de 10 minute pe coloana `event_time`?",
+   "payload": {
+    "options": [
+     {
+      "t": "Acceptă întârzieri de până la 10 minute, apoi curăță starea veche.",
+      "ok": true
+     },
+     {
+      "t": "Procesează un micro-batch la fiecare 10 minute.",
+      "ok": false,
+      "why": "Asta e un trigger, nu un watermark."
+     },
+     {
+      "t": "Șterge evenimentele mai vechi de 10 minute din sursă.",
+      "ok": false,
+      "why": "Watermark-ul nu modifică sursa."
+     },
+     {
+      "t": "Întârzie toate rezultatele cu exact 10 minute.",
+      "ok": false,
+      "why": "Influențează când o fereastră e finală, nu adaugă o întârziere fixă."
+     }
+    ]
+   },
+   "hint": "E despre timpul evenimentului, nu despre timpul de procesare.",
+   "explanation": "Watermark-ul spune cât de târziu pot sosi evenimentele; datele mai vechi decât pragul pot fi ignorate, iar starea lor eliberată.",
+   "impact": "Fără watermark, agregările și deduplicările pe stream păstrează stare la nesfârșit, până la căderea jobului."
+  },
+  {
+   "id": "ss-2",
+   "skill": "stream-state",
+   "level": 1,
+   "type": "slot",
+   "tag": "checkpoint",
+   "prompt": "Completează scrierea stream-ului astfel încât să poată relua după o cădere de unde a rămas.",
+   "payload": {
+    "template": "(df.writeStream\n  .option('{0}', '/Volumes/prod/stare/comenzi_silver')\n  .toTable('silver.comenzi'))",
+    "answers": [
+     "checkpointLocation"
+    ],
+    "chips": [
+     "checkpointLocation",
+     "path",
+     "startingOffsets",
+     "maxFilesPerTrigger"
+    ]
+   },
+   "hint": "Unde păstrează stream-ul progresul și starea?",
+   "explanation": "Checkpoint-ul păstrează offset-urile procesate și starea; la repornire, stream-ul continuă din același punct.",
+   "impact": "Fără checkpoint propriu și stabil, o repornire reprocesează sau pierde date."
+  },
+  {
+   "id": "ss-3",
+   "skill": "stream-state",
+   "level": 2,
+   "type": "datacheck",
+   "tag": "watermark",
+   "prompt": "Watermark-ul curent este 10:00 (maximul event_time văzut 10:10, minus 10 minute). Care evenimente din lotul nou pot fi ignorate ca întârziate?",
+   "payload": {
+    "columns": [
+     "id",
+     "event_time"
+    ],
+    "rows": [
+     [
+      1,
+      "09:58"
+     ],
+     [
+      2,
+      "10:01"
+     ],
+     [
+      3,
+      "10:12"
+     ],
+     [
+      4,
+      "09:40"
+     ],
+     [
+      5,
+      "10:00"
+     ]
+    ],
+    "expected": [
+     1,
+     4
+    ],
+    "key": "id",
+    "options": [
+     {
+      "t": "event_time < watermark (10:00)",
+      "fn": "r => r.event_time < '10:00'",
+      "ok": true
+     },
+     {
+      "t": "event_time < maximul văzut (10:10)",
+      "fn": "r => r.event_time < '10:10'",
+      "ok": false
+     },
+     {
+      "t": "event_time <= watermark (10:00)",
+      "fn": "r => r.event_time <= '10:00'",
+      "ok": false
+     },
+     {
+      "t": "Niciunul; Spark nu ignoră date",
+      "fn": "r => false",
+      "ok": false
+     }
+    ]
+   },
+   "hint": "Pragul este watermark-ul, iar egalitatea nu e „mai vechi”.",
+   "explanation": "Evenimentele cu event_time strict mai mic decât watermark-ul pot fi eliminate; cel de 10:00 fix e încă acceptat.",
+   "impact": "Înțelegerea exactă a pragului explică de ce unele evenimente „lipsesc” din agregări și cât watermark e nevoie pentru sursele lente."
+  },
+  {
+   "id": "ss-4",
+   "skill": "stream-state",
+   "level": 2,
+   "type": "flaw",
+   "tag": "checkpoint",
+   "prompt": "Două stream-uri au început să sară și să dubleze date după un deploy. Ce linie e problema?",
+   "payload": {
+    "lines": [
+     "q1 = comenzi.writeStream.option('checkpointLocation', '/chk/comun').toTable('silver.comenzi')",
+     "q2 = plati.writeStream.option('checkpointLocation', '/chk/comun').toTable('silver.plati')",
+     "spark.streams.awaitAnyTermination()"
+    ],
+    "bad": 1
+   },
+   "hint": "Ce trebuie să fie unic pentru fiecare stream?",
+   "explanation": "Al doilea stream folosește același checkpoint ca primul; offset-urile și starea se amestecă. Fiecare stream are nevoie de locație proprie.",
+   "impact": "Coruperea checkpoint-ului e greu de observat: cifrele par aproape corecte, dar lipsesc sau se dublează loturi întregi."
+  },
+  {
+   "id": "ss-5",
+   "skill": "stream-state",
+   "level": 3,
+   "type": "tradeoff",
+   "tag": "exactly-once",
+   "prompt": "În `foreachBatch` scrii și într-un tabel Delta, și într-un API extern. Vrei efect „exact o dată” la reprocesare. Ce alegi?",
+   "payload": {
+    "options": [
+     {
+      "t": "Scrieri idempotente: Delta cu `txnVersion` și API cu cheie de idempotență din `batchId`.",
+      "ok": true
+     },
+     {
+      "t": "Dezactivezi checkpoint-ul ca să nu se reproceseze.",
+      "ok": false,
+      "why": "Fără checkpoint pierzi poziția și reprocesezi mai mult."
+     },
+     {
+      "t": "Te bazezi pe garanția exactly-once a lui Spark pentru API.",
+      "ok": false,
+      "why": "Garanția nu se extinde la sisteme externe fără idempotență."
+     },
+     {
+      "t": "Scrii mai întâi în API, apoi în Delta.",
+      "ok": false,
+      "why": "Ordinea nu previne dublarea la reprocesare."
+     }
+    ]
+   },
+   "hint": "Ce identifică unic un micro-batch?",
+   "explanation": "Micro-batch-ul poate rula de două ori; fiecare destinație trebuie să recunoască a doua aplicare (batchId, chei de idempotență).",
+   "impact": "Plăți, e-mailuri sau notificări trimise de două ori sunt incidente vizibile clienților; idempotența e singura apărare."
+  },
+  {
+   "id": "ss-6",
+   "skill": "stream-state",
+   "level": 3,
+   "type": "order",
+   "tag": "checkpoint",
+   "prompt": "Trebuie să schimbi schema de ieșire a unui stream în producție. Ordonează pașii siguri.",
+   "payload": {
+    "steps": [
+     "Verifici dacă schimbarea e compatibilă cu checkpoint-ul existent",
+     "Oprești stream-ul curat",
+     "Aplici schimbarea și, dacă e incompatibilă, alegi un checkpoint nou și punctul de start",
+     "Repornești și verifici primele loturi"
+    ]
+   },
+   "hint": "Unele schimbări de interogare nu sunt permise cu același checkpoint.",
+   "explanation": "Unele modificări (de exemplu în agregări cu stare) nu sunt compatibile cu starea salvată; decizi înainte cum pornești.",
+   "impact": "O repornire neplanificată pe un checkpoint incompatibil cade la pornire sau, mai rău, pornește din punctul greșit."
+  },
+  {
+   "id": "uc-1",
+   "skill": "uc-access",
+   "level": 1,
+   "type": "slot",
+   "tag": "uc-hierarchy",
+   "prompt": "Completează permisiunile minime ca grupul `analisti` să citească `prod.vanzari.comenzi`.",
+   "payload": {
+    "template": "GRANT {0} ON CATALOG prod TO analisti;\nGRANT {1} ON SCHEMA prod.vanzari TO analisti;\nGRANT {2} ON TABLE prod.vanzari.comenzi TO analisti;",
+    "answers": [
+     "USE CATALOG",
+     "USE SCHEMA",
+     "SELECT"
+    ],
+    "chips": [
+     "USE CATALOG",
+     "USE SCHEMA",
+     "SELECT",
+     "MODIFY",
+     "ALL PRIVILEGES"
+    ]
+   },
+   "hint": "Citirea cere acces la fiecare nivel al ierarhiei.",
+   "explanation": "Fără USE CATALOG și USE SCHEMA, SELECT pe tabel nu ajunge; MODIFY sau ALL PRIVILEGES ar da mai mult decât e necesar.",
+   "impact": "Permisiunile minime reduc riscul ca un analist să modifice din greșeală date de producție."
+  },
+  {
+   "id": "uc-2",
+   "skill": "uc-access",
+   "level": 1,
+   "type": "tradeoff",
+   "tag": "uc-ownership",
+   "prompt": "Cine ar trebui să fie proprietarul tabelelor de producție?",
+   "payload": {
+    "options": [
+     {
+      "t": "Un grup sau un service principal.",
+      "ok": true
+     },
+     {
+      "t": "Inginerul care a creat tabelul.",
+      "ok": false,
+      "why": "Când pleacă, tabelul rămâne fără administrator real."
+     },
+     {
+      "t": "Adminul workspace-ului, personal.",
+      "ok": false,
+      "why": "Tot o persoană."
+     },
+     {
+      "t": "Nimeni; e mai sigur.",
+      "ok": false,
+      "why": "Orice obiect are un proprietar."
+     }
+    ]
+   },
+   "hint": "Ce se întâmplă când o persoană pleacă?",
+   "explanation": "Proprietarul are control complet; un grup sau un service principal supraviețuiește schimbărilor de echipă.",
+   "impact": "Tabelele deținute de foști angajați blochează modificări de schemă și acordări de permisiuni în momente critice."
+  },
+  {
+   "id": "uc-3",
+   "skill": "uc-access",
+   "level": 2,
+   "type": "datacheck",
+   "tag": "uc-row-filter",
+   "prompt": "Un row filter trebuie să lase fiecare utilizator să vadă doar regiunea grupului său, iar grupul `admin` totul. Utilizatorul curent e în grupul `moldova`. Ce regulă dă rezultatul așteptat?",
+   "payload": {
+    "columns": [
+     "id",
+     "regiune"
+    ],
+    "rows": [
+     [
+      1,
+      "moldova"
+     ],
+     [
+      2,
+      "banat"
+     ],
+     [
+      3,
+      "moldova"
+     ],
+     [
+      4,
+      "oltenia"
+     ]
+    ],
+    "expected": [
+     1,
+     3
+    ],
+    "key": "id",
+    "context": {
+     "grupuri": [
+      "moldova"
+     ]
+    },
+    "options": [
+     {
+      "t": "is_account_group_member('admin') OR is_account_group_member(regiune)",
+      "fn": "(r, all, ctx) => ctx.grupuri.includes('admin') || ctx.grupuri.includes(r.regiune)",
+      "ok": true
+     },
+     {
+      "t": "is_account_group_member(regiune)",
+      "fn": "(r, all, ctx) => ctx.grupuri.includes(r.regiune)",
+      "ok": false
+     },
+     {
+      "t": "regiune = 'moldova'",
+      "fn": "r => r.regiune === 'moldova'",
+      "ok": false
+     },
+     {
+      "t": "is_account_group_member('admin')",
+      "fn": "(r, all, ctx) => ctx.grupuri.includes('admin')",
+      "ok": false
+     }
+    ],
+    "accept": [
+     0
+    ]
+   },
+   "hint": "Pentru utilizatorul curent mai multe reguli dau același rezultat; alege-o pe cea care respectă toată cerința.",
+   "explanation": "Pentru grupul `moldova`, primele trei reguli dau aceleași rânduri, dar doar prima tratează și adminii și nu e scrisă pentru o singură regiune. Testul pe un singur utilizator nu ajunge: verifici regula și cu alte grupuri.",
+   "impact": "Un filtru testat doar cu propriul cont pare corect până când un admin nu mai vede nimic sau o altă regiune vede datele Moldovei."
+  },
+  {
+   "id": "uc-4",
+   "skill": "uc-access",
+   "level": 2,
+   "type": "flaw",
+   "tag": "uc-hierarchy",
+   "prompt": "După rularea scriptului, grupul `bi` poate șterge tabele din producție. Ce linie dă prea mult?",
+   "payload": {
+    "lines": [
+     "GRANT USE CATALOG ON CATALOG prod TO bi;",
+     "GRANT USE SCHEMA ON SCHEMA prod.vanzari TO bi;",
+     "GRANT ALL PRIVILEGES ON SCHEMA prod.vanzari TO bi;",
+     "GRANT SELECT ON TABLE prod.vanzari.comenzi TO bi;"
+    ],
+    "bad": 2
+   },
+   "hint": "Ce include „toate privilegiile” pe o schemă?",
+   "explanation": "ALL PRIVILEGES pe schemă include modificarea și gestionarea obiectelor; privilegiile se moștenesc pe toate tabelele.",
+   "impact": "Un singur GRANT prea larg pe o schemă se propagă la tabele viitoare; auditul îl descoperă de obicei după un incident."
+  },
+  {
+   "id": "uc-5",
+   "skill": "uc-access",
+   "level": 3,
+   "type": "tradeoff",
+   "tag": "uc-row-filter",
+   "prompt": "20 de țări, fiecare vede doar rândurile ei; HR vede CNP-ul, ceilalți nu. Ce soluție alegi?",
+   "payload": {
+    "options": [
+     {
+      "t": "Un row filter pe țară și un column mask pe CNP.",
+      "ok": true
+     },
+     {
+      "t": "20 de copii ale tabelului, câte una pe țară.",
+      "ok": false,
+      "why": "Duplici datele și apar diferențe între copii."
+     },
+     {
+      "t": "20 de vederi, plus o vedere pentru HR.",
+      "ok": false,
+      "why": "Funcționează, dar e greu de întreținut și ușor de ocolit."
+     },
+     {
+      "t": "Filtrarea în fiecare raport Power BI.",
+      "ok": false,
+      "why": "Accesul direct la tabel ocolește filtrul."
+     }
+    ]
+   },
+   "hint": "Unde se aplică regula ca să nu poată fi ocolită?",
+   "explanation": "Row filters și column masks se aplică la nivelul tabelului, pentru orice interogare și orice unealtă.",
+   "impact": "Regulile de acces în fiecare raport se pierd la primul raport nou; regula pe tabel se aplică automat."
+  },
+  {
+   "id": "uc-6",
+   "skill": "uc-access",
+   "level": 3,
+   "type": "order",
+   "tag": "uc-ownership",
+   "prompt": "Un inginer pleacă din firmă și deține tabele de producție. Ordonează pașii.",
+   "payload": {
+    "steps": [
+     "Listezi obiectele pe care le deține",
+     "Transferi proprietatea către grupul echipei",
+     "Verifici că joburile nu rulează cu identitatea lui",
+     "Îl scoți din grupuri și îi revoci accesul"
+    ]
+   },
+   "hint": "Nu tai accesul înainte să muți responsabilitatea.",
+   "explanation": "Dacă îl dezactivezi întâi, obiectele și joburile lui pot rămâne fără administrator sau pot cădea.",
+   "impact": "Plecările netratate lasă joburi care cad noaptea și tabele pe care nimeni nu le mai poate administra."
+  },
+  {
+   "id": "po-1",
+   "skill": "pipeline-ops",
+   "level": 1,
+   "type": "tradeoff",
+   "tag": "retry",
+   "prompt": "Care eroare merită reîncercată automat?",
+   "payload": {
+    "options": [
+     {
+      "t": "HTTP 503 de la API-ul sursă.",
+      "ok": true
+     },
+     {
+      "t": "HTTP 401: token invalid.",
+      "ok": false,
+      "why": "Reîncercarea nu repară credențialele."
+     },
+     {
+      "t": "Coloană lipsă în fișierul sursă.",
+      "ok": false,
+      "why": "E o problemă de contract; reîncercarea dă aceeași eroare."
+     },
+     {
+      "t": "Eroare de sintaxă în SQL.",
+      "ok": false,
+      "why": "Codul trebuie corectat."
+     }
+    ]
+   },
+   "hint": "Care dintre ele poate dispărea singură?",
+   "explanation": "Erorile tranzitorii (503, timeout, 429) se reîncearcă cu backoff; erorile de configurare sau de date nu.",
+   "impact": "Reîncercările pe erori permanente consumă compute și întârzie alerta reală."
+  },
+  {
+   "id": "po-2",
+   "skill": "pipeline-ops",
+   "level": 1,
+   "type": "slot",
+   "tag": "freshness",
+   "prompt": "Completează verificarea de prospețime: alertă dacă ultima încărcare e mai veche de 26 de ore.",
+   "payload": {
+    "template": "SELECT {0}(_ingested_at) < current_timestamp() - INTERVAL {1} HOURS AS intarziat FROM silver.comenzi;",
+    "answers": [
+     "MAX",
+     "26"
+    ],
+    "chips": [
+     "MAX",
+     "MIN",
+     "COUNT",
+     "26",
+     "24",
+     "2"
+    ]
+   },
+   "hint": "Te interesează cea mai recentă încărcare.",
+   "explanation": "MAX(_ingested_at) e momentul ultimei încărcări; marja de 26 de ore acoperă un job zilnic cu întârzieri mici.",
+   "impact": "Un job care nu pornește nu dă eroare; doar o verificare de prospețime observă lipsa datelor."
+  },
+  {
+   "id": "po-3",
+   "skill": "pipeline-ops",
+   "level": 2,
+   "type": "datacheck",
+   "tag": "freshness",
+   "prompt": "Ai numărul de rânduri încărcate pe zi. Ce regulă semnalează doar zilele anormale (sub 50% din mediana ultimelor zile)?",
+   "payload": {
+    "columns": [
+     "zi",
+     "randuri"
+    ],
+    "rows": [
+     [
+      "2026-11-14",
+      10200
+     ],
+     [
+      "2026-11-15",
+      9800
+     ],
+     [
+      "2026-11-16",
+      0
+     ],
+     [
+      "2026-11-17",
+      10100
+     ],
+     [
+      "2026-11-18",
+      4100
+     ]
+    ],
+    "expected": [
+     "2026-11-16",
+     "2026-11-18"
+    ],
+    "key": "zi",
+    "options": [
+     {
+      "t": "randuri < 0.5 × mediana",
+      "fn": "(r, all) => { const v = all.map(x => x.randuri).sort((a,b)=>a-b); return r.randuri < 0.5 * v[Math.floor(v.length/2)]; }",
+      "ok": true
+     },
+     {
+      "t": "randuri = 0",
+      "fn": "r => r.randuri === 0",
+      "ok": false
+     },
+     {
+      "t": "randuri < ziua precedentă",
+      "fn": "(r, all) => { const i = all.indexOf(r); return i > 0 && r.randuri < all[i-1].randuri; }",
+      "ok": false
+     },
+     {
+      "t": "randuri < 10000",
+      "fn": "r => r.randuri < 10000",
+      "ok": false
+     }
+    ]
+   },
+   "hint": "O zi cu jumătate din volum e și ea o problemă.",
+   "explanation": "Doar `= 0` ratează încărcările parțiale; comparația cu ziua precedentă semnalează și scăderi normale; un prag fix nu se adaptează la volum. Mediana zilelor recente e o referință robustă.",
+   "impact": "Încărcările parțiale sunt mai periculoase decât cele lipsă: raportul arată cifre plauzibile, dar greșite."
+  },
+  {
+   "id": "po-4",
+   "skill": "pipeline-ops",
+   "level": 2,
+   "type": "flaw",
+   "tag": "retry",
+   "prompt": "La reîncercarea automată, jobul a dublat datele zilei. Ce linie face reîncercarea nesigură?",
+   "payload": {
+    "lines": [
+     "zi = params['zi']",
+     "df = extrage_api(zi)",
+     "df.write.mode('append').saveAsTable('silver.comenzi')",
+     "marcheaza_zi_procesata(zi)"
+    ],
+    "bad": 2
+   },
+   "hint": "Ce se întâmplă dacă linia 4 nu ajunge să ruleze?",
+   "explanation": "Append-ul nu e idempotent: dacă jobul cade după scriere și e reîncercat, aceeași zi se scrie din nou. Soluție: suprascriere pe partiția zilei (replaceWhere) sau MERGE pe cheie.",
+   "impact": "Retry-ul transformă o eroare tranzitorie într-o problemă de date: cifrele dublate ajung în rapoarte înainte să le observe cineva."
+  },
+  {
+   "id": "po-5",
+   "skill": "pipeline-ops",
+   "level": 3,
+   "type": "tradeoff",
+   "tag": "retry",
+   "prompt": "Un API sursă răspunde cu 429 la vârfuri de trafic. Ce politică de reîncercare alegi?",
+   "payload": {
+    "options": [
+     {
+      "t": "Backoff exponențial cu jitter, respectând `Retry-After`.",
+      "ok": true
+     },
+     {
+      "t": "Reîncercare imediată, de 50 de ori.",
+      "ok": false,
+      "why": "Amplifică încărcarea și prelungește blocarea."
+     },
+     {
+      "t": "Fără reîncercări; marchezi jobul eșuat.",
+      "ok": false,
+      "why": "429 e de obicei tranzitorie."
+     },
+     {
+      "t": "Mai multe fire de execuție paralele.",
+      "ok": false,
+      "why": "Generezi și mai multe cereri limitate."
+     }
+    ]
+   },
+   "hint": "Ce îi spune serverul prin 429?",
+   "explanation": "429 cere încetinire; backoff-ul exponențial cu jitter distribuie reîncercările, iar `Retry-After` dă intervalul cerut de server.",
+   "impact": "Reîncercările agresive pot transforma o limitare temporară într-o blocare a contului de API."
+  },
+  {
+   "id": "po-6",
+   "skill": "pipeline-ops",
+   "level": 3,
+   "type": "order",
+   "tag": "freshness",
+   "prompt": "Raportul de dimineață arată cifre prea mici. Ordonează pașii de investigație.",
+   "payload": {
+    "steps": [
+     "Verifici prospețimea și volumul pe zile în stratul gold",
+     "Urmărești în amonte unde scade volumul",
+     "Verifici rularea și jurnalele jobului din acel strat",
+     "Repari, reprocesezi zilele afectate și anunți consumatorii"
+    ]
+   },
+   "hint": "De la simptom, spre sursă, apoi remediere.",
+   "explanation": "Confirmi simptomul cu date, localizezi stratul unde apare scăderea, găsești cauza, apoi repari și comunici.",
+   "impact": "Comunicarea cu consumatorii e parte din remediere: un raport greșit deja distribuit trebuie corectat explicit."
+  }
+ ],
+ "cards": [
+  {
+   "id": "rc-sn-1",
+   "skill": "sql-null",
+   "category": "cheat_sheet",
+   "title": "NULL în 6 reguli",
+   "body": "- `x = NULL` → UNKNOWN; folosești `IS NULL` / `IS NOT NULL`.\n- `IS DISTINCT FROM` compară tratând NULL ca valoare.\n- `COUNT(*)` numără rânduri; `COUNT(col)`, `SUM`, `AVG` ignoră NULL.\n- `NOT IN (listă cu NULL)` → niciun rând; folosești `NOT EXISTS`.\n- `COALESCE(col, valoare)` înlocuiește NULL la afișare sau calcul.\n- În join, cheile NULL nu se potrivesc între ele."
+  },
+  {
+   "id": "rc-sn-2",
+   "skill": "sql-null",
+   "category": "anti_pattern",
+   "title": "Join care multiplică rânduri",
+   "body": "**Simptom:** totaluri prea mari după un join.\n\n**Cauză:** tabelul din dreapta are mai multe rânduri pe cheie (1:N).\n\n**Verificare:** `SELECT cheie, COUNT(*) FROM dreapta GROUP BY cheie HAVING COUNT(*) > 1`.\n\n**Remediu:** agregi sau filtrezi fiecare parte la granularitatea țintă înainte de join."
+  },
+  {
+   "id": "rc-dm-1",
+   "skill": "delta-merge",
+   "category": "cheat_sheet",
+   "title": "MERGE, RESTORE, VACUUM",
+   "body": "- `MERGE INTO t USING s ON cheie WHEN MATCHED ... WHEN NOT MATCHED ...`\n- Sursa trebuie să aibă un singur rând pe cheie (deduplici cu `row_number()` și ordine completă).\n- `DESCRIBE HISTORY t` → versiuni; `SELECT ... VERSION AS OF n` → citire.\n- `RESTORE TABLE t TO VERSION AS OF n` → revenire, ca versiune nouă.\n- `VACUUM` șterge fișierele mai vechi decât retenția (implicit 7 zile)."
+  },
+  {
+   "id": "rc-dm-2",
+   "skill": "delta-merge",
+   "category": "incident",
+   "title": "Incident: VACUUM cu retenție 0",
+   "body": "**Ce s-a întâmplat:** pentru a elibera spațiu, cineva a dezactivat verificarea de retenție și a rulat `VACUUM RETAIN 0 HOURS`. A doua zi, un job a suprascris greșit tabelul.\n\n**Efect:** `RESTORE` a eșuat; fișierele versiunilor vechi nu mai existau.\n\n**Lecția:** retenția se alege din cerințele de recuperare și audit; protecția de retenție nu se dezactivează în producție."
+  },
+  {
+   "id": "rc-sp-1",
+   "skill": "spark-perf",
+   "category": "cheat_sheet",
+   "title": "Shuffle și join-uri",
+   "body": "- **Înguste (fără shuffle):** `select`, `filter`, `withColumn`, `union`.\n- **Largi (cu shuffle):** `groupBy`, `join` (fără broadcast), `distinct`, `orderBy`, `repartition`.\n- **Broadcast:** pentru tabele mici (zeci de MB); `broadcast(df)`.\n- **Skew:** mediană mică, maxim uriaș la durata taskurilor → AQE skew join, salting.\n- **Fișiere mici:** nu partiționa pe coloane cu cardinalitate mare; compactează."
+  },
+  {
+   "id": "rc-sp-2",
+   "skill": "spark-perf",
+   "category": "anti_pattern",
+   "title": "Partiționare pe ID",
+   "body": "**Simptom:** milioane de directoare și fișiere mici, citiri lente.\n\n**Cauză:** `partitionBy('client_id')` sau altă coloană cu cardinalitate mare.\n\n**Remediu:** partiționezi pe dată (sau deloc pentru tabele mici) și folosești clustering pentru filtrele pe ID."
+  },
+  {
+   "id": "rc-ss-1",
+   "skill": "stream-state",
+   "category": "cheat_sheet",
+   "title": "Stream-uri cu stare",
+   "body": "- Watermark = maximul event_time văzut − întârzierea permisă.\n- Evenimentele mai vechi decât watermark-ul pot fi ignorate.\n- Agregări în append și deduplicări au nevoie de watermark.\n- Fiecare stream: checkpoint propriu, stabil.\n- `foreachBatch` = cel puțin o dată; idempotența dă „exact o dată”.\n- `trigger(availableNow=True)` = procesare incrementală, apoi oprire."
+  },
+  {
+   "id": "rc-ss-2",
+   "skill": "stream-state",
+   "category": "incident",
+   "title": "Incident: checkpoint partajat",
+   "body": "**Ce s-a întâmplat:** două stream-uri copiate din același șablon au păstrat aceeași cale de checkpoint.\n\n**Efect:** loturi sărite și dublate, observate după două săptămâni la reconcilierea lunară.\n\n**Lecția:** calea de checkpoint e parte din identitatea stream-ului; o generezi din numele tabelului țintă și o verifici în code review."
+  },
+  {
+   "id": "rc-uc-1",
+   "skill": "uc-access",
+   "category": "cheat_sheet",
+   "title": "Privilegii Unity Catalog",
+   "body": "- Citire: `USE CATALOG` + `USE SCHEMA` + `SELECT`.\n- Scriere: plus `MODIFY`.\n- Privilegiile se moștenesc în jos în ierarhie.\n- Fișiere brute: `READ FILES` pe external location sau volume.\n- Proprietar: grup sau service principal.\n- Rânduri și coloane: row filters și column masks pe tabel."
+  },
+  {
+   "id": "rc-uc-2",
+   "skill": "uc-access",
+   "category": "anti_pattern",
+   "title": "ALL PRIVILEGES pe schemă",
+   "body": "**Simptom:** un grup de raportare poate șterge sau modifica tabele.\n\n**Cauză:** `GRANT ALL PRIVILEGES ON SCHEMA` dat „ca să meargă”.\n\n**Remediu:** acorzi exact privilegiile necesare și verifici periodic cu `SHOW GRANTS`."
+  },
+  {
+   "id": "rc-po-1",
+   "skill": "pipeline-ops",
+   "category": "cheat_sheet",
+   "title": "Retry și idempotență",
+   "body": "- **Reîncerci:** 429, 5xx, timeout, cu backoff exponențial și jitter.\n- **Nu reîncerci:** 400, 401, 403, 404, erori de schemă sau de sintaxă.\n- **Scriere idempotentă:** MERGE pe cheie sau suprascrierea partiției (`replaceWhere`).\n- **Append + retry** = risc de duplicate.\n- **Alertă pe prospețime și volum**, nu doar pe erori."
+  },
+  {
+   "id": "rc-po-2",
+   "skill": "pipeline-ops",
+   "category": "incident",
+   "title": "Incident: încărcare parțială",
+   "body": "**Ce s-a întâmplat:** API-ul sursă a întors doar prima pagină din cauza unui token expirat la jumătatea extracției; jobul a raportat succes.\n\n**Efect:** raportul zilei a arătat 40% din vânzări; nimeni n-a observat până la reconciliere.\n\n**Lecția:** verifici volumul față de zilele anterioare și completitudinea paginării înainte de publicare."
+  }
+ ],
+ "tags": {
+  "null-logic": "Logica NULL",
+  "join-fanout": "Join-uri care multiplică rânduri",
+  "merge-dup": "Duplicate la scriere",
+  "vacuum-retention": "Retenție și VACUUM",
+  "shuffle": "Shuffle",
+  "broadcast": "Broadcast",
+  "skew": "Skew",
+  "small-files": "Fișiere mici",
+  "watermark": "Watermark",
+  "checkpoint": "Checkpoint",
+  "exactly-once": "Efect exact o dată",
+  "uc-hierarchy": "Ierarhia de privilegii",
+  "uc-ownership": "Proprietari",
+  "uc-row-filter": "Filtre pe rânduri",
+  "retry": "Reîncercări",
+  "freshness": "Prospețime și volum"
+ }
+}
