@@ -1,0 +1,1896 @@
+{
+ "tags": {
+  "p-order": "Ordinea nu e garantată",
+  "p-missing": "Valori lipsă și cazuri goale",
+  "p-side": "Efecte secundare ascunse",
+  "p-double": "Execuția dublă",
+  "p-coupling": "Cuplajul strâns",
+  "p-premature": "Optimizarea prematură",
+  "p-time": "Timpul și întârzierile",
+  "p-contract": "Contractul încălcat",
+  "p-identity": "Identitatea greșită",
+  "p-invariant": "Invarianța ignorată",
+  "p-partial": "Eșecul parțial",
+  "p-compat": "Compatibilitatea uitată",
+  "p-observe": "Diagnosticul prin ghicit"
+ },
+ "skills": [
+  {
+   "id": "mm-contract",
+   "track": "mental",
+   "title": "Intrări, ieșiri și contracte",
+   "order": 1,
+   "prereq": null,
+   "summary": "Ce promite un sistem, ce presupune despre intrări și ce faci când promisiunea e încălcată."
+  },
+  {
+   "id": "mm-identity",
+   "track": "mental",
+   "title": "Identitate, stare și timp",
+   "order": 2,
+   "prereq": "mm-contract",
+   "summary": "Ce face un lucru unic, cum se schimbă starea, momentul producerii vs. sosirii vs. procesării."
+  },
+  {
+   "id": "mm-retry",
+   "track": "mental",
+   "title": "Idempotență, repetare și erori parțiale",
+   "order": 3,
+   "prereq": "mm-identity",
+   "summary": "Ce se întâmplă când procesul pică la jumătate și reîncerci."
+  },
+  {
+   "id": "mm-model",
+   "track": "mental",
+   "title": "Granularitate, modelare și responsabilități",
+   "order": 4,
+   "prereq": "mm-contract",
+   "summary": "Cum împarți o problemă mare în părți clare, cu dependențe puține."
+  },
+  {
+   "id": "mm-invariant",
+   "track": "mental",
+   "title": "Cazuri limită și invarianți",
+   "order": 5,
+   "prereq": "mm-contract",
+   "summary": "Regulile care rămân adevărate indiferent ce intră în sistem."
+  },
+  {
+   "id": "mm-tradeoff",
+   "track": "mental",
+   "title": "Compromisuri și scalare",
+   "order": 6,
+   "prereq": "mm-retry",
+   "summary": "Consistență vs. disponibilitate, latență vs. debit, simplu vs. flexibil."
+  },
+  {
+   "id": "mm-observe",
+   "track": "mental",
+   "title": "Observabilitate și diagnosticare",
+   "order": 7,
+   "prereq": "mm-retry",
+   "summary": "Cum afli ce a mers prost și unde, fără să ghicești."
+  },
+  {
+   "id": "mm-evolve",
+   "track": "mental",
+   "title": "Evoluție și compatibilitate",
+   "order": 8,
+   "prereq": "mm-model",
+   "summary": "Cum schimbi ceva fără să strici ce depinde de el."
+  }
+ ],
+ "exercises": [
+  {
+   "id": "mc-1",
+   "skill": "mm-contract",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-contract",
+   "prompt": "Un ghișeu acceptă cereri doar dacă au completat numele și data nașterii. Ce cerere încalcă acest contract?",
+   "payload": {
+    "options": [
+     {
+      "t": "O cerere cu nume, dar fără dată de naștere.",
+      "ok": true
+     },
+     {
+      "t": "O cerere cu nume și dată, scrisă de mână.",
+      "ok": false,
+      "why": "Forma scrisului nu face parte din contract."
+     },
+     {
+      "t": "O cerere depusă la ultima oră a programului.",
+      "ok": false,
+      "why": "Ora depunerii nu e o condiție a contractului."
+     },
+     {
+      "t": "O cerere cu nume foarte lung și dată completă.",
+      "ok": false,
+      "why": "Lungimea numelui nu e restricționată în enunț."
+     }
+    ]
+   },
+   "hint": "Contractul spune exact ce câmpuri sunt obligatorii.",
+   "explanation": "Un contract de intrare spune ce trebuie să conțină o cerere ca să fie acceptată. Orice altceva (scris, oră, lungime) nu face parte din promisiune.",
+   "impact": "Când contractul e clar, poți respinge devreme intrările invalide, în loc să descoperi problema trei pași mai târziu."
+  },
+  {
+   "id": "mc-2",
+   "skill": "mm-contract",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-contract",
+   "prompt": "Un sistem primește o cerere care încalcă contractul. Ce reacție e cea mai sănătoasă de obicei?",
+   "payload": {
+    "options": [
+     {
+      "t": "O respinge clar, cu motivul, înainte de orice modificare.",
+      "ok": true
+     },
+     {
+      "t": "O acceptă și completează câmpurile lipsă cu valori inventate.",
+      "ok": false,
+      "why": "Valorile inventate ajung în date ca și cum ar fi reale."
+     },
+     {
+      "t": "O acceptă și speră că pașii următori se descurcă.",
+      "ok": false,
+      "why": "Problema se mută în alt loc, unde e mai greu de înțeles."
+     },
+     {
+      "t": "O ignoră fără să anunțe pe nimeni.",
+      "ok": false,
+      "why": "Expeditorul nu află că cererea s-a pierdut."
+     }
+    ]
+   },
+   "hint": "Unde e cel mai ieftin să oprești o problemă?",
+   "explanation": "Respingerea devreme și explicită păstrează datele curate și îi spune expeditorului ce să corecteze.",
+   "impact": "Datele inventate pentru a „trece mai departe” sunt printre cele mai greu de curățat ulterior."
+  },
+  {
+   "id": "mc-3",
+   "skill": "mm-contract",
+   "level": 2,
+   "type": "flaw",
+   "kind": "assumption",
+   "tag": "p-missing",
+   "prompt": "Atinge propoziția care ascunde o presupunere falsă.",
+   "payload": {
+    "lines": [
+     "Fiecare comandă are o adresă de livrare.",
+     "Calculăm costul transportului după orașul din adresă.",
+     "Comenzile fără oraș sunt imposibile, deci nu le tratăm.",
+     "Rezultatul se trimite contabilității."
+    ],
+    "bad": 2
+   },
+   "hint": "Ce se întâmplă cu cazul pe care „nu îl tratăm”?",
+   "explanation": "„Imposibil” fără o verificare explicită e o presupunere. O comandă fără oraș va apărea, iar calculul ei va da ceva necontrolat.",
+   "impact": "Cazurile declarate imposibile sunt exact cele care cad noaptea, pentru că nimeni nu a scris ce trebuie să se întâmple atunci."
+  },
+  {
+   "id": "mc-4",
+   "skill": "mm-contract",
+   "level": 2,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-missing",
+   "prompt": "O fișă de inventar promite: „cantitatea e mereu un număr ≥ 0”. Ce intrare încalcă promisiunea, deși pare inofensivă?",
+   "payload": {
+    "options": [
+     {
+      "t": "Un câmp de cantitate lăsat gol.",
+      "ok": true
+     },
+     {
+      "t": "Cantitatea 0.",
+      "ok": false,
+      "why": "0 respectă regula ≥ 0."
+     },
+     {
+      "t": "Cantitatea 12 000.",
+      "ok": false,
+      "why": "Un număr mare respectă regula."
+     },
+     {
+      "t": "Un produs nou, cu cantitatea 3.",
+      "ok": false,
+      "why": "Respectă regula."
+     }
+    ]
+   },
+   "hint": "„Gol” e un număr?",
+   "explanation": "Lipsa valorii nu e zero. Dacă sistemul tratează golul ca zero sau îl lasă să treacă, promisiunea „mereu un număr” e deja ruptă.",
+   "impact": "Confuzia dintre „lipsă” și „zero” schimbă totaluri și decizii (de exemplu comenzi de reaprovizionare)."
+  },
+  {
+   "id": "mc-5",
+   "skill": "mm-contract",
+   "level": 3,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-contract",
+   "prompt": "Un partener trimite uneori cereri cu un câmp opțional nou, necunoscut. Ce politică alegi pentru intrare?",
+   "payload": {
+    "options": [
+     {
+      "t": "Accepți câmpurile necunoscute, dar le ignori explicit și le notezi.",
+      "ok": true
+     },
+     {
+      "t": "Respingi orice cerere care conține ceva necunoscut.",
+      "ok": false,
+      "why": "Strict, dar orice extindere a partenerului îți oprește fluxul."
+     },
+     {
+      "t": "Accepți și interpretezi câmpul după cum pare.",
+      "ok": false,
+      "why": "Ghicești sensul unui câmp pe care nu-l cunoști."
+     },
+     {
+      "t": "Copiezi totul fără nicio verificare.",
+      "ok": false,
+      "why": "Renunți și la verificarea câmpurilor obligatorii."
+     }
+    ]
+   },
+   "hint": "Ce e obligatoriu trebuie verificat strict; ce e necunoscut nu trebuie ghicit.",
+   "explanation": "Strict pe ce e obligatoriu, tolerant cu extensiile necunoscute, dar fără să le interpretezi. Notarea lor îți arată când contractul trebuie actualizat.",
+   "impact": "Compromisul dintre rigiditate și toleranță decide dacă o schimbare minoră la partener devine incident la tine."
+  },
+  {
+   "id": "mc-6",
+   "skill": "mm-contract",
+   "level": 4,
+   "type": "diagnose",
+   "kind": "diagnose",
+   "tag": "p-contract",
+   "prompt": "Simptom: de luni, 3% din cereri ajung la contabilitate cu suma 0, deși clienții au plătit.",
+   "payload": {
+    "hypotheses": [
+     {
+      "t": "Sursa a schimbat formatul sumei.",
+      "ok": true
+     },
+     {
+      "t": "Clienții au început să plătească mai puțin.",
+      "ok": false,
+      "why": "Nu explică suma exact 0 la plăți existente."
+     },
+     {
+      "t": "Contabilitatea primește prea multe cereri și pierde o parte din ele.",
+      "ok": false,
+      "why": "Volumul nu transformă sume în 0."
+     }
+    ],
+    "tests": [
+     {
+      "t": "Compari cererile cu suma 0 cu originalele.",
+      "ok": true
+     },
+     {
+      "t": "Repornești tot sistemul și urmărești dacă dispare.",
+      "ok": false,
+      "why": "Nu testează ipoteza și poate ascunde dovada."
+     },
+     {
+      "t": "Corectezi manual sumele în contabilitate.",
+      "ok": false,
+      "why": "Repari simptomul, nu afli cauza."
+     }
+    ]
+   },
+   "explanation": "Răspunsul complet: Sursa a schimbat formatul sumei, iar valorile necitibile devin 0. O dată de început clară (luni) și o valoare suspectă (0) sugerează o schimbare de contract la intrare. Testul compară exact cazurile afectate cu originalul.",
+   "impact": "Transformarea tăcută a valorilor invalide în 0 e mai periculoasă decât o eroare vizibilă: rapoartele par normale."
+  },
+  {
+   "id": "mi-1",
+   "skill": "mm-identity",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-identity",
+   "prompt": "Într-un sistem de rezervări, ce identifică unic o rezervare?",
+   "payload": {
+    "options": [
+     {
+      "t": "Un cod de rezervare unic.",
+      "ok": true
+     },
+     {
+      "t": "Numele clientului, împreună cu prenumele lui.",
+      "ok": false,
+      "why": "Doi clienți pot avea același nume."
+     },
+     {
+      "t": "Data și ora rezervării.",
+      "ok": false,
+      "why": "Mai multe rezervări pot fi făcute în același moment."
+     },
+     {
+      "t": "Numărul camerei.",
+      "ok": false,
+      "why": "Aceeași cameră are multe rezervări în timp."
+     }
+    ]
+   },
+   "hint": "Ce nu se poate repeta niciodată?",
+   "explanation": "Răspunsul complet: Un cod de rezervare generat o singură dată. Identitatea trebuie să fie stabilă și unică. Atributele descriptive (nume, oră, cameră) se pot repeta.",
+   "impact": "Identitatea greșită duce la rezervări contopite sau dublate, greu de despărțit ulterior."
+  },
+  {
+   "id": "mi-2",
+   "skill": "mm-identity",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-time",
+   "prompt": "Un colet e scanat la 10:00, mesajul ajunge la sistem la 10:20 și e procesat la 10:25. Ce moment folosești ca să știi când a plecat coletul?",
+   "payload": {
+    "options": [
+     {
+      "t": "10:00, producerea.",
+      "ok": true
+     },
+     {
+      "t": "10:20, momentul sosirii mesajului.",
+      "ok": false,
+      "why": "Include întârzierea transportului mesajului."
+     },
+     {
+      "t": "10:25, momentul procesării.",
+      "ok": false,
+      "why": "Include și coada de procesare."
+     },
+     {
+      "t": "Ora curentă, când citești raportul.",
+      "ok": false,
+      "why": "Nu are legătură cu evenimentul."
+     }
+    ]
+   },
+   "hint": "Întrebarea e despre colet, nu despre sistem.",
+   "explanation": "Răspunsul complet: 10:00, momentul producerii evenimentului. Momentul producerii descrie lumea reală. Momentele de sosire și procesare descriu drumul prin sistem.",
+   "impact": "Rapoartele construite pe momentul procesării se schimbă când sistemul e lent, deși realitatea nu s-a schimbat."
+  },
+  {
+   "id": "mi-3",
+   "skill": "mm-identity",
+   "level": 2,
+   "type": "flaw",
+   "kind": "assumption",
+   "tag": "p-order",
+   "prompt": "Atinge propoziția care ascunde o presupunere falsă.",
+   "payload": {
+    "lines": [
+     "Primim stările unei comenzi: creată, plătită, livrată.",
+     "Fiecare stare are momentul în care s-a produs.",
+     "Ultima stare primită este starea actuală a comenzii.",
+     "Afișăm starea actuală clientului."
+    ],
+    "bad": 2
+   },
+   "hint": "Mesajele ajung mereu în ordinea în care s-au produs?",
+   "explanation": "Mesajele pot sosi în altă ordine. Starea actuală se decide după momentul producerii (sau o secvență), nu după ordinea sosirii.",
+   "impact": "Un „plătită” sosit după „livrată” poate da înapoi o comandă finalizată în ochii clientului."
+  },
+  {
+   "id": "mi-4",
+   "skill": "mm-identity",
+   "level": 2,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-identity",
+   "prompt": "Regula: „Fiecare comandă are exact o stare finală.” Ce situație o încalcă?",
+   "payload": {
+    "options": [
+     {
+      "t": "Aceeași comandă: „livrată” și „anulată”.",
+      "ok": true
+     },
+     {
+      "t": "O comandă trece din „creată” în „plătită”.",
+      "ok": false,
+      "why": "E o tranziție normală, nu o stare finală dublă."
+     },
+     {
+      "t": "O comandă rămâne „creată” două zile.",
+      "ok": false,
+      "why": "Încă nu are stare finală, dar nici două."
+     },
+     {
+      "t": "Două comenzi diferite sunt „livrate” în aceeași zi.",
+      "ok": false,
+      "why": "Sunt identități diferite."
+     }
+    ]
+   },
+   "hint": "Atenție la aceeași identitate cu două finaluri.",
+   "explanation": "Răspunsul complet: Aceeași comandă apare de două ori, una „livrată” și una „anulată”. Două stări finale contradictorii pentru aceeași identitate înseamnă duplicat sau tranziție nepermisă.",
+   "impact": "Invarianții pe stări finale prind devreme duplicatele care altfel apar ca diferențe de bani la închiderea lunii."
+  },
+  {
+   "id": "mi-5",
+   "skill": "mm-identity",
+   "level": 3,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-time",
+   "prompt": "Evenimentele pot întârzia până la o oră. Raportul pe ore trebuie publicat cât mai repede, dar și corect. Ce alegi?",
+   "payload": {
+    "options": [
+     {
+      "t": "Publici repede o variantă provizorie, apoi o corectezi când trece fereastra de întârziere.",
+      "ok": true
+     },
+     {
+      "t": "Publici o singură dată, imediat, și ignori evenimentele întârziate.",
+      "ok": false,
+      "why": "Rapid, dar raportul rămâne incomplet permanent."
+     },
+     {
+      "t": "Aștepți o zi întreagă înainte de orice publicare.",
+      "ok": false,
+      "why": "Corect, dar inutil pentru decizii rapide."
+     },
+     {
+      "t": "Atribui evenimentele întârziate orei la care au sosit.",
+      "ok": false,
+      "why": "Muți evenimente în ora greșită."
+     }
+    ]
+   },
+   "hint": "Poți avea două versiuni ale aceluiași raport.",
+   "explanation": "Compromisul viteză–completitudine se rezolvă adesea cu rezultate provizorii marcate clar și o versiune finală după fereastra de întârziere.",
+   "impact": "Cine citește raportul trebuie să știe dacă cifrele sunt provizorii; altfel corecturile par erori."
+  },
+  {
+   "id": "mi-6",
+   "skill": "mm-identity",
+   "level": 4,
+   "type": "diagnose",
+   "kind": "diagnose",
+   "tag": "p-order",
+   "prompt": "Simptom: unii clienți văd comanda ca „plătită” deși ea a fost deja livrată.",
+   "payload": {
+    "hypotheses": [
+     {
+      "t": "Starea urmează ordinea sosirii.",
+      "ok": true
+     },
+     {
+      "t": "Clienții au plătit de două ori.",
+      "ok": false,
+      "why": "Nu explică întoarcerea la o stare anterioară."
+     },
+     {
+      "t": "Livrarea a fost anulată, iar sistemul a revenit la starea anterioară.",
+      "ok": false,
+      "why": "Ar apărea „anulată”, nu „plătită”."
+     }
+    ],
+    "tests": [
+     {
+      "t": "Compari momentele de producere și de sosire ale stărilor pentru comenzile afectate.",
+      "ok": true
+     },
+     {
+      "t": "Ștergi stările vechi ale tuturor comenzilor.",
+      "ok": false,
+      "why": "Distrugi dovezile și istoricul."
+     },
+     {
+      "t": "Ceri clienților să reîncarce pagina.",
+      "ok": false,
+      "why": "Nu verifică nimic."
+     }
+    ]
+   },
+   "explanation": "Răspunsul complet: Starea e decisă după ordinea sosirii, iar mesajele vin neordonate. Dacă momentul producerii lui „plătită” e înaintea lui „livrată”, dar a sosit după, ai confirmat ipoteza ordinii.",
+   "impact": "Diagnosticul cu dovezi (momente comparate) evită „repararea” prin ștergeri care strică istoricul."
+  },
+  {
+   "id": "mr-1",
+   "skill": "mm-retry",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-double",
+   "prompt": "Ce înseamnă că o operație este idempotentă?",
+   "payload": {
+    "options": [
+     {
+      "t": "Repetată, dă același rezultat final.",
+      "ok": true
+     },
+     {
+      "t": "Se execută foarte repede.",
+      "ok": false,
+      "why": "Viteza nu are legătură cu idempotența."
+     },
+     {
+      "t": "Nu poate eșua niciodată.",
+      "ok": false,
+      "why": "Poate eșua; important e ce se întâmplă la repetare."
+     },
+     {
+      "t": "Se execută o singură dată pe zi, la ora stabilită.",
+      "ok": false,
+      "why": "Frecvența nu definește idempotența."
+     }
+    ]
+   },
+   "hint": "Gândește-te la butonul de lift apăsat de trei ori.",
+   "explanation": "Răspunsul complet: Dacă o repeți, rezultatul final e același ca după prima execuție. Apăsarea repetată a butonului de lift nu cheamă trei lifturi: efectul rămâne același. Asta e idempotența.",
+   "impact": "Orice sistem care reîncearcă automat are nevoie de operații idempotente; altfel fiecare reîncercare poate dubla efectul."
+  },
+  {
+   "id": "mr-2",
+   "skill": "mm-retry",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "retry",
+   "tag": "p-double",
+   "prompt": "Fluxul are trei pași. Pasul 2 a eșuat după ce pasul 1 a trimis deja un e-mail clientului. Ce se întâmplă dacă repeți tot fluxul fără protecție?",
+   "diagram": {
+    "steps": [
+     "1. Trimite e-mail",
+     "2. Încasează plata",
+     "3. Confirmă comanda"
+    ],
+    "fail": 1
+   },
+   "payload": {
+    "options": [
+     {
+      "t": "Clientul primește încă un e-mail.",
+      "ok": true
+     },
+     {
+      "t": "Nimic, pasul 1 reușise deja.",
+      "ok": false,
+      "why": "Fără protecție, pasul 1 rulează din nou."
+     },
+     {
+      "t": "Plata se încasează de două ori, pentru că pasul 2 se reia.",
+      "ok": false,
+      "why": "Plata nu reușise prima dată."
+     },
+     {
+      "t": "Comanda se anulează automat.",
+      "ok": false,
+      "why": "Nimic din flux nu anulează comanda."
+     }
+    ]
+   },
+   "hint": "Ce pași reușiseră deja înainte de eșec?",
+   "explanation": "Reluarea întregului flux repetă și pașii reușiți. Fiecare pas cu efect extern are nevoie de protecție la repetare.",
+   "impact": "E-mailurile duble sunt jenante; încasările duble sunt incidente serioase. Același tipar le produce pe amândouă."
+  },
+  {
+   "id": "mr-3",
+   "skill": "mm-retry",
+   "level": 2,
+   "type": "tradeoff",
+   "kind": "retry",
+   "tag": "p-partial",
+   "prompt": "Pasul „Încasează plata” a trimis cererea, dar răspunsul nu a mai venit (conexiunea a căzut). Ce știi sigur?",
+   "diagram": {
+    "steps": [
+     "Cerere trimisă",
+     "? răspuns pierdut",
+     "Decizie"
+    ],
+    "fail": 1
+   },
+   "payload": {
+    "options": [
+     {
+      "t": "Nu știi dacă a fost încasată.",
+      "ok": true
+     },
+     {
+      "t": "Plata a eșuat, deci poți repeta liniștit.",
+      "ok": false,
+      "why": "Lipsa răspunsului nu înseamnă eșec."
+     },
+     {
+      "t": "Plata a reușit, deci mergi mai departe.",
+      "ok": false,
+      "why": "Lipsa răspunsului nu înseamnă nici succes."
+     },
+     {
+      "t": "Banca va anula automat cererea.",
+      "ok": false,
+      "why": "Nu ai nicio garanție pentru asta."
+     }
+    ]
+   },
+   "hint": "Ce înseamnă tăcerea?",
+   "explanation": "Răspunsul complet: Nu știi dacă plata a fost încasată sau nu. Un răspuns pierdut lasă trei posibilități: n-a ajuns, a ajuns și a eșuat, a ajuns și a reușit. Ai nevoie de o cale să verifici sau de o cheie care face repetarea sigură.",
+   "impact": "Tratarea tăcerii ca eșec duce la încasări duble; tratarea ei ca succes duce la comenzi neplătite."
+  },
+  {
+   "id": "mr-4",
+   "skill": "mm-retry",
+   "level": 2,
+   "type": "flaw",
+   "kind": "assumption",
+   "tag": "p-double",
+   "prompt": "Atinge propoziția care ascunde o presupunere falsă.",
+   "payload": {
+    "lines": [
+     "Butonul „Plătește” trimite cererea către bancă.",
+     "Utilizatorul apasă butonul o singură dată.",
+     "Banca răspunde de obicei în două secunde.",
+     "După răspuns afișăm confirmarea."
+    ],
+    "bad": 1
+   },
+   "hint": "Ce face un utilizator nerăbdător?",
+   "explanation": "Utilizatorii apasă de mai multe ori, mai ales când răspunsul întârzie. Sistemul trebuie să trateze apăsările repetate ca aceeași intenție.",
+   "impact": "Butoanele care declanșează plăți fără protecție la dublu-clic produc încasări duble exact când banca e lentă."
+  },
+  {
+   "id": "mr-5",
+   "skill": "mm-retry",
+   "level": 3,
+   "type": "order",
+   "kind": "order",
+   "tag": "p-partial",
+   "prompt": "Ordonează etapele unui proces de comandă astfel încât o reîncercare să fie sigură.",
+   "diagram": {
+    "steps": [
+     "Validare",
+     "Rezervare cheie unică",
+     "Persistență",
+     "Notificare",
+     "Compensare la eșec"
+    ]
+   },
+   "payload": {
+    "steps": [
+     "Validezi cererea",
+     "Înregistrezi cheia unică a cererii",
+     "Persiști comanda",
+     "Trimiți notificarea, marcând-o ca trimisă",
+     "La eșec, compensezi pașii deja făcuți"
+    ]
+   },
+   "hint": "Cheia unică trebuie să existe înainte de orice efect.",
+   "explanation": "Validarea oprește devreme intrările greșite. Cheia unică permite recunoașterea repetărilor. Notificarea marcată evită dublarea, iar compensarea curăță efectele parțiale.",
+   "impact": "Ordinea pașilor decide dacă o cădere la mijloc lasă sistemul într-o stare care poate fi reparată automat."
+  },
+  {
+   "id": "mr-6",
+   "skill": "mm-retry",
+   "level": 4,
+   "type": "diagnose",
+   "kind": "diagnose",
+   "tag": "p-double",
+   "prompt": "Simptom: în zilele cu multe erori de rețea, unii clienți primesc două confirmări și sunt taxați de două ori.",
+   "payload": {
+    "hypotheses": [
+     {
+      "t": "Reîncercări fără cheie unică.",
+      "ok": true
+     },
+     {
+      "t": "Clienții comandă intenționat de două ori când rețeaua e lentă.",
+      "ok": false,
+      "why": "Nu explică legătura cu erorile de rețea."
+     },
+     {
+      "t": "Banca e prea lentă în acele zile.",
+      "ok": false,
+      "why": "Lentoarea singură nu dublează încasările."
+     }
+    ],
+    "tests": [
+     {
+      "t": "Cauți încasări duble din aceeași cerere.",
+      "ok": true
+     },
+     {
+      "t": "Oprești toate reîncercările definitiv.",
+      "ok": false,
+      "why": "E o schimbare, nu un test, și creează alte probleme."
+     },
+     {
+      "t": "Măsori viteza paginii de plată.",
+      "ok": false,
+      "why": "Nu verifică ipoteza."
+     }
+    ]
+   },
+   "explanation": "Răspunsul complet: Reîncercările automate repetă încasarea fără o cheie care să le recunoască. Corelația cu erorile de rețea indică reîncercări. Două încasări din aceeași cerere confirmă lipsa idempotenței.",
+   "impact": "Testul potrivit separă cauza de coincidență înainte de schimbări riscante."
+  },
+  {
+   "id": "mg-1",
+   "skill": "mm-model",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-coupling",
+   "prompt": "Un tabel are câte un rând pe produs vândut dintr-o comandă. Ce înseamnă un rând?",
+   "payload": {
+    "options": [
+     {
+      "t": "O linie de produs dintr-o comandă.",
+      "ok": true
+     },
+     {
+      "t": "O comandă întreagă, cu toate produsele ei.",
+      "ok": false,
+      "why": "O comandă are mai multe linii, deci mai multe rânduri."
+     },
+     {
+      "t": "Un client.",
+      "ok": false,
+      "why": "Un client are multe comenzi."
+     },
+     {
+      "t": "O zi de vânzări.",
+      "ok": false,
+      "why": "O zi are multe comenzi."
+     }
+    ]
+   },
+   "hint": "Granularitatea = ce reprezintă exact un rând.",
+   "explanation": "Granularitatea spune ce reprezintă un rând. Totalurile pe comandă cer agregarea liniilor.",
+   "impact": "Confuzia de granularitate e cauza clasică a totalurilor dublate sau a numărătorilor greșite."
+  },
+  {
+   "id": "mg-2",
+   "skill": "mm-model",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-coupling",
+   "prompt": "Un singur program face validarea, calculul prețului, trimiterea e-mailului și arhivarea. Ce împărțire reduce cel mai mult riscul?",
+   "payload": {
+    "options": [
+     {
+      "t": "Părți cu câte o responsabilitate.",
+      "ok": true
+     },
+     {
+      "t": "Un program și mai mare, cu toate regulile într-un singur loc.",
+      "ok": false,
+      "why": "Crește cuplajul și riscul la fiecare schimbare."
+     },
+     {
+      "t": "Copii ale programului, câte una pe zi a săptămânii.",
+      "ok": false,
+      "why": "Multiplici aceeași logică."
+     },
+     {
+      "t": "Mutarea e-mailului la începutul programului.",
+      "ok": false,
+      "why": "Schimbi ordinea, nu responsabilitățile."
+     }
+    ]
+   },
+   "hint": "Ce se poate schimba independent?",
+   "explanation": "Răspunsul complet: Părți separate, fiecare cu o singură responsabilitate și intrări/ieșiri clare. Separarea responsabilităților face ca o schimbare la e-mail să nu atingă calculul prețului.",
+   "impact": "Părțile cu dependențe puține pot fi testate, reluate și înlocuite separat."
+  },
+  {
+   "id": "mg-3",
+   "skill": "mm-model",
+   "level": 2,
+   "type": "flaw",
+   "kind": "assumption",
+   "tag": "p-coupling",
+   "prompt": "Atinge propoziția care ascunde o presupunere falsă.",
+   "payload": {
+    "lines": [
+     "Avem un tabel cu comenzi și unul cu adresele clienților.",
+     "Unim comenzile cu adresele după client.",
+     "Fiecare client are o singură adresă.",
+     "Adunăm valoarea comenzilor pe oraș."
+    ],
+    "bad": 2
+   },
+   "hint": "Ce se întâmplă cu un client care s-a mutat?",
+   "explanation": "Un client poate avea mai multe adrese. Unirea cu toate adresele multiplică fiecare comandă și umflă totalurile.",
+   "impact": "Presupunerea „unu la unu” nescrisă ajunge în rapoarte ca cifre mai mari decât realitatea."
+  },
+  {
+   "id": "mg-4",
+   "skill": "mm-model",
+   "level": 2,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-coupling",
+   "prompt": "Regula: „Suma liniilor unei comenzi = totalul comenzii.” Ce operație o poate încălca fără să pară greșită?",
+   "payload": {
+    "options": [
+     {
+      "t": "O unire cu relație unu-la-mai-mulți.",
+      "ok": true
+     },
+     {
+      "t": "Sortarea liniilor după preț.",
+      "ok": false,
+      "why": "Ordinea nu schimbă suma."
+     },
+     {
+      "t": "Redenumirea unei coloane.",
+      "ok": false,
+      "why": "Numele nu schimbă valorile."
+     },
+     {
+      "t": "Filtrarea comenzilor dintr-o singură zi, înainte de calcul.",
+      "ok": false,
+      "why": "Comenzile rămase își păstrează liniile."
+     }
+    ]
+   },
+   "hint": "Care operație poate crește numărul de linii?",
+   "explanation": "Răspunsul complet: Unirea liniilor cu un tabel care are mai multe rânduri per comandă. O unire cu o relație „unul-la-mai-multe” multiplică liniile și rupe egalitatea dintre sumă și total.",
+   "impact": "Un invariant scris și verificat (suma = total) prinde multiplicarea imediat."
+  },
+  {
+   "id": "mg-5",
+   "skill": "mm-model",
+   "level": 3,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-premature",
+   "prompt": "O echipă vrea să modeleze de la început toate cazurile posibile, pentru „flexibilitate viitoare”. Livrarea întârzie. Ce compromis recomanzi?",
+   "payload": {
+    "options": [
+     {
+      "t": "Modelezi clar nevoile actuale și lași puncte de extindere, fără să ghicești viitorul.",
+      "ok": true
+     },
+     {
+      "t": "Continui până acoperi toate cazurile imaginabile.",
+      "ok": false,
+      "why": "Complexitate plătită pentru nevoi care poate nu apar."
+     },
+     {
+      "t": "Renunți la orice modelare și salvezi totul ca text.",
+      "ok": false,
+      "why": "Simplitate falsă: complexitatea se mută la fiecare consumator."
+     },
+     {
+      "t": "Copiezi modelul altei firme, așa cum este.",
+      "ok": false,
+      "why": "Nevoile tale pot fi diferite."
+     }
+    ]
+   },
+   "hint": "Flexibilitatea costă acum; beneficiul e incert.",
+   "explanation": "Simplitatea pentru ce știi azi, cu extensibilitate rezonabilă, bate de obicei modelele construite pentru scenarii ipotetice.",
+   "impact": "Optimizarea prematură pentru flexibilitate întârzie livrarea și face sistemul greu de înțeles."
+  },
+  {
+   "id": "mg-6",
+   "skill": "mm-model",
+   "level": 4,
+   "type": "diagnose",
+   "kind": "diagnose",
+   "tag": "p-coupling",
+   "prompt": "Simptom: după ce s-a adăugat informația „adresa de livrare” în raport, vânzările pe oraș au crescut cu 18%, dar vânzările totale ale firmei nu s-au schimbat.",
+   "payload": {
+    "hypotheses": [
+     {
+      "t": "Unirea cu adresele multiplică comenzi.",
+      "ok": true
+     },
+     {
+      "t": "Vânzările reale au crescut în orașele mari.",
+      "ok": false,
+      "why": "Totalul firmei ar fi crescut și el."
+     },
+     {
+      "t": "Raportul vechi era greșit.",
+      "ok": false,
+      "why": "Schimbarea coincide exact cu noua unire."
+     }
+    ],
+    "tests": [
+     {
+      "t": "Numeri rândurile per comandă, înainte și după.",
+      "ok": true
+     },
+     {
+      "t": "Compari raportul cu cel al anului trecut, lună cu lună.",
+      "ok": false,
+      "why": "Nu izolează schimbarea recentă."
+     },
+     {
+      "t": "Elimini orașele mici din raport.",
+      "ok": false,
+      "why": "Ascunde problema."
+     }
+    ]
+   },
+   "explanation": "Răspunsul complet: Unirea cu adresele multiplică unele comenzi în raportul pe oraș. Totalul neschimbat și creșterea pe oraș după o unire nouă indică multiplicare. Numărarea rândurilor per comandă confirmă.",
+   "impact": "Un total de control pe un nivel superior (firma) e cel mai ieftin detector de multiplicare."
+  },
+  {
+   "id": "mv-1",
+   "skill": "mm-invariant",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-invariant",
+   "prompt": "Regula: „Soldul unui cont nu poate deveni negativ.” Ce acțiune o încalcă?",
+   "payload": {
+    "options": [
+     {
+      "t": "O retragere de 150 dintr-un cont cu 100.",
+      "ok": true
+     },
+     {
+      "t": "O depunere de 150 într-un cont cu 0.",
+      "ok": false,
+      "why": "Soldul crește."
+     },
+     {
+      "t": "O retragere de 100 dintr-un cont cu 100.",
+      "ok": false,
+      "why": "Soldul ajunge la 0, ceea ce e permis."
+     },
+     {
+      "t": "Verificarea soldului.",
+      "ok": false,
+      "why": "Citirea nu schimbă soldul."
+     }
+    ]
+   },
+   "hint": "Calculează soldul după acțiune.",
+   "explanation": "Un invariant e o regulă care trebuie să rămână adevărată după orice operație. O verifici înainte de a aplica operația.",
+   "impact": "Invarianții verificați la intrare opresc erorile înainte să devină bani lipsă."
+  },
+  {
+   "id": "mv-2",
+   "skill": "mm-invariant",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-missing",
+   "prompt": "La un ghișeu, regula este: „Fiecare persoană din coadă primește exact un număr de ordine.” Ce situație o încalcă?",
+   "payload": {
+    "options": [
+     {
+      "t": "Același număr pentru două persoane.",
+      "ok": true
+     },
+     {
+      "t": "O persoană așteaptă 20 de minute.",
+      "ok": false,
+      "why": "Timpul de așteptare nu e regula."
+     },
+     {
+      "t": "Coada are 30 de persoane.",
+      "ok": false,
+      "why": "Lungimea cozii nu încalcă regula."
+     },
+     {
+      "t": "Numărul 15 e chemat după 14.",
+      "ok": false,
+      "why": "E ordinea normală."
+     }
+    ]
+   },
+   "hint": "„Exact un” și „unic” sunt două părți ale regulii.",
+   "explanation": "Răspunsul complet: Aparatul se blochează și tipărește același număr pentru două persoane. Regula cere unicitate: două persoane cu același număr o rup, chiar dacă fiecare are „un număr”.",
+   "impact": "Duplicatele de identitate produc conflicte greu de rezolvat: cine e servit primul?"
+  },
+  {
+   "id": "mv-3",
+   "skill": "mm-invariant",
+   "level": 2,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-time",
+   "prompt": "Două retrageri de 80 dintr-un cont cu 100 vin în același moment. Fiecare verifică separat soldul (100) și trece. Ce s-a întâmplat cu regula „sold ≥ 0”?",
+   "payload": {
+    "options": [
+     {
+      "t": "E încălcată: soldul final e −60, deși fiecare verificare a trecut.",
+      "ok": true
+     },
+     {
+      "t": "E respectată, pentru că fiecare retragere a fost verificată.",
+      "ok": false,
+      "why": "Verificările au văzut aceeași stare veche."
+     },
+     {
+      "t": "A doua retragere se anulează automat.",
+      "ok": false,
+      "why": "Nimic din enunț nu face asta."
+     },
+     {
+      "t": "Soldul devine 20.",
+      "ok": false,
+      "why": "Ar fi adevărat doar dacă s-ar aplica una singură."
+     }
+    ]
+   },
+   "hint": "Ce sold a văzut a doua verificare?",
+   "explanation": "Concurența rupe invarianții verificați separat: verificarea și modificarea trebuie să fie o singură operație atomică.",
+   "impact": "Cazurile concurente apar rar în teste, dar sigur în producție, la volum mare."
+  },
+  {
+   "id": "mv-4",
+   "skill": "mm-invariant",
+   "level": 2,
+   "type": "flaw",
+   "kind": "assumption",
+   "tag": "p-missing",
+   "prompt": "Atinge propoziția care ascunde o presupunere falsă.",
+   "payload": {
+    "lines": [
+     "Calculăm media notelor fiecărui elev.",
+     "Împărțim suma notelor la numărul de note.",
+     "Fiecare elev are cel puțin o notă.",
+     "Afișăm media cu două zecimale."
+    ],
+    "bad": 2
+   },
+   "hint": "Ce se întâmplă cu un elev nou?",
+   "explanation": "Un elev fără note face împărțirea la zero sau produce o medie fără sens. Cazul gol trebuie tratat explicit.",
+   "impact": "Cazurile goale (zero elemente) sunt cea mai frecventă sursă de erori la calcule simple."
+  },
+  {
+   "id": "mv-5",
+   "skill": "mm-invariant",
+   "level": 3,
+   "type": "order",
+   "kind": "order",
+   "tag": "p-invariant",
+   "prompt": "Ordonează pașii unei retrageri sigure, care respectă „sold ≥ 0” și când vin cereri simultane.",
+   "diagram": {
+    "steps": [
+     "Blochează contul",
+     "Citește soldul",
+     "Verifică regula",
+     "Aplică retragerea",
+     "Eliberează contul"
+    ]
+   },
+   "payload": {
+    "steps": [
+     "Obții accesul exclusiv la cont",
+     "Citești soldul curent",
+     "Verifici că soldul rămâne ≥ 0 după retragere",
+     "Aplici retragerea",
+     "Eliberezi accesul la cont"
+    ]
+   },
+   "hint": "Verificarea și modificarea trebuie protejate împreună.",
+   "explanation": "Accesul exclusiv în jurul citirii, verificării și modificării face operația atomică față de alte cereri.",
+   "impact": "Fără protecție comună, fiecare cerere „verificată” poate încălca regula în combinație cu alta."
+  },
+  {
+   "id": "mv-6",
+   "skill": "mm-invariant",
+   "level": 4,
+   "type": "diagnose",
+   "kind": "diagnose",
+   "tag": "p-invariant",
+   "prompt": "Simptom: câteva conturi au sold negativ, deși fiecare retragere trece printr-o verificare „sold ≥ 0”. Apare doar la ore de vârf.",
+   "payload": {
+    "hypotheses": [
+     {
+      "t": "Retrageri simultane văd același sold.",
+      "ok": true
+     },
+     {
+      "t": "Verificarea are o greșeală de semn și lasă să treacă sumele negative.",
+      "ok": false,
+      "why": "Ar produce probleme și în afara orelor de vârf."
+     },
+     {
+      "t": "Clienții retrag mai mulți bani la vârf.",
+      "ok": false,
+      "why": "Volumul singur nu ocolește verificarea."
+     }
+    ],
+    "tests": [
+     {
+      "t": "Cauți retrageri suprapuse în timp.",
+      "ok": true
+     },
+     {
+      "t": "Dezactivezi verificarea și urmărești ce se întâmplă.",
+      "ok": false,
+      "why": "Periculos și nu testează ipoteza."
+     },
+     {
+      "t": "Măsori câte cereri pe minut sunt la vârf.",
+      "ok": false,
+      "why": "Arată volumul, nu cauza."
+     }
+    ]
+   },
+   "explanation": "Răspunsul complet: Retrageri simultane citesc același sold înainte ca prima să-l modifice. Legătura cu orele de vârf și verificarea care „trece” indică o problemă de concurență. Retragerile suprapuse în timp o confirmă.",
+   "impact": "Problemele care apar „doar la vârf” sunt de obicei de concurență; testul trebuie să caute suprapuneri, nu volume."
+  },
+  {
+   "id": "mt-1",
+   "skill": "mm-tradeoff",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-premature",
+   "prompt": "O aplicație de știri trebuie să răspundă instant, iar o întârziere de un minut în actualizarea articolelor e acceptabilă. Ce principiu se potrivește?",
+   "payload": {
+    "options": [
+     {
+      "t": "Disponibilitate și viteză, cu consistență eventuală.",
+      "ok": true
+     },
+     {
+      "t": "Consistență strictă: nimeni nu vede articolul până nu e actualizat peste tot.",
+      "ok": false,
+      "why": "Încetinește răspunsul fără beneficiu real aici."
+     },
+     {
+      "t": "Oprirea aplicației la fiecare actualizare.",
+      "ok": false,
+      "why": "Sacrifici disponibilitatea complet."
+     },
+     {
+      "t": "Actualizarea manuală, o dată pe zi.",
+      "ok": false,
+      "why": "Întârzierea depășește ce e acceptabil."
+     }
+    ]
+   },
+   "hint": "Ce s-a spus că e acceptabil?",
+   "explanation": "Când o întârziere mică e acceptabilă, preferi disponibilitatea și viteza, acceptând că datele devin consistente după scurt timp.",
+   "impact": "Alegerea consistenței stricte unde nu e nevoie costă viteză și disponibilitate."
+  },
+  {
+   "id": "mt-2",
+   "skill": "mm-tradeoff",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-premature",
+   "prompt": "Un sistem de plăți nu are voie să accepte două plăți cu aceleași fonduri. Ce principiu se potrivește?",
+   "payload": {
+    "options": [
+     {
+      "t": "Consistența are prioritate.",
+      "ok": true
+     },
+     {
+      "t": "Viteza are prioritate; corecturile se fac lunar.",
+      "ok": false,
+      "why": "Plățile duble sunt pierderi reale."
+     },
+     {
+      "t": "Fiecare server decide independent.",
+      "ok": false,
+      "why": "Exact situația care permite dublarea."
+     },
+     {
+      "t": "Acceptă tot și anulează dublurile manual.",
+      "ok": false,
+      "why": "Reactiv și costisitor."
+     }
+    ]
+   },
+   "hint": "Ce costă mai mult: o secundă în plus sau bani dublați?",
+   "explanation": "Răspunsul complet: Consistența are prioritate, chiar cu un răspuns ceva mai lent. Unde o greșeală e ireversibilă și scumpă, consistența bate viteza.",
+   "impact": "Același sistem poate avea părți cu priorități diferite: știri rapide, plăți consistente."
+  },
+  {
+   "id": "mt-3",
+   "skill": "mm-tradeoff",
+   "level": 2,
+   "type": "flaw",
+   "kind": "assumption",
+   "tag": "p-premature",
+   "prompt": "Atinge propoziția care ascunde o presupunere falsă.",
+   "payload": {
+    "lines": [
+     "Raportul lunar durează 4 minute.",
+     "Vrem să-l facem să ruleze în 4 secunde.",
+     "Utilizatorii au nevoie de el instant.",
+     "Îl citesc o dată pe lună, la ședința de bilanț."
+    ],
+    "bad": 2
+   },
+   "hint": "Ce spun ultimele două propoziții, puse împreună?",
+   "explanation": "Un raport citit lunar nu are nevoie de răspuns instant. Optimizarea lui e muncă fără beneficiu.",
+   "impact": "Optimizarea prematură consumă timp și adaugă complexitate unde nu există o nevoie reală."
+  },
+  {
+   "id": "mt-4",
+   "skill": "mm-tradeoff",
+   "level": 2,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-time",
+   "prompt": "Procesezi comenzi. Le poți trimite una câte una (fiecare imediat) sau în loturi de 1000 (la fiecare minut). Ce câștigi și ce pierzi cu loturile?",
+   "payload": {
+    "options": [
+     {
+      "t": "Câștigi debit (mai multe pe secundă), pierzi latență (fiecare așteaptă lotul).",
+      "ok": true
+     },
+     {
+      "t": "Câștigi și debit, și latență.",
+      "ok": false,
+      "why": "Loturile adaugă așteptare."
+     },
+     {
+      "t": "Pierzi debit, câștigi latență.",
+      "ok": false,
+      "why": "E invers."
+     },
+     {
+      "t": "Nu se schimbă nimic.",
+      "ok": false,
+      "why": "Lotul schimbă clar compromisul."
+     }
+    ]
+   },
+   "hint": "Cât așteaptă prima comandă dintr-un lot?",
+   "explanation": "Loturile împart costul fix pe mai multe elemente (debit mai mare), dar fiecare element așteaptă formarea lotului (latență mai mare).",
+   "impact": "Mărimea lotului e un buton de reglaj între latență și debit; alegerea ei pornește de la cerință."
+  },
+  {
+   "id": "mt-5",
+   "skill": "mm-tradeoff",
+   "level": 3,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-coupling",
+   "prompt": "Pentru un flux de aprobări cu 3 echipe, ai două variante: fiecare echipă își notifică direct următoarea (decuplat, greu de urmărit) sau un coordonator central (vizibil, dar punct comun). Ce alegi când auditul e esențial?",
+   "payload": {
+    "options": [
+     {
+      "t": "Coordonatorul central.",
+      "ok": true
+     },
+     {
+      "t": "Notificările directe, fiindcă decuplarea e mereu mai bună.",
+      "ok": false,
+      "why": "„Mereu” ignoră cerința de audit."
+     },
+     {
+      "t": "Fără niciun flux formal; echipele se înțeleg.",
+      "ok": false,
+      "why": "Elimină exact ce cere auditul."
+     },
+     {
+      "t": "Ambele variante în paralel.",
+      "ok": false,
+      "why": "Dublezi sursele de adevăr."
+     }
+    ]
+   },
+   "hint": "Cerința decide compromisul.",
+   "explanation": "Răspunsul complet: Coordonatorul central, care dă vizibilitate completă asupra fluxului. Decuplarea reduce dependențele, dar ascunde fluxul; vizibilitatea centrală costă un punct comun. Auditul înclină balanța spre vizibilitate.",
+   "impact": "Niciun principiu nu e „mereu bun”; contextul (aici auditul) alege."
+  },
+  {
+   "id": "mt-6",
+   "skill": "mm-tradeoff",
+   "level": 4,
+   "type": "diagnose",
+   "kind": "diagnose",
+   "tag": "p-time",
+   "prompt": "Simptom: după trecerea la loturi de 1000, clienții se plâng că confirmările vin cu până la un minut întârziere, deși sistemul procesează de 5 ori mai mult.",
+   "payload": {
+    "hypotheses": [
+     {
+      "t": "Așteptarea formării lotului.",
+      "ok": true
+     },
+     {
+      "t": "Serverele sunt supraîncărcate de volumul de cinci ori mai mare.",
+      "ok": false,
+      "why": "Debitul a crescut de 5 ori, deci capacitatea e suficientă."
+     },
+     {
+      "t": "Clienții au conexiuni lente.",
+      "ok": false,
+      "why": "Nu explică legătura cu schimbarea în loturi."
+     }
+    ],
+    "tests": [
+     {
+      "t": "Măsori separat așteptarea și procesarea.",
+      "ok": true
+     },
+     {
+      "t": "Dublezi numărul de servere.",
+      "ok": false,
+      "why": "E o schimbare scumpă, nu un test."
+     },
+     {
+      "t": "Ceri clienților să reîncerce.",
+      "ok": false,
+      "why": "Nu testează nimic."
+     }
+    ]
+   },
+   "explanation": "Răspunsul complet: Întârzierea vine din așteptarea formării lotului, nu din lentoare. Debit mai mare și latență mai mare după loturi e exact compromisul așteptat. Măsurarea separată a așteptării confirmă.",
+   "impact": "Înțelegerea compromisului evită „reparații” care adaugă resurse fără să atingă cauza."
+  },
+  {
+   "id": "mo-1",
+   "skill": "mm-observe",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-observe",
+   "prompt": "Un proces nocturn nu a pornit. Nu a dat nicio eroare. Ce semnal te-ar fi anunțat?",
+   "payload": {
+    "options": [
+     {
+      "t": "O alertă dacă rezultatul nu apare la timp.",
+      "ok": true
+     },
+     {
+      "t": "O alertă la erori.",
+      "ok": false,
+      "why": "Un proces care nu pornește nu produce erori."
+     },
+     {
+      "t": "Un raport lunar de activitate.",
+      "ok": false,
+      "why": "Prea târziu."
+     },
+     {
+      "t": "Verificarea manuală, când își amintește cineva.",
+      "ok": false,
+      "why": "Nu e un semnal."
+     }
+    ]
+   },
+   "hint": "Cum observi ceva care lipsește?",
+   "explanation": "Răspunsul complet: O alertă când rezultatul așteptat nu apare până la o oră limită. Absența unui eveniment se observă doar dacă aștepți explicit prezența lui, cu un termen.",
+   "impact": "Multe incidente sunt „lipsa” a ceva; alertele doar pe erori nu le văd."
+  },
+  {
+   "id": "mo-2",
+   "skill": "mm-observe",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-observe",
+   "prompt": "Un utilizator spune: „Ieri a mers greu.” Ce informație te ajută cel mai mult să afli ce s-a întâmplat?",
+   "payload": {
+    "options": [
+     {
+      "t": "Înregistrări cu durata fiecărui pas, cu momentul și identitatea cererii.",
+      "ok": true
+     },
+     {
+      "t": "Numărul total de utilizatori de ieri.",
+      "ok": false,
+      "why": "Nu spune unde a fost lent."
+     },
+     {
+      "t": "Părerea altor utilizatori.",
+      "ok": false,
+      "why": "Subiectivă și incompletă."
+     },
+     {
+      "t": "Versiunea aplicației.",
+      "ok": false,
+      "why": "Utilă, dar insuficientă singură."
+     }
+    ]
+   },
+   "hint": "Ai nevoie de unde, când și pentru ce cerere.",
+   "explanation": "Durata pe pași, cu moment și identitate, îți permite să urmărești o cerere de la un capăt la altul.",
+   "impact": "Fără urme pe pași, diagnosticul devine ghicit."
+  },
+  {
+   "id": "mo-3",
+   "skill": "mm-observe",
+   "level": 2,
+   "type": "flaw",
+   "kind": "assumption",
+   "tag": "p-observe",
+   "prompt": "Atinge propoziția care ascunde o presupunere falsă.",
+   "payload": {
+    "lines": [
+     "Procesul a terminat cu „succes”.",
+     "Deci datele de azi sunt complete.",
+     "Raportul folosește datele de azi.",
+     "Raportul e trimis conducerii."
+    ],
+    "bad": 1
+   },
+   "hint": "„Succes” spune ce despre volum?",
+   "explanation": "Un proces poate termina cu succes procesând doar o parte din date (sursă incompletă). Completitudinea se verifică separat.",
+   "impact": "Succesul tehnic nu e corectitudine; un raport cu 40% din date poate pleca la conducere fără nicio eroare."
+  },
+  {
+   "id": "mo-4",
+   "skill": "mm-observe",
+   "level": 2,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-observe",
+   "prompt": "Zilnic se încarcă aproximativ 10 000 de comenzi. Azi s-au încărcat 4 000, fără erori. Ce regulă de alertare ar fi prins problema?",
+   "payload": {
+    "options": [
+     {
+      "t": "Volumul zilei sub jumătate din valoarea obișnuită.",
+      "ok": true
+     },
+     {
+      "t": "Volumul zilei egal cu zero.",
+      "ok": false,
+      "why": "Ratează încărcările parțiale."
+     },
+     {
+      "t": "Orice eroare raportată de proces în timpul încărcării.",
+      "ok": false,
+      "why": "Nu au existat erori."
+     },
+     {
+      "t": "Durata procesului peste o oră.",
+      "ok": false,
+      "why": "Un volum mic durează mai puțin, nu mai mult."
+     }
+    ]
+   },
+   "hint": "Compari cu ce e normal.",
+   "explanation": "Regulile relative la normal (de exemplu mediana zilelor recente) prind și lipsurile parțiale.",
+   "impact": "Încărcările parțiale sunt mai periculoase decât cele lipsă, pentru că par plauzibile."
+  },
+  {
+   "id": "mo-5",
+   "skill": "mm-observe",
+   "level": 3,
+   "type": "order",
+   "kind": "order",
+   "tag": "p-observe",
+   "prompt": "Un rezultat final e greșit. Ordonează pașii de diagnostic, fără să ghicești.",
+   "payload": {
+    "steps": [
+     "Confirmi simptomul cu date concrete",
+     "Găsești primul punct din flux unde datele devin greșite",
+     "Formulezi o ipoteză pentru acel punct",
+     "Testezi ipoteza pe cazuri afectate și neafectate",
+     "Repari și verifici că simptomul a dispărut"
+    ]
+   },
+   "hint": "Mergi de la simptom spre sursă, apoi testezi.",
+   "explanation": "Localizarea primului punct greșit restrânge căutarea; testul pe cazuri afectate și neafectate separă cauza de coincidență.",
+   "impact": "Diagnosticul ordonat scurtează incidentele și evită reparații care mută problema."
+  },
+  {
+   "id": "mo-6",
+   "skill": "mm-observe",
+   "level": 4,
+   "type": "diagnose",
+   "kind": "diagnose",
+   "tag": "p-observe",
+   "prompt": "Simptom: un raport arată vânzări zero pentru o singură regiune, din ziua în care s-a redenumit regiunea în sistemul sursă.",
+   "payload": {
+    "hypotheses": [
+     {
+      "t": "Filtrul folosește vechiul nume.",
+      "ok": true
+     },
+     {
+      "t": "Regiunea chiar nu a mai vândut nimic din acea zi.",
+      "ok": false,
+      "why": "Coincidența exactă cu redenumirea o face improbabilă."
+     },
+     {
+      "t": "Raportul e lent.",
+      "ok": false,
+      "why": "Lentoarea nu produce zero."
+     }
+    ],
+    "tests": [
+     {
+      "t": "Cauți vânzările după noul nume.",
+      "ok": true
+     },
+     {
+      "t": "Repornești raportul.",
+      "ok": false,
+      "why": "Nu verifică filtrul."
+     },
+     {
+      "t": "Compari regiunea cu toate celelalte regiuni, zi cu zi.",
+      "ok": false,
+      "why": "Nu testează ipoteza numelui."
+     }
+    ]
+   },
+   "explanation": "Răspunsul complet: Raportul filtrează după vechiul nume al regiunii. O schimbare de nume în sursă și un filtru care o folosește dau exact „zero de la o dată”. Căutarea după noul nume confirmă.",
+   "impact": "Filtrele după nume (în loc de identificatori stabili) se rup la prima redenumire."
+  },
+  {
+   "id": "me-1",
+   "skill": "mm-evolve",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-compat",
+   "prompt": "Un formular trimite datele către trei aplicații. Vrei să adaugi un câmp nou. Ce schimbare e cea mai sigură pentru aplicațiile existente?",
+   "payload": {
+    "options": [
+     {
+      "t": "Un câmp nou, opțional.",
+      "ok": true
+     },
+     {
+      "t": "Redenumești un câmp existent.",
+      "ok": false,
+      "why": "Aplicațiile vechi nu mai găsesc câmpul."
+     },
+     {
+      "t": "Schimbi tipul unui câmp existent.",
+      "ok": false,
+      "why": "Aplicațiile vechi pot interpreta greșit valoarea."
+     },
+     {
+      "t": "Ștergi un câmp puțin folosit.",
+      "ok": false,
+      "why": "„Puțin” nu înseamnă „deloc”."
+     }
+    ]
+   },
+   "hint": "Ce schimbare nu obligă pe nimeni să se schimbe?",
+   "explanation": "Răspunsul complet: Adaugi un câmp opțional; cei vechi îl pot ignora. Adăugarea opțională e compatibilă înapoi: cititorii vechi continuă să funcționeze.",
+   "impact": "Schimbările compatibile pot fi livrate independent; cele incompatibile cer coordonare cu toți consumatorii."
+  },
+  {
+   "id": "me-2",
+   "skill": "mm-evolve",
+   "level": 1,
+   "type": "tradeoff",
+   "kind": "compromise",
+   "tag": "p-compat",
+   "prompt": "Vrei să redenumești un câmp folosit de alte echipe. Ce abordare e mai sigură?",
+   "payload": {
+    "options": [
+     {
+      "t": "Adaugi câmpul nou, păstrezi un timp și câmpul vechi, anunți și apoi retragi.",
+      "ok": true
+     },
+     {
+      "t": "Redenumești peste noapte și anunți dimineața.",
+      "ok": false,
+      "why": "Echipele afectate află după ce s-au stricat."
+     },
+     {
+      "t": "Nu redenumești niciodată nimic.",
+      "ok": false,
+      "why": "Prea rigid; sistemul nu mai poate evolua."
+     },
+     {
+      "t": "Lași fiecare echipă să ghicească noul nume.",
+      "ok": false,
+      "why": "Garantat incomplet."
+     }
+    ]
+   },
+   "hint": "Perioada de tranziție.",
+   "explanation": "Expand–contract: extinzi (nou + vechi), migrezi consumatorii, apoi restrângi (scoți vechiul).",
+   "impact": "Tiparul expand–contract face posibile schimbări mari fără opriri sau incidente."
+  },
+  {
+   "id": "me-3",
+   "skill": "mm-evolve",
+   "level": 2,
+   "type": "flaw",
+   "kind": "assumption",
+   "tag": "p-compat",
+   "prompt": "Atinge propoziția care ascunde o presupunere falsă.",
+   "payload": {
+    "lines": [
+     "Schimbăm formatul datei din „zi/lună/an” în „an-lună-zi”.",
+     "Aplicația noastră citește noul format.",
+     "Toate aplicațiile care citesc datele noastre se actualizează în aceeași zi.",
+     "Datele vechi rămân în formatul vechi."
+    ],
+    "bad": 2
+   },
+   "hint": "Controlezi tu toți cititorii?",
+   "explanation": "Consumatorii au propriile calendare. Presupunerea că se actualizează simultan e aproape mereu falsă.",
+   "impact": "Schimbările care cer actualizare simultană a tuturor sunt cele care produc incidente în lanț."
+  },
+  {
+   "id": "me-4",
+   "skill": "mm-evolve",
+   "level": 2,
+   "type": "tradeoff",
+   "kind": "invariant",
+   "tag": "p-compat",
+   "prompt": "Datele vechi au formatul vechi, cele noi formatul nou. Un cititor trebuie să le citească pe amândouă. Ce regulă îl ajută?",
+   "payload": {
+    "options": [
+     {
+      "t": "Versiunea de format, pe fiecare înregistrare.",
+      "ok": true
+     },
+     {
+      "t": "Cititorul ghicește formatul după aspectul fiecărei valori.",
+      "ok": false,
+      "why": "Unele valori arată la fel în ambele formate (de exemplu 03/04)."
+     },
+     {
+      "t": "Se convertesc toate datele vechi peste noapte.",
+      "ok": false,
+      "why": "Poate fi util, dar nu ajută consumatorii în tranziție."
+     },
+     {
+      "t": "Se citește doar formatul nou.",
+      "ok": false,
+      "why": "Pierzi datele vechi."
+     }
+    ]
+   },
+   "hint": "„03/04” e martie sau aprilie?",
+   "explanation": "Răspunsul complet: Fiecare înregistrare spune ce versiune de format are. Versiunea explicită elimină ghicitul; cititorul aplică regula potrivită fiecărei înregistrări.",
+   "impact": "Ghicirea formatului produce erori tăcute, de exemplu zile și luni inversate."
+  },
+  {
+   "id": "me-5",
+   "skill": "mm-evolve",
+   "level": 3,
+   "type": "order",
+   "kind": "order",
+   "tag": "p-compat",
+   "prompt": "Ordonează pașii pentru înlocuirea sigură a unui câmp folosit de alte echipe.",
+   "diagram": {
+    "steps": [
+     "Extinde",
+     "Migrează",
+     "Verifică",
+     "Restrânge"
+    ]
+   },
+   "payload": {
+    "steps": [
+     "Adaugi câmpul nou alături de cel vechi",
+     "Scrii valorile în ambele câmpuri",
+     "Muți consumatorii pe câmpul nou",
+     "Verifici că nimeni nu mai citește câmpul vechi",
+     "Elimini câmpul vechi"
+    ]
+   },
+   "hint": "Extinde, migrează, verifică, restrânge.",
+   "explanation": "Ordinea expand–contract păstrează sistemul funcțional la fiecare pas.",
+   "impact": "Eliminarea câmpului vechi înaintea verificării e pasul care strică de obicei un consumator uitat."
+  },
+  {
+   "id": "me-6",
+   "skill": "mm-evolve",
+   "level": 4,
+   "type": "diagnose",
+   "kind": "diagnose",
+   "tag": "p-compat",
+   "prompt": "Simptom: după o actualizare, un singur raport arată date din viitor (de exemplu 2026-12-05 pentru o comandă din 12 mai).",
+   "payload": {
+    "hypotheses": [
+     {
+      "t": "Raportul interpretează noul format de dată ca pe cel vechi, inversând ziua și luna.",
+      "ok": true
+     },
+     {
+      "t": "Ceasul serverului e greșit.",
+      "ok": false,
+      "why": "Ar afecta toate rapoartele."
+     },
+     {
+      "t": "Clienții au comandat în avans.",
+      "ok": false,
+      "why": "Nu explică legătura cu actualizarea."
+     }
+    ],
+    "tests": [
+     {
+      "t": "Compari valorile originale cu cele afișate.",
+      "ok": true
+     },
+     {
+      "t": "Reinstalezi raportul.",
+      "ok": false,
+      "why": "Nu verifică interpretarea formatului."
+     },
+     {
+      "t": "Ștergi comenzile din viitor.",
+      "ok": false,
+      "why": "Distrugi date corecte."
+     }
+    ]
+   },
+   "explanation": "„Un singur raport” după o schimbare de format indică un consumator neactualizat. Comparația cu valorile originale arată inversarea.",
+   "impact": "Consumatorii uitați se descoperă prin simptome ciudate; o listă a consumatorilor previne asta."
+  }
+ ],
+ "cards": [
+  {
+   "id": "mm-card-1",
+   "skill": "mm-contract",
+   "category": "model",
+   "title": "Contractul",
+   "body": "**Pe scurt.** Un contract spune ce primește un sistem, ce promite să întoarcă și ce face când intrarea nu respectă regulile.\n\n**Regula de aur.** Verifici intrarea la graniță și o respingi clar dacă nu respectă contractul.\n\n**Când ajută.** Orice graniță între părți: oameni, echipe, sisteme.\n\n**Când nu ajută.** Când contractul nu e scris: atunci fiecare parte presupune altceva.\n\n**Întreabă-te.** Ce se întâmplă cu o intrare care lipsește, e goală sau are alt format?"
+  },
+  {
+   "id": "mm-card-2",
+   "skill": "mm-identity",
+   "category": "model",
+   "title": "Identitate, stare și timp",
+   "body": "**Pe scurt.** Identitatea spune ce e același lucru în timp. Starea e ce știi despre el acum. Timpul are trei momente: producere, sosire, procesare.\n\n**Regula de aur.** Decizi starea după momentul producerii sau după o secvență, nu după ordinea sosirii.\n\n**Când ajută.** Evenimente care vin din locuri diferite sau cu întârzieri.\n\n**Când nu ajută.** Când identitatea nu e stabilă (de exemplu după nume).\n\n**Întreabă-te.** Ce face unic acest lucru? Ce se întâmplă dacă mesajele vin în altă ordine?"
+  },
+  {
+   "id": "mm-card-3",
+   "skill": "mm-retry",
+   "category": "model",
+   "title": "Idempotența",
+   "body": "**Pe scurt.** O operație idempotentă dă același rezultat final oricâte ori o repeți.\n\n**Regula de aur.** Orice pas cu efect extern are o cheie care recunoaște repetarea.\n\n**Când ajută.** Reîncercări automate, rețele nesigure, utilizatori care apasă de două ori.\n\n**Când nu ajută.** Singură, nu repară o operație greșită; doar o face sigură la repetare.\n\n**Întreabă-te.** Ce se întâmplă dacă acest pas rulează de două ori?"
+  },
+  {
+   "id": "mm-card-4",
+   "skill": "mm-model",
+   "category": "model",
+   "title": "Granularitatea",
+   "body": "**Pe scurt.** Granularitatea spune ce reprezintă exact o unitate (un rând, un mesaj, o linie).\n\n**Regula de aur.** Aduci părțile la aceeași granularitate înainte să le combini.\n\n**Când ajută.** Orice combinare de liste, tabele sau rapoarte.\n\n**Când nu ajută.** Când granularitatea nu e scrisă: fiecare o presupune diferit.\n\n**Întreabă-te.** Ce reprezintă exact un rând aici? Poate un rând din stânga să se potrivească cu mai multe din dreapta?"
+  },
+  {
+   "id": "mm-card-5",
+   "skill": "mm-invariant",
+   "category": "model",
+   "title": "Invarianții",
+   "body": "**Pe scurt.** Un invariant e o regulă care trebuie să rămână adevărată după orice operație.\n\n**Regula de aur.** Verifici regula și aplici modificarea într-un singur pas protejat.\n\n**Când ajută.** Solduri, stocuri, stări finale, unicitate.\n\n**Când nu ajută.** Când regula e verificată separat de modificare și vin cereri simultane.\n\n**Întreabă-te.** Ce regulă nu are voie să se rupă niciodată? Ce cerere simultană ar rupe-o?"
+  },
+  {
+   "id": "mm-card-6",
+   "skill": "mm-tradeoff",
+   "category": "model",
+   "title": "Compromisurile",
+   "body": "**Pe scurt.** Aproape fiecare alegere tehnică câștigă ceva și pierde altceva.\n\n**Regula de aur.** Cerința decide: întâi spui ce contează mai mult, apoi alegi.\n\n**Când ajută.** Viteză vs. corectitudine, simplu vs. flexibil, decuplat vs. vizibil.\n\n**Când nu ajută.** Când „cel mai bun” e decis fără context.\n\n**Întreabă-te.** Ce pierd cu această alegere și este acceptabil aici?"
+  },
+  {
+   "id": "mm-card-7",
+   "skill": "mm-observe",
+   "category": "model",
+   "title": "Observabilitatea",
+   "body": "**Pe scurt.** Un sistem observabil îți spune ce s-a întâmplat, unde și când, fără să ghicești.\n\n**Regula de aur.** Măsori și ce lipsește (volum, prospețime), nu doar erorile.\n\n**Când ajută.** Diagnostic, alertare, încredere în rezultate.\n\n**Când nu ajută.** Când ai date, dar nu și o întrebare clară.\n\n**Întreabă-te.** Cum aș afla, fără să întreb pe nimeni, că acest pas a mers prost?"
+  },
+  {
+   "id": "mm-card-8",
+   "skill": "mm-evolve",
+   "category": "model",
+   "title": "Compatibilitatea",
+   "body": "**Pe scurt.** O schimbare compatibilă nu obligă pe nimeni să se schimbe în același timp.\n\n**Regula de aur.** Extinzi, migrezi, verifici, apoi restrângi.\n\n**Când ajută.** Formate, câmpuri, interfețe folosite de alții.\n\n**Când nu ajută.** Când nu știi cine depinde de tine.\n\n**Întreabă-te.** Cine citește asta și ce s-ar strica dacă se schimbă azi?"
+  },
+  {
+   "id": "mm-pit-1",
+   "skill": "mm-identity",
+   "category": "pitfall",
+   "title": "Presupui că ordinea e garantată",
+   "body": "Mesajele, cererile și evenimentele pot sosi în altă ordine decât s-au produs.\n\n**Semn:** o stare „se întoarce” la una anterioară.\n\n**Apărare:** moment de producere sau număr de secvență."
+  },
+  {
+   "id": "mm-pit-2",
+   "skill": "mm-invariant",
+   "category": "pitfall",
+   "title": "Uiți de valorile lipsă și de cazurile goale",
+   "body": "Lipsa nu e zero, iar o listă goală nu e o eroare.\n\n**Semn:** împărțiri la zero, totaluri ciudate, rânduri dispărute.\n\n**Apărare:** decizi explicit ce se întâmplă cu „gol” și „lipsă”."
+  },
+  {
+   "id": "mm-pit-3",
+   "skill": "mm-retry",
+   "category": "pitfall",
+   "title": "Efecte secundare ascunse",
+   "body": "Un pas care pare că „doar citește” trimite și un mesaj sau modifică ceva.\n\n**Semn:** reluarea unui calcul produce notificări sau înregistrări noi.\n\n**Apărare:** separi pașii care citesc de cei care schimbă lumea."
+  },
+  {
+   "id": "mm-pit-4",
+   "skill": "mm-retry",
+   "category": "pitfall",
+   "title": "Execuția dublă",
+   "body": "Orice poate rula de două ori: reîncercări, dublu-clic, reporniri.\n\n**Semn:** duplicate care apar „din când în când”.\n\n**Apărare:** chei de idempotență și operații care pot fi repetate."
+  },
+  {
+   "id": "mm-pit-5",
+   "skill": "mm-model",
+   "category": "pitfall",
+   "title": "Cuplajul strâns",
+   "body": "Când o parte nu poate fi schimbată fără să atingi alte cinci.\n\n**Semn:** o schimbare mică cere coordonare cu multe echipe.\n\n**Apărare:** intrări și ieșiri clare, responsabilități separate."
+  },
+  {
+   "id": "mm-pit-6",
+   "skill": "mm-tradeoff",
+   "category": "pitfall",
+   "title": "Optimizarea prematură",
+   "body": "Complexitate plătită pentru o performanță de care nu ai nevoie.\n\n**Semn:** cod greu de înțeles pentru un câștig pe care nu-l observă nimeni.\n\n**Apărare:** măsori întâi și optimizezi doar unde cerința o cere."
+  },
+  {
+   "id": "mm-pit-7",
+   "skill": "mm-identity",
+   "category": "pitfall",
+   "title": "Ignori timpul și întârzierile",
+   "body": "Nimic nu e instant: rețele, cozi și oameni introduc întârzieri.\n\n**Semn:** rapoarte care se schimbă după publicare.\n\n**Apărare:** ferestre de întârziere și rezultate marcate provizoriu sau final."
+  },
+  {
+   "id": "mm-pit-8",
+   "skill": "mm-observe",
+   "category": "pitfall",
+   "title": "Diagnostichezi prin ghicit",
+   "body": "Schimbi lucruri până dispare simptomul.\n\n**Semn:** problema revine sau apare în altă parte.\n\n**Apărare:** simptom, punctul unde apare, ipoteză, test, reparație."
+  },
+  {
+   "id": "mm-mat-1",
+   "skill": "mm-tradeoff",
+   "category": "matrix",
+   "title": "Viteză vs. corectitudine",
+   "body": "| Alegi | Când | Plătești |\n|---|---|---|\n| Viteză | întârzierea mică e acceptabilă | date temporar inconsistente |\n| Corectitudine | greșeala e ireversibilă | răspuns mai lent |\n| Provizoriu + final | ambele contează | două versiuni de explicat |"
+  },
+  {
+   "id": "mm-mat-2",
+   "skill": "mm-tradeoff",
+   "category": "matrix",
+   "title": "Simplu vs. flexibil",
+   "body": "| Alegi | Când | Plătești |\n|---|---|---|\n| Simplu | nevoia e clară azi | refaci dacă nevoia se schimbă mult |\n| Flexibil | schimbările sunt sigure și frecvente | complexitate de la început |\n| Simplu + extensibil | incertitudine moderată | disciplină în proiectare |"
+  },
+  {
+   "id": "mm-mat-3",
+   "skill": "mm-model",
+   "category": "matrix",
+   "title": "Decuplat vs. vizibil",
+   "body": "| Alegi | Când | Plătești |\n|---|---|---|\n| Decuplat | părți care evoluează separat | fluxul e greu de urmărit |\n| Coordonat central | audit și vizibilitate | punct comun de dependență |\n| Decuplat + jurnal comun | ambele contează | efort de urmărire |"
+  },
+  {
+   "id": "mm-scn-1",
+   "skill": "mm-invariant",
+   "category": "scenario",
+   "title": "Coada la ghișeu",
+   "body": "Un aparat dă numere de ordine. Doi oameni apasă simultan.\n\n**Gândește:** cum garantezi numere unice? Ce se întâmplă dacă aparatul repornește? Ce face un om care a pierdut bonul?\n\n**Concepte:** identitate, invarianți, concurență."
+  },
+  {
+   "id": "mm-scn-2",
+   "skill": "mm-contract",
+   "category": "scenario",
+   "title": "Fișa de inventar",
+   "body": "Un magazin ține o fișă: produs, cantitate, ultima actualizare. Mai mulți angajați o completează.\n\n**Gândește:** ce înseamnă un câmp gol? Cine are ultima versiune? Ce se întâmplă cu două corecturi simultane?\n\n**Concepte:** contracte, valori lipsă, stare și timp."
+  },
+  {
+   "id": "mm-scn-3",
+   "skill": "mm-retry",
+   "category": "scenario",
+   "title": "Sistemul de rezervări",
+   "body": "Un client rezervă o masă. Confirmarea întârzie, iar el apasă din nou.\n\n**Gândește:** câte rezervări există acum? Cum recunoști a doua apăsare? Ce se întâmplă dacă restaurantul anulează?\n\n**Concepte:** idempotență, compensare, identitate."
+  },
+  {
+   "id": "mm-scn-4",
+   "skill": "mm-tradeoff",
+   "category": "scenario",
+   "title": "Fluxul de aprobări",
+   "body": "O cerere trece prin trei aprobări: șef, financiar, director.\n\n**Gândește:** ce se întâmplă dacă un aprobator e în concediu? Cine vede unde e cererea? Se poate aproba în paralel?\n\n**Concepte:** compromisuri, observabilitate, dependențe."
+  },
+  {
+   "id": "mm-scn-5",
+   "skill": "mm-evolve",
+   "category": "scenario",
+   "title": "Formularul care se schimbă",
+   "body": "Un formular folosit de trei departamente primește un câmp nou și unul redenumit.\n\n**Gândește:** cine trebuie anunțat? Ce se întâmplă cu formularele vechi, deja completate? Când poți șterge câmpul vechi?\n\n**Concepte:** compatibilitate, evoluție, contracte."
+  },
+  {
+   "id": "mm-scn-6",
+   "skill": "mm-observe",
+   "category": "scenario",
+   "title": "Livrarea care nu a sosit",
+   "body": "Un colet „livrat” în sistem nu a ajuns la client.\n\n**Gândește:** ce înregistrări ai la fiecare pas? Care e primul pas în care datele nu se potrivesc cu realitatea? Cum verifici fără să ghicești?\n\n**Concepte:** observabilitate, diagnostic, stare."
+  }
+ ]
+}

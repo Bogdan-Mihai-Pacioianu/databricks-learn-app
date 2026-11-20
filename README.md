@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.49.0, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.49.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.50.0, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.50.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -30,12 +30,70 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `tools/build_atelier.js`: validează pachetul și generează `app/assets/atelier159.js`. Rulează fiecare exercițiu cu date și refuză pachetul dacă altă variantă decât cea corectă dă rezultatul așteptat.
 - `tools/patch_atelier.py`: motorul de exerciții, planificatorul, Repară lacunele, sertarul Materiale și Autonomie.
 - `tools/test_atelier.js`: test Playwright pentru toate tipurile de exerciții, indicii, sertar, reluare, coada de reparat și statistici.
+- `content/atelier_mental160.json`: cursul Modele mentale (8 module, 48 de exerciții, fișe de principii, capcane universale, matrice de compromisuri, scenarii de gândire).
+- `tools/test_mental.js`: test Playwright pentru traseul Modele mentale.
 - `tools/patch_terms.py`: aplică aceleași îmbunătățiri peste alt `app.js`, de exemplu cel din sursa 1.54. Scriptul se oprește dacă o bucată de cod nu se potrivește.
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.49.0.apk`: versiunea 1.49.0 (versionCode 12039), semnată cu o cheie de test.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.49.0; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `dist/DataEng-Learn-1.50.0.apk`: versiunea 1.50.0 (versionCode 12040), semnată cu o cheie de test.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.50.0; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## Modele mentale (1.50.0): gândire inginerească, fără tehnologie
+
+În Atelier, selectorul **Modele mentale / Tehnic** alege traseul. Modele mentale e cursul nou, despre concepte universale, fără niciun tool.
+
+### Cele 8 module
+
+1. Intrări, ieșiri și contracte
+2. Identitate, stare și timp
+3. Idempotență, repetare și erori parțiale
+4. Granularitate, modelare și responsabilități
+5. Cazuri limită și invarianți
+6. Compromisuri și scalare
+7. Observabilitate și diagnosticare
+8. Evoluție și compatibilitate
+
+### Cele 4 niveluri ale fiecărui modul
+
+| Nivel | Ce exersezi |
+|---|---|
+| **Intuiție** | definiția și situația simplă |
+| **Cazuri limită** | valori lipsă, ordine greșită, duplicate, concurență |
+| **Compromisuri** | alegeri între viteză, corectitudine, simplitate, cost |
+| **Diagnostic** | simptom → ipoteză → test, fără indicii |
+
+### Cele 6 tipuri de micro-exerciții
+
+- Care e invarianța?
+- Ce se strică la retry?
+- Alege compromisul
+- Găsește presupunerea ascunsă
+- Ordine și dependențe
+- Simptom → Ipoteză: alegi și ipoteza, și testul
+
+O sesiune are 5–6 exerciții. Acolo unde ajută, exercițiile au o **diagramă schematică** randată local: cutii, săgeți și pasul eșuat marcat.
+
+### Feedback constructiv
+
+La o greșeală, aplicația spune **ce ai ratat** (de exemplu „Execuția dublă” sau „Ordinea nu e garantată”), de ce, și ce contează în producție.
+
+### Materialele offline (sertarul Materiale și Atelier → Învață)
+
+- **Principii:** fișe de model mental (pe scurt, regula de aur, când ajută, când nu ajută, întrebarea de verificare) și matricile compromisurilor.
+- **Capcane & scenarii:** catalogul capcanelor universale și scenariile de gândire (ghișeul, fișa de inventar, rezervările, aprobările).
+- **Jurnalul meu:** notițe libere sau legate de exercițiul curent.
+
+### Statistici → Claritate & autonomie
+
+- rata de rezolvare fără indicii;
+- modelele stăpânite bine și cele care necesită recapitulare;
+- acoperirea pe fiecare traseu;
+- unde tinzi să sari peste cazuri limită.
+
+### Lungimea variantelor
+
+În ambele trasee, varianta corectă e cea mai lungă în 27% din cazuri și cea mai scurtă în 23%, deci lungimea nu indică răspunsul.
 
 ## Atelier (1.49.0): exersare locală pe competențe
 
@@ -265,7 +323,7 @@ python tools/patch_setup.py app/assets
 python tools/patch_resources.py app/assets
 python tools/patch_enrich.py app/assets
 python tools/patch_atelier.py app/assets
-node tools/build_atelier.js content/atelier159.json app/assets
+node tools/build_atelier.js content/atelier159.json content/atelier_mental160.json app/assets
 python tools/build_enrich.py content app/assets
 python tools/build_resources.py "research_notes/Resurse învățare data engineering" app/assets
 node tools/build_dictionary.js app/assets

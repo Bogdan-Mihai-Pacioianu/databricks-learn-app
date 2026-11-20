@@ -414,7 +414,7 @@
    "payload": {
     "options": [
      {
-      "t": "Retenție de cel puțin 30 de zile pentru fișierele șterse și jurnal.",
+      "t": "Retenție de cel puțin 30 de zile.",
       "ok": true
      },
      {
@@ -435,7 +435,7 @@
     ]
    },
    "hint": "Ce leagă cerința de audit de setările tabelului?",
-   "explanation": "Retenția fișierelor șterse (deletedFileRetentionDuration) și a jurnalului (logRetentionDuration) trebuie să acopere fereastra de audit; VACUUM respectă apoi pragul.",
+   "explanation": "Răspunsul complet: Retenție de cel puțin 30 de zile pentru fișierele șterse și jurnal. Retenția fișierelor șterse (deletedFileRetentionDuration) și a jurnalului (logRetentionDuration) trebuie să acopere fereastra de audit; VACUUM respectă apoi pragul.",
    "impact": "Costul de stocare și posibilitatea de recuperare sunt un trade-off explicit: retenția se alege din cerințe, nu din obișnuință."
   },
   {
@@ -623,7 +623,7 @@
    "payload": {
     "options": [
      {
-      "t": "Tratezi separat cheia dominantă sau aplici salting pe ea.",
+      "t": "Salting sau tratare separată a cheii.",
       "ok": true
      },
      {
@@ -644,7 +644,7 @@
     ]
    },
    "hint": "Unde ajung toate rândurile unei singure chei?",
-   "explanation": "O singură cheie nu se poate împărți prin mai multe partiții fără intervenție: salting sau procesarea separată a cheii dominante.",
+   "explanation": "Răspunsul complet: Tratezi separat cheia dominantă sau aplici salting pe ea. O singură cheie nu se poate împărți prin mai multe partiții fără intervenție: salting sau procesarea separată a cheii dominante.",
    "impact": "Skew-ul pe o cheie dominantă e frecvent în date reale (client anonim, valoare implicită); recunoașterea lui economisește ore de tuning inutil."
   },
   {
@@ -676,7 +676,7 @@
    "payload": {
     "options": [
      {
-      "t": "Acceptă întârzieri de până la 10 minute, apoi curăță starea veche.",
+      "t": "Tolerează 10 minute întârziere, apoi curăță starea.",
       "ok": true
      },
      {
@@ -685,7 +685,7 @@
       "why": "Asta e un trigger, nu un watermark."
      },
      {
-      "t": "Șterge evenimentele mai vechi de 10 minute din sursă.",
+      "t": "Șterge din sursă evenimentele mai vechi de 10 minute, la fiecare rulare.",
       "ok": false,
       "why": "Watermark-ul nu modifică sursa."
      },
@@ -697,7 +697,7 @@
     ]
    },
    "hint": "E despre timpul evenimentului, nu despre timpul de procesare.",
-   "explanation": "Watermark-ul spune cât de târziu pot sosi evenimentele; datele mai vechi decât pragul pot fi ignorate, iar starea lor eliberată.",
+   "explanation": "Răspunsul complet: Acceptă întârzieri de până la 10 minute, apoi curăță starea veche. Watermark-ul spune cât de târziu pot sosi evenimentele; datele mai vechi decât pragul pot fi ignorate, iar starea lor eliberată.",
    "impact": "Fără watermark, agregările și deduplicările pe stream păstrează stare la nesfârșit, până la căderea jobului."
   },
   {
@@ -1021,7 +1021,7 @@
    "payload": {
     "options": [
      {
-      "t": "Un row filter pe țară și un column mask pe CNP.",
+      "t": "Row filter și column mask.",
       "ok": true
      },
      {
@@ -1042,7 +1042,7 @@
     ]
    },
    "hint": "Unde se aplică regula ca să nu poată fi ocolită?",
-   "explanation": "Row filters și column masks se aplică la nivelul tabelului, pentru orice interogare și orice unealtă.",
+   "explanation": "Răspunsul complet: Un row filter pe țară și un column mask pe CNP. Row filters și column masks se aplică la nivelul tabelului, pentru orice interogare și orice unealtă.",
    "impact": "Regulile de acces în fiecare raport se pierd la primul raport nou; regula pe tabel se aplică automat."
   },
   {
@@ -1220,11 +1220,11 @@
    "payload": {
     "options": [
      {
-      "t": "Backoff exponențial cu jitter, respectând `Retry-After`.",
+      "t": "Backoff exponențial cu jitter.",
       "ok": true
      },
      {
-      "t": "Reîncercare imediată, de 50 de ori.",
+      "t": "Reîncercare imediată, de 50 de ori, fără pauză între ele.",
       "ok": false,
       "why": "Amplifică încărcarea și prelungește blocarea."
      },
@@ -1241,7 +1241,7 @@
     ]
    },
    "hint": "Ce îi spune serverul prin 429?",
-   "explanation": "429 cere încetinire; backoff-ul exponențial cu jitter distribuie reîncercările, iar `Retry-After` dă intervalul cerut de server.",
+   "explanation": "Răspunsul complet: Backoff exponențial cu jitter, respectând `Retry-After`. 429 cere încetinire; backoff-ul exponențial cu jitter distribuie reîncercările, iar `Retry-After` dă intervalul cerut de server.",
    "impact": "Reîncercările agresive pot transforma o limitare temporară într-o blocare a contului de API."
   },
   {

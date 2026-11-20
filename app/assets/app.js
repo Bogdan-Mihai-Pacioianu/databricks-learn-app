@@ -2543,7 +2543,13 @@
   // ---------------------------------------------------------------- Atelier 1.49
   var FX_DAYS159 = [1, 3, 7, 21];
   var FX_LEVELS159 = ["Bază", "Edge cases", "Trade-offs", "Fără indicii"];
-  var FX_TYPES159 = { tradeoff: "Alege decizia", flaw: "Găsește capcana", order: "Ordinea pașilor", slot: "Completează", datacheck: "Verifică pe date" };
+  var FX_LEVELS_MENTAL160 = ["Intuiție", "Cazuri limită", "Compromisuri", "Diagnostic"];
+  var FX_TYPES159 = { tradeoff: "Alege decizia", flaw: "Găsește capcana", order: "Ordinea pașilor", slot: "Completează", datacheck: "Verifică pe date", diagnose: "Simptom → Ipoteză" };
+  var FX_KINDS160 = { invariant: "Care e invarianța?", retry: "Ce se strică la retry?", compromise: "Alege compromisul", assumption: "Găsește presupunerea ascunsă", order: "Ordine și dependențe", diagnose: "Simptom → Ipoteză" };
+  function fxTrack160(skillId) { var s = fxSkill159(skillId); return s && s.track === "mental" ? "mental" : "tech"; }
+  function fxLevels160(skillId) { return fxTrack160(skillId) === "mental" ? FX_LEVELS_MENTAL160 : FX_LEVELS159; }
+  function fxCurrentTrack160() { return (state.settings.atelierTrack160 === "tech") ? "tech" : "mental"; }
+  function fxSkills160(track) { return atl159().skills.filter(function (s) { return (s.track || "tech") === track; }).sort(function (x, y) { return x.order - y.order; }); }
   function atl159() { return window.ATELIER159 || { skills: [], exercises: [], cards: [], tags: {} }; }
   function fxById159(id) { return atl159().exercises.filter(function (e) { return e.id === id; })[0] || null; }
   function fxSkill159(id) { return atl159().skills.filter(function (s) { return s.id === id; })[0] || null; }
@@ -2587,7 +2593,9 @@
       var xs = list.filter(function (e) { return e.level === l; });
       return xs.length > 0 && xs.every(function (e) { var r = fxRec159(e.id); return r && r.ok > 0; });
     });
-    crowns.push(list.length > 0 && list.every(function (e) { var r = fxRec159(e.id); return r && r.okNoHint > 0; }));
+    var l4 = list.filter(function (e) { return e.level === 4; });
+    crowns.push(l4.length ? l4.every(function (e) { var r = fxRec159(e.id); return r && r.ok > 0; }) :
+      (list.length > 0 && list.every(function (e) { var r = fxRec159(e.id); return r && r.okNoHint > 0; })));
     var recs = list.map(function (e) { return fxRec159(e.id); });
     var started = recs.some(Boolean), due = list.filter(function (e) { var r = fxRec159(e.id); return r && (r.last === "fail" || r.last === "hint" || (r.next && r.next <= now)); }).length;
     var mastery = list.length ? Math.round(recs.reduce(function (s, r) { return s + (r ? r.m : 0); }, 0) / list.length) : 0;
@@ -2600,11 +2608,11 @@
     var list = fxOfSkill159(skillId), st = fxSkillStatus159(skillId), pick = [];
     if (noHint) pick = list.filter(function (e) { var r = fxRec159(e.id); return !r || !r.okNoHint; });
     else {
-      var lvl = [1, 2, 3].filter(function (l, i) { return !st.crowns[i]; })[0];
+      var lvl = [1, 2, 3, 4].filter(function (l, i) { return !st.crowns[i] && list.some(function (e) { return e.level === l; }); })[0];
       if (lvl) pick = list.filter(function (e) { return e.level === lvl; });
       var now = Date.now();
       list.forEach(function (e) { var r = fxRec159(e.id); if (pick.indexOf(e) < 0 && r && (r.last !== "ok" || (r.next && r.next <= now))) pick.push(e); });
-      list.forEach(function (e) { if (pick.length < 6 && pick.indexOf(e) < 0 && (!lvl || e.level <= lvl + 1)) pick.push(e); });
+      list.forEach(function (e) { if (pick.length < 6 && pick.indexOf(e) < 0 && (!lvl || e.level <= lvl + 2)) pick.push(e); });
     }
     if (!pick.length) pick = list.slice();
     var s = fxSkill159(skillId);
@@ -2639,8 +2647,9 @@
       L.reluari[e.id] = (L.reluari[e.id] || 0) + 1;
       if (L.reluari[e.id] <= 1) { L.lesson.items.push(fxItem159(e, it.noHint)); L.total = L.lesson.items.length; }
     }
-    feedback(correct, (wrongWhy ? wrongWhy + " " : "") + (correct && hinted ? "Corect, cu indiciu. Revine curând fără." : ""), correct ? "Corect." : "Mai verifică.");
+    feedback(correct, (wrongWhy ? wrongWhy + " " : "") + (correct && hinted ? "Corect, cu indiciu. Revine curând fără." : ""), correct ? "Corect." : "Aproape. Uite ce a scăpat:");
     var body = $("#ls-body");
+    if (!correct && e.tag && (atl159().tags || {})[e.tag]) { var miss = el("p", "fx-missed160"); miss.appendChild(el("b", null, "Ce ai ratat: ")); miss.appendChild(document.createTextNode(atl159().tags[e.tag])); body.appendChild(miss); }
     if (detail) body.appendChild(detail);
     var ex = el("div", "md ex-model"); ex.innerHTML = renderMd(e.explanation); body.appendChild(ex);
     var prod = el("details", "unit fx-impact159"); prod.appendChild(el("summary", null, "De ce contează în producție"));
@@ -2651,17 +2660,20 @@
     save();
   }
   function renderFx159(body, it) {
-    var e = it.ex, p = e.payload;
+    var e = it.ex, p = e.payload, levels = fxLevels160(e.skill);
     L.hint = 0;
+    var noHint = it.noHint || e.level === 4;
+    body.classList.toggle("calm160", fxTrack160(e.skill) === "mental");
     var head = el("div", "fx-head159");
-    head.appendChild(el("span", "dict-chip156 fx-type159", FX_TYPES159[e.type] || e.type));
-    head.appendChild(el("span", "dict-chip156", it.noHint ? FX_LEVELS159[3] : FX_LEVELS159[e.level - 1]));
+    head.appendChild(el("span", "dict-chip156 fx-type159", FX_KINDS160[e.kind] || FX_TYPES159[e.type] || e.type));
+    head.appendChild(el("span", "dict-chip156", it.noHint && e.level < 4 ? levels[3] : levels[e.level - 1]));
     var sk = fxSkill159(e.skill); if (sk) head.appendChild(el("span", "muted fx-skill159", sk.title));
     body.appendChild(head);
     var q = el("div", "md q"); q.innerHTML = renderMd(e.prompt); body.appendChild(q);
+    if (e.diagram) body.appendChild(fxFlow160(e.diagram));
     $("#ls-fb").hidden = true;
     var alt = $("#ls-alt");
-    if (!it.noHint && e.hint) {
+    if (!noHint && e.hint) {
       alt.hidden = false; alt.textContent = "Indiciu";
       alt.onclick = function () { if (L.verificat || L.hint) return; L.hint = 1; var h = el("p", "hint fx-hint159", "Indiciu: " + e.hint); body.insertBefore(h, body.children[2] || null); alt.hidden = true; };
     }
@@ -2691,6 +2703,32 @@
           if (p.options[i].ok) x.classList.add("ok"); else if (i === L.raspuns) x.classList.add("rau");
         });
         fxDone159(it, correct, detail, correct ? "" : why);
+      }
+      return;
+    }
+    if (e.type === "diagnose") {
+      var pick = { h: null, t: null }, groups = {};
+      [["hypotheses", "h", "1. Ce ipoteză explică cel mai bine?"], ["tests", "t", "2. Cum o testezi?"]].forEach(function (g) {
+        body.appendChild(el("h4", "fx-dx-title160", g[2]));
+        var box = el("div", "opts"); groups[g[1]] = box;
+        var ord = (it.ord = it.ord || {})[g[1]] || (it.ord[g[1]] = shuffle(p[g[0]].map(function (_, i) { return i; })));
+        ord.forEach(function (i) {
+          var b = el("button", "opt", p[g[0]][i].t); b.setAttribute("data-fx-" + g[1], String(i));
+          b.onclick = function () { if (L.verificat) return; pick[g[1]] = i; box.querySelectorAll(".opt").forEach(function (x) { x.classList.toggle("sel", x === b); }); setFoot("Verifică", pick.h !== null && pick.t !== null, checkDx); };
+          box.appendChild(b);
+        });
+        body.appendChild(box);
+      });
+      setFoot("Verifică", false, checkDx);
+      function checkDx() {
+        if (pick.h === null || pick.t === null) return;
+        var hOk = !!p.hypotheses[pick.h].ok, tOk = !!p.tests[pick.t].ok, why = [];
+        [["hypotheses", "h"], ["tests", "t"]].forEach(function (g) {
+          groups[g[1]].querySelectorAll(".opt").forEach(function (x) { var i = Number(x.getAttribute("data-fx-" + g[1])); x.disabled = true; if (p[g[0]][i].ok) x.classList.add("ok"); else if (i === pick[g[1]]) x.classList.add("rau"); });
+        });
+        if (!hOk) why.push("Ipoteza: " + (p.hypotheses[pick.h].why || ""));
+        if (!tOk) why.push("Testul: " + (p.tests[pick.t].why || ""));
+        fxDone159(it, hOk && tOk, null, why.join(" "));
       }
       return;
     }
@@ -2773,6 +2811,16 @@
       return;
     }
   }
+  /** Diagramă schematică randată local: cutii și săgeți, cu pasul eșuat marcat. */
+  function fxFlow160(d) {
+    var box = el("div", "fx-flow160"); box.setAttribute("role", "img");
+    box.setAttribute("aria-label", "Schemă: " + d.steps.join(", apoi ") + (typeof d.fail === "number" ? "; eșuează la " + d.steps[d.fail] : ""));
+    d.steps.forEach(function (s, i) {
+      if (i) box.appendChild(el("span", "fx-arrow160", "→"));
+      box.appendChild(el("span", "fx-box160" + (d.fail === i ? " fail" : ""), (d.fail === i ? "✕ " : "") + s));
+    });
+    return box;
+  }
   function fxTable159(columns, rows) {
     var wrap = el("div", "fx-table-wrap159"), t = el("table", "fx-table159"), tr = el("tr");
     columns.forEach(function (c) { tr.appendChild(el("th", null, c)); }); t.appendChild(tr);
@@ -2804,7 +2852,7 @@
     var body = $("#modal-body"); body.innerHTML = ""; $("#modal-title").textContent = "Materiale";
     var cur = currentFx159(), skill = cur ? cur.skill : (state.settings.drawer159 || {}).skill || "";
     var seg = el("div", "seg"), active = tab || (state.settings.drawer159 || {}).tab || "cheat";
-    [["cheat", "Cheat-sheet"], ["traps", "Capcane & incidente"], ["notes", "Notițele mele"]].forEach(function (t) {
+    [["cheat", "Principii"], ["traps", "Capcane & scenarii"], ["notes", "Jurnalul meu"]].forEach(function (t) {
       var b = el("button", "seg-b" + (active === t[0] ? " on" : ""), t[1]); b.setAttribute("data-drawer-tab", t[0]);
       b.onclick = function () { state.settings.drawer159 = { tab: t[0], skill: skill }; save(); openDrawer159(t[0]); };
       seg.appendChild(b);
@@ -2829,23 +2877,30 @@
           var sv = el("button", "btn primary", "Salvează notița"); sv.id = "drawer-save-note159";
           sv.onclick = function () { var t = ta.value.trim(), n = fxState159().notes; if (t) n[cur.id] = { text: t, at: Date.now(), skill: cur.skill }; else delete n[cur.id]; save(true); toast("Notiță salvată."); draw(); };
           box.appendChild(sv); list.appendChild(box);
+        } else {
+          var jb = el("div", "unit"); jb.appendChild(el("b", null, "Notiță nouă în jurnal"));
+          jb.appendChild(el("p", "muted", "Ce ai înțeles, un exemplu din munca ta sau o regulă pe care nu vrei s-o uiți."));
+          var jt = el("textarea"); jt.id = "drawer-journal160"; jt.rows = 4; jt.style.width = "100%"; jb.appendChild(jt);
+          var js = el("button", "btn primary", "Salvează în jurnal"); js.id = "drawer-journal-save160";
+          js.onclick = function () { var t = jt.value.trim(); if (!t) return; fxState159().notes["j-" + Date.now().toString(36)] = { text: t, at: Date.now(), skill: skill || "" }; save(true); toast("Salvat în jurnal."); draw(); };
+          jb.appendChild(js); list.appendChild(jb);
         }
         var notes = fxState159().notes, ids = Object.keys(notes).filter(function (id) { return !skill || notes[id].skill === skill; })
           .filter(function (id) { return !needle || searchKey(notes[id].text).indexOf(needle) >= 0; })
           .sort(function (a, b) { return notes[b].at - notes[a].at; });
         if (!ids.length) list.appendChild(el("p", "muted", "Nicio notiță încă. Notițele salvate în timpul exercițiilor apar aici."));
-        ids.forEach(function (id) { var e = fxById159(id), c = el("div", "unit"); c.appendChild(el("b", null, e ? e.prompt.slice(0, 90) : id)); c.appendChild(el("p", null, notes[id].text)); list.appendChild(c); });
+        ids.forEach(function (id) { var e = fxById159(id), sk = fxSkill159(notes[id].skill), c = el("div", "unit"); c.appendChild(el("b", null, e ? e.prompt.slice(0, 90) : (sk ? sk.title : "Notiță liberă"))); c.appendChild(el("p", "muted", new Date(notes[id].at).toLocaleDateString("ro-RO"))); c.appendChild(el("p", null, notes[id].text)); list.appendChild(c); });
         var other = savedMaterials().filter(function (r) { return r && r.note; });
         if (other.length && !skill) { list.appendChild(el("h3", null, "Alte notițe din aplicație")); other.slice(0, 20).forEach(function (r) { var c = el("div", "unit"); c.appendChild(el("b", null, r.title)); c.appendChild(el("p", null, r.note)); list.appendChild(c); }); }
         return;
       }
-      var cats = active === "cheat" ? ["cheat_sheet"] : ["anti_pattern", "incident"];
+      var cats = active === "cheat" ? ["cheat_sheet", "model", "matrix"] : ["anti_pattern", "incident", "pitfall", "scenario"];
       var cards = atl159().cards.filter(function (c) { return cats.indexOf(c.category) >= 0 && (!skill || c.skill === skill) && (!needle || searchKey(c.title + " " + c.body).indexOf(needle) >= 0); });
       if (!cards.length) list.appendChild(el("p", "muted", "Nicio fișă pentru alegerea asta."));
       cards.forEach(function (c) {
         var d = el("details", "unit glossary-row133"); d.setAttribute("data-drawer-card", c.id);
         var s = el("summary"); s.appendChild(el("span", "glossary-term133", c.title));
-        s.appendChild(el("span", "dict-chip156", c.category === "cheat_sheet" ? "regulă" : c.category === "incident" ? "incident" : "capcană")); d.appendChild(s);
+        s.appendChild(el("span", "dict-chip156", (FX_CAT160[c.category] || "fișă").toLowerCase())); d.appendChild(s);
         var m = el("div", "md"); m.innerHTML = renderMd(c.body); d.appendChild(m);
         if (cur && c.skill === cur.skill) d.open = true;
         list.appendChild(d);
@@ -2866,8 +2921,19 @@
     Object.keys(st.ex).forEach(function (id) { var r = st.ex[id]; ok += r.ok || 0; okNoHint += r.okNoHint || 0; att += r.att || 0; });
     return { ok: ok, okNoHint: okNoHint, att: att, rate: ok ? Math.round(okNoHint / ok * 100) : 0 };
   }
+  function fxTrackSeg160(root) {
+    var track = fxCurrentTrack160(), seg = el("div", "seg fx-track160");
+    [["mental", "Modele mentale"], ["tech", "Tehnic"]].forEach(function (t) {
+      var b = el("button", "seg-b" + (track === t[0] ? " on" : ""), t[1]); b.setAttribute("data-fx-track", t[0]);
+      b.onclick = function () { state.settings.atelierTrack160 = t[0]; save(); renderLearn(); };
+      seg.appendChild(b);
+    });
+    root.appendChild(seg);
+    return track;
+  }
   function renderAtelierPath159(root) {
-    var a = fxAutonomy159(), skills = atl159().skills.slice().sort(function (x, y) { return x.order - y.order; });
+    var track = fxTrackSeg160(root);
+    var a = fxAutonomy159(), skills = fxSkills160(track);
     var bar = el("div", "fx-bar159");
     [[String(state.streak && state.streak.count || 0), "zile la rând"], [a.ok ? a.rate + "%" : "–", "fără indicii"],
      [String(Math.round(skills.reduce(function (s, k) { return s + fxSkillStatus159(k.id).mastery; }, 0) / Math.max(1, skills.length))), "stăpânire medie"]]
@@ -2883,11 +2949,11 @@
       txt.appendChild(el("h3", null, s.title));
       txt.appendChild(el("p", "muted", LABEL[st.state] + " · stăpânire " + st.mastery + "/100" + (st.due ? " · " + st.due + " de reparat" : "")));
       var crowns = el("div", "fx-crowns159");
-      FX_LEVELS159.forEach(function (l, k) { var c = el("span", "fx-crown159" + (st.crowns[k] ? " on" : ""), (st.crowns[k] ? "★ " : "☆ ") + l); crowns.appendChild(c); });
+      fxLevels160(s.id).forEach(function (l, k) { var c = el("span", "fx-crown159" + (st.crowns[k] ? " on" : ""), (st.crowns[k] ? "★ " : "☆ ") + l); crowns.appendChild(c); });
       txt.appendChild(crowns);
       var acts = el("div", "dict-refs156");
       var go = el("button", "btn mini primary", st.state === "new" ? "Începe" : "Continuă"); go.setAttribute("data-fx-start", s.id); go.onclick = function () { startSkillSession159(s.id, false); }; acts.appendChild(go);
-      if (st.crowns[0] && st.crowns[1] && st.crowns[2] && !st.crowns[3]) { var nh = el("button", "btn mini secondary", "Fără indicii"); nh.onclick = function () { startSkillSession159(s.id, true); }; acts.appendChild(nh); }
+      if (track === "tech" && st.crowns[0] && st.crowns[1] && st.crowns[2] && !st.crowns[3]) { var nh = el("button", "btn mini secondary", "Fără indicii"); nh.onclick = function () { startSkillSession159(s.id, true); }; acts.appendChild(nh); }
       var ref = el("button", "btn mini ghost", "Materiale"); ref.onclick = function () { state.settings.drawer159 = { tab: "cheat", skill: s.id }; openDrawer159("cheat"); }; acts.appendChild(ref);
       txt.appendChild(acts);
       node.appendChild(txt); path.appendChild(node);
@@ -2898,12 +2964,21 @@
     var fab = el("button", "btn big primary fx-repair159", "Repară lacunele (" + n + ")");
     fab.id = "repair-fab159"; fab.onclick = startRepair159; root.insertBefore(fab, path);
   }
+  var FX_CAT160 = { cheat_sheet: "Regulă", anti_pattern: "Capcană", incident: "Incident", model: "Model mental", pitfall: "Capcană universală", matrix: "Matricea compromisurilor", scenario: "Scenariu de gândire" };
   function renderAtelierLearn159(root) {
-    atl159().skills.slice().sort(function (x, y) { return x.order - y.order; }).forEach(function (s) {
+    var track = fxTrackSeg160(root);
+    if (track === "mental") {
+      var pits = atl159().cards.filter(function (c) { return c.category === "pitfall"; });
+      var cat = el("details", "unit"); cat.setAttribute("data-fx-pitfalls", "1");
+      cat.appendChild(el("summary", null, "Catalogul capcanelor universale · " + pits.length));
+      pits.forEach(function (c) { cat.appendChild(el("h4", null, c.title)); var m = el("div", "md"); m.innerHTML = renderMd(c.body); cat.appendChild(m); });
+      root.appendChild(cat);
+    }
+    fxSkills160(track).forEach(function (s) {
       var d = el("details", "unit"); d.setAttribute("data-fx-learn", s.id);
       var sum = el("summary"); sum.appendChild(el("b", null, s.title)); sum.appendChild(el("span", "glossary-brief133", s.summary)); d.appendChild(sum);
       atl159().cards.filter(function (c) { return c.skill === s.id; }).forEach(function (c) {
-        d.appendChild(el("h4", null, (c.category === "cheat_sheet" ? "Regulă · " : c.category === "incident" ? "Incident · " : "Capcană · ") + c.title));
+        d.appendChild(el("h4", null, (FX_CAT160[c.category] || "Fișă") + " · " + c.title));
         var m = el("div", "md"); m.innerHTML = renderMd(c.body); d.appendChild(m);
       });
       var go = el("button", "btn mini primary", "Exersează competența"); go.onclick = function () { startSkillSession159(s.id, false); }; d.appendChild(go);
@@ -2913,22 +2988,28 @@
   function renderAutonomy159(root) {
     var a = fxAutonomy159(), st = fxState159(), tags = atl159().tags || {};
     var box = el("section", "unit autonomy159"); box.id = "autonomy159";
-    box.appendChild(el("h2", "sec-title", "Autonomie · Atelier"));
+    box.appendChild(el("h2", "sec-title", "Claritate & autonomie"));
     var g = el("div", "grid");
     g.appendChild(stat(a.ok ? a.rate + "%" : "–", "rezolvări fără indicii"));
     g.appendChild(stat(String(a.att), "încercări"));
     g.appendChild(stat(String(fxRepairQueue159().length), "de reparat"));
     box.appendChild(g);
-    box.appendChild(el("h3", null, "Acoperire pe competențe"));
-    atl159().skills.forEach(function (s) {
+    var good = atl159().skills.filter(function (s) { return fxSkillStatus159(s.id).mastery >= 75; }),
+        rusty = atl159().skills.filter(function (s) { return fxSkillStatus159(s.id).due > 0; });
+    box.appendChild(el("p", null, "Stăpânești bine: " + (good.length ? good.map(function (s) { return s.title; }).join(", ") : "încă niciun model")));
+    box.appendChild(el("p", null, "Necesită recapitulare: " + (rusty.length ? rusty.map(function (s) { return s.title; }).join(", ") : "nimic acum")));
+    [["mental", "Modele mentale"], ["tech", "Tehnic"]].forEach(function (tr) {
+    box.appendChild(el("h3", null, "Acoperire · " + tr[1]));
+    fxSkills160(tr[0]).forEach(function (s) {
       var k = fxSkillStatus159(s.id), row = el("div", "fx-cov159");
       row.appendChild(el("span", null, s.title));
       var pb = el("div", "pbar"), pf = el("div", "pbar-f"); pf.style.width = k.mastery + "%"; pb.appendChild(pf); row.appendChild(pb);
       row.appendChild(el("span", "muted", k.mastery >= 75 ? "sigur" : k.mastery >= 25 ? "în lucru" : k.mastery ? "nevoie de exercițiu" : "neînceput"));
       box.appendChild(row);
     });
+    });
     var errs = Object.keys(st.errors).sort(function (x, y) { return st.errors[y] - st.errors[x]; });
-    box.appendChild(el("h3", null, "Greșelile tale frecvente"));
+    box.appendChild(el("h3", null, "Unde tinzi să sari peste cazuri limită"));
     if (!errs.length) box.appendChild(el("p", "muted", "Încă nicio greșeală înregistrată în Atelier."));
     errs.slice(0, 6).forEach(function (t) { box.appendChild(el("p", null, (tags[t] || t) + " · " + st.errors[t] + (st.errors[t] === 1 ? " greșeală" : " greșeli"))); });
     var go = el("button", "btn secondary", "Deschide Atelierul"); go.onclick = function () { learnTab = "workshop"; setTabMode156("workshop", "practice"); show("learn"); };
@@ -7780,7 +7861,7 @@
     imparteCard: imparteCard, blocuri: blocuri,
     startSession: startSession, reveal: reveal, rate: rate, save: save, flush: flush,
     defaultState: defaultState, migrate: migrate, interleave: interleave, isDarkNow: isDarkNow,
-    learnUnits: learnUnits, buildLesson: buildLesson, fxRepairQueue159: fxRepairQueue159, fxSkillStatus159: fxSkillStatus159, startSkillSession159: startSkillSession159, startRepair159: startRepair159, openDrawer159: openDrawer159, fxRunCheck159: fxRunCheck159, fxRecord159: fxRecord159, fxAutonomy159: fxAutonomy159, openResources156: openResources156, resFor156: resFor156, resKind156: resKind156, setupDeckStats156: setupDeckStats156, tabMode156: tabMode156, setTabMode156: setTabMode156, practiceScopes156: practiceScopes156, practicePool2156: practicePool2156, practicePool156: practicePool156, startTermPractice156: startTermPractice156, openDictionary156: openDictionary156, dictEntries156: dictEntries156, dueTerms: dueTerms, termDue: termDue, startTermReview: startTermReview,
+    learnUnits: learnUnits, buildLesson: buildLesson, fxRepairQueue159: fxRepairQueue159, fxSkillStatus159: fxSkillStatus159, startSkillSession159: startSkillSession159, startRepair159: startRepair159, openDrawer159: openDrawer159, fxRunCheck159: fxRunCheck159, fxRecord159: fxRecord159, fxAutonomy159: fxAutonomy159, fxSkills160: fxSkills160, openResources156: openResources156, resFor156: resFor156, resKind156: resKind156, setupDeckStats156: setupDeckStats156, tabMode156: tabMode156, setTabMode156: setTabMode156, practiceScopes156: practiceScopes156, practicePool2156: practicePool2156, practicePool156: practicePool156, startTermPractice156: startTermPractice156, openDictionary156: openDictionary156, dictEntries156: dictEntries156, dueTerms: dueTerms, termDue: termDue, startTermReview: startTermReview,
     checkRecall: checkRecall, maskTerm: maskTerm, termAnswers: termAnswers, revItem: revItem, recallItem: recallItem, termExercise: termExercise, markTerm: markTerm, startLesson: startLesson, openGlossary: openGlossary,
     endLesson: endLesson, learnProgress: learnProgress, termStrength: termStrength,
     distractors: distractors, get L() { return L; },
