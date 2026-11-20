@@ -7,3 +7,4 @@ shot_*.png
 *.png
 !app/**/*.png
 !app/signing-cert.pem
+dist/

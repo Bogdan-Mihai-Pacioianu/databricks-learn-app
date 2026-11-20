@@ -9,7 +9,6 @@ on:
       - "claude/etapa-d-private-repo-fo4avo"
     paths:
       - "app/**"
-      - "dist/**"
       - "tools/build_apk.py"
       - ".github/release-notes.md"
       - ".github/workflows/release.yml"
@@ -54,11 +53,8 @@ jobs:
             cp app/signing-cert.pem "$k/cert.pem"
             APK_REQUIRE_KEY=1 python3 tools/build_apk.py app/base/shell.apk app/assets "$out" "$k"
             rm -rf "$k"
-          elif [ -f "dist/DataEng-Learn-$V.apk" ]; then
-            echo "::warning::Secretul APK_SIGNING_KEY nu e setat; public APK-ul construit local din dist/."
-            cp "dist/DataEng-Learn-$V.apk" "$out"
           else
-            echo "::error::Secretul APK_SIGNING_KEY nu e setat și nu există dist/DataEng-Learn-$V.apk."
+            echo "::error::Secretul APK_SIGNING_KEY nu e setat (Settings → Secrets and variables → Actions)."
             exit 1
           fi
           # Verificare independentă cu apksigner din Android SDK: semnătura e validă

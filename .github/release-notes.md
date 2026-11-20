@@ -1,5 +1,6 @@
 ## Ce e nou
 
+- **1.52.1 · Primul APK construit și semnat de GitHub:** conținutul e același ca în 1.52.0; se instalează direct peste.
 - **1.52.0 · Pornire mai rapidă și semnare definitivă:** aplicația pornește cu aproximativ 40% mai repede. Căutarea comună și arhiva de întrebări vechi se încarcă după primul ecran, iar corecturile din Etapa D sunt calculate dinainte. APK-ul e construit și semnat automat de GitHub, mereu cu aceeași cheie, deci actualizările se instalează peste versiunea existentă.
 - **1.51.0 · Etapa D:** întrebările grilă vechi sunt reechilibrate, deci varianta corectă nu mai e cea mai lungă în 56–67% din cazuri, ci în 19–32%. Include 25 de explicații noi, 176 de legături rupte eliminate, 139 de cuvinte lipite corectate, termeni dublați diferențiați, denumiri Lakeflow actualizate și Progres pe domenii complet la Spark și DP-750. Toate laboratoarele SQL și Python au fost rulate și trec.
 - **1.50.1 · Calitate:** suită de verificări (conținut, funcționalitate, ecrane, accesibilitate, backup, reluarea sesiunii) care rulează automat pe GitHub; câmpurile din Setări au etichete accesibile, iar linkurile spre surse sunt mai ușor de atins.

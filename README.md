@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.52.0, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.52.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.52.1, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.52.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -43,8 +43,8 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `tools/apk_version.py`: citește versiunea din manifestul binar; release-ul primește tag-ul `v<versiune>`.
 - `content/seed/cards.js`: conținutul de bază complet (31 MB). `tools/split_seed.py` îl împarte în `app/assets/cards.js` (încărcat la pornire) și `app/assets/seed-lazy162.js` (graful căutării comune și arhiva de întrebări vechi, încărcate după primul ecran). `tools/patch_lazy.py` face aplicația să aștepte graful acolo unde e nevoie de el.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.52.0.apk`: versiunea 1.52.0 (versionCode 12043), construită local. Folosită de release doar dacă secretul de semnare lipsește; după ce secretul e setat, `dist/` nu mai e necesar.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.52.0; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- APK-ul nu mai stă în repo: îl construiește și îl semnează GitHub la fiecare versiune nouă (vezi „Semnarea APK-ului”). Se descarcă din pagina de Releases.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.52.1; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
 
 ## Pornire mai rapidă (1.52.0)
 
@@ -508,6 +508,7 @@ Android acceptă o actualizare doar dacă e semnată cu aceeași cheie ca aplica
   - verifică cu `apksigner` că certificatul e cel din `app/signing-cert.pem`;
   - publică release-ul `v<versiune>`, cu notele din `.github/release-notes.md`.
 - **Fără o cheie nouă:** `tools/build_apk.py` refuză să genereze o cheie în GitHub Actions și verifică dacă cheia corespunde certificatului.
-- **Construire locală:** `python3 tools/build_apk.py app/base/shell.apk app/assets dist/DataEng-Learn-<versiune>.apk <director cu key.pem și cert.pem>`.
+- **Construire locală:** `python3 tools/build_apk.py app/base/shell.apk app/assets dist/DataEng-Learn-<versiune>.apk <director cu key.pem și cert.pem>`. `dist/` e ignorat de git.
+- **De la 1.52.1**, APK-ul publicat e construit exclusiv de GitHub. Dacă secretul lipsește, release-ul se oprește cu o eroare clară și nu se publică nimic.
 
 Dacă vii de la versiunea construită pe calculator (1.48.0 sau 1.54), aceea are altă cheie. Pentru prima instalare fă export de backup din Setări, dezinstalează, instalează APK-ul și importă backup-ul. De atunci încolo, actualizările se instalează direct.
