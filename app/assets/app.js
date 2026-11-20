@@ -517,8 +517,13 @@
     }
     return questionIndex[id] || null;
   }
+  var termIndex162=null,termIndexSrc162=null,termIndexLen162=-1;
   function termById(id) {
-    return allTerms().filter(function (t) { return t.id === id; })[0] || null;
+    var all=allTerms();
+    if(all!==termIndexSrc162 || all.length!==termIndexLen162){termIndex162=Object.create(null);all.forEach(function(t){if(!(t.id in termIndex162))termIndex162[t.id]=t;});termIndexSrc162=all;termIndexLen162=all.length;}
+    var t=termIndex162[id];
+    if(t && t.id===id)return t;
+    termIndexSrc162=null;return all.filter(function (x) { return x.id === id; })[0] || null;
   }
   function encodeSessionItem(it) {
     if (!it) return null;
@@ -7735,7 +7740,7 @@
     var body=$("#lab-body");body.innerHTML="";$("#lab-cap").textContent="Bibliotecă și audit";
     $("#nav").hidden=true;$("#lab").hidden=false;$("#lab-fb").hidden=true;
     body.appendChild(el("h2",null,"Ce avem în aplicație"));ensureCareerSearch142();body.appendChild(el("p","muted",(SEED.lectii || []).length+" lecții în biblioteca actuală · "+((SEED.career142 || {}).lessons || []).length+" lecții noi în parcursul Junior–Senior. Inventarul pe etape arată distribuția tuturor materialelor locale."));
-    if(SEED.connectionsAudit129){var links129=SEED.connectionsAudit129;body.appendChild(el("h3",null,"Căutare și legături între materiale"));body.appendChild(el("p",null,links129.pathsAfter+" trasee · "+links129.competenciesAfter+" competențe · "+SEED.knowledgeGraph.nodes.filter(function(n){return n.active!==false && n.searchable!==false;}).length+" materiale în căutarea comună."));body.appendChild(el("p","muted",links129.reviewedTermLinks.termsWithReviewedLinks+" termeni au legături de competență revizuite. Fiecare termen are verificarea definiției; "+links129.contextOnlyTermCount+" au deocamdată numai context de domeniu în graf, fără competență aplicată dedicată confirmată."));var search129=el("button","btn secondary","Caută și urmărește un concept");search129.onclick=function(){openSearch129();};body.appendChild(search129);}
+    if(SEED.connectionsAudit129){var links129=SEED.connectionsAudit129;body.appendChild(el("h3",null,"Căutare și legături între materiale"));body.appendChild(el("p",null,links129.pathsAfter+" trasee · "+links129.competenciesAfter+" competențe · "+(SEED.knowledgeGraph?SEED.knowledgeGraph.nodes.filter(function(n){return n.active!==false && n.searchable!==false;}).length:"…")+" materiale în căutarea comună."));body.appendChild(el("p","muted",links129.reviewedTermLinks.termsWithReviewedLinks+" termeni au legături de competență revizuite. Fiecare termen are verificarea definiției; "+links129.contextOnlyTermCount+" au deocamdată numai context de domeniu în graf, fără competență aplicată dedicată confirmată."));var search129=el("button","btn secondary","Caută și urmărește un concept");search129.onclick=function(){openSearch129();};body.appendChild(search129);}
     appendLibraryAudit128(body);
     body.appendChild(el("p","muted","Inventarul inclus în versiunea "+APP_VERSION+" · verificat la "+audit.date+". Cardurile personale se păstrează separat."));
     var grid=el("div","audit-grid");grid.id="audit-overview";
@@ -7817,10 +7822,30 @@
       }});
     return discovery129;
   }
-  function discoveryEntry129(root,id){if(!SEED.knowledgeGraph)return;var b=el("button","btn secondary","Caută în toată aplicația");b.id=id;b.onclick=function(){openSearch129();};root.appendChild(b);}
-  function appendKnowledgeLink129(host,id,kind){var d=discovery129Api();if(d)d.appendLink(host,id,kind);}
-  function openSearch129(query){var d=discovery129Api();return d?d.openSearch(query):false;}
-  function openKnowledge129(key){var d=discovery129Api();return d?d.openNode(key):false;}
+
+  // Pornire mai rapidă: graful căutării și arhiva de întrebări vin din seed-lazy162.js, după primul ecran.
+  var lazy162={state:SEED.knowledgeGraph?2:0,cbs:[]};
+  function lazyReady162(){return lazy162.state===2 || !!SEED.knowledgeGraph;}
+  function loadLazy162(){
+    if(lazy162.state)return;lazy162.state=1;
+    var s=document.createElement("script");s.src="seed-lazy162.js";
+    s.onerror=function(){lazy162.state=0;};
+    document.body.appendChild(s);
+  }
+  window.__seedLazy162=function(){
+    lazy162.state=2;questionIndex=null;knowledgePool129=null;
+    var cbs=lazy162.cbs;lazy162.cbs=[];cbs.forEach(function(f){try{f();}catch(e){}});
+  };
+  function whenLazy162(cb){if(lazyReady162()){cb();return;}lazy162.cbs.push(cb);loadLazy162();}
+  function scheduleLazy162(){
+    if(lazyReady162())return;
+    var go=function(){loadLazy162();};
+    if(window.requestIdleCallback)requestIdleCallback(go,{timeout:1500});else setTimeout(go,600);
+  }
+  function discoveryEntry129(root,id){var b=el("button","btn secondary","Caută în toată aplicația");b.id=id;b.onclick=function(){openSearch129();};root.appendChild(b);}
+  function appendKnowledgeLink129(host,id,kind){if(!lazyReady162()){var ph=el("div");ph.style.display="contents";host.appendChild(ph);whenLazy162(function(){if(ph.isConnected){var d=discovery129Api();if(d)d.appendLink(ph,id,kind);}});return;}var d=discovery129Api();if(d)d.appendLink(host,id,kind);}
+  function openSearch129(query){if(!lazyReady162()){toast("Se pregătește căutarea…");whenLazy162(function(){openSearch129(query);});return true;}var d=discovery129Api();return d?d.openSearch(query):false;}
+  function openKnowledge129(key){if(!lazyReady162()){whenLazy162(function(){openKnowledge129(key);});return true;}var d=discovery129Api();return d?d.openNode(key):false;}
   function returnToDiscovery129(){var key=state.discovery.returnKey;state.discovery.returnKey=null;save(true);return key?openKnowledge129(key):false;}
 
   function init() {
@@ -7832,6 +7857,7 @@
     installOverlayAccessibility146();
     installFocusedEditable146();
     document.body.classList.remove("loading");
+    scheduleLazy162();
   }
 
   var courses145Instance=null;

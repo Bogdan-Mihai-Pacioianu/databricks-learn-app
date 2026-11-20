@@ -12,7 +12,9 @@ Generează app/assets/balance161.js, care se încarcă după cards.js și modifi
 3. Explicații noi pentru întrebările care doar repetau răspunsul (content/explanations161.json).
 4. Corecturi de text: cuvinte lipite după o listă de cuvinte românești (nu atinge cod), denumiri
    de produse actualizate, titluri de termeni dublați diferențiate prin context.
-5. Legăturile interne spre materiale inexistente sunt eliminate la pornire.
+5. Legăturile interne spre materiale inexistente sunt eliminate.
+
+Tot ce se poate calcula dinainte (inclusiv cuvintele lipite) se calculează aici; la pornire se aplică doar valorile finale.
 
 Rulare:  python3 content/balance161.py app/assets
 """
@@ -117,51 +119,107 @@ TEXT_FIXES = [
 # Cuvinte lipite: doar după aceste cuvinte românești (formele din cod, ca `States.Timeout`, rămân neatinse).
 GLUE_WORDS = ["Nu", "explicită", "complet", "neapărat", "contract", "riscului", "date", "finită"]
 
-payload = {"questions": out_q, "terms": TERM_TITLES, "fixes": TEXT_FIXES, "glue": GLUE_WORDS, "domainAliases": DOMAIN_ALIASES}
+# Cuvintele lipite se despart aici, la construire, nu la fiecare pornire: în balance161.js ajung doar
+# valorile finale ale câmpurilor modificate.
+GLUE = re.compile(r"(^|[^A-Za-z0-9_.`/])(" + "|".join(GLUE_WORDS) + r")\.(?=[A-ZĂÂÎȘȚ][a-zăâîșț])")
+CODE = re.compile(r"(```[\s\S]*?```|`[^`]*`|https?://\S+)")
+glue_n = [0]
+def fix(t):
+    if not isinstance(t, str) or "." not in t:
+        return t
+    def sub(m):
+        glue_n[0] += 1
+        return m.group(1) + m.group(2) + ". "
+    return "".join(p if i % 2 else GLUE.sub(sub, p) for i, p in enumerate(CODE.split(t)))
+
+def setf(store, oid, field, old, new):
+    if new != old:
+        store.setdefault(oid, {})[field] = new
+
+text_fix = {}
+for kind, oid, field, a, b in TEXT_FIXES:
+    text_fix[(kind, oid, field)] = (a, b)
+def fixed(kind, obj, field):
+    v = obj.get(field)
+    f = text_fix.get((kind, obj["id"], field))
+    if f and isinstance(v, str):
+        v = v.replace(f[0], f[1])
+    return fix(v)
+
+cards_out, terms_out, lessons_out = {}, {}, {}
+for c in S.get("cards", []):
+    for f in ("q", "a"):
+        setf(cards_out, c["id"], f, c.get(f), fixed("card", c, f))
+for t in S.get("terms", []):
+    for f in ("d", "detail", "example"):
+        setf(terms_out, t["id"], f, t.get(f), fixed("term", t, f))
+for l in S.get("lectii", []):
+    for f in ("obiectiv", "explicatie"):
+        setf(lessons_out, l["id"], f, l.get(f), fix(l.get(f)))
+# Întrebări: rescrierea (dacă există), apoi despărțirea cuvintelor, pe text, variante și explicație.
+q_out = {}
+for bank, q in all_questions():
+    r = out_q.get(q["id"]) or {}
+    opts = [dict(x) for x in q["o"]]
+    if r.get("o"):
+        for i, t in enumerate(r["o"]):
+            opts[i]["t"] = t
+    e = r["e"] if "e" in r else q.get("e")
+    row = {}
+    nq = fix(q.get("q"))
+    if nq != q.get("q"): row["q"] = nq
+    ne = fix(e)
+    if ne != q.get("e"): row["e"] = ne
+    no = [{"t": fix(x["t"]), **({"w": fix(x["w"])} if x.get("w") else {})} for x in opts]
+    if any(no[i]["t"] != q["o"][i]["t"] or no[i].get("w", q["o"][i].get("w")) != q["o"][i].get("w") for i in range(len(no))):
+        row["o"] = no
+    if row:
+        q_out[q["id"]] = row
+# Legături spre materiale care nu mai există (calculate aici, ca la pornire să nu se parcurgă tot).
+ids = {"card": {c["id"] for c in S.get("cards", [])}, "term": {t["id"] for t in S.get("terms", [])},
+       "question": {q["id"] for _, q in all_questions()}, "lesson": {l["id"] for l in S.get("lectii", [])},
+       "exercise": {x["id"] for x in S.get("exercitii", [])}}
+links_out, links_n = {}, 0
+for k, rows in (S.get("learningLinks") or {}).items():
+    kept = [r for r in rows if r.get("kind") not in ids or r.get("id") in ids[r["kind"]]]
+    if len(kept) != len(rows):
+        links_out[k] = kept; links_n += len(rows) - len(kept)
+plan_out = {}
+for deck, lessons in (S.get("termLessonPlan134") or {}).items():
+    nl = [[i for i in l if i in ids["term"]] for l in lessons]
+    if nl != lessons:
+        plan_out[deck] = nl
+
+payload = {"questions": q_out, "terms": TERM_TITLES, "termText": terms_out, "cards": cards_out, "lessons": lessons_out,
+           "links": links_out, "plan": plan_out, "domainAliases": DOMAIN_ALIASES,
+           "n": {"q": sum(1 for _, q in all_questions() if q["id"] in out_q), "glue": glue_n[0], "links": links_n}}
 js = """/* Generat de content/balance161.py (Etapa D). Nu edita manual. */
 (function () {
   var S = window.SEED, B = %s;
   if (!S || S.balance161) return;
-  var n = { q: 0, glue: 0, links: 0 };
-  function banks() { var all = (S.questions || []).slice(); Object.keys(S.teste || {}).forEach(function (k) { all = all.concat(S.teste[k]); }); return all; }
-  banks().forEach(function (q) {
-    // O listă de domenii goală ascundea întrebarea din „Progres pe domenii”; domeniul principal rămâne.
-    if (Array.isArray(q.domains) && !q.domains.length) delete q.domains;
-    var r = B.questions[q.id]; if (!r) return;
-    if (r.o && r.o.length === q.o.length) r.o.forEach(function (t, i) { q.o[i].t = t; });
-    if (typeof r.e === "string") q.e = r.e;
-    n.q++;
+  function each(list, map, fn) { (list || []).forEach(function (x) { var r = map[x.id]; if (r) fn(x, r); }); }
+  function assign(x, r) { Object.keys(r).forEach(function (k) { x[k] = r[k]; }); }
+  var banks = [S.questions || []].concat(Object.keys(S.teste || {}).map(function (k) { return S.teste[k]; }));
+  banks.forEach(function (bank) {
+    bank.forEach(function (q) {
+      // O listă de domenii goală ascundea întrebarea din „Progres pe domenii”; domeniul principal rămâne.
+      if (Array.isArray(q.domains) && !q.domains.length) delete q.domains;
+      var r = B.questions[q.id]; if (!r) return;
+      if (r.q !== undefined) q.q = r.q;
+      if (r.e !== undefined) q.e = r.e;
+      if (r.o && r.o.length === q.o.length) r.o.forEach(function (o, i) { q.o[i].t = o.t; if (o.w) q.o[i].w = o.w; });
+    });
   });
-  Object.keys(B.terms).forEach(function (id) {
-    (S.terms || []).forEach(function (t) { if (t.id !== id || t.t === B.terms[id]) return; t.aliases = (t.aliases || []).concat([t.t]); t.t = B.terms[id]; });
-  });
-  var lists = { card: S.cards || [], term: S.terms || [] };
-  B.fixes.forEach(function (f) { (lists[f[0]] || []).forEach(function (x) { if (x.id === f[1] && typeof x[f[2]] === "string") x[f[2]] = x[f[2]].split(f[3]).join(f[4]); }); });
-  // Cuvinte lipite: „Nu.Verific” → „Nu. Verific”, în afara blocurilor de cod și a URL-urilor.
-  var glue = new RegExp("(^|[^\\\\w.`/])(" + B.glue.join("|") + ")\\\\.(?=[A-ZĂÂÎȘȚ][a-zăâîșț])", "g");
-  function fix(s) {
-    if (typeof s !== "string" || s.indexOf(".") < 0) return s;
-    return s.split(/(```[\\s\\S]*?```|`[^`]*`|https?:\\/\\/\\S+)/).map(function (part, i) { return i %% 2 ? part : part.replace(glue, function (m, a, w) { n.glue++; return a + w + ". "; }); }).join("");
-  }
-  (S.cards || []).forEach(function (c) { c.q = fix(c.q); c.a = fix(c.a); });
-  (S.terms || []).forEach(function (t) { t.d = fix(t.d); t.detail = fix(t.detail); t.example = fix(t.example); });
-  banks().forEach(function (q) { q.q = fix(q.q); q.e = fix(q.e); q.o.forEach(function (o) { o.t = fix(o.t); if (o.w) o.w = fix(o.w); }); });
-  (S.lectii || []).forEach(function (l) { l.obiectiv = fix(l.obiectiv); l.explicatie = fix(l.explicatie); });
-  // Legături interne spre materiale care nu mai există.
-  var ids = { card: {}, term: {}, question: {}, lesson: {}, exercise: {} };
-  (S.cards || []).forEach(function (x) { ids.card[x.id] = 1; }); (S.terms || []).forEach(function (x) { ids.term[x.id] = 1; });
-  banks().forEach(function (x) { ids.question[x.id] = 1; }); (S.lectii || []).forEach(function (x) { ids.lesson[x.id] = 1; }); (S.exercitii || []).forEach(function (x) { ids.exercise[x.id] = 1; });
-  Object.keys(S.learningLinks || {}).forEach(function (k) {
-    var rows = S.learningLinks[k] || [], kept = rows.filter(function (r) { return !ids[r.kind] || ids[r.kind][r.id]; });
-    n.links += rows.length - kept.length; S.learningLinks[k] = kept;
-  });
-  // Planul lecțiilor de termeni: id-uri de termeni care nu mai există (lecțiile își păstrează pozițiile, deci progresul salvat rămâne valid).
-  Object.keys(S.termLessonPlan134 || {}).forEach(function (deck) {
-    S.termLessonPlan134[deck] = S.termLessonPlan134[deck].map(function (l) { return l.filter(function (id) { return ids.term[id]; }); });
-  });
+  each(S.cards, B.cards, assign);
+  each(S.terms, B.termText, assign);
+  each(S.lectii, B.lessons, assign);
+  // Termeni dublați între domenii: titlul primește contextul, vechea denumire rămâne sinonim.
+  each(S.terms, B.terms, function (t, title) { if (t.t === title) return; t.aliases = (t.aliases || []).concat([t.t]); t.t = title; });
+  Object.keys(B.links).forEach(function (k) { if (S.learningLinks) S.learningLinks[k] = B.links[k]; });
+  Object.keys(B.plan).forEach(function (d) { if (S.termLessonPlan134) S.termLessonPlan134[d] = B.plan[d]; });
   S.examDomainAliases = S.examDomainAliases || {};
   Object.keys(B.domainAliases).forEach(function (ex) { S.examDomainAliases[ex] = Object.assign({}, S.examDomainAliases[ex] || {}, B.domainAliases[ex]); });
-  S.balance161 = n;
+  S.balance161 = B.n;
 })();
 """ % json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
 open(os.path.join(assets, "balance161.js"), "w", encoding="utf-8").write(js)

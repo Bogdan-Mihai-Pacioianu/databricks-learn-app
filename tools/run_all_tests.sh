@@ -24,7 +24,7 @@ run "qa_python_labs" python3 "$ROOT/tools/qa_python_labs.py" "$ASSETS" "$REPORTS
 run "qa_sql_labs" node "$ROOT/tools/qa_sql_labs.js" "$ASSETS" "$REPORTS/laboratoare-sql.md"
 run "build_atelier" node "$ROOT/tools/build_atelier.js" "$ROOT/content/atelier159.json" "$ROOT/content/atelier_mental160.json" "$SHOTS"
 echo "== Funcționalitate (Playwright)"
-for t in test_terms test_dictionary test_modes test_tabmodes test_setup test_resources test_enrich test_exams test_atelier test_mental; do
+for t in test_terms test_dictionary test_modes test_tabmodes test_setup test_resources test_enrich test_exams test_atelier test_mental test_lazy; do
   run "$t" node "$ROOT/tools/$t.js" "$ASSETS" "$SHOTS"
 done
 echo "== Aplicație (ecrane, accesibilitate, backup, reluare)"

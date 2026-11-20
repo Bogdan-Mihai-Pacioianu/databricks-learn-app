@@ -7,6 +7,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 
 src_apk, assets_dir, out_apk, key_dir = sys.argv[1:5]
+os.makedirs(os.path.dirname(os.path.abspath(out_apk)), exist_ok=True)
 
 # ---- 1. zip nou, cu aceeași ordine și aceeași compresie ----
 unsigned = out_apk + ".unsigned"
@@ -55,6 +56,13 @@ kp, cp = os.path.join(key_dir, "key.pem"), os.path.join(key_dir, "cert.pem")
 if os.path.exists(kp):
     key = serialization.load_pem_private_key(open(kp, "rb").read(), None)
     cert = x509.load_pem_x509_certificate(open(cp, "rb").read())
+    # Cheia trebuie să fie perechea certificatului; altfel telefonul refuză actualizarea.
+    pub = lambda k: k.public_bytes(serialization.Encoding.DER, serialization.PublicFormat.SubjectPublicKeyInfo)
+    if pub(key.public_key()) != pub(cert.public_key()):
+        sys.exit("Cheia din %s nu corespunde certificatului %s." % (kp, cp))
+elif os.environ.get("APK_REQUIRE_KEY"):
+    # În GitHub Actions nu se generează niciodată o cheie nouă: un APK semnat altfel nu se instalează peste cel existent.
+    sys.exit("Lipsește cheia de semnare (%s)." % kp)
 else:
     key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
     name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "DataEng Learn test build")])

@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.51.0, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.51.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.52.0, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.52.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -39,10 +39,33 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `tools/qa_sql_labs.js`, `tools/qa_python_labs.py`: rulează soluțiile laboratoarelor SQL (motorul aplicației) și Python (CPython). Rapoartele lor sunt `docs/laboratoare-sql.md` și `docs/laboratoare-python.md`.
 - `tools/patch_terms.py`: aplică aceleași îmbunătățiri peste alt `app.js`, de exemplu cel din sursa 1.54. Scriptul se oprește dacă o bucată de cod nu se potrivește.
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
-- `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
+- `tools/build_apk.py`: împachetează APK-ul din `app/base/shell.apk` (manifest, resurse și `classes.dex` din APK-ul original, fără asset-uri), `app/AndroidManifest.xml` și `app/assets/`, apoi îl semnează cu APK Signature Scheme v2. Vezi „Semnarea APK-ului”.
+- `tools/apk_version.py`: citește versiunea din manifestul binar; release-ul primește tag-ul `v<versiune>`.
+- `content/seed/cards.js`: conținutul de bază complet (31 MB). `tools/split_seed.py` îl împarte în `app/assets/cards.js` (încărcat la pornire) și `app/assets/seed-lazy162.js` (graful căutării comune și arhiva de întrebări vechi, încărcate după primul ecran). `tools/patch_lazy.py` face aplicația să aștepte graful acolo unde e nevoie de el.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.51.0.apk`: versiunea 1.51.0 (versionCode 12042), semnată cu o cheie de test.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.51.0; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `dist/DataEng-Learn-1.52.0.apk`: versiunea 1.52.0 (versionCode 12043), construită local. Folosită de release doar dacă secretul de semnare lipsește; după ce secretul e setat, `dist/` nu mai e necesar.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.52.0; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## Pornire mai rapidă (1.52.0)
+
+Pornirea măsurată în Chromium, cu procesorul încetinit de 4 ori, ca pe un telefon obișnuit:
+
+| | Înainte | Acum |
+|---|---:|---:|
+| Până la primul ecran | ~2,2 s | ~1,3 s |
+| `cards.js` | 31,5 MB | 20,9 MB |
+| Corecturile Etapei D (`balance161.js`) | ~260 ms | ~40 ms |
+
+- **Căutarea comună (10 400 de noduri) și arhiva de întrebări vechi** se încarcă după primul ecran, din `seed-lazy162.js`:
+  - dacă deschizi căutarea înainte să ajungă datele, ea apare imediat după aceea;
+  - legăturile „Vezi conceptul” se adaugă la locul lor când sosește graful.
+- **Corecturile din Etapa D** se calculează la construire, inclusiv cuvintele lipite. La pornire se aplică doar valorile finale, iar rezultatul e identic cu cel din 1.51.0.
+- **Căutarea unui termen după id** folosește un index, nu mai parcurge toată lista.
+- **Testul `tools/test_lazy.js`** verifică:
+  - căutarea deschisă devreme;
+  - lecțiile de curs din graf;
+  - întrebările din arhivă;
+  - rezultatele căutării.
 
 ## Etapa D (1.51.0): auditul și repararea conținutului
 
@@ -432,6 +455,8 @@ python tools/patch_enrich.py app/assets
 python tools/patch_atelier.py app/assets
 python tools/patch_a11y.py app/assets
 python tools/patch_balance.py app/assets
+python3 tools/patch_lazy.py app/assets
+python3 tools/split_seed.py content/seed/cards.js app/assets
 python3 content/balance161.py app/assets
 node tools/build_atelier.js content/atelier159.json content/atelier_mental160.json app/assets
 python tools/build_enrich.py content app/assets
@@ -471,6 +496,18 @@ node tools/build_dictionary.js app/assets
 - **Lecțiile se încheie cu o rundă inversă** pentru termenii noi.
 - **Feedback mai bun la greșeli:** explicația variantei alese și exemplul termenului.
 
-## Instalarea APK-ului de test
+## Semnarea APK-ului
 
-APK-ul de test e semnat cu altă cheie decât aplicația instalată, deci Android nu îl acceptă peste ea. Fă întâi export de backup din Setări, dezinstalează aplicația, instalează APK-ul de test, apoi importă backup-ul.
+Android acceptă o actualizare doar dacă e semnată cu aceeași cheie ca aplicația instalată. Toate versiunile de la 1.48.1 încoace folosesc aceeași cheie.
+
+- **Certificatul public** e în `app/signing-cert.pem` (SHA-256 `DF:86:E8:22:…:74:1D`).
+- **Cheia privată** e secretul `APK_SIGNING_KEY` al repo-ului (Settings → Secrets and variables → Actions) și o copie de rezervă păstrată de proprietar. Nu se pune niciodată în repo.
+- **Release-ul:** când versiunea din `app/AndroidManifest.xml` se schimbă, `.github/workflows/release.yml`:
+  - construiește APK-ul din `app/`;
+  - îl semnează cu secretul;
+  - verifică cu `apksigner` că certificatul e cel din `app/signing-cert.pem`;
+  - publică release-ul `v<versiune>`, cu notele din `.github/release-notes.md`.
+- **Fără o cheie nouă:** `tools/build_apk.py` refuză să genereze o cheie în GitHub Actions și verifică dacă cheia corespunde certificatului.
+- **Construire locală:** `python3 tools/build_apk.py app/base/shell.apk app/assets dist/DataEng-Learn-<versiune>.apk <director cu key.pem și cert.pem>`.
+
+Dacă vii de la versiunea construită pe calculator (1.48.0 sau 1.54), aceea are altă cheie. Pentru prima instalare fă export de backup din Setări, dezinstalează, instalează APK-ul și importă backup-ul. De atunci încolo, actualizările se instalează direct.

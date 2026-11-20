@@ -6,3 +6,4 @@ __pycache__/
 shot_*.png
 *.png
 !app/**/*.png
+!app/signing-cert.pem
