@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.50.0, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.50.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.50.1, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.50.1), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -32,12 +32,73 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `tools/test_atelier.js`: test Playwright pentru toate tipurile de exerciții, indicii, sertar, reluare, coada de reparat și statistici.
 - `content/atelier_mental160.json`: cursul Modele mentale (8 module, 48 de exerciții, fișe de principii, capcane universale, matrice de compromisuri, scenarii de gândire).
 - `tools/test_mental.js`: test Playwright pentru traseul Modele mentale.
+- `tools/qa_content.js`, `tools/qa_app.js`, `tools/run_all_tests.sh`: suita de calitate (vezi mai jos); `tools/patch_a11y.py`: corecturile de accesibilitate.
+- `docs/calitate-continut.md`, `docs/calitate-aplicatie.md`: ultimele rapoarte de calitate.
 - `tools/patch_terms.py`: aplică aceleași îmbunătățiri peste alt `app.js`, de exemplu cel din sursa 1.54. Scriptul se oprește dacă o bucată de cod nu se potrivește.
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.50.0.apk`: versiunea 1.50.0 (versionCode 12040), semnată cu o cheie de test.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.50.0; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `dist/DataEng-Learn-1.50.1.apk`: versiunea 1.50.1 (versionCode 12041), semnată cu o cheie de test.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.50.1; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## Verificări de calitate (1.50.1)
+
+Toată suita pornește cu o singură comandă:
+
+```
+bash tools/run_all_tests.sh app/assets docs
+```
+
+Pe GitHub rulează automat la fiecare push și pull request, prin workflow-ul `.github/workflows/qa.yml`. Rapoartele apar ca artefact și în pagina rulării.
+
+### 1. Conținutul (`tools/qa_content.js`, fără browser)
+
+Raportul se scrie în `docs/calitate-continut.md`. Verifică:
+- **Întrebări grilă din toate băncile:** exact o variantă corectă (sau cel puțin două la răspuns multiplu), variante duplicate sau goale, explicații lipsă, variante greșite fără motiv, întrebări dublate, lungimea variantei corecte (procentul în care e cea mai lungă).
+- **Glosar:** definiții lipsă, prea scurte sau prea lungi, întrebări de verificare lipsă, termeni dublați.
+- **Legături interne:** trimiteri spre carduri, termeni, lecții sau întrebări inexistente; planul lecțiilor de termeni.
+- **Text:** diacritice cu sedilă (ş ţ în loc de ș ț), blocuri de cod, cod inline și îngroșări neînchise.
+- **Examene:** ponderea fiecărui domeniu în bancă față de ponderea oficială.
+- **Resurse:** doar HTTPS, rezumat obligatoriu, linkuri nefuncționale.
+- **Atelier:** validatorul complet al pachetelor și lungimea variantelor.
+
+Ce e eroare și ce e avertisment:
+- **erori** (opresc suita): conținutul nou și invarianții de bază;
+- **avertismente**: conținutul moștenit, ca să fie reparat treptat.
+
+### 2. Funcționalitatea (10 teste Playwright)
+
+Testele acoperă:
+- termenii și dicționarul;
+- modurile Învață/Practică;
+- configurarea;
+- resursele;
+- fișele noi și întrebările de examen;
+- Atelierul și Modele mentale.
+
+### 3. Aplicația (`tools/qa_app.js`, în browser)
+
+Raportul se scrie în `docs/calitate-aplicatie.md`. Verificarea trece prin fiecare ecran și prin toate cele 11 taburi, în ambele moduri, plus o sesiune Atelier și sertarul Materiale. Le verifică la 360 și 412 px, în temă întunecată și luminoasă:
+- **depășirea pe orizontală;**
+- **ținte de atingere:** eroare sub 24 px, avertisment sub 36 px;
+- **elemente fără nume accesibil;**
+- **contrastul textului**, după pragurile WCAG;
+- **erori în consolă;**
+- **timpul de pornire;**
+- **backup-ul:** exportul și importul păstrează tot progresul;
+- **reluarea sesiunii:** după reîncărcarea paginii, sesiunea revine cu toate cele 9 tipuri de exerciții, la aceeași poziție.
+
+### Ce a găsit suita la prima rulare
+
+**Reparat în 1.50.1:**
+- două câmpuri din Setări fără etichetă accesibilă;
+- linkurile spre surse aveau 22 px înălțime; acum au cel puțin 36 px.
+
+**Rămase ca avertismente:**
+- **Băncile vechi de întrebări:** răspunsul corect e cel mai lung în 56–64% din cazuri (DP-750, DE Associate, DP-700, Spark Developer și banca generală).
+- **25 de întrebări vechi fără explicație.**
+- **14 texte cu îngroșare neînchisă.**
+- **6 termeni dublați și 4 domenii de examen sub- sau suprareprezentate.**
 
 ## Modele mentale (1.50.0): gândire inginerească, fără tehnologie
 
@@ -323,6 +384,7 @@ python tools/patch_setup.py app/assets
 python tools/patch_resources.py app/assets
 python tools/patch_enrich.py app/assets
 python tools/patch_atelier.py app/assets
+python tools/patch_a11y.py app/assets
 node tools/build_atelier.js content/atelier159.json content/atelier_mental160.json app/assets
 python tools/build_enrich.py content app/assets
 python tools/build_resources.py "research_notes/Resurse învățare data engineering" app/assets

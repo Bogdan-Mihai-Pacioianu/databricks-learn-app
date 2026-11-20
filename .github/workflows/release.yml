@@ -40,6 +40,7 @@ jobs:
           body: |
             ## Ce e nou
 
+            - **1.50.1 · Calitate:** suită de verificări (conținut, funcționalitate, ecrane, accesibilitate, backup, reluarea sesiunii) care rulează automat pe GitHub; câmpurile din Setări au etichete accesibile, iar linkurile spre surse sunt mai ușor de atins.
             - **1.50.0 · Modele mentale:** curs fără tehnologie în Atelier, cu 8 module × 4 niveluri (intuiție, cazuri limită, compromisuri, diagnostic) și 48 de micro-exerciții de 6 tipuri. Include diagrame schematice locale, feedback care arată ce ai ratat, fișe de principii, capcane universale, matrice de compromisuri, scenarii de gândire, jurnal de decizii și secțiunea Claritate & autonomie.
             - **1.49.0 · Atelier:** tab nou cu 6 competențe și 36 de exerciții de 5 tipuri (decizie, capcană, ordinea pașilor, completare, verificare pe date rulată local), scor de stăpânire cu repetare la 1/3/7/21 de zile, Repară lacunele pe ecranul Azi, sertarul Materiale în orice sesiune și secțiunea Autonomie în Statistici.
             - **1.48.7 · Databricks DE Associate:** 40 de întrebări noi de tip scenariu, după ponderile ghidului din mai 2026 (ingestie, transformare, Lakeflow Jobs, CI/CD, depanare, guvernanță, platformă).
