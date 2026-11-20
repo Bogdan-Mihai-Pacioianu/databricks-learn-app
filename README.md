@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.52.1, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.52.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.53.0, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.53.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -44,7 +44,35 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `content/seed/cards.js`: conținutul de bază complet (31 MB). `tools/split_seed.py` îl împarte în `app/assets/cards.js` (încărcat la pornire) și `app/assets/seed-lazy162.js` (graful căutării comune și arhiva de întrebări vechi, încărcate după primul ecran). `tools/patch_lazy.py` face aplicația să aștepte graful acolo unde e nevoie de el.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
 - APK-ul nu mai stă în repo: îl construiește și îl semnează GitHub la fiecare versiune nouă (vezi „Semnarea APK-ului”). Se descarcă din pagina de Releases.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.52.1; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.53.0; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## Recapitulare din greșeli și pregătire pentru examene (1.53.0)
+
+### Recapitulare din greșeli
+
+- **Intervalele:** o întrebare greșită revine după 1 zi. Dacă o nimerești, revine după 3 zile, apoi după 7. După a treia recapitulare corectă iese din listă. O nouă greșeală o readuce a doua zi.
+- **Pe ecranul Azi:** cardul **De recapitulat azi** pornește o sesiune cu până la 20 de întrebări scadente, cele mai vechi primele. Când nu e nimic scadent, cardul arată data următoarei recapitulări.
+- **Greșelile de dinainte** de 1.53.0 intră în listă la prima pornire.
+- **Simulările:** răspunsurile din simulările de examen se înregistrează la fel.
+
+### Scor de pregătire pe certificare
+
+Pentru fiecare domeniu oficial al examenului:
+- **Precizia** se calculează din ultimul răspuns la fiecare întrebare, ajustată ușor spre 50% când sunt puține răspunsuri.
+- **Acoperirea** e cât din domeniu ai exersat. Încrederea deplină vine de la 12 întrebări încercate.
+- **Scorul domeniului** e precizia înmulțită cu acoperirea. Răspunsurile mai vechi de 30 de zile contează 60%, cele mai vechi de 90 de zile 30%.
+- **Scorul examenului** e media scorurilor pe domenii, ponderată cu ponderile oficiale.
+
+Etichete:
+- **sub 40%:** La început;
+- **40–64%:** În progres;
+- **65–79%:** Aproape gata;
+- **de la 80%:** Pregătit pentru o simulare, dar numai dacă niciun domeniu nu e sub 50%.
+
+Aplicația recomandă domeniul cu cel mai mare câștig posibil (pondere × ce lipsește). Sesiunea recomandată are 15 întrebări din acel domeniu: întâi greșelile, apoi întrebări neîncercate, apoi cele corecte de demult.
+- **Unde apare:** pe ecranul Azi, pentru cel mult 3 certificări la care ai răspuns; în pagina certificării și în Statistici, cu detaliul pe domenii.
+- **Ce nu e:** o estimare locală, nu probabilitatea de promovare.
+- **Testul `tools/test_review.js`** verifică intervalele, ieșirea din listă, creșterea scorului, efectul vechimii și sesiunea recomandată.
 
 ## Pornire mai rapidă (1.52.0)
 
@@ -456,6 +484,7 @@ python tools/patch_atelier.py app/assets
 python tools/patch_a11y.py app/assets
 python tools/patch_balance.py app/assets
 python3 tools/patch_lazy.py app/assets
+python3 tools/patch_review.py app/assets
 python3 tools/split_seed.py content/seed/cards.js app/assets
 python3 content/balance161.py app/assets
 node tools/build_atelier.js content/atelier159.json content/atelier_mental160.json app/assets

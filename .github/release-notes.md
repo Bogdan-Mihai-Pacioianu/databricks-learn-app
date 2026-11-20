@@ -1,5 +1,6 @@
 ## Ce e nou
 
+- **1.53.0 · Recapitulare din greșeli și pregătire pentru examene:** întrebările greșite revin după 1, 3 și 7 zile, în cardul „De recapitulat azi”. Fiecare certificare are un scor de pregătire, ponderat după domeniile oficiale, cu domeniul unde câștigi cel mai mult și o sesiune de 15 întrebări pe el.
 - **1.52.1 · Primul APK construit și semnat de GitHub:** conținutul e același ca în 1.52.0; se instalează direct peste.
 - **1.52.0 · Pornire mai rapidă și semnare definitivă:** aplicația pornește cu aproximativ 40% mai repede. Căutarea comună și arhiva de întrebări vechi se încarcă după primul ecran, iar corecturile din Etapa D sunt calculate dinainte. APK-ul e construit și semnat automat de GitHub, mereu cu aceeași cheie, deci actualizările se instalează peste versiunea existentă.
 - **1.51.0 · Etapa D:** întrebările grilă vechi sunt reechilibrate, deci varianta corectă nu mai e cea mai lungă în 56–67% din cazuri, ci în 19–32%. Include 25 de explicații noi, 176 de legături rupte eliminate, 139 de cuvinte lipite corectate, termeni dublați diferențiați, denumiri Lakeflow actualizate și Progres pe domenii complet la Spark și DP-750. Toate laboratoarele SQL și Python au fost rulate și trec.

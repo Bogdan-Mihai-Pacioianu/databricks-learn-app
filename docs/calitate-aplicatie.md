@@ -38,7 +38,7 @@ Niciuna.
 
 ### pornire (1)
 
-- aplicația e gata în 698 ms
+- aplicația e gata în 813 ms
 
 ### backup (1)
 
