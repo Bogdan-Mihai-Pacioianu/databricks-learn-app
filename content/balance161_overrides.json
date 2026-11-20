@@ -1,0 +1,3164 @@
+{
+ "skill119-ba4c1bc30a71-q-debug": {
+  "o": [
+   "Folosești union pozițional fără aliniere.",
+   "Presupui că unirea elimină automat rândurile duplicate.",
+   "Aliniezi numele și presupui compatibilitate automată a oricărui tip.",
+   "Testezi tipurile, coloanele lipsă și ordinea rezultatului."
+  ],
+  "e_append": ""
+ },
+ "skill119-1ce967b06bf7-q-understand": {
+  "o": [
+   "API de tip pandas executat distribuit de Spark.",
+   "Momentul în care o acțiune declanșează evaluarea transformărilor necesare.",
+   "Alegerea reproductibilă a unui rând per cheie pe baza unei ordini complete.",
+   "Comparație care poate trata două valori NULL ca egale prin operatorul suportat."
+  ],
+  "e_append": "Comportamentul nu este identic cu pandas local; există diferențe care trebuie verificate."
+ },
+ "skill119-f393611f1d35-q-apply": {
+  "o": [
+   "Forțezi o singură partiție pentru orice export.",
+   "Promiți un număr exact de fișiere numai dintr-o partiționare logică.",
+   "Separi distribuția de calcul de organizarea fizică a rezultatului.",
+   "Presupui că ambele comenzi au același efect."
+  ],
+  "e_append": ""
+ },
+ "skill119-8c4ebd2d0337-q-apply": {
+  "o": [
+   "Înlocuiești UDFul fără testarea semanticii.",
+   "Promiți că orice pandas UDF elimină toate costurile.",
+   "Presupui echivalența după rescriere, fără NULL și cazuri-limită.",
+   "Evaluezi funcții native echivalente și verifici rezultatul."
+  ],
+  "e_append": "Rezultatul funcțiilor native trebuie să fie identic cu cel al UDF-ului."
+ },
+ "skill119-5e162bb78034-q-apply": {
+  "o": [
+   "Extinzi egalitatea simplă asupra NULL fără verificarea predicatului.",
+   "Folosești comparație null-safe pe câmpurile cerute de contract.",
+   "Compari cu egalitate obișnuită și presupui NULL egal NULL.",
+   "Înlocuiești NULL cu un text care poate exista în date."
+  ],
+  "e_append": ""
+ },
+ "skill119-bfa63a822db3-q-apply": {
+  "o": [
+   "Consideri că LEFT JOIN păstrează orice rând indiferent de WHERE.",
+   "Dublezi clienții pentru a reintroduce lipsurile.",
+   "Muți orice predicat între ON și WHERE fără probarea rândurilor lipsă.",
+   "Plasezi condiția după sens și păstrezi rândurile fără corespondent."
+  ],
+  "e_append": "Rândurile fără corespondent trebuie păstrate explicit, nu doar presupuse."
+ },
+ "skill119-bce70a9711cc-q-apply": {
+  "o": [
+   "Promiți aceeași disponibilitate fără o copie sau strategie suplimentară.",
+   "Creezi doar un alias nou pentru conexiune.",
+   "Promiți aceeași disponibilitate fără analiza sursei externe.",
+   "Alegi federare sau materializare după disponibilitate și freshness."
+  ],
+  "e_append": ""
+ },
+ "skill119-a1859d396aa9-q-apply": {
+  "o": [
+   "Completezi privilegiile de utilizare pe părinți.",
+   "Acorzi ALL PRIVILEGES pe toate cataloagele.",
+   "Muți fișierele fără a verifica autorizarea.",
+   "Consideri numele complet dovada drepturilor de citire."
+  ],
+  "e_append": "SELECT pe tabel nu ajunge fără privilegiile de utilizare necesare pe schema și catalogul părinte."
+ },
+ "skill119-0092a1a2c14d-q-understand": {
+  "o": [
+   "Alegerea resursei de execuție după workload, dependențe, latență și cost.",
+   "Executarea unor operații în afara motorului Photon când nu sunt suportate acolo.",
+   "Fixarea și verificarea versiunilor de runtime și biblioteci pentru execuții reproductibile.",
+   "Verificarea compatibilității liquid clustering cu tabela și clienții folosiți."
+  ],
+  "e_append": ""
+ },
+ "skill119-3725f65ee06d-q-debug": {
+  "o": [
+   "Tratezi orice fișier din volum ca tabel cu tranzacții Delta.",
+   "Testezi citirea, scrierea și căile aplicațiilor reale.",
+   "Creezi câte o coloană pentru fiecare fișier PDF.",
+   "Presupui că un volum oferă automat tranzacții Delta."
+  ],
+  "e_append": ""
+ },
+ "skill119-5a572fd4bab2-q-apply": {
+  "o": [
+   "Concluzionezi că orice UDF anulează tot câștigul întregului pipeline.",
+   "Atribui tot timpul jobului motorului Photon fără profil pe operatori.",
+   "Inspectezi profilul și evaluezi funcții native pe pașii dominanți.",
+   "Promiți că Photon accelerează orice cod Python."
+  ],
+  "e_append": ""
+ },
+ "skill119-304058f809c2-q-debug": {
+  "o": [
+   "Compari numai începuturile distincte, fără frontiere și suprapuneri.",
+   "Testezi suprapunerile, frontierele și versiunile active pe cheie.",
+   "Alegi arbitrar una dintre versiuni la raportare.",
+   "Elimini întregul istoric și păstrezi doar ultima versiune."
+  ],
+  "e_append": "Pe fiecare cheie trebuie să existe cel mult o versiune activă la o dată."
+ },
+ "skill119-fbc0fef01185-q-debug": {
+  "o": [
+   "Păstrezi permanent un cluster interactiv fără justificare.",
+   "Alegi calculul numai după formatul Delta al tabelei.",
+   "Măsori costul total, inclusiv pornirea și inactivitatea.",
+   "Declari un tip de compute mereu cel mai ieftin."
+  ],
+  "e_append": "Comparația include și durata totală, nu doar timpul de execuție util."
+ },
+ "skill119-0c09d82a46aa-q-apply": {
+  "o": [
+   "Reduci retenția la zero pentru spațiu.",
+   "Presupui că logul singur reconstruiește fișierele șterse.",
+   "Consideri checkpoint-ul capabil să recreeze fișiere deja eliminate.",
+   "Alegi retenția și recuperarea după întreruperea maximă tolerată."
+  ],
+  "e_append": ""
+ },
+ "skill119-fbc0fef01185-q-apply": {
+  "o": [
+   "Declari un tip de compute mereu cel mai ieftin.",
+   "Păstrezi permanent un cluster interactiv fără justificare.",
+   "Alegi calculul numai după formatul Delta al tabelei.",
+   "Compari job compute și serverless pe sarcina efectivă."
+  ],
+  "e_append": "Serverless intră în comparație doar dacă este compatibil cu sarcina."
+ },
+ "skill119-2b5f441ca959-q-debug": {
+  "o": [
+   "Expui direct întreaga locație de stocare.",
+   "Presupui că sharingul elimină nevoia unui contract de schemă.",
+   "Consideri revocarea accesului eliminare a copiilor exportate.",
+   "Verifici vizibilitatea, revocarea și autentificarea folosită."
+  ],
+  "e_append": ""
+ },
+ "skill119-d1bf16063fec-q-apply": {
+  "o": [
+   "Publici cheia contului în configurația partajată.",
+   "Presupui că numele locației acordă acces cloud.",
+   "Acordezi drepturi pe tabel și presupui orice acces direct la fișiere.",
+   "Configurezi credențiala și external location cu drepturile necesare."
+  ],
+  "e_append": "Accesul folosește identitatea credențialei, nu chei de cont în notebook."
+ },
+ "skill119-b52289b186f7-q-apply": {
+  "o": [
+   "Alegi primul rând dintre versiuni egale contradictorii.",
+   "Ordonezi versiunile și păstrezi doar modificarea aplicabilă.",
+   "Alegi aleator un rând sursă pentru fiecare cheie.",
+   "Presupui că orice MERGE rezolvă singur versiunile multiple ale cheii."
+  ],
+  "e_append": "Sursa se reduce la o singură modificare aplicabilă pe cheie înainte de MERGE."
+ },
+ "skill119-39f0d6dad374-q-debug": {
+  "o": [
+   "Verifici capabilitățile endpointului și rezultatul scrierii.",
+   "Presupui că orice endpoint SQL suportă același DML ca un Warehouse.",
+   "Schimbi doar numele conexiunii pentru același UPDATE.",
+   "Presupui aceleași operații pentru endpoint și orice motor SQL."
+  ],
+  "e_append": ""
+ },
+ "skill119-54067422f4f1-q-apply": {
+  "o": [
+   "Presupui că performanța demonstrează singură modul folosit.",
+   "Presupui aceleași condiții de fallback pentru orice mod.",
+   "Identifici varianta, sursa și condițiile de fallback.",
+   "Generalizezi comportamentul unei variante la toate modurile."
+  ],
+  "e_append": "Condițiile de fallback se verifică în documentația variantei folosite."
+ },
+ "skill119-fb5f890936e8-q-apply": {
+  "o": [
+   "Consideri existența shortcutului dovada dreptului de citire.",
+   "Tratezi shortcutul ca pe un backup independent.",
+   "Validezi numai listarea shortcutului fără citirea sursei.",
+   "Verifici configurația și identitățile pe calea de acces."
+  ],
+  "e_append": ""
+ },
+ "skill119-a97b7dc6797a-q-apply": {
+  "o": [
+   "Consideri configurarea destinației dovada populației publicate.",
+   "Verifici destinația, maparea și politica de actualizare.",
+   "Consideri previzualizarea dovada publicării în destinație.",
+   "Schimbi doar numele pașilor din editor."
+  ],
+  "e_append": ""
+ },
+ "skill119-4213adb3417f-q-apply": {
+  "o": [
+   "Izolezi rezultatul și controlezi concurența și publicarea.",
+   "Scrii direct peste datele active fără validare.",
+   "Rulezi toate intervalele istorice fără limită de concurență.",
+   "Ștergi progresul fără a verifica istoricul și efectele țintei."
+  ],
+  "e_append": "Publicarea are o frontieră controlată, astfel încât reprocesarea să nu interfereze cu ingestia curentă."
+ },
+ "skill119-54067422f4f1-q-debug": {
+  "o": [
+   "Presupui aceleași condiții de fallback pentru orice mod.",
+   "Verifici modul real de execuție și politicile de acces.",
+   "Generalizezi comportamentul unei variante la toate modurile.",
+   "Presupui că performanța demonstrează singură modul folosit."
+  ],
+  "e_append": "Politicile de acces ale modelului pot influența modul de execuție."
+ },
+ "skill119-7446792d772b-q-apply": {
+  "o": [
+   "Compari Warehouse și Lakehouse după limbaj și operare.",
+   "Alegi numai după extensia fișierului sursă.",
+   "Presupui identitate completă de funcții și comenzi cu SQL Server local.",
+   "Alegi produsul numai pentru că datele sunt Delta."
+  ],
+  "e_append": ""
+ },
+ "skill119-c2d53979035d-q-apply": {
+  "o": [
+   "Parametrizezi fereastra și o propagi către activități.",
+   "Folosești întotdeauna data curentă.",
+   "Modifici manual toate activitățile pentru fiecare zi.",
+   "Folosești data curentă la reluarea unei ferestre istorice."
+  ],
+  "e_append": "Fereastra are început și sfârșit explicite, transmise fiecărei activități."
+ },
+ "skill119-c3ff3ea17b42-q-apply": {
+  "o": [
+   "Folosești momentul curent drept singur parametru.",
+   "Pui transformarea întregului set în metadatele dintre taskuri.",
+   "Avansezi fereastra numai din statusul tehnic verde.",
+   "Parametrizezi intervalul și faci taskurile idempotente."
+  ],
+  "e_append": ""
+ },
+ "skill119-e8691537b014-q-understand": {
+  "o": [
+   "Aducerea șirurilor la o formă Unicode normalizată aleasă.",
+   "Separarea schemelor folosite la scriere și citire pentru rezolvarea datelor Avro.",
+   "Identificator numeric al unui câmp în reprezentarea Protocol Buffers.",
+   "Evitarea unor grupuri de rânduri pe baza metadatelor și predicatelor suportate."
+  ],
+  "e_append": "Transformarea urmează regulile formei de normalizare alese."
+ },
+ "skill128-stream-02-q-design": {
+  "o": [
+   "Declari deduplicare pentru totdeauna deoarece există o funcție de deduplicare.",
+   "Nu promiți deduplicare la 10 zile; verifici alt jurnal sau semnalezi limita.",
+   "Recunoști retransmisia și nu aplici încă o dată efectul logic al aceleiași chei."
+  ],
+  "e_append": "Starea de 24 de ore nu poate dovedi o deduplicare istorică exactă."
+ },
+ "skill128-iceberg-04-q-debug": {
+  "o": [
+   "Reutilizezi poziția veche drept dovadă a identității în orice schemă.",
+   "Verifici că valorile rămân pe același câmp după redenumire.",
+   "Respingi rezultatul până la o mapare explicită compatibilă și reconciliată."
+  ],
+  "e_append": ""
+ },
+ "q125-dbra-01": {
+  "o": [
+   "Compatibilitatea interfeței și dependențelor cu fiecare workload.",
+   "Alegerea aceleiași resurse, deoarece ambele citesc Delta.",
+   "Alegerea duratei minime a unei interogări cu un singur utilizator.",
+   "Alegerea după numărul de notebookuri din proiect."
+  ],
+  "e_append": ""
+ },
+ "tspk-03": {
+  "o": [
+   "Agregarea fără watermark nu suportă `append`",
+   "`append` nu funcționează niciodată cu agregări",
+   "Lipsește `checkpointLocation`",
+   "Agregările cer `trigger` continuu"
+  ],
+  "e_append": ""
+ },
+ "skill119-b9ce06d875a7-q-debug": {
+  "o": [
+   "Partiționezi pe fiecare client individual.",
+   "Consideri predicatul pe data afișată echivalent fără tip și fus.",
+   "Compari octeții procesați și totalurile înainte și după.",
+   "Adaugi doar LIMIT la rezultatul agregat."
+  ],
+  "e_append": ""
+ },
+ "skill119-cc131167a975-q-understand": {
+  "o": [
+   "Deformarea concluziilor când selecția nu reprezintă populația analizată.",
+   "Cuantila descrie o frontieră a distribuției, media descrie suma împărțită la număr.",
+   "Media calculată cu ponderi care reflectă mărimea grupurilor sau expunerea relevantă.",
+   "Interval produs printr-o procedură statistică cu o acoperire definită sub ipoteze."
+  ],
+  "e_append": ""
+ },
+ "skill128-delta-02-q-debug": {
+  "o": [
+   "Păstrezi versiunea 8 și respingi explicit versiunea 7.",
+   "Aplici versiunea 9 și păstrezi dovada versiunii și a operației.",
+   "Suprascrii ținta cu ultimul rând sosit, indiferent de versiune."
+  ],
+  "e_append": "Respingerea versiunii vechi se înregistrează ca dovadă."
+ },
+ "skill128-orchestrare-02-q-apply": {
+  "o": [
+   "Reiei scrierea întregului upstream fără să verifici efectul deja publicat.",
+   "Blochezi consumul până la satisfacerea manifestului sau o derogare explicită.",
+   "Verifici frontiera publicată și recuperezi semnalul, fără să recreezi orbește efectul confirmat."
+  ],
+  "e_append": ""
+ },
+ "q128-dp750-application-d750-031": {
+  "o": [
+   "Declari citirea autorizată doar pentru că workspace-ul este legat la catalog.",
+   "Elimini privilegiile utilizatorului din investigație după verificarea bindingului.",
+   "Schimbi bindingul pentru toate workspace-urile ca să repari un SELECT refuzat.",
+   "Nu. Bindingul și privilegiile utilizatorului sunt condiții distincte."
+  ],
+  "e_append": "Bindingul controlează doar din ce workspace este vizibil catalogul; citirea cere și privilegii."
+ },
+ "q128-dbra-application-course-dbra-028": {
+  "o": [
+   "Mărești clusterul fără să verifici partiția maximă după reducere.",
+   "Ignori OOM deoarece totalul rândurilor nu s-a schimbat.",
+   "Verifici volumul, distribuția pe partiție și memoria.",
+   "Consideri mai puține taskuri automat mai puțină memorie pe task."
+  ],
+  "e_append": ""
+ },
+ "q128-dp700-application-course-dp700-067": {
+  "o": [
+   "Convertești arbitrar textul la zero și omiți validarea contractului.",
+   "Verifici expresia, tipul parametrului și tipul cerut de activitate.",
+   "Reiei la infinit aceeași valoare text într-un câmp numeric.",
+   "Consideri orice refuz de tip o întrerupere tranzitorie de rețea."
+  ],
+  "e_append": ""
+ },
+ "skill119-c12805c147ed-q-debug": {
+  "o": [
+   "Distribui cheia personală a administratorului în notebookuri.",
+   "Acorzi roluri globale pentru a evita diagnosticul.",
+   "Consideri cheia validă dovada accesului la fiecare dataset.",
+   "Testezi sub identitatea efectivă și inspectezi auditul."
+  ],
+  "e_append": ""
+ },
+ "skill128-python-01-q-design": {
+  "o": [
+   "True nu poate trece niciodată un test isinstance cu int.",
+   "Conversia oricărui identificator la int păstrează identitatea.",
+   "Păstrezi codurile ca text și parsezi separat cantitățile."
+  ],
+  "e_append": ""
+ },
+ "skill128-model-02-q-design": {
+  "o": [
+   "Calculezi media dintre 50% și 0%, adică 25%, ca medie pe grupe.",
+   "Calculezi 2 din 100, adică 2%, păstrând numărătorul și numitorul.",
+   "Folosești 25% pentru orice raport deoarece are aceeași unitate procent."
+  ],
+  "e_append": "Rezultatul este etichetat explicit ca medie neponderată pe grupe."
+ },
+ "skill128-finante-02-q-understand": {
+  "o": [
+   "Rotunjirea pe poziție și cea după agregare pot diferi și cer o politică explicită.",
+   "O conversie monetară trebuie să păstreze valuta, data, cursul și politica de evaluare care definesc rezultatul.",
+   "Egalitatea debitului și creditului nu demonstrează că toate înregistrările cerute sunt prezente."
+  ],
+  "e_append": ""
+ },
+ "skill128-relational-04-q-debug": {
+  "o": [
+   "Verifici logica valorii necunoscute și scrii explicit semantica dorită.",
+   "Implementezi compararea null-safe potrivit dialectului și testezi ambele frontiere NULL.",
+   "Transformi toate valorile NULL în textul gol fără analiză."
+  ],
+  "e_append": ""
+ },
+ "skill119-faf7abbbb802-q-understand": {
+  "o": [
+   "Eliminarea partițiilor necerute înainte de scanarea fișierelor.",
+   "Păstrarea mai multor versiuni ale unui obiect S3, identificabile separat.",
+   "Reguli care mută sau expiră obiecte în funcție de condiții de păstrare.",
+   "Catalog de metadate despre tabele, scheme și locații de date."
+  ],
+  "e_append": ""
+ },
+ "skill119-4c334955467d-q-debug": {
+  "o": [
+   "Numești revocarea accesului ștergere a exporturilor partenerului.",
+   "Testezi identitățile și urmărești schema și costurile.",
+   "Acordezi acces public pentru simplificarea integrării.",
+   "Ignori contractul de schemă pentru consumatori."
+  ],
+  "e_append": ""
+ },
+ "skill119-c1d93f6576ba-q-debug": {
+  "o": [
+   "Arunci orice eveniment sosit după prima emitere.",
+   "Aduni emisii cumulative ca și cum ar fi delte independente.",
+   "Testezi mai multe emiteri și cum le interpretează destinația.",
+   "Aduni toate emiterile ca și cum ar fi mereu delta independente."
+  ],
+  "e_append": ""
+ },
+ "skill128-stream-05-q-understand": {
+  "o": [
+   "Un join între evenimente cere identitate și condiție temporală, nu doar o cheie egală.",
+   "Perioada de business și momentul la care informația devine disponibilă sunt frontiere distincte ale unui eveniment.",
+   "Deduplicarea cu stare limitată oferă o garanție numai în fereastra și identitatea definite de contract."
+  ],
+  "e_append": "Cheile pot fi reutilizate în timp, deci egalitatea lor singură nu leagă evenimentele corect."
+ },
+ "skill128-iceberg-03-q-understand": {
+  "o": [
+   "Schimbarea layoutului se interpretează prin metadatele vechilor și noilor fișiere.",
+   "Eliminarea unui fișier trebuie evaluată prin referințele și politica tabelei, nu numai prin data fișierului.",
+   "O modificare concurentă poate invalida premisele unei operații înainte de publicarea noii stări a tabelei."
+  ],
+  "e_append": ""
+ },
+ "skill129-bi-04-q-debug": {
+  "o": [
+   "Schimbi eticheta în sold final fără a modifica populația și calculul totalului.",
+   "Restabilești măsura de stare și frontiera de închidere.",
+   "Aduni automat orice valori numerice pe zile, indiferent dacă sunt stocuri sau fluxuri."
+  ],
+  "e_append": "Contractul include și regula pentru zilele fără observații."
+ },
+ "skill119-c009a44dedf2-q-apply": {
+  "o": [
+   "Duplici tabelele doar pentru a separa calculul.",
+   "Presupui că oprirea warehouseului șterge tabelele.",
+   "Validezi izolarea calculului numai din numele bazelor.",
+   "Evaluezi warehouseuri distincte pentru izolare."
+  ],
+  "e_append": "Warehouseurile distincte izolează calculul încărcării de cel al interogărilor BI."
+ },
+ "skill128-relational-02-q-understand": {
+  "o": [
+   "Operațiile care păstrează o invariantă comună sunt o unitate de commit sau rollback.",
+   "O constrângere de unicitate protejează o identitate declarată, nu orice asemănare între valori.",
+   "Citirea disponibilității și rezervarea trebuie coordonate pentru a nu încălca o limită comună."
+  ],
+  "e_append": ""
+ },
+ "q125-dbra-02": {
+  "o": [
+   "Adaugă predicatul id >= 50 AND id < 80 la sursă.",
+   "Crește numPartitions și păstrează citirea fără predicat.",
+   "Elimină după citire toate ID-urile divizibile cu 80.",
+   "Schimbă limita superioară la 79 și presupune filtrarea."
+  ],
+  "e_append": "Predicatul trebuie pus în interogarea sursei; lowerBound și upperBound doar împart citirea, nu filtrează."
+ },
+ "skill119-371342f0dd6b-q-debug": {
+  "o": [
+   "Consideri cheia de distribuție identică oricărei chei de sortare.",
+   "Verifici planul, redistribuirea și skewul pe sarcina reală.",
+   "Alegi cheia cu cea mai mică cardinalitate.",
+   "Redimensionezi fără examinarea mișcării datelor."
+  ],
+  "e_append": "Se urmărește și timpul de execuție pe sarcina reală."
+ },
+ "skill119-c67567de1b72-q-debug": {
+  "o": [
+   "Împarți fiecare linie după virgulă ignorând quotingul.",
+   "Schimbi tipurile din tabel fără verificarea parserului.",
+   "Transformi automat codurile 001 și 1 în aceeași valoare numerică.",
+   "Compari coloanele și rândurile respinse pe fișiere-limită."
+  ],
+  "e_append": "Comparația privește coloanele așa cum le-a interpretat parserul."
+ },
+ "skill119-5a5c2a35208c-q-understand": {
+  "o": [
+   "Responsabilitate explicită pentru sens, calitate, acces și operare.",
+   "Păstrarea utilizării convenite la evoluția schemei și semanticii unui set de date.",
+   "RPO privește pierderea de date tolerată, iar RTO timpul țintă de restabilire.",
+   "Verificarea echivalenței cerute între sursă și țintă înaintea comutării."
+  ],
+  "e_append": ""
+ },
+ "t750-06": {
+  "o": [
+   "Auto Loader cu file events/notificări",
+   "`COPY INTO`, rulat din oră în oră",
+   "Un job care citește directorul și filtrează după data fișierului",
+   "Lakeflow Connect"
+  ],
+  "e_append": "Notificările se configurează pentru locația sursă, astfel încât nu se listează tot directorul."
+ },
+ "skill119-a390d80afc2a-q-understand": {
+  "o": [
+   "Catalog de metadate despre tabele, scheme și locații de date.",
+   "Evidența progresului unui job Glue pe sursele suportate.",
+   "Păstrarea mai multor versiuni ale unui obiect S3, identificabile separat.",
+   "Reguli care mută sau expiră obiecte în funcție de condiții de păstrare."
+  ],
+  "e_append": "Bookmarkul funcționează doar pentru sursele și transformările suportate."
+ },
+ "skill119-37c32092689a-q-apply": {
+  "o": [
+   "Numără doar durata execuției și omiți așteptarea.",
+   "Evaluezi rezervări și atribuiri care izolează capacitatea.",
+   "Separi numai numele tabelelor și presupui izolare de calcul.",
+   "Cumperi capacitate fără măsurarea concurenței."
+  ],
+  "e_append": ""
+ },
+ "skill119-26a453277094-q-apply": {
+  "o": [
+   "Consideri numele rolului dovada accesului efectiv.",
+   "Testezi SELECT dar omiți contextul warehouse-ului programat.",
+   "Atribui privilegiile prin roluri, conform accesului minim.",
+   "Acorzi direct fiecărui utilizator toate privilegiile globale."
+  ],
+  "e_append": "Rolurile și relațiile dintre ele se definesc după principiul accesului minim."
+ },
+ "skill119-4c1a755362f6-q-apply": {
+  "o": [
+   "Consideri orice diferență de distribuție o eroare de date.",
+   "Schimbi fereastra de referință după ce ai văzut rezultatul dorit.",
+   "Alegi o referință cu sezonalitate și schimbări cunoscute.",
+   "Folosești un prag unic fără context calendaristic."
+  ],
+  "e_append": ""
+ },
+ "skill128-sql-12-q-design": {
+  "o": [
+   "Departajare de business stabilă, direcția sortării și tratamentul NULL.",
+   "LAG înseamnă mereu perioada calendaristică anterioară.",
+   "ROW_NUMBER cu o ordine incompletă garantează același câștigător la egalitate."
+  ],
+  "e_append": ""
+ },
+ "skill128-finante-01-q-apply": {
+  "o": [
+   "Raportezi 400 lei și păstrezi cursul și data folosite.",
+   "Raportezi 480 lei ca reevaluare separată și explici diferența de 80 lei.",
+   "Suprascrii 400 cu 480 fără versiune, motiv sau politică."
+  ],
+  "e_append": "400 lei este valoarea istorică (80 EUR × 5 lei/EUR), cerută de politică."
+ },
+ "skill129-bi-02-q-debug": {
+  "o": [
+   "Reconcilierea pe factură și perioadă arată că datele afectate nu au fost recitite.",
+   "Prezinți orice refresh reușit drept dovadă că toate corecțiile istorice au intrat în model.",
+   "Mărești arbitrar fereastra și o declari suficientă pentru orice corecție viitoare."
+  ],
+  "e_append": ""
+ },
+ "v117-test-dp700-04": {
+  "o": [
+   "project SensorId, Timestamp",
+   "summarize arg_max(Timestamp, *) by SensorId",
+   "summarize max(Timestamp) by SensorId | order by SensorId",
+   "take 1 pe tot tabelul"
+  ],
+  "e_append": ""
+ },
+ "skill119-e914741e4ec5-q-debug": {
+  "o": [
+   "Ștergi toate versiunile pentru a reinițializa ingestia.",
+   "Reprocesezi obiectul fără a identifica versiunea folosită.",
+   "Compari versiunea, checksumul și totalurile cu manifestul.",
+   "Reîncarci ultima versiune presupunând că este cea bună."
+  ],
+  "e_append": ""
+ },
+ "skill119-8b28a57f927a-q-apply": {
+  "o": [
+   "Inspectezi pruningul și distribuția din micro-partiții.",
+   "Creezi manual câte o micro-partiție pentru fiecare rând.",
+   "Mărești doar dimensiunea rezultatului afișat.",
+   "Deduci pruning bun din numărul mic de rânduri afișate."
+  ],
+  "e_append": ""
+ },
+ "skill119-ad86149ed641-q-apply": {
+  "o": [
+   "Faci media mediilor fără numărul observațiilor fiecărui grup.",
+   "Recompui media globală din sume și numere.",
+   "Faci media simplă a mediilor magazinelor.",
+   "Împarți suma veniturilor la numărul magazinelor."
+  ],
+  "e_append": "Ponderarea mediilor cu numărul de comenzi dă același rezultat."
+ },
+ "skill128-model-01-q-design": {
+  "o": [
+   "Deduplici după produs și păstrezi arbitrar prima poziție.",
+   "Agregi pozițiile la valoarea 100 și documentezi granularitatea.",
+   "Păstrezi ambele chei și totalul 100, chiar dacă produsul se repetă."
+  ],
+  "e_append": ""
+ },
+ "q140-dbra-d4-o3-032": {
+  "o": [
+   "Nu se trimite alertă pentru runul skipped",
+   "Runul este convertit automat în SUCCESS în istoric",
+   "Toate erorile viitoare sunt ignorate",
+   "Jobul rulează imediat din nou"
+  ],
+  "e_append": ""
+ },
+ "skill119-5f2290a889a5-q-apply": {
+  "o": [
+   "Deduplici cu cheie de idempotentă și evidență durabilă.",
+   "Presupui că timeoutul dovedește absența scrierii.",
+   "Generezi o cheie nouă la fiecare încercare.",
+   "Ștergi evidența efectului înaintea ferestrei de relivrare."
+  ],
+  "e_append": ""
+ },
+ "skill119-9e15dff8b3c6-q-apply": {
+  "o": [
+   "Adaugi clustering pe orice tabel mic.",
+   "Presupui că orice cheie unică este optimă.",
+   "Măsori numai prima citire și omiți întreținerea ulterioară.",
+   "Alegi cheia de clustering după interogări și întreținere."
+  ],
+  "e_append": ""
+ },
+ "skill119-f7c1571d593f-q-apply": {
+  "o": [
+   "Documentezi numai numele produsului ales.",
+   "Rescrii retrospectiv motivul fără evidența schimbării.",
+   "Documentezi numai serviciul ales, fără alternative și condiții.",
+   "Documentezi cerința, alternativele, motivele și reevaluarea."
+  ],
+  "e_append": "Decizia include și condițiile în care trebuie reevaluată."
+ },
+ "skill128-algo-02-q-understand": {
+  "o": [
+   "Complexitatea descrie creșterea lucrului cu intrarea și nu înlocuiește măsurarea.",
+   "O mulțime păstrează existența cheilor, iar un contor păstrează și numărul de apariții ale fiecărei chei.",
+   "Un algoritm aproximativ trebuie evaluat după eroarea permisă de contract și consecința deciziei."
+  ],
+  "e_append": ""
+ },
+ "skill119-48cd2910677c-q-apply": {
+  "o": [
+   "Reproiectezi cheia după distribuție și ordinea per entitate.",
+   "Adaugi consumatori și păstrezi aceeași cheie fierbinte.",
+   "Randomizezi cheia fără analiza ordinii.",
+   "Validezi distribuția numai prin debitul total al streamului."
+  ],
+  "e_append": ""
+ },
+ "skill119-7c014ea70f18-q-debug": {
+  "o": [
+   "Adaugi un prefix temporal și mai fin.",
+   "Randomizezi fără evaluarea citirilor pe interval.",
+   "Judeci distribuția numai după numărul total de chei distincte.",
+   "Măsori traficul pe chei și costul citirilor pe interval."
+  ],
+  "e_append": ""
+ },
+ "skill128-sql-13-q-debug": {
+  "o": [
+   "EXISTS adaugă câte un rând exterior pentru fiecare potrivire interioară.",
+   "Garantarea scalarității sau o regulă explicită de agregare/alegere.",
+   "NOT IN cu o listă care conține NULL este identic cu orice anti-join."
+  ],
+  "e_append": ""
+ },
+ "skill128-iceberg-03-q-apply": {
+  "o": [
+   "Citești prin metadatele tabelei și verifici populația comună.",
+   "Blochezi acel consum până la o citire compatibilă sau o conversie verificată.",
+   "Ștergi fișierele vechi deoarece nu urmează noua organizare."
+  ],
+  "e_append": "Populația trebuie să fie comună tuturor specificațiilor de partiționare."
+ },
+ "q140-dp750-d4-o4-022": {
+  "o": [
+   "Numai existența tabelei",
+   "Numai timpul mediu al taskurilor",
+   "Totalul pe monedă la cut-off",
+   "Numai codul de ieșire al procesului"
+  ],
+  "e_append": "Acesta este rezultatul de business la frontiera declarată de criteriu."
+ },
+ "q125-dbra-37": {
+  "o": [
+   "Agregi distribuit și aduci numai cele 12 totaluri.",
+   "Adaugi doar mai mulți executori și păstrezi colectarea întregii populații.",
+   "Colectezi un eșantion și îl declari raport complet.",
+   "Elimini lunile cu volum mare ca să încapă rezultatul pe driver."
+  ],
+  "e_append": "Totalurile se verifică apoi independent."
+ },
+ "skill119-f393611f1d35-q-debug": {
+  "o": [
+   "Promiți un număr exact de fișiere numai dintr-o partiționare logică.",
+   "Inspectezi planul și fișierele scrise efectiv.",
+   "Presupui că ambele comenzi au același efect.",
+   "Forțezi o singură partiție pentru orice export."
+  ],
+  "e_append": "planul și fișierele produse arată cheile și volumul real, nu ce promite o partiționare logică."
+ },
+ "skill119-cba19f16da33-q-debug": {
+  "o": [
+   "Presupui că simplul apel cache a calculat deja toate partițiile.",
+   "Măsori beneficiul cacheului pe utilizările repetate.",
+   "Interpretezi cache ca încărcare imediată completă.",
+   "Păstrezi în cache orice intermediar folosit o singură dată."
+  ],
+  "e_append": "cache este evaluat leneș; dacă nu aduce câștig la reutilizare, cacheul inutil se elimină."
+ },
+ "skill119-389cfbf2be01-q-apply": {
+  "o": [
+   "Consideri parsarea reușită dovada unității și sensului câmpului.",
+   "Declari schema și politica pentru valorile invalide.",
+   "Presupui că o schemă declarată verifică orice regulă de business.",
+   "Ignori modul de parsare ales."
+  ],
+  "e_append": "politica stabilește ce se întâmplă cu conversiile invalide și unde ajung rândurile respinse."
+ },
+ "skill119-84e76e38736f-q-apply": {
+  "o": [
+   "Folosești numai timestampul care are egalități.",
+   "Alegi arbitrar la aceeași cheie și versiune cu valori diferite.",
+   "Ordonezi după timestamp, apoi după secvența sursei.",
+   "Alegi primul rând întâlnit fără o ordine declarată."
+  ],
+  "e_append": "secvența sursei departajează versiunile cu același timestamp, deci alegerea versiunii devine deterministă."
+ },
+ "skill119-09fbdcfd78c7-q-debug": {
+  "o": [
+   "Verifici numărul pozițiilor și arrayurile goale sau NULL.",
+   "Aduni totalul comenzii pe toate rândurile expandate.",
+   "Deduplici numai după identificatorul comenzii.",
+   "Repari suma multiplicată prin deduplicare numai pe produs."
+  ],
+  "e_append": "expandarea multiplică rândul comenzii pe poziții și poate pierde comenzile cu array gol sau NULL."
+ },
+ "skill119-5fa5f3541c58-q-apply": {
+  "o": [
+   "Mărești uniform toate resursele clusterului fără examinarea distribuției cheilor.",
+   "Sarezi toate joinurile fără verificarea rezultatului.",
+   "Concluzionezi skew numai din durata totală a jobului.",
+   "Inspectezi cheile, apoi aplici AQE sau tratezi cheile fierbinți."
+  ],
+  "e_append": "un singur task supraîncărcat indică skew; după inspectarea distribuției cheilor, AQE poate împărți partițiile mari, iar cheile fierbinți pot cere o strategie dedicată."
+ },
+ "skill119-630c02136cf3-q-understand": {
+  "o": [
+   "Transmiterea explicită a dependențelor, în locul construirii lor ascunse.",
+   "Test care verifică proprietăți pe mai multe intrări generate după constrângeri.",
+   "Evaluarea testelor prin introducerea unor modificări controlate în implementare.",
+   "Verificarea compatibilității unui producător și consumator la interfața convenită."
+  ],
+  "e_append": "codul primește dependențele din exterior, nu le construiește singur, deci ele pot fi înlocuite în teste."
+ },
+ "skill119-0092a1a2c14d-q-apply": {
+  "o": [
+   "Alegi cheile doar după cardinalitate fără interogări.",
+   "Declari compatibilitate doar pentru că cititorul deschide Parquet.",
+   "Verifici cerințele, clienții și cheile înainte de migrare.",
+   "Combini automat toate tehnicile de partiționare și clustering."
+  ],
+  "e_append": "noua organizare trebuie suportată de toți clienții, iar cheile se aleg după interogările reale, înaintea schimbării."
+ },
+ "skill119-e116dbc18ef8-q-debug": {
+  "o": [
+   "Adaugi o așteptare fixă în locul dependenței.",
+   "Tratezi ora comună de pornire a taskurilor ca dependență de date reală.",
+   "Testezi eșecul unui părinte și reluarea etapelor afectate.",
+   "Programezi toate taskurile în același minut."
+  ],
+  "e_append": ""
+ },
+ "skill119-6d0156591336-q-apply": {
+  "o": [
+   "Numești rândurile eliminate succes fără raportul populației.",
+   "Definești reguli și o carantină cu evidență verificabilă.",
+   "Elimini rândurile fără numărare și motiv.",
+   "Oprești orice proces pentru orice valoare opțională absentă."
+  ],
+  "e_append": "rândurile invalide sunt păstrate pentru remediere, iar evidența permite reconcilierea populației."
+ },
+ "skill119-8a05c050247f-q-debug": {
+  "o": [
+   "Verifici mediul și identitatea rulării programate.",
+   "Instalezi manual numai în sesiunea personală.",
+   "Actualizezi toate dependențele direct în producție.",
+   "Fixezi versiunea Python și ignori biblioteca și runtime-ul Spark."
+  ],
+  "e_append": "jobul poate rula pe alt compute, cu altă identitate; versiunea și compatibilitatea bibliotecii trebuie verificate în acel mediu."
+ },
+ "skill119-0c0917106d96-q-apply": {
+  "o": [
+   "Ștergi checkpointul drept prim remediu, ca streamul să pornească de la zero.",
+   "Ignori datele salvate drept rescued data.",
+   "Consideri rescueddataautomat acceptată în modelul final.",
+   "Verifici modul de evoluție și schema salvată înaintea reluării."
+  ],
+  "e_append": ""
+ },
+ "skill119-0c09d82a46aa-q-debug": {
+  "o": [
+   "Presupui că logul singur reconstruiește fișierele șterse.",
+   "Consideri checkpoint-ul capabil să recreeze fișiere deja eliminate.",
+   "Testezi reluarea unui consumator întârziat față de retenție.",
+   "Reduci retenția la zero pentru spațiu."
+  ],
+  "e_append": "dacă curățarea șterge fișiere încă necesare, streamul oprit nu mai poate relua; testul se face înainte de reducerea retenției."
+ },
+ "skill119-8a05c050247f-q-apply": {
+  "o": [
+   "Fixezi versiunea Python și ignori biblioteca și runtime-ul Spark.",
+   "Declari dependențele în mediul jobului.",
+   "Instalezi manual numai în sesiunea personală.",
+   "Actualizezi toate dependențele direct în producție."
+  ],
+  "e_append": "o instalare curată testată confirmă că jobul nu depinde de pachete instalate manual în sesiunea interactivă."
+ },
+ "skill119-8a05c050247f-q-understand": {
+  "o": [
+   "Executarea unor operații în afara motorului Photon când nu sunt suportate acolo.",
+   "Organizarea obiectelor guvernate prin catalog, schemă și obiect.",
+   "Fixarea versiunilor de runtime și biblioteci pentru execuții reproductibile.",
+   "Alegerea resursei de execuție după workload, dependențe, latență și cost."
+  ],
+  "e_append": "pinning-ul include și verificarea că versiunile fixate sunt cele folosite efectiv."
+ },
+ "skill119-cdba5a6dee1c-q-apply": {
+  "o": [
+   "Verifici suportul și planifici replay ori migrarea stării.",
+   "Refolosești checkpointul fără analiza structurii stării.",
+   "Ștergi checkpointul fără strategie de deduplicare.",
+   "Păstrezi progresul după orice schimbare de operator cu stare."
+  ],
+  "e_append": "schimbarea cheii modifică structura stării, deci checkpointul vechi poate fi incompatibil; trebuie verificat dacă schimbarea este suportată."
+ },
+ "skill119-3a1bdd58ac6f-q-apply": {
+  "o": [
+   "Testezi contractul la frontiera componentelor.",
+   "Testezi numai o funcție internă fără mesajele reale.",
+   "Alegi să accepți orice tip fără verificări.",
+   "Consideri schema validă dovada tuturor efectelor end-to-end."
+  ],
+  "e_append": "testul de contract verifică schema și exemplele reale de mesaje schimbate între API și parserul consumatorului."
+ },
+ "skill119-adb0a68e0e68-q-debug": {
+  "o": [
+   "Ștergi orice țintă care nu apare în lot.",
+   "Reconstruiești populația completă doar din acel lot.",
+   "Elimini tombstone-ul înainte de compararea secvențelor.",
+   "Verifici contractul de completitudine al lotului."
+  ],
+  "e_append": "un lot parțial nu dovedește că cheile absente trebuie șterse; ștergerea lor cere un contract de completitudine."
+ },
+ "skill119-df4ed5dec3f3-q-debug": {
+  "o": [
+   "Comuți imediat după copia inițială, fără frontiera schimbărilor.",
+   "Reconciliezi cheile, tipurile și ștergerile.",
+   "Îl consideri doar un alias către aceleași fișiere.",
+   "Promiți sincronizare instantanee fără măsurare."
+  ],
+  "e_append": "replicarea continuă trebuie să reflecte toate modificările, inclusiv ștergerile, nu doar copia inițială."
+ },
+ "skill119-7aa4cb95cd3d-q-debug": {
+  "o": [
+   "Confuzi watermarkul de ingestie cu latența streamingului.",
+   "Avansezi cursorul înainte de scrierea durabilă și validare.",
+   "Testezi un eșec între scriere și avansarea frontierei.",
+   "Avansezi imediat după citirea sursei."
+  ],
+  "e_append": "dacă jobul cade după extragere, dar înainte de scrierea durabilă, frontiera deja avansată ar pierde date."
+ },
+ "skill119-cf1443e80e9a-q-apply": {
+  "o": [
+   "Arunci evenimentele invalide fără evidență.",
+   "Tratezi orice rutare ca validare a tuturor payloadurilor.",
+   "Definești rutele după destinațiile și contractele cerute.",
+   "Consideri existența unei rute dovada livrării tuturor evenimentelor."
+  ],
+  "e_append": "fiecare destinație (păstrare, analiză operațională) are propriul contract și propriile transformări."
+ },
+ "skill119-60fb9fac87fe-q-understand": {
+  "o": [
+   "Roluri pentru colaborare și administrarea elementelor unui workspace.",
+   "Publicarea unui mediu Spark cu biblioteci și configurații pentru utilizare reproductibilă.",
+   "Interfață SQL pentru analiza datelor Lakehouse, cu capabilitățile documentate.",
+   "Distribuirea în timp a consumului contabilizat, conform tipului operației."
+  ],
+  "e_append": "regulile capacității stabilesc pe ce interval se distribuie consumul fiecărui tip de operație."
+ },
+ "skill119-4213adb3417f-q-debug": {
+  "o": [
+   "Scrii direct peste datele active fără validare.",
+   "Rulezi toate intervalele istorice fără limită de concurență.",
+   "Ștergi progresul fără a verifica istoricul și efectele țintei.",
+   "Reconciliezi cheile, totalurile și suprapunerile."
+  ],
+  "e_append": "reconcilierea înainte de înlocuire arată dacă reprocesarea se suprapune cu ingestia curentă."
+ },
+ "skill119-7446792d772b-q-debug": {
+  "o": [
+   "Alegi numai după extensia fișierului sursă.",
+   "Presupui identitate completă cu SQL Server local.",
+   "Alegi produsul numai pentru că datele sunt stocate în format Delta.",
+   "Verifici operațiile necesare și integrarea cu consumatorii."
+  ],
+  "e_append": ""
+ },
+ "skill119-60fb9fac87fe-q-apply": {
+  "o": [
+   "Folosești suma rândurilor ca singura măsură a consumului.",
+   "Descrii smoothing ca ștergere a consumului excedentar.",
+   "Interpretezi consumul după regulile de smoothing și istoric.",
+   "Presupui că efectul dispare exact la închiderea notebookului."
+  ],
+  "e_append": "consumul netezit continuă să fie contabilizat după terminarea operației, iar istoricul operațiilor arată sursa lui."
+ },
+ "skill119-82c6700220c3-q-apply": {
+  "o": [
+   "Configurezi separat conexiunile mediului nou.",
+   "Presupui că un commit conține toate credențialele și datele.",
+   "Pui secretele în repository pentru a completa lipsurile.",
+   "Declari datele și secretele recuperate numai din repository."
+  ],
+  "e_append": "Git nu sincronizează conexiunile, secretele sau datele; trebuie verificat și ce tipuri de artefacte sunt suportate."
+ },
+ "skill119-d43b0e727c33-q-apply": {
+  "o": [
+   "Consideri orice schimbare de tip sigură dacă grantul funcționează.",
+   "Expui prin sharing obiectele permise de contractul convenit.",
+   "Trimiți zilnic exporturi publice ca înlocuitor al autorizării.",
+   "Presupui că orice schimbare de schemă este inofensivă."
+  ],
+  "e_append": "partenerul primește acces numai la selecția autorizată, nu la exporturi publice."
+ },
+ "skill128-sql-16-q-apply": {
+  "o": [
+   "Orice operație pe mai multe rânduri poate fi tratată sigur ca un singur rând.",
+   "Un trigger este lipsit de efecte pentru că nu apare explicit în SELECT.",
+   "Verifici efectele pe întregul set, obiectele dependente și tranzacție."
+  ],
+  "e_append": ""
+ },
+ "skill128-secur-02-q-design": {
+  "o": [
+   "Testezi reconectarea cu noua credențială și retragi calea veche.",
+   "Verifici identitatea efectivă și privilegiile necesare pe aceeași cale a jobului.",
+   "Pui secretul în cod și îl distribui tuturor operatorilor."
+  ],
+  "e_append": "calea veche se retrage conform politicii, ca tokenul rămas în cache să nu mai fie acceptat."
+ },
+ "skill129-kafka-01-q-understand": {
+  "o": [
+   "Presupui că aceeași cheie produce întotdeauna o ordine cauzală globală.",
+   "Modifici partiționarea și declari că orice consumator își păstrează automat ipotezele.",
+   "Cheia, regula de partiționare și ordinea emisă de producător."
+  ],
+  "e_append": "ordinea se păstrează în cadrul partiției pentru aceeași cheie, în ordinea în care producătorul a emis evenimentele."
+ },
+ "q128-dbra-application-course-dbra-001": {
+  "o": [
+   "Declari fișierele corupte înainte de compararea versiunii și filtrelor.",
+   "Compari numai numele logic și presupui aceeași populație vizibilă.",
+   "Reîncarci datele fără să identifici obiectul și identitatea fiecărei citiri.",
+   "Ceri obiectul, versiunea, filtrele și identitatea fiecărui cititor."
+  ],
+  "e_append": "obiectul poate fi un nume logic sau o cale; oricare dintre aceste elemente poate explica rezultatele diferite."
+ },
+ "q128-sparkcert-application-course-spark-038": {
+  "o": [
+   "Interzici chiar și conversia unui rezultat mic controlat.",
+   "Nu, dacă dimensiunea și scopul sunt controlate.",
+   "Colectezi integral milioane de rânduri pentru afișare locală.",
+   "Presupui același cost și aceeași ordine pentru orice cod pandas."
+  ],
+  "e_append": "conversia locală a unui rezultat mic verificat este adecvată; limita de memorie apare la colectarea volumelor mari."
+ },
+ "skill119-93bf715de9e9-q-apply": {
+  "o": [
+   "Ignori refuzul precondiției și suprascrii imediat fără recitire.",
+   "Publici condiționat, folosind precondiții pe generație.",
+   "Suprascrii necondiționat și accepți ultima sosire.",
+   "Folosești numai ceasul laptopului drept control al concurenței."
+  ],
+  "e_append": "precondiția pe generație face ca un singur producător să reușească; celălalt primește refuz și trebuie să recitească starea."
+ },
+ "skill119-bc11016f5157-q-understand": {
+  "o": [
+   "Organizare Hudi care aplică actualizările prin rescrierea fișierelor de bază.",
+   "Organizare Hudi care poate combina fișiere de bază și loguri pentru rezultatul citit.",
+   "Eliminarea controlată a snapshoturilor vechi conform retenției.",
+   "Compatibilitatea motoarelor cu caracteristicile și versiunile unui format de tabel."
+  ],
+  "e_append": "sunt rescrise fișierele de bază afectate de actualizare."
+ },
+ "skill128-model-03-q-apply": {
+  "o": [
+   "Alegi prima versiune găsită fără să semnalezi suprapunerea.",
+   "Asociezi faptul versiunii [10,20), conform convenției semi-deschise.",
+   "Oprești asocierea ambiguă și remediezi suprapunerea înaintea raportării."
+  ],
+  "e_append": "în intervalul semi-deschis [1,10) momentul 10 nu aparține primei versiuni."
+ },
+ "skill128-orchestrare-02-q-debug": {
+  "o": [
+   "Blochezi consumul până la satisfacerea manifestului sau o derogare explicită.",
+   "Verifici frontiera publicată și recuperezi semnalul, fără să recreezi orbește efectul confirmat.",
+   "Reiei scrierea întregului upstream fără să verifici efectul deja publicat."
+  ],
+  "e_append": "un task verde nu dovedește completitudinea; manifestul este contractul care arată că lipsește un fișier obligatoriu."
+ },
+ "q128-dp750-application-d750-105": {
+  "o": [
+   "Presupui că două payloaduri diferite la aceeași secvență sunt duplicate identice.",
+   "Nu. Ordonarea nu definește politica unui conflict egal.",
+   "Alegi primul payload și declari că sequence_by demonstrează adevărul.",
+   "Elimini conflictul din loguri fără o politică a versiunilor egale."
+  ],
+  "e_append": "din premisele date, sequence_by ordonează evenimente cu secvențe diferite; o secvență egală cu payloaduri diferite cere o politică explicită."
+ },
+ "q128-dbra-application-course-dbra-055": {
+  "o": [
+   "Presupui că masca unui raport se aplică oricărei citiri a tabelei.",
+   "Declari acceptarea securității fără test negativ pe calea alternativă.",
+   "Incluzi acea cale și identitatea consumatorului în test și remediere.",
+   "Testezi numai calea care mascheazăemailul și ignori vechiul view."
+  ],
+  "e_append": "o cale alternativă fără mascare ocolește politica testată pe calea principală."
+ },
+ "q128-sparkcert-application-course-spark-023": {
+  "o": [
+   "Potrivești toate cheile lipsă fără acordul contractului.",
+   "Promiți o singură potrivire pentru 2 NULLși 3 NULL.",
+   "Folosești egalitate obișnuită și presupui același tratament.",
+   "Șase potriviri pentru grupul NULL."
+  ],
+  "e_append": "<=> tratează NULL ca egal cu NULL, deci fiecare dintre cele 2 rânduri se potrivește cu fiecare dintre cele 3, dacă nu există alte condiții."
+ },
+ "skill119-26a453277094-q-debug": {
+  "o": [
+   "Testezi SELECT dar omiți contextul warehouse-ului programat.",
+   "Testezi accesul efectiv cu identități reprezentative.",
+   "Acorzi direct fiecărui utilizator toate privilegiile globale.",
+   "Consideri numele rolului dovada accesului efectiv."
+  ],
+  "e_append": "rolurile active ale fiecărei identități determină accesul real, nu numele rolului."
+ },
+ "skill128-python-14-q-apply": {
+  "o": [
+   "`**kwargs` validează automat toate numele și toate valorile primite.",
+   "args este un tuplu, iar kwargs un dicționar.",
+   "O listă implicită este recreată automat la fiecare apel."
+  ],
+  "e_append": "args adună argumentele poziționale suplimentare, iar kwargs pe cele numite."
+ },
+ "skill128-model-05-q-apply": {
+  "o": [
+   "Pui faptul în așteptare controlată și alertezi întârzierea, fără să îl publici complet.",
+   "Inventezi un client cu atribute plauzibile pentru a termina lotul.",
+   "Păstrezi faptul cu identitatea sursă, legat de membrul necunoscut."
+  ],
+  "e_append": "politica permite intrarea necunoscută, iar identitatea sursă permite remedierea când sosește dimensiunea."
+ },
+ "skill128-finante-03-q-apply": {
+  "o": [
+   "Declari lotul valid imediat ce una dintre verificări trece.",
+   "Semnalezi lipsa lui B, deși extrasul disponibil este echilibrat.",
+   "Semnalezi dezechilibrul și păstrezi separat proba completitudinii."
+  ],
+  "e_append": "echilibrul debit/credit nu dovedește completitudinea perechilor așteptate."
+ },
+ "skill129-api-02-q-apply": {
+  "o": [
+   "Generezi o cheie nouă și presupui că furnizorul recunoaște aceeași operație automat.",
+   "Echivalezi timeoutul clientului cu anularea sigură a operației la server.",
+   "Reiei cu aceeași cheie a operației, conform contractului."
+  ],
+  "e_append": "furnizorul recunoaște cheia și permite reluarea sau verificarea rezultatului, fără duplicarea comenzii."
+ },
+ "skill119-371342f0dd6b-q-apply": {
+  "o": [
+   "Redimensionezi fără examinarea mișcării datelor.",
+   "Consideri cheia de distribuție identică oricărei chei de sortare.",
+   "Analizezi cheile de join și distribuția datelor.",
+   "Alegi cheia cu cea mai mică cardinalitate."
+  ],
+  "e_append": "analiza include și opțiunile automate ale motorului care pot reduce mișcarea datelor."
+ },
+ "skill119-c009a44dedf2-q-understand": {
+  "o": [
+   "Resursă de calcul pentru workloaduri, separată de stocarea datelor.",
+   "Oprirea automată a unui warehouse după inactivitatea configurată.",
+   "Mai multe clustere ale unui warehouse pentru gestionarea concurenței suportate.",
+   "Unitate automată de organizare columnară, cu metadate folosite la pruning."
+  ],
+  "e_append": ""
+ },
+ "skill119-bc11016f5157-q-apply": {
+  "o": [
+   "Presupui că orice update modifică direct doar câțiva octeți în Parquet.",
+   "Alegi numai după dimensiunea unui singur lot.",
+   "Alegi modelul fără a măsura actualizările și citirile reale.",
+   "Compari copy-on-write cu merge-on-read pe workloadul real."
+  ],
+  "e_append": "comparația se face după citiri, actualizări și latența acceptată."
+ },
+ "skill128-quality-01-q-design": {
+  "o": [
+   "Publici cele 98 rânduri etichetate incomplet și pui cele 2 în carantină.",
+   "Oprești publicarea și păstrezi toate cele 100 intrări cu motivele celor 2 respingeri.",
+   "Elimini cele 2 rânduri și declari lotul complet fără mențiune."
+  ],
+  "e_append": ""
+ },
+ "skill128-iceberg-05-q-apply": {
+  "o": [
+   "Promovezi orice funcționalitate nouă fără să reverifici cititorii existenți.",
+   "Nu declari interoperabilitate completă; testezi snapshotul și efectele.",
+   "Permiți acel consum în sfera verificată și păstrezi versiunile și limitele documentate."
+  ],
+  "e_append": "citirea unui fișier Parquet separat nu dovedește suportul pentru metadatele și funcționalitățile tabelei."
+ },
+ "tdbra-03": {
+  "o": [
+   "Un filtru pe rând după apartenența la grup",
+   "Un tabel separat per sucursală",
+   "`GRANT SELECT` doar pe coloana `sucursala`",
+   "O mască pe coloana `sucursala`, după grupul analistului"
+  ],
+  "e_append": ""
+ },
+ "skill119-1b1f2d57b354-q-apply": {
+  "o": [
+   "Consideri execuția fără excepție dovada completitudinii.",
+   "Forțezi reîncărcarea fără controlul duplicatelor.",
+   "Ignori rândurile respinse din numitorul completitudinii.",
+   "Alegi politica de eroare și inspectezi încărcarea."
+  ],
+  "e_append": "rezultatul încărcării arată ce rânduri au fost respinse și de ce."
+ },
+ "skill129-dbt-03-q-apply": {
+  "o": [
+   "Semnalezi riscul pierderii istoricului și ceri o sursă completă.",
+   "Înlocuiești ținta înainte de inventarierea istoricului necesar și a copiilor disponibile.",
+   "Declari conservarea datelor pentru că procesul de construire nu a returnat eroare."
+  ],
+  "e_append": "sursa completă trebuie probată înainte de înlocuirea țintei."
+ },
+ "q128-dbra-application-course-dbra-052": {
+  "o": [
+   "Consideri testul unui fișier Parquet suficient pentru toate capabilitățile tabelei.",
+   "Compatibilitatea acelui consumator, rezolvată înainte de promovare.",
+   "Promovezi conversia doar pentru că cititorul din workspace o acceptă.",
+   "Ignori clientul extern cu protocol incompatibil."
+  ],
+  "e_append": "compatibilitatea clientului extern trebuie verificată explicit, nu presupusă."
+ },
+ "skill119-651fb05084a2-q-apply": {
+  "o": [
+   "Îl tratezi ca soluție pentru cheia de scriere fierbinte.",
+   "Îl activezi presupunând cost nul.",
+   "Judeci nevoia consumatorilor numai după numărul lor.",
+   "Evaluezi enhanced fan-out pentru consumatori."
+  ],
+  "e_append": "enhanced fan-out oferă fiecărui consumator debit de citire dedicat, izolat de ceilalți."
+ },
+ "skill119-939da2364b0b-q-debug": {
+  "o": [
+   "Consideri notificarea primită inventarul complet al lotului.",
+   "Monitorizezi istoricul încărcării și reconciliezi fișierele.",
+   "Îl descrii drept procesare rând cu rând a oricărui stream.",
+   "Omiți mecanismul de notificare și presupui descoperire instantanee."
+  ],
+  "e_append": "istoricul încărcării și reconcilierea populației de fișiere arată dacă au fost preluate toate fișierele sosite."
+ },
+ "skill128-sql-19-q-apply": {
+  "o": [
+   "Verifici eliminarea partițiilor și volumul efectiv citit în plan și execuție.",
+   "Partiționarea reduce întotdeauna volumul citit chiar pentru întreaga tabelă.",
+   "Partiția este mereu aceeași unitate în fereastră, stocare și distribuția execuției."
+  ],
+  "e_append": ""
+ },
+ "q128-dp750-application-d750-012": {
+  "o": [
+   "Configurația și resursa folosite efectiv în noua execuție.",
+   "Prezinți fișierul editat drept dovadă că următoarea rulare îl folosește.",
+   "Repornești vechea definiție și presupui că importă automat orice modificare locală.",
+   "Verifici numai numele repository-ului, nu configurația efectiv promovată."
+  ],
+  "e_append": "dovada trebuie legată de artefactul promovat, nu de fișierul editat local."
+ },
+ "skill119-e330de50adc7-q-understand": {
+  "o": [
+   "Reguli care mută sau expiră obiecte în funcție de condiții de păstrare.",
+   "Catalog de metadate despre tabele, scheme și locații de date.",
+   "Criptarea datelor cu o cheie de date protejată de o cheie KMS.",
+   "Păstrarea mai multor versiuni ale unui obiect S3, identificabile separat."
+  ],
+  "e_append": ""
+ },
+ "skill119-f4ad2a79453d-q-debug": {
+  "o": [
+   "Elimini tombstone-ul înainte de comparația versiunilor.",
+   "Validezi inițializarea, ordinea și ștergerile.",
+   "Consideri fiecare modificare un rând nou de stare curentă.",
+   "Interpretezi absența din lot drept ștergere."
+  ],
+  "e_append": "ordinea se validează pe cheie, iar ștergerile se tratează explicit, nu se deduc din absență."
+ },
+ "skill119-6ff30b99b158-q-apply": {
+  "o": [
+   "Verifici modelul real, conflictele și partițiile de rețea.",
+   "Declari orice sistem cu acea formulă automat linearizabil.",
+   "Ignori faptul că citirile pot cere reconcilierea versiunilor.",
+   "Extinzi intersecția matematică asupra oricărei implementări și defecțiuni."
+  ],
+  "e_append": "R plus W mai mare decât N asigură intersecția cvorumurilor; versiunile, conflictele și comportamentul la partiții de rețea țin de implementare."
+ },
+ "skill119-5a5c2a35208c-q-apply": {
+  "o": [
+   "Consideri numele echipei într-un catalog o procedură completă.",
+   "Transferi orice problemă consumatorului.",
+   "Numești proprietarul numai în catalog, fără răspuns la incidente.",
+   "Definești proprietarul și contactul operațional."
+  ],
+  "e_append": "condițiile serviciului stabilesc cum și cât de repede se răspunde incidentelor."
+ },
+ "skill128-sql-19-q-debug": {
+  "o": [
+   "Este o grupare logică a ferestrei, nu organizare fizică pe disc.",
+   "Partiționarea reduce întotdeauna volumul citit chiar pentru întreaga tabelă.",
+   "Partiția este mereu aceeași unitate în fereastră, stocare și distribuția execuției."
+  ],
+  "e_append": ""
+ },
+ "skill128-finante-01-q-debug": {
+  "o": [
+   "Raportezi 480 lei ca reevaluare separată și explici diferența de 80 lei.",
+   "Suprascrii 400 cu 480 fără versiune, motiv sau politică.",
+   "Raportezi 400 lei, cu cursul și data folosite."
+  ],
+  "e_append": "politica cere cursul istoric: 80 EUR × 5 lei/EUR = 400 lei."
+ },
+ "q128-dp750-application-d750-067": {
+  "o": [
+   "Adaugi o țară fixă pentru toate rândurile fără verificarea structurii sursei.",
+   "Omiți coloana cerută fiindcă fișierele au fost citite fără eroare.",
+   "Rădăcina de descoperire și configurația de bază a citirii.",
+   "Presupui că citirea oricărui subdirector reconstruiește automat toate partițiile părinte."
+  ],
+  "e_append": "filtrul pe populație trebuie păstrat explicit când citirea pornește de la rădăcină."
+ },
+ "q128-dp700-application-course-dp700-007": {
+  "o": [
+   "Inventez moneda pentru zece rânduri ca să poată fi promovate fără erori.",
+   "Agregi rândurile cu moneda necunoscută împreună cu moneda cea mai frecventă.",
+   "Ascunzi rândurile fără monedă și declari raportul complet.",
+   "Definești tratamentul rândurilor necunoscute sau blochezi migrarea."
+  ],
+  "e_append": ""
+ },
+ "skill119-73e7390af588-q-debug": {
+  "o": [
+   "Reconciliezi rândurile și inspectezi erorile de conversie.",
+   "Ignori rândurile respinse fără numărare.",
+   "Trimiți toate rândurile serial prin client.",
+   "Declari lot complet fără reconcilierea fișierelor așteptate."
+  ],
+  "e_append": ""
+ },
+ "skill119-f1a844c269d5-q-apply": {
+  "o": [
+   "Folosești FLATTEN și păstrezi cheia comenzii și a poziției.",
+   "Aduni totalul comenzii după expandare fără control.",
+   "Deduplici după produs pentru a reveni la un singur rând.",
+   "Ignori arrayurile goale când contractul cere toate comenzile."
+  ],
+  "e_append": ""
+ },
+ "skill119-5a5c2a35208c-q-debug": {
+  "o": [
+   "Transferi orice problemă consumatorului.",
+   "Numești proprietarul numai în catalog, fără răspuns la incidente.",
+   "Testezi escaladarea cu echipa responsabilă.",
+   "Consideri numele echipei într-un catalog o procedură completă."
+  ],
+  "e_append": "testul verifică și dacă documentația este actuală."
+ },
+ "skill129-interviu-04-q-debug": {
+  "o": [
+   "Justifici alegerea exclusiv prin popularitatea produsului sau experiența personală.",
+   "Păstrezi aceeași recomandare chiar după schimbarea pragului care o făcea eligibilă.",
+   "Lipsește operabilitatea: recuperare, responsabil și timp de restaurare."
+  ],
+  "e_append": "recuperarea presupune și un istoric disponibil."
+ },
+ "q128-sparkcert-application-course-spark-037": {
+  "o": [
+   "Folosești testul local[2]drept dovadă a tuturor permisiunilor cloud.",
+   "Ignori ciclul driverului când laptopul se oprește.",
+   "Rețeaua, managerul de cluster, privilegiile și resursele reale.",
+   "Consideri client mode obligația executorilor de a rula pe laptop."
+  ],
+  "e_append": "testele locale nu acoperă nici distribuția reală a execuției."
+ },
+ "skill119-49b8996bb721-q-apply": {
+  "o": [
+   "Alegi coloanele numai alfabetic.",
+   "Măsori avantajul numai pe un client mic nereprezentativ.",
+   "Evaluezi clustering pe coloanele de filtrare.",
+   "Îl tratezi ca pe un index B-tree pentru orice interogare."
+  ],
+  "e_append": "ordinea coloanelor de clustering trebuie aleasă după filtrele frecvente."
+ },
+ "skill119-1b1f2d57b354-q-debug": {
+  "o": [
+   "Forțezi reîncărcarea fără controlul duplicatelor.",
+   "Ignori rândurile respinse din numitorul completitudinii.",
+   "Reconciliezi fișierele, rândurile acceptate și erorile.",
+   "Consideri execuția fără excepție dovada completitudinii."
+  ],
+  "e_append": ""
+ },
+ "skill128-sql-02-q-understand": {
+  "o": [
+   "OR și AND se evaluează întotdeauna doar de la stânga la dreapta.",
+   "NULL se potrivește automat oricărui model LIKE.",
+   "Trece rândul pentru care expresia WHERE este adevărată."
+  ],
+  "e_append": "o expresie evaluată la NULL (necunoscut) nu păstrează rândul."
+ },
+ "skill129-kafka-01-q-design": {
+  "o": [
+   "Presupui că aceeași cheie produce întotdeauna o ordine cauzală globală.",
+   "Modifici partiționarea și declari că orice consumator își păstrează automat ipotezele.",
+   "Frontiera migrării, rutarea înainte și după ea și versiunile concurente."
+  ],
+  "e_append": ""
+ },
+ "skill119-d9bfbff0a4c2-q-understand": {
+  "o": [
+   "Guvernanța accesului la datele și metadatele lake-ului.",
+   "Păstrarea mai multor versiuni ale unui obiect S3, identificabile separat.",
+   "Reguli care mută sau expiră obiecte în funcție de condiții de păstrare.",
+   "Catalog de metadate despre tabele, scheme și locații de date."
+  ],
+  "e_append": "se aplică în integrațiile suportate."
+ },
+ "skill119-9c137bfe7d61-q-debug": {
+  "o": [
+   "Verifici descoperirea cu identități reprezentative.",
+   "Consideri descrierea din catalog o permisiune de acces.",
+   "Documentezi doar numele tehnic al tabelului.",
+   "Testezi descoperirea numai cu identitatea administratorului."
+  ],
+  "e_append": "verificarea include accesul efectiv al consumatorilor, nu doar ce vede administratorul."
+ },
+ "skill128-python-11-q-understand": {
+  "o": [
+   "O comprehensiune poate elimina rânduri fără să schimbe populația rezultatului.",
+   "map înseamnă întotdeauna o listă deja calculată și reutilizabilă.",
+   "Selecția, funcția aplicată și momentul evaluării."
+  ],
+  "e_append": "acestea definesc o transformare pe o colecție."
+ },
+ "skill128-iceberg-03-q-debug": {
+  "o": [
+   "Blochezi acel consum până la o citire compatibilă sau o conversie verificată.",
+   "Ștergi fișierele vechi deoarece nu urmează noua organizare.",
+   "Citești prin metadatele tabelei și verifici populația comună."
+  ],
+  "e_append": "metadatele descriu ambele specificații de partiționare, deci fișierele vechi rămân valide."
+ },
+ "q125-dbra-17": {
+  "o": [
+   "Distribuția cheilor pe partiții în etapa dominantă.",
+   "Creșterea automată a numărului de coloane din rezultat.",
+   "Excluderea sigură a skew-ului deoarece jobul a terminat.",
+   "Resetarea checkpoint-ului pentru orice job lent."
+  ],
+  "e_append": "se verifică atât cheile, cât și volumul pe partiții."
+ },
+ "q128-dbra-application-course-dbra-034": {
+  "o": [
+   "Mărești numărul de taskuri fără bugetul total de conexiuni.",
+   "Rămâne o citire, dacă limita este comună sursei.",
+   "Lași acestui job toate cele trei citiri și ignori cele două deja ocupate.",
+   "Consideri limitele fiecărui job independente chiar dacă sursa este comună."
+  ],
+  "e_append": "în modelul simplu, celelalte două citiri sunt rezervate de celălalt job."
+ },
+ "skill119-389cfbf2be01-q-debug": {
+  "o": [
+   "Verifici rezultatul și carantina rândurilor invalide.",
+   "Presupui că o schemă declarată verifică orice regulă de business.",
+   "Ignori modul de parsare ales.",
+   "Consideri parsarea reușită dovada unității și sensului câmpului."
+  ],
+  "e_append": "Valoarea invalidă poate ajunge în carantină sau poate deveni NULL în rezultat, deci verifici ambele locuri."
+ },
+ "skill119-09fbdcfd78c7-q-apply": {
+  "o": [
+   "Repari suma multiplicată prin deduplicare numai pe produs, după expandare.",
+   "Păstrezi granularitatea poziției și separi măsurile de comandă.",
+   "Aduni totalul comenzii pe toate rândurile expandate.",
+   "Deduplici numai după identificatorul comenzii."
+  ],
+  "e_append": ""
+ },
+ "skill119-16600d61a176-q-debug": {
+  "o": [
+   "Alegi cea mai mică durată dintr-o singură rulare favorabilă.",
+   "Omiți verificarea rezultatului variantei rapide.",
+   "Compari uncountoptimizat cu scrierea tuturor coloanelor.",
+   "Raportezi distribuția duratelor, costul și corectitudinea."
+  ],
+  "e_append": "Pe volume și cacheuri diferite, o singură durată nu este comparabilă; contează distribuția duratelor, costul și un rezultat corect."
+ },
+ "skill119-f2f1d8a8c40b-q-debug": {
+  "o": [
+   "Compari spillul, GCul și durata după o singură schimbare măsurată.",
+   "Consideri orice spill dovada sigură a unui bug.",
+   "Crești memoria driverului pentru spillul executorilor și reiei jobul.",
+   "Consideri orice spillrezultat de business incorect."
+  ],
+  "e_append": ""
+ },
+ "skill119-5fa5f3541c58-q-debug": {
+  "o": [
+   "Sarezi toate joinurile fără verificarea rezultatului.",
+   "Concluzionezi skew numai din durata totală a jobului, fără detalii pe task.",
+   "Compari duratele și volumul partițiilor din aceeași etapă.",
+   "Mărești uniform toate resursele clusterului fără examinarea cheilor."
+  ],
+  "e_append": "Skew-ul se dovedește comparând taskurile aceleiași etape: durate, rânduri și dimensiunea partițiilor."
+ },
+ "skill119-0c0917106d96-q-debug": {
+  "o": [
+   "Ignori datele salvate drept rescued data și repornești streamul.",
+   "Consideri rescueddataautomat acceptată în modelul final.",
+   "Testezi coloana nouă și datele recuperate în fluxul real.",
+   "Ștergi checkpointul drept prim remediu."
+  ],
+  "e_append": ""
+ },
+ "skill119-2b5f441ca959-q-apply": {
+  "o": [
+   "Definești shareul și recipientul conform contractului.",
+   "Expui direct întreaga locație de stocare.",
+   "Presupui că sharingul elimină nevoia unui contract de schemă.",
+   "Consideri revocarea accesului eliminare a copiilor exportate."
+  ],
+  "e_append": "Shareul conține numai tabelele aprobate, iar recipientul primește accesul prevăzut în contract."
+ },
+ "skill119-6d0156591336-q-debug": {
+  "o": [
+   "Reconciliezi acceptatele și respinsele cu populația de intrare.",
+   "Elimini rândurile fără numărare și motiv.",
+   "Oprești orice proces pentru orice valoare opțională absentă.",
+   "Numești rândurile eliminate succes fără raportul populației de intrare."
+  ],
+  "e_append": ""
+ },
+ "skill119-bce70a9711cc-q-debug": {
+  "o": [
+   "Creezi doar un alias nou pentru conexiune.",
+   "Promiți aceeași disponibilitate fără analiza sursei externe.",
+   "Testezi indisponibilitatea sursei și reacția consumatorului.",
+   "Promiți aceeași disponibilitate fără o copie sau strategie suplimentară."
+  ],
+  "e_append": "Raportul federat depinde de sursa externă, deci validezi explicit comportamentul consumatorului când sursa intră în mentenanță."
+ },
+ "skill119-07ea7f9114a7-q-debug": {
+  "o": [
+   "Testezi numai cu sesiunea proprietarului notebookului.",
+   "Rulezi verificarea sub identitatea execuției programate.",
+   "Acordezi drepturi doar utilizatorului care citește logurile.",
+   "Mărești memoria executorului pentru eroarea de autorizare."
+  ],
+  "e_append": "Jobul rulează cu altă identitate decât dezvoltatorul, iar drepturile acesteia trebuie verificate."
+ },
+ "skill119-adb0a68e0e68-q-apply": {
+  "o": [
+   "Aplici doar modificările și ștergerile explicite ale lotului.",
+   "Ștergi orice țintă care nu apare în lot.",
+   "Reconstruiești populația completă doar din acel lot.",
+   "Elimini tombstone-ul înainte de compararea secvențelor din lot."
+  ],
+  "e_append": ""
+ },
+ "skill119-b0a2116d2803-q-debug": {
+  "o": [
+   "Validezi execuția sub identitatea mediului destinație.",
+   "Copiezi manual notebookurile și repari doar numele.",
+   "Presupui că validarea YAML demonstrează accesul la date.",
+   "Consideri modulproductionvalidare a rezultatului transformării."
+  ],
+  "e_append": "Configurația și execuția se validează cu identitatea și catalogul fiecărui mediu."
+ },
+ "skill119-5ef2ea01aae5-q-debug": {
+  "o": [
+   "Compari cu interogări și totaluri de referință autorizate.",
+   "Accepți răspunsul doar fiindcă formularea este convingătoare.",
+   "Acorzi acces global ca să îmbunătățești răspunsul.",
+   "Consideri SQL validsintactic răspuns de business corect."
+  ],
+  "e_append": "Când venitul are mai multe sensuri, doar referințele autorizate arată dacă rezultatul folosește definiția corectă."
+ },
+ "skill119-d9913b7a4a4a-q-debug": {
+  "o": [
+   "Verifici că testele eșuează la modificări de contract.",
+   "Echivalezi acoperirea liniilor cu detectarea tuturor erorilor.",
+   "Modifici rezultatele așteptate ca să treacă orice mutant.",
+   "Declari suita bună numai din numărul testelor care trec."
+  ],
+  "e_append": "O suită utilă trebuie să pice când o schimbare, cum ar fi înlocuirea unei condiții de frontieră, încalcă contractul."
+ },
+ "skill119-b52289b186f7-q-debug": {
+  "o": [
+   "Testezi versiunile egale și regula de conflict.",
+   "Alegi aleator un rând sursă pentru fiecare cheie.",
+   "Presupui că orice MERGE rezolvă singur versiunile.",
+   "Alegi primul rând dintre versiuni egale contradictorii."
+  ],
+  "e_append": "Două actualizări ale aceleiași chei cer o regulă explicită de ordonare și de tratare a versiunilor egale."
+ },
+ "skill119-b0a2116d2803-q-apply": {
+  "o": [
+   "Consideri modulproductionvalidare a rezultatului transformării.",
+   "Declari targeturile și parametrii de mediu în bundle.",
+   "Copiezi manual notebookurile și repari doar numele.",
+   "Presupui că validarea YAML demonstrează accesul la date."
+  ],
+  "e_append": "Apoi verifici promovarea în fiecare mediu, cu identitatea și catalogul său."
+ },
+ "skill119-4fbe21295681-q-understand": {
+  "o": [
+   "Transmiterea explicită a dependențelor către cod, în locul construirii lor ascunse.",
+   "Test care verifică proprietăți pe mai multe intrări generate după constrângeri.",
+   "Evaluarea testelor prin introducerea unor modificări controlate în implementare.",
+   "Transformare care dă același rezultat pentru aceeași intrare și aceiași parametri."
+  ],
+  "e_append": "Rezultatul depinde numai de intrare și de parametrii relevanți, nu de stare ascunsă sau de momentul rulării."
+ },
+ "skill119-e116dbc18ef8-q-apply": {
+  "o": [
+   "Programezi toate taskurile în același minut.",
+   "Adaugi o așteptare fixă în locul dependenței.",
+   "Tratezi ora comună a taskurilor ca dependență de date.",
+   "Definești dependența agregării de încărcarea silver."
+  ],
+  "e_append": "Dependențele și condițiile de execuție după rezultatul etapelor garantează că agregarea pornește numai după silver."
+ },
+ "skill119-7aa4cb95cd3d-q-apply": {
+  "o": [
+   "Avansezi imediat după citirea sursei.",
+   "Confuzi watermarkul de ingestie cu latența streamingului.",
+   "Avansezi cursorul înainte de scrierea durabilă și validare.",
+   "Publici progresul numai după validarea scrierii."
+  ],
+  "e_append": "Watermarkul avansează doar după ce efectul la destinație este durabil și validat."
+ },
+ "skill119-60fb9fac87fe-q-debug": {
+  "o": [
+   "Descrii smoothing ca ștergere a consumului excedentar.",
+   "Compari perioadele și tipurile de workload în aplicația de metrici.",
+   "Presupui că efectul dispare exact la închiderea notebookului care l-a produs.",
+   "Folosești suma rândurilor ca singura măsură a consumului."
+  ],
+  "e_append": ""
+ },
+ "skill119-e90a3ec255bb-q-apply": {
+  "o": [
+   "Rulezi întreținerea fără măsurarea accesului și a fișierelor.",
+   "Evaluezi compactarea și organizarea suportată de tabel.",
+   "Aplici curățare agresivă fără analiza cititorilor întârziați.",
+   "Presupui că orice tabel beneficiază identic de orice optimizare."
+  ],
+  "e_append": "Opțiunile de compactare și organizare diferă după tipul tabelului și tiparul de acces."
+ },
+ "skill119-e90a3ec255bb-q-debug": {
+  "o": [
+   "Măsori fișierele, scanarea și timpul, cu verificarea rezultatului.",
+   "Aplici curățare agresivă fără analiza cititorilor întârziați.",
+   "Presupui că orice tabel beneficiază identic de orice optimizare de layout.",
+   "Rulezi întreținerea fără măsurarea accesului și a fișierelor."
+  ],
+  "e_append": ""
+ },
+ "skill119-534513833ad3-q-apply": {
+  "o": [
+   "Acorzi Administrator pentru orice problemă de acces.",
+   "Presupui că accesul la un element acordă orice acces la surse.",
+   "Testezi drepturile numai prin numele rolului atribuit.",
+   "Atribui roluri și permisiuni după activitatea necesară."
+  ],
+  "e_append": "Consumatorul de raport primește doar drepturile de citire de care are nevoie, fără drept de editare a pipelineurilor."
+ },
+ "skill119-c17954f3bf6a-q-apply": {
+  "o": [
+   "Interpretezi lipsa alertelor drept date complete și actuale.",
+   "Corelezi istoricul execuției cu datele la destinație.",
+   "Folosești doar starea verde a notebookului.",
+   "Actualizezi raportul repetat fără urmărirea dependenței lipsă."
+  ],
+  "e_append": "Statusul verde nu dovedește livrarea; freshnessul și totalurile la destinație arată dacă datele zilei au ajuns."
+ },
+ "skill119-df4ed5dec3f3-q-apply": {
+  "o": [
+   "Promiți sincronizare instantanee fără măsurare.",
+   "Comuți imediat după copia inițială, fără frontiera schimbărilor.",
+   "Configurezi mirroringul și monitorizezi întârzierea.",
+   "Îl consideri doar un alias către aceleași fișiere."
+  ],
+  "e_append": "Înainte verifici că sursa este suportată pentru mirroring."
+ },
+ "skill119-371342f0dd6b-q-understand": {
+  "o": [
+   "Păstrarea mai multor versiuni ale unui obiect S3, identificabile separat.",
+   "Reguli care mută sau expiră obiecte în funcție de condiții de păstrare.",
+   "Catalog de metadate despre tabele, scheme și locații de date.",
+   "Repartizarea rândurilor pe nodurile unui cluster Redshift."
+  ],
+  "e_append": ""
+ },
+ "skill119-5853d6255d2f-q-apply": {
+  "o": [
+   "Consideri succesul ultimei comenzi dovada tuturor etapelor.",
+   "Publici fișierul rezultat chiar dacă extragerea a eșuat.",
+   "Consideri existența fișierului rezultat dovada reușitei tuturor pașilor.",
+   "Configurezi tratarea erorilor pe tot pipelineul."
+  ],
+  "e_append": "Cu tratarea erorilor pe tot pipelineul (de exemplu pipefail), eșecul extragerii nu mai este mascat; apoi verifici etapele relevante."
+ },
+ "skill128-python-17-q-understand": {
+  "o": [
+   "Extensia `.csv` garantează singură codarea și regulile de delimitare.",
+   "Un checksum corect demonstrează că fiecare rând are sens de business corect.",
+   "Codarea, delimitarea, resursele și frontiera citirii."
+  ],
+  "e_append": "Citirea unui fișier are un contract de codare, delimitare, resurse și frontieră, stabilit înaintea parserului."
+ },
+ "skill128-net-02-q-design": {
+  "o": [
+   "Investighezi autorizarea în loc să repeți cererea.",
+   "Respecți politica de temporizare și bugetul de retry pentru aceeași operație.",
+   "Reîncerci orice cod de eroare fără limită și fără să citești contractul."
+  ],
+  "e_append": "Un 403 nu este tranzitoriu; repetarea nelimitată a aceleiași cereri refuzate nu schimbă dreptul identității."
+ },
+ "q128-dp750-application-d750-018": {
+  "o": [
+   "Acorzi SELECT suplimentar ca să repari lanțul de încredere al certificatului.",
+   "Păstrezi conexiunea neverificată și numești absența erorii probă de securitate.",
+   "Lanțul de încredere, endpointul și distribuirea configurației.",
+   "Dezactivezi definitiv verificarea certificatului TLS în toate mediile."
+  ],
+  "e_append": "Verificarea se face în contextul real de execuție, fără dezactivarea TLS."
+ },
+ "q128-dbra-application-course-dbra-043": {
+  "o": [
+   "Consideri testul local un substitut al scrierii cu identitatea de producție.",
+   "Verificarea scrierii cu identitatea run-as pe obiectele țintă.",
+   "Declari configurația țintei dovada autorizării identității run-as.",
+   "Testezi doar cu administratorul care a făcut deploy."
+  ],
+  "e_append": "A lipsit verificarea operației cu identitatea de execuție, nu doar a configurației țintei."
+ },
+ "q128-sparkcert-case-sc118-1003-a": {
+  "o": [
+   "Păstrează progresul, dar nu definește ce stare poate fi eliminată.",
+   "Pentru că orice checkpoint este doar un cache opțional.",
+   "Copiezi checkpointul într-o locație mai mare și consideri definită regula de expirare.",
+   "Pentru că trebuie șters la fiecare micro-lot."
+  ],
+  "e_append": "Checkpointul asigură progresul și recuperarea; eliminarea stării cere o regulă explicită de expirare."
+ },
+ "skill119-8e425aa4032e-q-apply": {
+  "o": [
+   "Consideri listarea reușită dovada parsării și publicării complete.",
+   "Configurezi stageul și integrarea de stocare.",
+   "Pui secretul direct în textul notebookului.",
+   "Tratezi stageul ca pe tabelul final de analiză."
+  ],
+  "e_append": "Integrarea de stocare, cu drepturile necesare, ține credențialele în afara SQL-ului."
+ },
+ "skill128-sql-01-q-debug": {
+  "o": [
+   "HAVING repară orice filtrare greșită a rândurilor.",
+   "Aliasurile SELECT sunt disponibile identic în WHERE în orice motor.",
+   "WHERE se evaluează înaintea SELECT în SQL Server."
+  ],
+  "e_append": "Aliasul definit în SELECT nu este disponibil în etapa logică a lui WHERE în SQL Server."
+ },
+ "skill128-model-03-q-debug": {
+  "o": [
+   "Asociezi faptul cu versiunea [10,20).",
+   "Oprești asocierea ambiguă și remediezi suprapunerea înaintea raportării.",
+   "Alegi prima versiune găsită fără să semnalezi suprapunerea."
+  ],
+  "e_append": "Conform convenției semi-deschise, momentul 10 aparține doar intervalului [10,20)."
+ },
+ "skill128-distributed-02-q-design": {
+  "o": [
+   "Nu deduci ordinea globală dintre K1 și K2 din pozițiile lor locale.",
+   "Sortezi după offseturile locale și declari o cronologie globală certă.",
+   "Aplici regula globală pe acea secvență și păstrezi sursa ordinii."
+  ],
+  "e_append": ""
+ },
+ "q128-dp750-application-d750-130": {
+  "o": [
+   "Repari joinul prin SUM DISTINCT pentru orice valoare numerică repetată.",
+   "Elimini înregistrări valide doar pentru că au aceeași cantitate.",
+   "Păstrezi dublarea pe record_id și schimbi numai titlul raportului.",
+   "Nu ca remediu general: cantitățile egale pot fi legitime."
+  ],
+  "e_append": "Două înregistrări valide pot avea aceeași cantitate, iar SUM(DISTINCT qty) le-ar contopi; cauza este cardinalitatea joinului."
+ },
+ "q140-dbra-d6-o2-034": {
+  "o": [
+   "Da, ambele validează regulile de business ale tabelei",
+   "Da, ambele acordă acces cititorilor noi",
+   "Nu; compactare/layout versus eliminare eligibilă",
+   "Da, ambele șterg toate datele istorice imediat după commit"
+  ],
+  "e_append": ""
+ },
+ "skill119-b9ce06d875a7-q-apply": {
+  "o": [
+   "Adaugi doar LIMIT la rezultatul agregat.",
+   "Partiționezi pe fiecare client individual.",
+   "Consideri predicatul pe data afișată echivalent fără tip și fus.",
+   "Filtrezi pe coloana de partiție și verifici estimarea scanării."
+  ],
+  "e_append": ""
+ },
+ "skill119-cdf366ae4b30-q-apply": {
+  "o": [
+   "Consideri schimbarea numelui suficientă pentru a separa semantica wire.",
+   "Reutilizezi numărul unui câmp eliminat pentru alt sens.",
+   "Rezervi numărul și numele eliminate.",
+   "Refolosești numărul pentru un alt sens."
+  ],
+  "e_append": "Apoi testezi compatibilitatea dintre mesajele vechi și cele noi."
+ },
+ "skill128-delta-04-q-apply": {
+  "o": [
+   "Confirmi publicarea lotului și păstrezi identificatorul frontierei validate.",
+   "Citești recursiv orice fișier din director și îl echivalezi cu tabela.",
+   "Nu declari lotul publicat până nu verifici commitul."
+  ],
+  "e_append": "Verifici commitul și rezultatul vizibil cititorului; fișierele încărcate nu sunt încă date publicate."
+ },
+ "skill128-model-05-q-debug": {
+  "o": [
+   "Inventezi un client cu atribute plauzibile pentru a termina lotul.",
+   "Păstrezi faptul și marchezi dimensiunea necunoscută pentru remediere.",
+   "Pui faptul în așteptare controlată și alertezi întârzierea, fără să îl publici complet."
+  ],
+  "e_append": "Faptul păstrează identitatea sursă, astfel încât poate fi reasociat când sosește clientul K."
+ },
+ "skill128-finante-03-q-debug": {
+  "o": [
+   "Semnalezi lipsa lui B, deși A este echilibrat.",
+   "Semnalezi dezechilibrul și păstrezi separat proba completitudinii.",
+   "Declari lotul valid imediat ce una dintre verificări trece."
+  ],
+  "e_append": "Echilibrul debit/credit al extrasului nu dovedește completitudinea perechilor."
+ },
+ "q140-dp750-d4-o8-026": {
+  "o": [
+   "Rulezi VACUUM ca mecanism de expediere a logurilor de audit",
+   "Mărești retention în orice tabelă Delta din workspace",
+   "Categoriile, livrarea, timpul și sfera queryului",
+   "Declari imediat zero erori în workspace"
+  ],
+  "e_append": ""
+ },
+ "skill119-05eef1ef7b5e-q-understand": {
+  "o": [
+   "Păstrarea mai multor versiuni ale unui obiect S3, identificabile separat.",
+   "Reguli care mută sau expiră obiecte în funcție de condiții de păstrare.",
+   "Catalog de metadate despre tabele, scheme și locații de date.",
+   "Încărcare inițială urmată de capturarea modificărilor."
+  ],
+  "e_append": "Modul se aplică surselor suportate de DMS."
+ },
+ "skill119-74622f39d2e2-q-apply": {
+  "o": [
+   "Înlocuiești orice conversie nereușită cu zero financiar valid.",
+   "Extragi și convertești explicit câmpul înaintea agregării.",
+   "Presupui că toate valorile extrase sunt deja numere curate.",
+   "Elimini validarea pentru că parserul acceptă JSONul."
+  ],
+  "e_append": ""
+ },
+ "skill119-d6d4924cb270-q-debug": {
+  "o": [
+   "Testezi suprapunerile, entitățile comune și frontiera temporală.",
+   "Folosești scorul mare drept dovadă că nu există contaminare.",
+   "Deduplici numai după numele fișierului.",
+   "Verifici separarea numai prin nume diferite de fișiere și directoare."
+  ],
+  "e_append": ""
+ },
+ "skill128-net-02-q-understand": {
+  "o": [
+   "Codul ghidează diagnosticul, iar contractul arată dacă reluarea e sigură.",
+   "DNS, conexiunea de transport și validarea TLS sunt frontiere diferite în accesul la un serviciu.",
+   "Un nume rezolvat la o adresă privată nu dovedește existența unei rute din rețeaua procesului."
+  ],
+  "e_append": ""
+ },
+ "skill128-iceberg-05-q-debug": {
+  "o": [
+   "Nu declari interoperabilitate completă; testezi snapshotul tabelei.",
+   "Permiți acel consum în sfera verificată și păstrezi versiunile și limitele documentate.",
+   "Promovezi orice funcționalitate nouă fără să reverifici cititorii existenți."
+  ],
+  "e_append": "Citirea unui fișier Parquet nu dovedește suport pentru metadatele tabelei; testezi citirea snapshotului și efectele relevante."
+ },
+ "q140-dbra-d5-o1-033": {
+  "o": [
+   "Toate joburile folosesc automat noul commit din folder",
+   "Toate conflictele de business au fost rezolvate",
+   "Arhiva de progres a aplicației este actualizată",
+   "Sincronizarea descrisă de Git, nu validarea datelor"
+  ],
+  "e_append": ""
+ },
+ "skill119-93e51befae12-q-apply": {
+  "o": [
+   "Încorporezi întotdeauna toate relațiile.",
+   "Normalizezi mecanic orice câmp într-o colecție separată.",
+   "Alegi documentul numai dintr-un exemplu fără creștere sau concurență.",
+   "Separi istoricul nelimitat într-o structură potrivită accesului."
+  ],
+  "e_append": ""
+ },
+ "skill129-kql-02-q-design": {
+  "o": [
+   "Interpretezi orice creștere de rânduri după join drept trafic nou în sursă.",
+   "Folosești eliminarea arbitrară a duplicatelor în locul regulii de alegere a versiunii.",
+   "Păstrezi granularitatea asocierilor și măsori pe identități explicite."
+  ],
+  "e_append": "Asocierile cerere-versiune rămân la granularitatea lor, iar cererile unice se numără pe identitatea cererii."
+ },
+ "q128-sparkcert-application-course-spark-014": {
+  "o": [
+   "Citești toate fișierele Parquet ignorând logul tabelului.",
+   "Consideri orice reader Parquet compatibil cu toate ștergerile tabelului.",
+   "Ignori versiunea deoarece readerul are numele corect.",
+   "Versiunea cerută de consumator, cu schema și filtrele."
+  ],
+  "e_append": "Frontiera sau versiunea snapshotului trebuie aliniată cu cea cerută de consumator."
+ },
+ "skill119-19515339cda0-q-debug": {
+  "o": [
+   "Lași rezultatul numai pe discul unui nod efemer.",
+   "Alegi serviciul exclusiv după numele Spark.",
+   "Testezi numai execuția reușită, fără o cădere a workerului efemer.",
+   "Verifici compatibilitatea runtimeului, pornirea și costul total."
+  ],
+  "e_append": ""
+ },
+ "skill119-9000adf48a9f-q-debug": {
+  "o": [
+   "Monitorizezi întârzierea reală, erorile și costul.",
+   "Promiți latență zero doar pe baza target lagului.",
+   "Îl tratezi automat ca pe un view fără stocare.",
+   "Deduci prospețimea numai din durata mică a SELECT-ului."
+  ],
+  "e_append": "Costul relevant este cel al refreshurilor necesare pentru prospețimea țintă."
+ },
+ "skill129-obs-03-q-understand": {
+  "o": [
+   "Reiei integral orice append după cădere fără să inspectezi efectele confirmate.",
+   "Consideri că numele MERGE garantează singur idempotența întregului flux.",
+   "Identitatea operațiilor, frontiera confirmată și contractul țintei."
+  ],
+  "e_append": ""
+ },
+ "q140-dp750-d1-o5-003": {
+  "o": [
+   "CAN RESTART pe cluster",
+   "CREATE FOREIGN CATALOG pe conexiune",
+   "SELECT pe un volume",
+   "MODIFY pe orice tabelă locală din catalog"
+  ],
+  "e_append": ""
+ },
+ "skill119-e330de50adc7-q-debug": {
+  "o": [
+   "Testezi decriptarea cu rolul efectiv al jobului.",
+   "Acorzi numai permisiuni suplimentare pe bucket.",
+   "Publici cheia de date în loguri pentru depanare.",
+   "Consideri criptarea la stocare dovada validării TLS."
+  ],
+  "e_append": "Citirea din S3 și decriptarea KMS sunt drepturi separate; ambele se testează cu rolul efectiv al jobului."
+ },
+ "skill119-155298098a41-q-apply": {
+  "o": [
+   "Construiești lookupuri temporale după momentul disponibilității.",
+   "Folosești ultima valoare disponibilă astăzi pentru orice dată istorică.",
+   "Împarți aleator fără analiza dependențelor temporale.",
+   "Folosești doar event time și ignori când a sosit informația."
+  ],
+  "e_append": "Fiecare feature se folosește doar așa cum era efectiv disponibil la momentul etichetei."
+ },
+ "skill119-d399524e5ce9-q-understand": {
+  "o": [
+   "Evitarea unor grupuri de rânduri pe baza metadatelor și predicatelor suportate.",
+   "Format columnar în memorie pentru schimbul de date între componente.",
+   "Separarea schemelor folosite la scriere și citire pentru rezolvarea datelor Avro.",
+   "Identificator numeric al unui câmp în reprezentarea Protocol Buffers."
+  ],
+  "e_append": "Componentele compatibile pot schimba datele eficient, fără serializare suplimentară."
+ },
+ "skill119-790cd9d1b38e-q-debug": {
+  "o": [
+   "Amesteci spații de embedding fiindcă dimensiunea este aceeași.",
+   "Compari dimensiunile, metrica și rezultatele de referință.",
+   "Amesteci arbitrar vectorii modelelor fiindcă au aceeași lungime.",
+   "Ștergi indexul vechi înaintea validării celui nou."
+  ],
+  "e_append": "Rezultatele se verifică pe întrebări de referință, nu doar prin egalitatea dimensiunilor."
+ },
+ "skill128-python-19-q-debug": {
+  "o": [
+   "frozen blochează atribuirea câmpului, nu și lista mutabilă din interior.",
+   "Adnotările unui dataclass validează automat orice tip și orice invariantă.",
+   "frozen transformă automat toate listele interioare în obiecte imutabile."
+  ],
+  "e_append": ""
+ },
+ "skill128-distributed-05-q-apply": {
+  "o": [
+   "Ștergi logul care pare mai vechi pentru a obține o ordine frumoasă.",
+   "Corelezi identificatorii și tratezi abaterea ceasurilor înaintea concluziei.",
+   "Folosești secvența cauzală pentru relația de ordine și ceasul pentru măsurători în limitele lui."
+  ],
+  "e_append": "Corelarea folosește identificatorii și dependențele cererilor; abaterea ceasurilor se tratează înainte de orice concluzie temporală."
+ },
+ "q125-dbra-36": {
+  "o": [
+   "Distribuția volumului pe partiție, operația și memoria.",
+   "Numai faptul că numărul de taskuri este acum mai mic.",
+   "Numai numărul de notebookuri din workspace.",
+   "Excluderea memoriei ca ipoteză fiindcă sursa nu s-a schimbat."
+  ],
+  "e_append": "Memoria relevantă este cea disponibilă fiecărui task pentru operația respectivă."
+ },
+ "q128-dp700-application-course-dp700-027": {
+  "o": [
+   "Deduplici pe sumă în loc de identitatea contractuală a comenzii.",
+   "Identitatea comenzii și regula pentru comenzile fără poziții.",
+   "Numeri pozițiile extinse și le numești comenzi distincte.",
+   "Consideri fiecare produs din aceeași comandă o comandă nouă."
+  ],
+  "e_append": ""
+ },
+ "skill119-4c334955467d-q-apply": {
+  "o": [
+   "Ignori contractul de schemă pentru consumatori.",
+   "Numești revocarea accesului ștergere a exporturilor partenerului.",
+   "Evaluezi sharingul și condițiile de acces, regiune și consum.",
+   "Acordezi acces public pentru simplificarea integrării."
+  ],
+  "e_append": ""
+ },
+ "skill119-58f4e36f7839-q-apply": {
+  "o": [
+   "Testezi exclusiv în sesiunea administratorului.",
+   "Avansezi publicarea numai din statusul verde al taskului anterior.",
+   "Modelezi dependențele taskurilor și faci scrierile idempotente.",
+   "Programezi independent toți pașii la aceeași oră."
+  ],
+  "e_append": ""
+ },
+ "skill128-sql-06-q-debug": {
+  "o": [
+   "Egalitatea sumelor pe coloane demonstrează egalitatea tabelelor.",
+   "Diferența de apartenență nu verifică automat multiplicitatea.",
+   "UNION ALL elimină implicit retransmisiile identice."
+  ],
+  "e_append": ""
+ },
+ "skill129-iac-04-q-understand": {
+  "o": [
+   "Deduci mediul și drepturile exclusiv din numele ales pentru pipeline.",
+   "Declari aceeași resursă administrată independent în două stări pentru a simplifica reutilizarea.",
+   "Starea, identitatea, destinațiile și proprietatea resurselor."
+  ],
+  "e_append": "Fiecare mediu are propria stare, identitate cu drepturi, destinații și proprietate a resurselor."
+ },
+ "skill119-b1ed39ceed1d-q-apply": {
+  "o": [
+   "Expiri obiectele după treizeci de zile.",
+   "Compari clasele numai prin tariful de stocare, ignorând accesul.",
+   "Alegi clasele și expirarea după acces, recuperare și retenție.",
+   "Muți orice fișier activ în arhivă imediat."
+  ],
+  "e_append": ""
+ },
+ "skill119-58e70cac0429-q-apply": {
+  "o": [
+   "Pui întreaga bază într-un singur document.",
+   "Adaugi indexuri fără a măsura scrierile și cererile reale.",
+   "Modelezi documentele și indexurile după cererile reale.",
+   "Traduce fiecare join relațional într-o citire automată gratuită."
+  ],
+  "e_append": "Modelul trebuie să respecte și limitele serviciului, nu doar tiparul cererilor."
+ },
+ "skill119-585e3e987bfa-q-apply": {
+  "o": [
+   "Presupui că fișierul dispare la pierderea oricărui worker.",
+   "Consideri replicarea un istoric al ștergerilor greșite.",
+   "Numești replicarea backup independent pentru orice ștergere logică.",
+   "Folosești replicile disponibile și verifici re-replicarea."
+  ],
+  "e_append": "Clientul citește din replicile rămase, iar sistemul reface factorul de replicare."
+ },
+ "skill128-orchestrare-03-q-apply": {
+  "o": [
+   "Aplici retry limitat conform politicii, cu aceeași identitate.",
+   "Oprești retryul automat, păstrezi dovada și ceri remedierea contractului.",
+   "Reîncerci nelimitat orice eroare ca să nu pierzi date."
+  ],
+  "e_append": "Întârzierea dintre încercări respectă politica, iar identitatea operației rămâne aceeași pentru idempotență."
+ },
+ "q128-dp750-application-d750-015": {
+  "o": [
+   "Schimbi cheia de agregare fără reconcilierea rezultatului de business.",
+   "Dimensiunea grupului și algoritmul operatorului.",
+   "Crești numai numărul de nuclee și consideri fiecare grup împărțit automat.",
+   "Ignori mărimea grupului pentru că memoria totală a clusterului pare mare."
+  ],
+  "e_append": "Remediul trebuie să fie o transformare semantic validă, nu doar mai multe nuclee."
+ },
+ "skill119-e4bcf0cf81b6-q-understand": {
+  "o": [
+   "Catalog de metadate despre tabele, scheme și locații de date.",
+   "Atribuirea costurilor către workloaduri prin metadate de facturare.",
+   "Păstrarea mai multor versiuni ale unui obiect S3, identificabile separat.",
+   "Reguli care mută sau expiră obiecte în funcție de condiții de păstrare."
+  ],
+  "e_append": "Se folosesc metadate, de exemplu taguri, și evidențele de facturare."
+ },
+ "skill119-d474f0a88df0-q-debug": {
+  "o": [
+   "Compari utilizarea spațiului și a inodurilor.",
+   "Cauți exclusiv un fișier mare de șters.",
+   "Ștergi fișiere active fără identificarea proprietarului.",
+   "Verifici numai spațiul liber în octeți și închizi incidentul."
+  ],
+  "e_append": "Inodurile epuizate blochează crearea fișierelor chiar cu spațiu liber; după diagnostic aplici retenția sigură."
+ },
+ "skill128-secur-02-q-understand": {
+  "o": [
+   "Ale identității care execută operația, nu ale celui care a configurat-o.",
+   "O politică este eficientă numai dacă protejează toate căile relevante folosite de identitatea consumatorului.",
+   "Conectivitatea către un serviciu și dreptul de a folosi datele sunt verificări distincte."
+  ],
+  "e_append": ""
+ },
+ "skill129-docker-03-q-understand": {
+  "o": [
+   "Presupui consistență între scriitori numai pentru că fișierul este pe un volum.",
+   "Stratul inscriptibil al containerului și volumul au cicluri de viață diferite.",
+   "Consideri orice fișier local o copie de siguranță pentru înlocuirea containerului."
+  ],
+  "e_append": ""
+ },
+ "q125-dbra-25": {
+  "o": [
+   "Un buget comun de concurență pentru toți consumatorii sursei.",
+   "Verificarea separată că fiecare job are cel mult șase.",
+   "Reducerea rândurilor după collect pe driver.",
+   "Schimbarea lowerBound fără filtrare sau limită de concurență."
+  ],
+  "e_append": "Bugetul include și ceilalți consumatori ai sursei, nu doar cele două joburi."
+ },
+ "t700-06": {
+  "o": [
+   "Reiei pipeline-ul pe fereastra explicită a zilei de ieri",
+   "Reîncarci tot istoricul, ca să fii sigur că nu lipsește nimic",
+   "Ștergi tabelul și îl reconstruiești de la zero",
+   "Lași pipeline-ul de azi să prindă din urmă automat lotul lipsă"
+  ],
+  "e_append": ""
+ },
+ "skill119-cba19f16da33-q-apply": {
+  "o": [
+   "Păstrezi în cache orice intermediar folosit o singură dată.",
+   "Presupui că simplul apel cache a calculat deja toate partițiile.",
+   "Declanșezi o acțiune și verifici stocarea și reutilizarea.",
+   "Interpretezi cache ca încărcare imediată completă."
+  ],
+  "e_append": "cache este leneș: datele se materializează abia la prima acțiune, deci stocarea și reutilizarea trebuie verificate."
+ },
+ "skill119-dd1050caea5e-q-apply": {
+  "o": [
+   "Verifici APIurile suportate și unde rulează dependențele.",
+   "Presupui acces direct la orice obiect JVM intern al driverului.",
+   "Instalezi o bibliotecă numai pe client pentru execuție pe server.",
+   "Instalezi dependențele numai în IDE și le presupui prezente pe server."
+  ],
+  "e_append": "Clientul doar trimite operațiile; APIurile disponibile și dependențele trebuie verificate pe partea unde rulează efectiv codul."
+ },
+ "skill119-60b29dd3932a-q-apply": {
+  "o": [
+   "Păstrezi calculul distribuit sau colectezi un rezultat limitat.",
+   "Crești doar numărul executorilor.",
+   "Folosești un eșantion mic drept dovadă că întregul set încape.",
+   "Aduci datele integral local doar pentru a verifica primele rânduri."
+  ],
+  "e_append": "Driverul nu trebuie să primească milioane de rânduri; se colectează numai un rezultat explicit limitat."
+ },
+ "skill119-f2f1d8a8c40b-q-apply": {
+  "o": [
+   "Consideri orice spillrezultat de business incorect.",
+   "Corelezi cardinalitatea, partițiile și memoria taskurilor.",
+   "Consideri orice spill dovada sigură a unui bug.",
+   "Crești memoria driverului ca să elimini spillul de pe executori."
+  ],
+  "e_append": "Reglajul se alege abia după ce cardinalitatea, partițiile și memoria explică spillul."
+ },
+ "skill119-16600d61a176-q-apply": {
+  "o": [
+   "Fixezi datele, configurația și rezultatul și repeți măsurarea.",
+   "Alegi cea mai mică durată dintr-o singură rulare favorabilă a fiecărei variante.",
+   "Omiți verificarea rezultatului variantei rapide.",
+   "Compari uncountoptimizat cu scrierea tuturor coloanelor."
+  ],
+  "e_append": "Comparația este validă doar pe aceleași volume și cacheuri, cu rezultat verificat și măsurare reprezentativă repetată."
+ },
+ "skill119-b52289b186f7-q-understand": {
+  "o": [
+   "Executarea unor operații în afara motorului Photon când nu sunt suportate acolo.",
+   "Fixarea și verificarea versiunilor de runtime și biblioteci pentru execuții reproductibile.",
+   "Condiție care evită mai multe rânduri sursă conflictuale pentru aceeași țintă.",
+   "Alegerea resursei de execuție după workload, dependențe, latență și cost."
+  ],
+  "e_append": "Este o condiție de proiectare: mai multe rânduri sursă potrivite aceluiași rând țintă fac MERGE să eșueze sau să devină ambiguu."
+ },
+ "skill119-5ef2ea01aae5-q-understand": {
+  "o": [
+   "Executarea unor operații în afara motorului Photon când nu sunt suportate acolo.",
+   "Fixarea și verificarea versiunilor de runtime și biblioteci pentru execuții reproductibile.",
+   "Definiții și exemple care ajută Genie să interpreteze întrebările de business.",
+   "Alegerea resursei de execuție după workload, dependențe, latență și cost."
+  ],
+  "e_append": "Contextul semantic nu extinde accesul: interpretarea rămâne în limitele permisiunilor utilizatorului."
+ },
+ "skill119-33a96fd76158-q-debug": {
+  "o": [
+   "Publici actualizări automate direct în producție fără verificări.",
+   "Fixezi numai versiunea directă și ignori dependențele tranzitive.",
+   "Testezi un mediu curat și actualizările prin aceeași suită.",
+   "Fixezi numai versiunea aplicației, ignorând dependențele."
+  ],
+  "e_append": "Un mediu curat arată ce rezolvă efectiv instalarea, iar actualizările trec prin aceeași suită de verificări."
+ },
+ "skill119-33a96fd76158-q-apply": {
+  "o": [
+   "Fixezi numai versiunea aplicației, ignorând dependențele.",
+   "Publici actualizări automate direct în producție fără verificări.",
+   "Fixezi numai versiunea directă și ignori dependențele tranzitive.",
+   "Folosești fișierul de blocare și o instalare verificată."
+  ],
+  "e_append": "Fișierul de blocare fixează și dependențele tranzitive, iar procedura de instalare verificată îl aplică identic în fiecare mediu."
+ },
+ "skill119-b464281c839a-q-apply": {
+  "o": [
+   "Consideri proprietatea suficientă fără verificarea contractului.",
+   "Generezi date aleatoare fără invarianta independentă care trebuie verificată.",
+   "Definești proprietăți precum idempotenta și păstrarea cheilor distincte.",
+   "Verifici numai un exemplu cu o singură cheie."
+  ],
+  "e_append": ""
+ },
+ "skill119-d7cd49be55f6-q-apply": {
+  "o": [
+   "Corelezi tabelele de sistem cu joburile și etichetele controlate.",
+   "Interpretezi orice metrica disponibilă drept factură finală completă.",
+   "Asociezi costurile doar după numele notebookului.",
+   "Interpretezi lipsa observațiilor drept consum și incidente zero."
+  ],
+  "e_append": "Se folosesc tabelele de sistem relevante pentru utilizare, legate de joburi și de etichete guvernate."
+ },
+ "skill119-4fbe21295681-q-debug": {
+  "o": [
+   "Folosești ordinea fizică implicită drept criteriu pentru ultimul rând.",
+   "Rulezi de două ori aceeași intrare și compari rezultatele.",
+   "Folosești ceasul sistemului ascuns în fiecare funcție.",
+   "Presupui că determinismul garantează automat idempotenta scrierii."
+  ],
+  "e_append": "Se compară rezultatele cerute de contract; o diferență arată dependența de timpul curent."
+ },
+ "skill119-0c0917106d96-q-understand": {
+  "o": [
+   "Gestionarea schimbărilor de schemă și a datelor salvate pentru investigație.",
+   "Alegerea resursei de execuție după workload, dependențe, latență și cost.",
+   "Executarea unor operații în afara motorului Photon când nu sunt suportate acolo.",
+   "Fixarea și verificarea versiunilor de runtime și biblioteci pentru execuții reproductibile."
+  ],
+  "e_append": "Mecanismul se aplică la ingestia incrementală cu Auto Loader."
+ },
+ "skill119-3a1bdd58ac6f-q-debug": {
+  "o": [
+   "Testezi numai o funcție internă fără mesajele reale.",
+   "Alegi să accepți orice tip fără verificări.",
+   "Consideri validarea schemei dovada tuturor efectelor end-to-end la consumatori.",
+   "Testezi mesaje vechi și noi față de politica de compatibilitate."
+  ],
+  "e_append": "Contractul se verifică pe versiunile vechi și noi și pe politica schimbărilor incompatibile."
+ },
+ "skill119-07ea7f9114a7-q-apply": {
+  "o": [
+   "Mărești memoria executorului pentru a elimina eroarea de autorizare.",
+   "Testezi numai cu sesiunea proprietarului notebookului.",
+   "Verifici identitatea run-as și privilegiile pe surse și ținte.",
+   "Acordezi drepturi doar utilizatorului care citește logurile."
+  ],
+  "e_append": "Jobul rulează sub altă identitate decât dezvoltatorul, iar aceasta are nevoie de privilegiile necesare."
+ },
+ "skill119-a1859d396aa9-q-debug": {
+  "o": [
+   "Acorzi ALL PRIVILEGES pe toate cataloagele.",
+   "Muți fișierele fără a verifica autorizarea.",
+   "Consideri numele complet dovada drepturilor de citire.",
+   "Testezi accesul sub identitatea utilizatorului."
+  ],
+  "e_append": "Testul folosește numele complet al tabelului și arată dacă lipsesc drepturile pe schema părinte."
+ },
+ "skill119-d9913b7a4a4a-q-apply": {
+  "o": [
+   "Declari suita bună numai din numărul testelor care trec.",
+   "Introduci mutații relevante și completezi testele.",
+   "Echivalezi acoperirea liniilor cu detectarea tuturor erorilor.",
+   "Modifici rezultatele așteptate ca să treacă orice mutant."
+  ],
+  "e_append": "Mutațiile arată condițiile de frontieră nedetectate; cazurile adăugate trebuie să le detecteze."
+ },
+ "skill119-5ef2ea01aae5-q-apply": {
+  "o": [
+   "Consideri SQL validsintactic răspuns de business corect.",
+   "Documentezi definiția și o testezi pe întrebări tipice.",
+   "Accepți răspunsul doar fiindcă formularea este convingătoare.",
+   "Acorzi acces global ca să îmbunătățești răspunsul."
+  ],
+  "e_append": "Definiția include filtrele și exemplele (brut, net, fără TVA), iar verificarea se face pe întrebări reprezentative."
+ },
+ "skill119-be25dada7dc1-q-apply": {
+  "o": [
+   "Modifici fiecare query fără examinarea capacității comune.",
+   "Promiți că un retry imediat rezolvă orice throttling.",
+   "Consideri orice latență drept dovadă de throttling.",
+   "Corelezi capacitatea cu workloadurile și concurența."
+  ],
+  "e_append": "Întârzierile simultane indică o capacitate comună; semnalele capacității se corelează cu workloadurile."
+ },
+ "skill119-8eff8587863e-q-apply": {
+  "o": [
+   "Consideri deployul reușit dovada tuturor conexiunilor corecte.",
+   "Schimbi numai titlul workspaceului.",
+   "Testezi numai că artefactul există în mediul țintă.",
+   "Verifici configurația mediului și legăturile efective."
+  ],
+  "e_append": "Regulile și configurațiile per mediu determină ce catalog citește efectiv pipelineul."
+ },
+ "skill119-acd41d456831-q-understand": {
+  "o": [
+   "Roluri pentru colaborare și administrarea elementelor unui workspace.",
+   "Interfață SQL pentru analiza datelor Lakehouse, cu capabilitățile documentate.",
+   "Depozit de date orientat spre modelare și analiză prin experiența T-SQL suportată.",
+   "Publicarea unui mediu Spark cu biblioteci și configurații reproductibile."
+  ],
+  "e_append": "Mediul publicat poate fi folosit reproductibil de notebookuri și joburi."
+ },
+ "skill119-82c6700220c3-q-understand": {
+  "o": [
+   "Interfață SQL pentru analiza datelor Lakehouse, cu capabilitățile documentate.",
+   "Versionarea elementelor suportate, fără copierea datelor și secretelor.",
+   "Roluri pentru colaborare și administrarea elementelor unui workspace.",
+   "Publicarea unui mediu Spark cu biblioteci și configurații pentru utilizare reproductibilă."
+  ],
+  "e_append": "Git integration versionează elementele suportate; este distinctă de copierea automată a tuturor datelor și secretelor."
+ },
+ "skill119-8eff8587863e-q-debug": {
+  "o": [
+   "Schimbi numai titlul workspaceului.",
+   "Testezi numai că artefactul există în mediul țintă.",
+   "Verifici controlat sursele și destinațiile din producție.",
+   "Consideri deployul reușit dovada tuturor conexiunilor corecte."
+  ],
+  "e_append": "O rulare controlată arată conexiunile efective, nu doar existența artefactului."
+ },
+ "skill119-39f0d6dad374-q-apply": {
+  "o": [
+   "Presupui aceleași operații pentru endpoint și orice motor SQL.",
+   "Folosești o cale suportată, de exemplu Spark.",
+   "Presupui că orice endpoint SQL suportă același DML ca un Warehouse.",
+   "Schimbi doar numele conexiunii pentru același UPDATE."
+  ],
+  "e_append": "Endpointul analitic SQL nu suportă aceleași modificări ca un Warehouse; tabela se modifică printr-o cale suportată, de exemplu Spark."
+ },
+ "skill119-be25dada7dc1-q-debug": {
+  "o": [
+   "Promiți că un retry imediat rezolvă orice throttling.",
+   "Consideri orice latență drept dovadă de throttling.",
+   "Verifici așteptarea și consumul înaintea redimensionării.",
+   "Modifici fiecare query fără examinarea capacității comune."
+  ],
+  "e_append": "Timpul de așteptare și evoluția consumului arată dacă întârzierea vine din capacitate."
+ },
+ "skill119-d9bfbff0a4c2-q-apply": {
+  "o": [
+   "Presupui că un rol IAM larg este suficient pentru politica de date.",
+   "Testezi numai cu administratorul.",
+   "Ignori o cale alternativă de citire directă a copiilor.",
+   "Definești permisiunile și verifici IAM și stocarea."
+  ],
+  "e_append": "Permisiunile de date se verifică împreună cu IAM și stocarea, altfel o cale de citire directă le poate ocoli."
+ },
+ "skill119-f06e62136bf6-q-apply": {
+  "o": [
+   "Aplici chmod 777 tuturor directoarelor.",
+   "Testezi numai cu root.",
+   "Repari refuzul prin drepturi globale pentru orice utilizator.",
+   "Verifici drepturile identității pe tot traseul căii."
+  ],
+  "e_append": "Fiecare director părinte trebuie să permită traversarea pentru identitatea serviciului."
+ },
+ "skill128-delta-01-q-understand": {
+  "o": [
+   "Versiunea e recuperabilă numai dacă metadatele și fișierele ei mai sunt disponibile.",
+   "O actualizare este acceptată numai dacă versiunea sursei respectă regula de ordine definită pentru aceeași cheie.",
+   "Acceptarea unei noi coloane la scriere este diferită de compatibilitatea semantică a cititorilor care consumă tabela."
+  ],
+  "e_append": "Retenția sau curățarea pot elimina fișierele necesare chiar dacă versiunea apare în istoric."
+ },
+ "skill128-iceberg-04-q-apply": {
+  "o": [
+   "Respingi rezultatul până la o mapare explicită compatibilă și reconciliată.",
+   "Reutilizezi poziția veche drept dovadă a identității în orice schemă.",
+   "Verifici că valorile rămân asociate aceluiași câmp după redenumire."
+  ],
+  "e_append": "Identitatea câmpului, nu numele afișat, leagă valorile după redenumire."
+ },
+ "q128-dp750-application-d750-041": {
+  "o": [
+   "Consideri dispariția evenimentului din catalog dovada inexistenței exportului.",
+   "Omiți inventarul copiilor externe deoarece obiectul inițial are lineage.",
+   "Nu. Declar acoperirea observată și inventariez copiile externe.",
+   "Declari lineage complet al exportului fără integrarea sistemului extern."
+  ],
+  "e_append": "Lineage-ul acoperă doar sistemele integrate; consumatorul extern și copiile lui se inventariază separat."
+ },
+ "q128-dbra-application-course-dbra-050": {
+  "o": [
+   "Declari clusteringul defect fără filtre selective sau comparație de plan.",
+   "Promiți pruning doar din activarea organizării fizice.",
+   "Măsori numai rândurile finale și omiți fișierele și coloanele efectiv citite.",
+   "Fără filtre selective, workload-ul poate să nu câștige din pruning."
+  ],
+  "e_append": "Query-ul citește toate coloanele și rândurile, deci eliminarea datelor nu are ce reduce."
+ },
+ "skill119-07e5f808bd42-q-debug": {
+  "o": [
+   "Testezi cheia fierbinte pe populația realistă.",
+   "Scanezi întregul tabel la fiecare cerere.",
+   "Alegi cheile exclusiv după ordinea coloanelor din CSV.",
+   "Judeci cheia numai pe clienții mici ai fixture-ului."
+  ],
+  "e_append": "Se măsoară și costul accesului pentru clienții cu multe comenzi."
+ },
+ "skill119-0772ba70ba96-q-understand": {
+  "o": [
+   "Stare asociată unei chei de către operatori Flink cu stare.",
+   "Folosirea unui snapshot controlat pentru administrarea și evoluția unui job cu stare.",
+   "Declanșare bazată pe progresul event time observat prin watermarkuri.",
+   "Coordonarea barierelor de checkpoint la intrările operatorilor."
+  ],
+  "e_append": "Comportamentul depinde de modul de checkpoint folosit."
+ },
+ "skill128-delta-02-q-apply": {
+  "o": [
+   "Suprascrii ținta cu ultimul rând sosit, indiferent de versiune.",
+   "Păstrezi versiunea 8 și înregistrezi respingerea.",
+   "Aplici versiunea 9 și păstrezi dovada versiunii și a operației."
+  ],
+  "e_append": "Versiunea 7 nu este strict mai mare decât 8, deci este respinsă, iar respingerea rămâne auditabilă."
+ },
+ "skill128-perf-02-q-design": {
+  "o": [
+   "Alegi mereu varianta cea mai rapidă, ignorând obiectivul declarat.",
+   "Alegi A pentru costul total mai mic dintre cele eligibile.",
+   "Alegi B dintre aceste două variante, fiind singura eligibilă."
+  ],
+  "e_append": "Cu noul termen, criteriul între variantele eligibile rămâne costul total."
+ },
+ "skill128-distributed-04-q-understand": {
+  "o": [
+   "Pragul rezultă din numărul membrilor și regula de majoritate declarată.",
+   "Un timeout la client nu demonstrează dacă serverul a aplicat sau nu efectul cererii.",
+   "Ordinea garantată în interiorul unei partiții nu stabilește automat o ordine între partiții independente."
+  ],
+  "e_append": "Un protocol cu majoritate se evaluează după numărul membrilor și regula de participare declarată."
+ },
+ "q125-dbra-20": {
+  "o": [
+   "Folosești mecanismul UC potrivit; DENY legacy nu este suportat.",
+   "Presupui că orice sintaxă Hive metastore este compatibilă cu UC.",
+   "Presupui că existența ABAC DENY permite negarea oricărui privilegiu prin acea comandă.",
+   "Renunți la testul de acces și verifici numai numele politicii."
+  ],
+  "e_append": "Comanda DENY legacy nu este suportată de Unity Catalog, deci se verifică mecanismul UC adecvat."
+ },
+ "t700-02": {
+  "o": [
+   "Eventstream către eventhouse și, în paralel, către lakehouse",
+   "Eventstream doar către lakehouse",
+   "Eventstream doar către eventhouse",
+   "Un pipeline programat din cinci în cinci minute către warehouse"
+  ],
+  "e_append": "Eventhouse acoperă analiza cu latență de secunde, iar lakehouse păstrează istoricul pentru raportarea lunară."
+ },
+ "skill119-a949c06cf17a-q-apply": {
+  "o": [
+   "Confirmi mesajul înaintea scrierii pentru a evita duplicatele.",
+   "Presupui că orice abonament garantează orice efect extern exact o dată.",
+   "Schimbi cheia operației după timeoutul efectului extern.",
+   "Tolerezi relivrarea prin scriere idempotentă sau deduplicare."
+  ],
+  "e_append": "Deduplicarea trebuie să fie durabilă, ca să reziste căderii consumatorului."
+ },
+ "skill119-9c8f0a60abb7-q-apply": {
+  "o": [
+   "Raportezi numai restaurarea și omiți validarea și comutarea declarate.",
+   "Proiectezi separat timpul de recuperare și pierderea de date.",
+   "Interpretezi cele două ore drept volumul de date pierdut acceptat.",
+   "Consideri existența backupului dovada ambelor obiective."
+  ],
+  "e_append": "Două ore sunt obiectivul de timp, iar cincisprezece minute sunt frontiera datelor recuperabile."
+ },
+ "skill128-delta-04-q-debug": {
+  "o": [
+   "Citești recursiv orice fișier din director și îl echivalezi cu tabela.",
+   "Nu declari lotul publicat până nu verifici commitul.",
+   "Confirmi publicarea lotului și păstrezi identificatorul frontierei validate."
+  ],
+  "e_append": "Fișierele încărcate nu fac parte din tabelă până la commit; contează rezultatul vizibil cititorului."
+ },
+ "skill128-orchestrare-05-q-understand": {
+  "o": [
+   "Condiția leagă exact starea upstream de efectul cerut downstream.",
+   "O reluare trebuie să identifice aceeași populație de date, separat de momentul executării procesului.",
+   "Succesul unui task upstream și completitudinea produsului lui sunt dovezi distincte pentru consumator."
+  ],
+  "e_append": ""
+ },
+ "skill128-relational-04-q-apply": {
+  "o": [
+   "Transformi toate valorile NULL în textul gol fără analiză.",
+   "Verifici logica valorii necunoscute și alegi semantica explicită.",
+   "Implementezi compararea null-safe potrivit dialectului și testezi ambele frontiere NULL."
+  ],
+  "e_append": "NOT IN cu NULL în listă produce necunoscut; se folosește o formulare cu semantica dorită explicită."
+ },
+ "skill119-b1ed39ceed1d-q-debug": {
+  "o": [
+   "Compari clasele numai prin tariful de stocare, ignorând accesul.",
+   "Verifici restaurarea, perioada minimă și costul accesului.",
+   "Muți orice fișier activ în arhivă imediat.",
+   "Expiri obiectele după treizeci de zile."
+  ],
+  "e_append": "Pentru arhive rar accesate contează latența de restaurare, nu doar tariful de stocare."
+ },
+ "skill119-0b82a7c16e7d-q-apply": {
+  "o": [
+   "Reîmprospătezi secretul și gestionezi reconectarea.",
+   "Incluzi parola în imaginea containerului.",
+   "Dezactivezi rotația pentru a ascunde eroarea.",
+   "Verifici rotația numai prin citirea secretului, fără reconectare."
+  ],
+  "e_append": "Reîmprospătarea urmează politica de rotație."
+ },
+ "skill119-0772ba70ba96-q-apply": {
+  "o": [
+   "Oprești checkpointurile pentru a ascunde întârzierea.",
+   "Consideri finalizarea checkpointului dovada atomicității oricărui HTTP.",
+   "Analizezi backpressureul și alinierea checkpointurilor.",
+   "Declari checkpointul echivalent cu salvarea doar a rezultatului final."
+  ],
+  "e_append": "Apoi alegi opțiunile de checkpoint compatibile."
+ },
+ "skill128-sql-08-q-understand": {
+  "o": [
+   "Orice zi locală are obligatoriu 24 ore reale.",
+   "Unități, fus orar și frontiere explicite.",
+   "BETWEEN este întotdeauna echivalent cu un interval semi-deschis."
+  ],
+  "e_append": "Un interval temporal corect are unități, fus și frontiere explicite."
+ },
+ "skill128-net-04-q-understand": {
+  "o": [
+   "Bugetul acoperă conectarea, coada, citirea și retry, nu o singură încercare.",
+   "DNS, conexiunea de transport și validarea TLS sunt frontiere diferite în accesul la un serviciu.",
+   "Codul de răspuns și contractul operației ghidează diagnosticul și posibilitatea unei reluări sigure."
+  ],
+  "e_append": ""
+ },
+ "skill129-capcane-01-q-apply": {
+  "o": [
+   "Folosești același offset numeric pentru toate datele oricărui fus local.",
+   "O marchezi ambiguă și ceri offsetul ori politica acceptată.",
+   "Alegi în tăcere prima interpretare disponibilă a unei ore locale ambigue."
+  ],
+  "e_append": "Fără offset sau indicator, alegerea unei interpretări ar fi arbitrară."
+ },
+ "skill119-e4bcf0cf81b6-q-apply": {
+  "o": [
+   "Corelezi etichetele, conturile și execuțiile cu costul.",
+   "Atribui tot costul doar după numărul de joburi.",
+   "Folosești prețuri relative de exercițiu drept tarif real.",
+   "Tratezi consumul fără etichete drept cost zero al echipelor."
+  ],
+  "e_append": "Atribuirea folosește rapoartele de cost corelate cu etichetele, conturile și execuțiile."
+ },
+ "skill128-python-07-q-design": {
+  "o": [
+   "continue și break termină ambele întreaga buclă.",
+   "else al unui for rulează numai dacă lista a avut cel puțin un element.",
+   "Testezi găsirea cu break, lipsa potrivirii și lista goală."
+  ],
+  "e_append": "else al unui for rulează când bucla se termină fără break, inclusiv pe lista goală."
+ },
+ "q128-dp750-application-d750-099": {
+  "o": [
+   "Publici performanța nouă înainte de reconcilierea populației și sumelor.",
+   "Nu. Reconciliez cheia, grain-ul și valorile întâi.",
+   "Accepți noul plan numai din reducerea duratei query-ului.",
+   "Aplici DISTINCT peste venit fără să verifici cheia care multiplică joinul."
+  ],
+  "e_append": "Performanța se compară abia după ce rezultatul este echivalent."
+ },
+ "q128-sparkcert-case-sc118-1001-b": {
+  "o": [
+   "Pentru că DISTINCT nu poate fi aplicat peste date care conțin text.",
+   "Pentru că trebuie însumate mai întâi ambele versiuni.",
+   "Rândurile pot rămâne distincte; orașul valabil nu este ales.",
+   "Grupezi după oraș și însumezi toate pozițiile în ambele versiuni de client."
+  ],
+  "e_append": "DISTINCT elimină doar duplicatele exacte; nu aplică regula temporală a vânzării."
+ },
+ "skill119-c009a44dedf2-q-debug": {
+  "o": [
+   "Presupui că oprirea warehouseului șterge tabelele.",
+   "Validezi izolarea calculului numai din numele bazelor.",
+   "Compari concurența, durata și creditele pe workload.",
+   "Duplici tabelele doar pentru a separa calculul."
+  ],
+  "e_append": ""
+ },
+ "skill119-8b17bf944aab-q-apply": {
+  "o": [
+   "Confirmi progresul înainte de efectuarea scrierii.",
+   "Schimbi cheia efectului la fiecare retrimitere după timeout.",
+   "Folosești un sink tranzacțional sau un efect idempotent.",
+   "Deduce exact o dată pentru orice API numai din checkpointul motorului."
+  ],
+  "e_append": "Sinkul trebuie să fie compatibil, iar efectul idempotent verificabil."
+ },
+ "skill129-bi-04-q-understand": {
+  "o": [
+   "Soldul e o stare la o frontieră; fluxul, contribuții pe un interval.",
+   "Aduni automat orice valori numerice pe zile, indiferent dacă sunt stocuri sau fluxuri.",
+   "Schimbi eticheta în sold final fără a modifica populația și calculul totalului."
+  ],
+  "e_append": ""
+ },
+ "q140-dp750-d3-o1-010": {
+  "o": [
+   "Presupui că ADF Copy este CDC universal",
+   "Presupui că notebookul are bookmark incremental implicit",
+   "Verifici conectorul, semantica și frontiera cerute",
+   "Alegi orice instrument cu nume pipeline"
+  ],
+  "e_append": ""
+ },
+ "skill119-d03115fd11a4-q-apply": {
+  "o": [
+   "Compari doar costul unei ore de calcul.",
+   "Declari recuperare verificată doar pentru că poți recrea clusterul.",
+   "Compari un cluster temporar cu alternativele gestionate.",
+   "Păstrezi singura copie a rezultatului pe discul clusterului temporar."
+  ],
+  "e_append": "Comparația se face pentru sarcina dată, de o oră pe zi."
+ },
+ "skill119-8b28a57f927a-q-debug": {
+  "o": [
+   "Creezi manual câte o micro-partiție pentru fiecare rând.",
+   "Mărești doar dimensiunea rezultatului afișat.",
+   "Deduci pruning bun din numărul mic de rânduri afișate.",
+   "Compari partițiile scanate și datele citite în profil."
+  ],
+  "e_append": ""
+ },
+ "skill119-8b17bf944aab-q-debug": {
+  "o": [
+   "Schimbi cheia efectului la fiecare retrimitere după timeout.",
+   "Testezi căderea între efectul extern și checkpoint.",
+   "Deduce exact o dată pentru orice API numai din checkpointul motorului.",
+   "Confirmi progresul înainte de efectuarea scrierii."
+  ],
+  "e_append": "Căderea după efectul extern și înainte de confirmarea checkpointului este cazul care produce repetarea."
+ },
+ "skill128-sql-03-q-debug": {
+  "o": [
+   "CREATE TABLE încarcă automat datele din orice tabelă cu același nume.",
+   "Schema nouă poate fi promovată fără testarea cititorilor existenți.",
+   "Verifici regulile reale SQLite, eventual STRICT."
+  ],
+  "e_append": "SQLite aplică reguli de afinitate; validarea rigidă cere tabele STRICT sau constrângeri explicite."
+ },
+ "skill128-delta-05-q-design": {
+  "o": [
+   "Măsori beneficiul fizic pe aceeași populație și păstrezi verificarea rezultatului.",
+   "Alegi varianta cu cel mai mic timp chiar dacă numărul de rânduri diferă.",
+   "Respingi comparația până repari populația și reverifici echivalența."
+  ],
+  "e_append": ""
+ },
+ "skill128-distributed-05-q-debug": {
+  "o": [
+   "Corelezi identificatorii și tratezi abaterea ceasurilor.",
+   "Folosești secvența cauzală pentru relația de ordine și ceasul pentru măsurători în limitele lui.",
+   "Ștergi logul care pare mai vechi pentru a obține o ordine frumoasă."
+  ],
+  "e_append": "Concluzia temporală se trage abia după corelarea identificatorilor și dependențelor."
+ },
+ "t700-03": {
+  "o": [
+   "Consumul capacității, în aplicația de metrici",
+   "Logurile de eroare ale fiecărui pipeline din spațiul de lucru",
+   "Permisiunile spațiului de lucru",
+   "Dimensiunea modelelor semantice și frecvența refreshului"
+  ],
+  "e_append": ""
+ },
+ "q128-sparkcert-application-course-spark-005": {
+  "o": [
+   "Măsori numai ultima acțiune cu cache cald.",
+   "Consideri persist dovada că toate partițiile sunt deja calculate.",
+   "Păstrezi permanent orice cache chiar fără reutilizare.",
+   "Nu neapărat; fără reutilizare, persist e doar cost în plus."
+  ],
+  "e_append": ""
+ },
+ "skill119-e5ca50587640-q-apply": {
+  "o": [
+   "Setezi suspendarea fără a verifica rafalele reale.",
+   "Compari numai orele pornite fără latența și costul reluărilor.",
+   "Alegi auto-suspend și auto-resume după rafalele reale.",
+   "Îl lași permanent pornit deoarece nu execută SQL."
+  ],
+  "e_append": "Pragul se alege după frecvența rafalelor și latența de reluare acceptată."
+ },
+ "skill119-93e51befae12-q-debug": {
+  "o": [
+   "Normalizezi mecanic orice câmp într-o colecție separată.",
+   "Alegi documentul numai dintr-un exemplu fără creștere sau concurență.",
+   "Testezi creșterea documentului pe un client foarte activ.",
+   "Încorporezi întotdeauna toate relațiile."
+  ],
+  "e_append": "Se urmăresc dimensiunea, actualizările și interogările."
+ },
+ "skill128-model-01-q-understand": {
+  "o": [
+   "Granularitatea stabilește ce eveniment e un rând și cheia care distinge pozițiile.",
+   "O rată globală folosește numărătorul și numitorul populației, nu media neponderată a ratelor subgrupurilor.",
+   "Un model temporal trebuie să definească frontierele intervalelor și regula de alegere a versiunii valabile."
+  ],
+  "e_append": ""
+ },
+ "q128-dbra-application-course-dbra-007": {
+  "o": [
+   "Ascunzi conflictul fiindcă schema și cheia sunt valide.",
+   "Nu. Marchezi conflictul și aplici regula sursei ori carantina.",
+   "Alegi ultimul sosit în rețea fără regula egalităților de versiune.",
+   "Consideri cele două sume contradictorii o retransmisie identică."
+  ],
+  "e_append": ""
+ },
+ "skill119-05eef1ef7b5e-q-apply": {
+  "o": [
+   "Presupui că toate DDL-urile sunt migrate identic.",
+   "Compari numai numărul rândurilor din sursă și țintă înainte de comutare.",
+   "Pregătești full load și CDC, apoi validezi înaintea comutării.",
+   "Comuți imediat după terminarea copiei inițiale."
+  ],
+  "e_append": ""
+ },
+ "skill119-07f38e47a6dd-q-understand": {
+  "o": [
+   "Identificarea și protejarea datelor sensibile prin inspecție.",
+   "Predicat pe coloana de partiționare care poate limita partițiile citite.",
+   "Organizare a datelor în blocuri după coloane alese pentru filtrare.",
+   "Alocare și administrare a capacității de calcul pentru workloaduri."
+  ],
+  "e_append": "Protejarea se face prin transformări precum mascarea sau tokenizarea."
+ },
+ "skill119-ad86149ed641-q-debug": {
+  "o": [
+   "Verifici ponderile totale și grupurile fără observații.",
+   "Faci media simplă a mediilor magazinelor.",
+   "Împarți suma veniturilor la numărul magazinelor.",
+   "Faci media mediilor fără numărul observațiilor fiecărui grup."
+  ],
+  "e_append": ""
+ },
+ "skill128-orchestrare-03-q-debug": {
+  "o": [
+   "Oprești retryul automat, păstrezi dovada și ceri remedierea contractului.",
+   "Reîncerci nelimitat orice eroare ca să nu pierzi date.",
+   "Aplici retry limitat, cu întârziere, păstrând aceeași identitate."
+  ],
+  "e_append": "Bugetul de încercări și întârzierea urmează politica declarată."
+ },
+ "q128-sparkcert-application-course-spark-002": {
+  "o": [
+   "Promiți exact3secunde pentru20taskuri pe8sloturi.",
+   "Ignori taskul dominant după terminarea celor scurte.",
+   "Nu. Taskul dominant și dependențele limitează etapa.",
+   "Creezi implicit20executori pentru20partiții."
+  ],
+  "e_append": ""
+ },
+ "skill119-07c58bee7113-q-debug": {
+  "o": [
+   "Presupui că orice SQL poate fi materializat identic.",
+   "Ignori costul păstrării și actualizării rezultatului.",
+   "Accepți rezultatul mai vechi fără criteriul prospețimii.",
+   "Verifici suportul, actualizarea și folosirea în plan."
+  ],
+  "e_append": "Pentru materializare se verifică dacă interogarea e suportată, cum se actualizează și dacă planul o folosește."
+ },
+ "skill119-ed8abad33539-q-debug": {
+  "o": [
+   "Mărești numărul fragmentelor fără analiza calității.",
+   "Măsori numai fluența răspunsului generat.",
+   "Verifici relevanța și acoperirea surselor permise.",
+   "Evaluezi exclusiv fluența textului final."
+  ],
+  "e_append": "Se verifică dacă sursele efectiv folosite în răspuns sunt cele autorizate."
+ },
+ "skill128-perf-01-q-design": {
+  "o": [
+   "Respingi concluzia până când B produce aceeași populație și același rezultat.",
+   "Compari doar timpul unei acțiuni de numărare cu timpul unei scrieri complete.",
+   "Accepți dovada limitată la acel benchmark."
+  ],
+  "e_append": "Celelalte sarcini relevante se măsoară separat."
+ },
+ "skill129-capcane-03-q-understand": {
+  "o": [
+   "Comparația cu NULL dă necunoscut, nu adevărat.",
+   "Înlocuiești orice NULL cu o stare validă inventată pentru a evita filtrarea sa.",
+   "Presupui că necunoscut înseamnă automat adevărat pentru orice comparație negativă."
+  ],
+  "e_append": "Comparația cu necunoscutul nu devine adevărată doar fiindcă valoarea exclusă este cunoscută."
+ },
+ "q125-dbra-32": {
+  "o": [
+   "Date durabile guvernate și o referință cu lotul și versiunea.",
+   "Colectarea tuturor rândurilor pe driver și serializarea lor ca parametru.",
+   "Transmiterea doar a numărului de rânduri, fără referință la date.",
+   "Transmiterea numelui unui fișier temporar de pe laptopul dezvoltatorului."
+  ],
+  "e_append": "Referința include și rezultatul validării; task values sunt pentru valori mici de coordonare."
+ },
+ "skill119-e914741e4ec5-q-apply": {
+  "o": [
+   "Reîncarci ultima versiune presupunând că este cea bună.",
+   "Ștergi toate versiunile pentru a reinițializa ingestia.",
+   "Reprocesezi obiectul fără a identifica versiunea folosită.",
+   "Recuperezi versiunea bună și o validezi înainte."
+  ],
+  "e_append": "Validarea fișierului se face înaintea reprocesării."
+ },
+ "tspk-05": {
+  "o": [
+   "Ordinea nu e garantată",
+   "Ordinea e aceeași ca în pandas",
+   "Codul dă eroare la rulare",
+   "Ordinea e garantată dacă ai un singur executor"
+  ],
+  "e_append": "Datele sunt partiționate, deci ordinea rândurilor nu e păstrată ca în pandas."
+ },
+ "q128-sparkcert-case-sc118-1002-b": {
+  "o": [
+   "O marchezi ca ambiguitate de contract și ceri o regulă de precedență.",
+   "Alegi lexicografic valoarea mai mare și o declari automat corectă.",
+   "Folosești ora ingestiei drept adevăr al sursei fără acordul producătorului.",
+   "Elimini ambele versiuni fără evidență sau alertă."
+  ],
+  "e_append": "O alegere arbitrară ar ascunde contradicția; regula trebuie obținută înainte de a alege o versiune."
+ },
+ "q128-sparkcert-application-course-spark-008": {
+  "o": [
+   "Distribuția memoriei executorilor, care nu explică datele colectate la driver.",
+   "Mărești heap pentru orice OOM fără identificarea procesului.",
+   "Consideri memoria JVM a executorului întreaga memorie a procesului și auxiliarelor.",
+   "Ignori distribuția partițiilor după mărirea memoriei."
+  ],
+  "e_append": "Eroarea apare la driver, în collect, deci populația colectată central trebuie analizată acolo."
+ },
+ "q128-sparkcert-application-course-spark-026": {
+  "o": [
+   "Un join cu date administrate, potrivit dimensiunii și actualizării.",
+   "Modifici o variabilă Python globală ca registru comun al taskurilor.",
+   "Tratezi broadcast drept dicționar mutabil sincronizat.",
+   "Calculezi venitul contractual prin efecte de accumulator neverificate."
+  ],
+  "e_append": "Un broadcast foarte mare și schimbat la fiecare minut nu se potrivește; un join sau alt mecanism administrat suportă volumul și actualizarea."
+ },
+ "q128-sparkcert-application-course-spark-025": {
+  "o": [
+   "Echivalezi top 2 rânduri cu top 2 valori distincte.",
+   "Nu. Cere dense_rank sau altă logică de rang, nu limit 2.",
+   "Aplici limit înainte de ordinea cerută.",
+   "Sortezi numai după amount cu egalități și promiți determinism."
+  ],
+  "e_append": "Cu egalități, top 2 valori distincte poate întoarce mai mult de două rânduri."
+ },
+ "q128-sparkcert-application-course-spark-032": {
+  "o": [
+   "Aduni totalurile actualizate 10 și 15 ca evenimente distincte.",
+   "Consideri update mode o diferență numerică implicită.",
+   "Ignori compatibilitatea output mode cu sinkul.",
+   "Transformi totalurile în delte deduplicate sau alegi alt sink."
+  ],
+  "e_append": "Endpointul acceptă numai incrementări, deci totalurile actualizate trebuie convertite în delte verificate și deduplicate, ori se alege o destinație compatibilă."
+ },
+ "v117-test-sparkcert-05": {
+  "o": [
+   "Agregi distribuit la 24 de totaluri, apoi colectezi.",
+   "Convertești toate datele cu to_pandas() și agregi pe laptop.",
+   "Activezi Arrow și colectezi orice volum fără limită.",
+   "Aplici cache pe laptop fără agregare."
+  ],
+  "e_append": "Doar rezultatul mic, de 24 de rânduri, trebuie adus în pandas."
+ },
+ "q125-spark-32": {
+  "o": [
+   "Distingi rândul actualizat de o deltă și de un rând final append.",
+   "Aduni totalurile actualizate 10 și 15 ca evenimente distincte.",
+   "Consideri update mode o diferență numerică implicită față de batchul anterior.",
+   "Ignori compatibilitatea output mode cu sinkul."
+  ],
+  "e_append": "În update mode se emite rândul agregat actualizat, nu o deltă numerică; adunarea acestor rânduri dublează totalul."
+ },
+ "q125-spark-22": {
+  "o": [
+   "Verifici unitatea și fusul orar pe un instant cunoscut.",
+   "Ghicești unitatea doar dintr-o dată afișată plauzibilă în raport.",
+   "Extragi ziua înaintea conversiei în fusul raportului.",
+   "Consideri secunde și milisecunde interschimbabile."
+  ],
+  "e_append": "O dată plauzibilă poate ascunde un factor de 1000; testul pe un instant cunoscut la frontieră confirmă conversia."
+ },
+ "q125-spark-24": {
+  "o": [
+   "Verifici numele, ordinea, tipurile și valorile păstrate.",
+   "Verifici numai că au rămas două coloane.",
+   "Folosești valori identice în toate câmpurile de test.",
+   "Alegi un alias invers și accepți schema verificând doar numărul coloanelor."
+  ],
+  "e_append": "Numărul coloanelor nu detectează un nume greșit, o ordine inversată sau un tip schimbat."
+ },
+ "v117-test-sparkcert-04": {
+  "o": [
+   "Schimbarea numelui aplicației elimină incompatibilitatea.",
+   "Dependența de RDD, care trebuie reproiectată.",
+   "Mărirea memoriei laptopului face orice API compatibil.",
+   "Instalarea pandas rezolvă automat accesul RDD."
+  ],
+  "e_append": "Spark Connect nu suportă API-ul RDD, deci codul trebuie mutat pe API-uri suportate de Spark Connect."
+ },
+ "q125-spark-17": {
+  "o": [
+   "Aliniezi după nume și tratezi deduplicarea separat.",
+   "Unești pe poziție doar pentru că ambele coloane sunt numerice.",
+   "Consideri unionByName deduplicare completă a evenimentelor.",
+   "Accepți coloane lipsă fără semantica NULL și cititori verificați."
+  ],
+  "e_append": "Unirea după nume păstrează semnificația coloanelor; retransmisiile legitime nu trebuie eliminate implicit de operația de combinare."
+ },
+ "q128-sparkcert-decision-retry-same-effect": {
+  "o": [
+   "Dezactivezi orice retry și declari livrare exact o dată.",
+   "O identitate stabilă a cererii și aplicare idempotentă la destinație.",
+   "Presupui că reexecutarea Spark anulează prima cerere externă.",
+   "Generezi un UUID nou în fiecare încercare și îl numești cheie de deduplicare."
+  ],
+  "e_append": "Cheia stabilă permite destinației să deduplice cererea reexecutată; un UUID nou la fiecare încercare nu face asta."
+ },
+ "q128-sparkcert-decision-fullrow-dedup-grain": {
+  "o": [
+   "Păstrezi două poziții, cu totalul 16.",
+   "Deduplici numai pe order și păstrezi o poziție cu total 8.",
+   "Deduplici numai pe amount și păstrezi o valoare 8.",
+   "Păstrezi toate cele trei rânduri și raportezi total 24."
+  ],
+  "e_append": "Granularitatea este (order,line): retransmisia identică a liniei 1 se identifică separat, iar poziția legitimă (O1,2,8) rămâne."
+ },
+ "q125-spark-04": {
+  "o": [
+   "Recalcularea nu garantează că efectul extern apare o singură dată.",
+   "Generezi o identitate aleatoare nouă pentru efect la fiecare retry.",
+   "Presupui că lineage anulează factura creată extern.",
+   "Consideri o cădere locală dovada că efectul nu a existat."
+  ],
+  "e_append": "Retry-ul reexecută taskul, deci apelul extern poate fi trimis din nou; e nevoie de idempotență la destinație."
+ },
+ "q125-spark-01": {
+  "o": [
+   "Construirea planului nu execută operația finală pe date.",
+   "Cronometrezi numai construirea DataFrame-ului.",
+   "Folosești orice count drept test al tuturor coloanelor calculate.",
+   "Consideri fiecare select o scriere durabilă."
+  ],
+  "e_append": "Transformările sunt lazy; fără o acțiune, scriptul măsoară doar construirea planului, nu procesarea întregii populații."
+ },
+ "q125-spark-27": {
+  "o": [
+   "Compari paralelismul, distribuția și costul scrierii.",
+   "Reduci orice scriere mare la o partiție.",
+   "Consideri coalesce și repartition identice ca redistribuire.",
+   "Judeci optimizarea numai după numărul mic al fișierelor."
+  ],
+  "e_append": "Coalesce la o partiție reduce numărul de fișiere, dar poate serializa scrierea într-un singur task."
+ },
+ "q128-sparkcert-decision-decimal-round-once": {
+  "o": [
+   "Înlocuiești valorile cu întregi înainte de sumă.",
+   "Accepți orice rezultat cu diferență mai mică de un leu.",
+   "Aștepți 1,01; rezultatul 1,02 arată rotunjirea prematură.",
+   "Accepți 1,02 fiindcă suma unor valori rotunjite este mereu echivalentă."
+  ],
+  "e_append": "Suma exactă este 1,005, rotunjită HALF_UP la 1,01; rotunjirea fiecărei poziții la 0,34 dă 1,02."
+ },
+ "q128-sparkcert-application-course-spark-017": {
+  "o": [
+   "Semantica NULL pentru rândurile vechi și suportul cititorilor.",
+   "Unești pe poziție doar pentru că ambele coloane sunt numerice.",
+   "Consideri unionByName deduplicare completă a evenimentelor.",
+   "Accepți coloane lipsă fără semantica NULL și cititori verificați."
+  ],
+  "e_append": "allowMissingColumns completează coloana nouă cu NULL în lotul vechi; trebuie confirmat că NULL are sens pentru acea populație și că cititorii suportă schema."
+ },
+ "q125-spark-05": {
+  "o": [
+   "Incluzi prima materializare și reutilizările.",
+   "Măsori numai ultima acțiune cu cache cald.",
+   "Consideri persist dovada că toate partițiile sunt deja calculate.",
+   "Păstrezi permanent orice cache chiar fără reutilizare."
+  ],
+  "e_append": "Primul acces calculează și stochează datele; comparația trebuie să documenteze și resursele, și nivelul de stocare."
+ },
+ "q128-sparkcert-decision-empty-null-array": {
+  "o": [
+   "Înlocuiești orice array gol cu un element fictiv obligatoriu.",
+   "Trei identificatori de părinte și două elemente reale.",
+   "Numeri toate rândurile outer drept elemente reale.",
+   "Elimini părinții fără element înainte de verificare."
+  ],
+  "e_append": "Extinderea outer păstrează părinții cu array gol sau NULL, dar rândurile lor nu sunt elemente reale."
+ },
+ "q125-spark-39": {
+  "o": [
+   "Tipul UDF, cardinalitatea, schema și semantica NULL.",
+   "Întorci două rezultate pentru trei rânduri într-un scalar UDF.",
+   "Consideri Arrow soluția automată pentru orice grup prea mare.",
+   "Folosești același contract pentru scalar și grouped map."
+  ],
+  "e_append": "Un scalar pandas UDF trebuie să întoarcă exact un rezultat per rând de intrare, cu schema și semantica NULL ale contractului acelui API."
+ },
+ "q125-spark-29": {
+  "o": [
+   "Corelezi distribuția pe chei cu operatorul dominant și păstrezi cardinalitatea.",
+   "Aplici salting pe o singură parte fără regula de potrivire.",
+   "Înlocuiești toate cheile lipsă cu o singură constantă și promiți distribuție uniformă.",
+   "Declari skew numai dintr-un task lent fără distribuție."
+  ],
+  "e_append": "Un task lent nu dovedește singur skew; trebuie arătată distribuția pe chei, iar strategia de remediere nu trebuie să schimbe cardinalitatea rezultatului."
+ },
+ "q128-sparkcert-decision-csv-leading-zero": {
+  "o": [
+   "Aplici DISTINCT pe coloana întreagă 12.",
+   "Mărești numărul de partiții înainte de citire.",
+   "Citești codul ca string și verifici zerourile în export.",
+   "Formatezi orice valoare numerică în patru cifre și declari datele reparate."
+  ],
+  "e_append": "Testul cu 0012 și 12 confirmă că cele două valori rămân distincte de la citire până la export."
+ },
+ "tspk-04": {
+  "o": [
+   "Înregistrează o vedere SQL a sesiunii curente",
+   "Creează un tabel persistent în catalogul metastore-ului",
+   "Materializează rezultatul în memorie",
+   "Salvează DataFrame-ul ca fișier Parquet"
+  ],
+  "e_append": "Vederea este doar un nume interogabil cu SQL, valabil în sesiunea curentă; nu salvează și nu materializează datele."
+ },
+ "q125-spark-25": {
+  "o": [
+   "Definești ordinea totală înainte de limit și verifici egalitățile.",
+   "Aplici limit înainte de ordinea cerută.",
+   "Sortezi numai după amount, cu egalități nerezolvate, și promiți determinism.",
+   "Echivalezi top 2 rânduri cu top 2 valori distincte."
+  ],
+  "e_append": "Fără ID ca departajare, rândurile cu același amount pot apărea în orice ordine."
+ },
+ "q125-spark-35": {
+  "o": [
+   "Recuperarea cere sursă reluabilă și sink compatibil.",
+   "Prezinți socket plus checkpoint drept recuperare universală.",
+   "Promiți refacerea offseturilor deja expirate din sursă.",
+   "Presupui că HTTP devine atomic prin checkpoint."
+  ],
+  "e_append": "Checkpointul reține doar progresul; datele pe care sursa nu le poate reda nu pot fi recuperate, iar efectele sinkului trebuie să fie compatibile cu garanția urmărită."
+ },
+ "q125-spark-31": {
+  "o": [
+   "Execuții incrementale succesive, cu progres păstrat.",
+   "Promiți rezultat complet la fiecare 2 minute din trigger 2 minute.",
+   "Consideri orice operație de streaming lipsită de stare.",
+   "Alegi execuție continuă doar pentru numele streaming."
+  ],
+  "e_append": "Triggerul de 2 minute stabilește cadența, nu o latență garantată; fiecare micro-batch procesează incremental intrările disponibile."
+ },
+ "q125-spark-14": {
+  "o": [
+   "Starea tranzacțională a tabelului și versiunea lui.",
+   "Citești toate fișierele Parquet ignorând logul tabelului.",
+   "Consideri orice reader Parquet compatibil cu toate ștergerile tabelului.",
+   "Ignori versiunea deoarece readerul are numele corect."
+  ],
+  "e_append": "Logul tranzacțional stabilește ce fișiere aparțin unei versiuni; citirea directă Parquet poate include fișiere șterse logic."
+ },
+ "q125-spark-21": {
+  "o": [
+   "Separi rândurile de observații și obții media 15.",
+   "Împarți 30 la 3 și numești rezultatul media cunoscutelor.",
+   "Folosești COUNT(v) drept număr al tuturor rândurilor.",
+   "Elimini lipsurile și nu le mai raportezi."
+  ],
+  "e_append": "Media valorilor cunoscute ignoră NULL: (10+20)/2 = 15, iar numărul tuturor rândurilor (3) se raportează separat."
+ },
+ "q128-sparkcert-decision-union-column-order": {
+  "o": [
+   "Unești pe poziție, deoarece toate câmpurile sunt STRING.",
+   "Ordonezi alfabetic valorile din fiecare rând.",
+   "Verifici numai că rezultatul are două rânduri.",
+   "Aliniezi după nume, obținând (C1,10) și (C2,20)."
+  ],
+  "e_append": "Unirea pe poziție ar inversa id și amount în lotul B; după aliniere se verifică schema și rândurile rezultate."
+ },
+ "q125-spark-30": {
+  "o": [
+   "Identifici procesul și operatorul eșuat.",
+   "Mărești executorii pentru OOM clar la collect în driver.",
+   "Cauți toate logurile într-un director universal pe master.",
+   "Omiți traceback-ul după ce ai numărat workerii."
+  ],
+  "e_append": "OOM-ul vine din driver, deci se citesc logurile driverului și se păstrează traceback-ul împreună cu metricile etapei."
+ },
+ "q125-spark-37": {
+  "o": [
+   "Unde trăiește driverul și cine îi administrează ciclul de viață.",
+   "Consideri client mode obligația executorilor de a rula pe laptop.",
+   "Folosești testul local[2]drept dovadă a tuturor permisiunilor cloud.",
+   "Ignori ciclul driverului când laptopul se oprește."
+  ],
+  "e_append": "În client mode driverul rulează pe mașina care lansează aplicația; în cluster mode clusterul îi administrează ciclul de viață, resursele și conectivitatea."
+ },
+ "q125-spark-20": {
+  "o": [
+   "Cadrul ROWS și o cheie de departajare.",
+   "Verifici numai totalul final35.",
+   "Omiți ID din ordine deși două tranzacții au aceeași zi.",
+   "Consideri orice cadru echivalent cu ROWS per tranzacție."
+  ],
+  "e_append": "Fără departajare, rândurile din aceeași zi sunt egale în ordine și pot primi același cumul; ROWS plus ID stabilesc cumulul per rând."
+ },
+ "q125-spark-02": {
+  "o": [
+   "Cel mult opt taskuri rulează simultan.",
+   "Creezi implicit20executori pentru20partiții.",
+   "Promiți exact3secunde pentru20taskuri pe8sloturi.",
+   "Ignori taskul dominant după terminarea celor scurte."
+  ],
+  "e_append": "Patru executori cu câte două sloturi dau opt sloturi; douăzeci de partiții rulează în mai multe valuri, dacă nu există alte limitări."
+ },
+ "q125-spark-19": {
+  "o": [
+   "Compari explode cu explode_outer și numeri separat elementele.",
+   "Numeri toate rândurile outer ca elemente reale.",
+   "Însumezi antetul o dată pentru fiecare element extins.",
+   "Folosești explode simplu și presupui că păstrează implicit părinții goi."
+  ],
+  "e_append": "explode_outer păstrează părinții cu array gol sau NULL, iar elementele nenule se numără separat de populația părinților."
+ },
+ "q125-spark-36": {
+  "o": [
+   "Clientul Connect nu are acces direct la JVM-ul driverului.",
+   "Accesezi JVM-ul driverului prin câmpuri private din client.",
+   "Presupui toate API-urile RDD și SparkContext suportate.",
+   "Instalezi biblioteca numai în IDE și o presupui disponibilă pe server."
+  ],
+  "e_append": "Clientul este separat de driver și trimite planuri logice, deci df._jdf și SparkContext nu sunt disponibile."
+ },
+ "q125-spark-09": {
+  "o": [
+   "Stabilești schema contractuală și testezi identificatorii.",
+   "Citești orice ID numeric aparent ca număr.",
+   "Folosești split simplu pe virgulă pentru CSV quoted.",
+   "Numești inferSchema validare a tuturor regulilor de business."
+  ],
+  "e_append": "inferSchema poate transforma un ID cu zerouri inițiale în număr fără eroare; doar o schemă explicită și un test pe reprezentarea identificatorilor dovedesc fidelitatea."
+ },
+ "q125-spark-12": {
+  "o": [
+   "Directoarele de ieșire față de taskurile de execuție.",
+   "Promiți un fișier per țară numai din partitionBy(country).",
+   "Consideri un director de țară un executor.",
+   "Forțezi coalesce1pentru orice volum."
+  ],
+  "e_append": "partitionBy(country) decide structura directoarelor, iar partițiile de execuție decid cum se împarte munca în taskuri și câte fișiere rezultă."
+ },
+ "q128-sparkcert-decision-explode-parent-total": {
+  "o": [
+   "Însumezi coloana 90 după extindere și publici 270.",
+   "Folosești SUM(DISTINCT total) pentru întregul magazin.",
+   "Elimini arbitrar două poziții ca să rămână un singur antet per comandă.",
+   "Păstrezi totalul la nivel de comandă sau îl aloci verificat."
+  ],
+  "e_append": "Totalul de antet repetat pe fiecare poziție ar da 270 în loc de 90 la însumare."
+ }
+}

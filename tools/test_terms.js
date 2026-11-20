@@ -1,0 +1,28 @@
+const { chromium } = require('playwright');
+(async () => {
+  const b = await chromium.launch(); const p = await b.newPage({viewport:{width:400,height:860}});
+  const errs=[]; p.on('pageerror',e=>errs.push(String(e))); p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});
+  await p.goto('file://'+process.argv[2]+'/index.html'); await p.waitForFunction(()=>window.DECARDS&&window.DECARDS.state,null,{timeout:90000});
+  const r = await p.evaluate(()=>{const D=window.DECARDS,S=window.SEED,out={};
+    const t=S.terms.find(x=>x.aliases&&x.aliases.length&&/\(/.test(x.t))||S.terms[0];
+    out.term=t.t; out.answers=D.termAnswers(t); out.masked=D.maskTerm(t,t.d).slice(0,160);
+    out.exact=D.checkRecall(t,out.answers[out.answers.length-1]); out.typo=D.checkRecall({t:"Watermark",aliases:[]},"watermak"); out.wrong=D.checkRecall(t,"zzz");
+    const sh=S.terms.find(x=>x.t==="Shuffle"); out.maskSh=D.maskTerm(sh,"Shuffle este scump; shuffle-ul...");
+    D.markTerm(sh.id,true); const a=JSON.parse(JSON.stringify(D.state.learn.terms[sh.id])); D.markTerm(sh.id,true); out.sameDay=D.state.learn.terms[sh.id].s; out.dueDays=Math.round((a.due-Date.now())/864e5);
+    D.state.learn.terms[sh.id].due=Date.now()-1; out.dueCount=D.dueTerms().length;
+    const L=D.buildLesson(D.learnUnits()[0].deck.id,0); out.lessonTypes=L.items.map(i=>i.type).join(",");
+    out.recallableShare=(S.terms.filter(x=>D.termAnswers(x).some(a=>a.length<=32)).length/S.terms.length).toFixed(2);
+    return out;});
+  console.log(JSON.stringify(r,null,1));
+  await p.evaluate(()=>{const D=window.DECARDS;D.state.settings.setup=true;var su=document.getElementById('setup');if(su)su.hidden=true;D.learnTab="terms";D.show("learn");});
+  await p.waitForSelector('#review-due-terms'); console.log('btn:',await p.textContent('#review-due-terms'));
+  await p.screenshot({path:'shot_learn.png'});
+  await p.evaluate(()=>{const D=window.DECARDS,t=window.SEED.terms.find(x=>x.t==="Shuffle");D.startRun([D.recallItem(t),D.revItem(t)],{titlu:"Test"});});
+  await p.waitForSelector('#recall-input'); await p.click('#ls-alt'); await p.fill('#recall-input','shufle'); await p.screenshot({path:'shot_recall.png'});
+  await p.click('#ls-go'); console.log('fb:',await p.textContent('#ls-fb')); await p.screenshot({path:'shot_recall_done.png'});
+  await p.click('#ls-go'); await p.waitForSelector('#ls-body .opt');
+  const wrong=await p.$$eval('#ls-body .opt',(bs)=>bs.findIndex(b=>b.textContent!=="Shuffle")); await (await p.$$('#ls-body .opt'))[wrong].click(); await p.click('#ls-go');
+  console.log('revfb:',(await p.textContent('#ls-fb')).slice(0,220)); await p.screenshot({path:'shot_rev.png'});
+  console.log('snap:',await p.evaluate(()=>JSON.stringify(window.DECARDS.sessionSnapshot()).slice(0,300)));
+  console.log('errors:',errs); await b.close();
+})();

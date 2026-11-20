@@ -1,0 +1,882 @@
+[
+{
+"exam": "dbra",
+"dom": "Platforma Databricks Intelligence",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Echipa trebuie să păstreze în Unity Catalog fișiere PDF și imagini, guvernate la fel ca tabelele. Ce obiect folosește?",
+"ok": "Un volume Unity Catalog, cu calea `/Volumes/catalog/schema/volume`.",
+"bad": [
+[
+"Un tabel Delta cu o coloană de tip string pentru fiecare fișier.",
+"Nu e potrivit pentru fișiere binare mari."
+],
+[
+"DBFS root, fără permisiuni pe obiecte.",
+"Nu e guvernat de Unity Catalog."
+],
+[
+"Un folder local pe driverul clusterului.",
+"Dispare la oprirea clusterului."
+]
+],
+"e": "Volumes guvernează fișiere non-tabulare în Unity Catalog, cu căi de forma `/Volumes/catalog/schema/volume/...`."
+},
+{
+"exam": "dbra",
+"dom": "Platforma Databricks Intelligence",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "Ce descrie cel mai bine o arhitectură lakehouse?",
+"ok": "Formate deschise pe object storage, cu tranzacții ACID.",
+"bad": [
+[
+"Un data warehouse clasic, cu stocare proprietară, închisă și scumpă.",
+"Lakehouse folosește formate deschise pe object storage."
+],
+[
+"Un data lake fără tranzacții sau schemă.",
+"Lakehouse adaugă tranzacții și schemă peste lake."
+],
+[
+"O bază de date OLTP pentru aplicații web.",
+"Lakehouse e pentru analiză, nu pentru tranzacții operaționale."
+]
+],
+"e": "Răspunsul complet: Tabele în format deschis pe object storage, cu tranzacții și guvernanță de warehouse. Lakehouse combină stocarea ieftină și deschisă a lake-ului cu tranzacțiile ACID, schema și guvernanța unui warehouse (de exemplu Delta Lake + Unity Catalog)."
+},
+{
+"exam": "dbra",
+"dom": "Platforma Databricks Intelligence",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Un analist nou caută ce tabele există despre vânzări, cine le deține și de unde vin datele. Unde caută?",
+"ok": "În Catalog Explorer: proprietar, comentarii, permisiuni și lineage.",
+"bad": [
+[
+"În jurnalele driverului clusterelor.",
+"Nu descriu tabelele și proveniența lor."
+],
+[
+"Direct în fișierele Parquet din storage.",
+"Nu oferă proprietarul sau lineage-ul."
+],
+[
+"În istoricul Git al proiectului.",
+"Arată codul, nu catalogul de date."
+]
+],
+"e": "Catalog Explorer arată obiectele din Unity Catalog, proprietarii, permisiunile, comentariile și lineage-ul."
+},
+{
+"exam": "dbra",
+"dom": "Ingestie și încărcare",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Auto Loader deduce greșit coloana `cod_postal` ca număr și pierde zerourile de la început. Cum corectezi fără să scrii toată schema?",
+"ok": "Cu `cloudFiles.schemaHints`.",
+"bad": [
+[
+"Dezactivând complet inferența de schemă.",
+"Ar cere schema completă pentru toate coloanele."
+],
+[
+"Citind fișierele ca text și parsând manual.",
+"Mult mai complex decât necesar."
+],
+[
+"Adăugând zeroul la loc în stratul gold.",
+"Repari simptomul târziu și imperfect."
+]
+],
+"e": "Răspunsul complet: Cu `cloudFiles.schemaHints` pentru acea coloană. Schema hints fixează tipul doar pentru coloanele indicate, restul fiind inferat."
+},
+{
+"exam": "dbra",
+"dom": "Ingestie și încărcare",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Vrei să inspectezi rapid, din SQL, conținutul unor fișiere CSV dintr-un volume, fără să creezi tabel. Ce folosești?",
+"ok": "Funcția `read_files`, direct într-un `SELECT` pe calea din volume.",
+"bad": [
+[
+"`COPY INTO` într-un tabel temporar.",
+"Creează și încarcă un tabel."
+],
+[
+"Un job Auto Loader cu checkpoint.",
+"E pentru ingestie incrementală, nu inspecție."
+],
+[
+"Un pipeline Lakeflow complet.",
+"Prea complex pentru o inspecție."
+]
+],
+"e": "`SELECT * FROM read_files('/Volumes/...', format => 'csv', header => true)` citește fișierele direct în SQL."
+},
+{
+"exam": "dbra",
+"dom": "Ingestie și încărcare",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Un analist care știe doar SQL vrea un tabel care ingerează incremental fișierele noi dintr-un volume. Ce scrie?",
+"ok": "`CREATE STREAMING TABLE` cu `STREAM read_files(...)`.",
+"bad": [
+[
+"`CREATE VIEW` peste `read_files`.",
+"Recitește toate fișierele la fiecare interogare."
+],
+[
+"`CREATE TABLE AS SELECT` rulat zilnic manual de analist, cu reîncărcare completă.",
+"Rescrie totul și nu e incremental."
+],
+[
+"Un `INSERT` manual pentru fiecare fișier.",
+"Nu scalează."
+]
+],
+"e": "Streaming tables în SQL procesează incremental doar datele noi și pot fi actualizate programat."
+},
+{
+"exam": "dbra",
+"dom": "Ingestie și încărcare",
+"src": "https://spark.apache.org/docs/latest/streaming/index.html",
+"q": "Citești un topic Kafka cu `readStream.format('kafka')`, dar coloana `value` apare ca binar. Ce faci?",
+"ok": "Cast la string și `from_json`.",
+"bad": [
+[
+"Schimbi formatul topicului în CSV.",
+"Formatul de pe Kafka e decis de producători."
+],
+[
+"Folosești `spark.read.json` pe topic.",
+"Citirea batch nu înlocuiește stream-ul."
+],
+[
+"Ignori coloana și folosești doar `key`.",
+"Datele utile sunt în `value`."
+]
+],
+"e": "Răspunsul complet: O convertești în string, apoi o parsezi cu `from_json`. Sursa Kafka expune `key` și `value` ca binar; le convertești (cast) și le parsezi cu schema potrivită."
+},
+{
+"exam": "dbra",
+"dom": "Ingestie și încărcare",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "Fișierele noi încărcate cu `COPY INTO` au o coloană în plus față de tabel. Cum le încarci fără eroare?",
+"ok": "Cu `COPY_OPTIONS ('mergeSchema' = 'true')`.",
+"bad": [
+[
+"Cu opțiunea `force = true`.",
+"Forțează reîncărcarea, nu schimbă schema."
+],
+[
+"Recreând tabelul înainte de fiecare rulare COPY INTO, cu schema nouă.",
+"Pierzi datele și istoricul."
+],
+[
+"Ștergând coloana nouă din fișiere.",
+"Pierzi informație."
+]
+],
+"e": "mergeSchema permite evoluția schemei tabelului la încărcarea cu COPY INTO."
+},
+{
+"exam": "dbra",
+"dom": "Ingestie și încărcare",
+"src": "https://docs.databricks.com/gcp/en/resources/product-name-changes",
+"q": "Trebuie să ingerezi zilnic obiecte dintr-o aplicație SaaS (de exemplu Salesforce) fără să scrii cod de API. Ce folosești?",
+"ok": "Un conector gestionat Lakeflow Connect.",
+"bad": [
+[
+"Un script Python care paginează API-ul.",
+"Cerința e fără cod de API."
+],
+[
+"Auto Loader pe adresa web a aplicației.",
+"Auto Loader citește fișiere din storage."
+],
+[
+"`COPY INTO` direct din aplicația SaaS.",
+"COPY INTO citește fișiere, nu API-uri."
+]
+],
+"e": "Lakeflow Connect oferă conectori gestionați pentru aplicații și baze de date, cu ingestie incrementală."
+},
+{
+"exam": "dbra",
+"dom": "Ingestie și încărcare",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Un analist are un fișier CSV mic pe laptop și vrea rapid un tabel în Unity Catalog. Ce opțiune e cea mai simplă?",
+"ok": "Încărcarea fișierului din interfață.",
+"bad": [
+[
+"Un pipeline Lakeflow cu Auto Loader.",
+"Prea complex pentru un fișier mic."
+],
+[
+"Un cluster nou și un notebook PySpark.",
+"Mai mult efort decât necesar."
+],
+[
+"Un conector Lakeflow Connect pentru laptop.",
+"Nu există un astfel de conector."
+]
+],
+"e": "Răspunsul complet: Încărcarea fișierului din interfață, care creează tabelul. Interfața de creare a tabelelor permite încărcarea unui fișier mic și crearea directă a tabelului."
+},
+{
+"exam": "dbra",
+"dom": "Ingestie și încărcare",
+"src": "https://spark.apache.org/docs/latest/streaming/index.html",
+"q": "Două stream-uri diferite folosesc din greșeală aceeași locație de checkpoint. Ce riști?",
+"ok": "Stare amestecată, date sărite sau duplicate.",
+"bad": [
+[
+"Nimic, checkpoint-ul se împarte automat între stream-uri diferite.",
+"Fiecare stream are nevoie de checkpoint propriu."
+],
+[
+"Doar un consum mai mare de spațiu.",
+"Problema reală e corectitudinea."
+],
+[
+"O pornire mai rapidă a ambelor.",
+"Nu există un astfel de beneficiu."
+]
+],
+"e": "Răspunsul complet: Stare amestecată, cu date sărite sau duplicate. Checkpoint-ul păstrează progresul și starea unui singur stream; partajarea lui corupe evidența."
+},
+{
+"exam": "dbra",
+"dom": "Transformare și modelare",
+"src": "https://docs.delta.io/quick-start/",
+"q": "Vrei să înlocuiești definiția și datele unui tabel Delta, dar să păstrezi istoricul versiunilor. Ce folosești?",
+"ok": "`CREATE OR REPLACE TABLE ... AS SELECT`.",
+"bad": [
+[
+"`DROP TABLE`, apoi `CREATE TABLE AS SELECT`.",
+"DROP elimină istoricul tabelului."
+],
+[
+"`VACUUM`, apoi `INSERT`.",
+"VACUUM nu înlocuiește tabelul."
+],
+[
+"`TRUNCATE`, apoi `ALTER TABLE`.",
+"Mai mulți pași, fără nicio garanție de atomicitate."
+]
+],
+"e": "CREATE OR REPLACE e atomic și păstrează istoricul pentru time travel, spre deosebire de DROP + CREATE."
+},
+{
+"exam": "dbra",
+"dom": "Transformare și modelare",
+"src": "https://docs.delta.io/quick-start/",
+"q": "Vrei să înlocuiești toate datele unui tabel cu rezultatul unei interogări, fără să schimbi schema. Ce comandă folosești?",
+"ok": "`INSERT OVERWRITE`.",
+"bad": [
+[
+"`INSERT INTO`.",
+"Adaugă rânduri, nu înlocuiește."
+],
+[
+"`MERGE INTO` fără condiție.",
+"Nu e forma potrivită pentru înlocuire completă."
+],
+[
+"`ALTER TABLE ... REPLACE COLUMNS`.",
+"Schimbă schema, nu datele."
+]
+],
+"e": "INSERT OVERWRITE înlocuiește datele păstrând definiția tabelului; schema rezultatului trebuie să fie compatibilă."
+},
+{
+"exam": "dbra",
+"dom": "Transformare și modelare",
+"src": "https://spark.apache.org/docs/latest/sql-programming-guide.html",
+"q": "Coloana `produse` e un array de struct-uri, iar raportul are nevoie de câte un rând pe produs. Ce funcție folosești?",
+"ok": "`explode` pe coloana `produse`, care dă câte un rând pe element.",
+"bad": [
+[
+"`flatten`, care unește array-uri de array-uri.",
+"Nu produce rânduri separate."
+],
+[
+"`collect_list`, care strânge valori în array.",
+"Face invers."
+],
+[
+"`array_distinct`, care elimină duplicatele.",
+"Nu schimbă numărul de rânduri."
+]
+],
+"e": "`explode` produce câte un rând pentru fiecare element al array-ului; alternativ `LATERAL VIEW explode` în SQL."
+},
+{
+"exam": "dbra",
+"dom": "Transformare și modelare",
+"src": "https://spark.apache.org/docs/latest/sql-programming-guide.html",
+"q": "Coloana `payload` e un string JSON. Vrei câmpul `client.id` într-o interogare SQL Databricks, fără să definești schema. Ce scrii?",
+"ok": "`payload:client.id`.",
+"bad": [
+[
+"`payload.client.id`, cu sintaxa de struct.",
+"Funcționează pe struct-uri, nu pe string JSON."
+],
+[
+"`payload[client][id]`.",
+"Nu e sintaxă validă pentru string JSON."
+],
+[
+"`explode(payload)`.",
+"Se aplică pe array-uri și map-uri."
+]
+],
+"e": "Operatorul `:` extrage câmpuri din string-uri JSON în Databricks SQL; pentru schemă fixă folosești `from_json`."
+},
+{
+"exam": "dbra",
+"dom": "Transformare și modelare",
+"src": "https://www.postgresql.org/docs/current/tutorial-window.html",
+"q": "Raportul cere totalul cumulat al vânzărilor pe fiecare client, în ordinea datelor. Ce folosești?",
+"ok": "`SUM(suma) OVER (PARTITION BY client ORDER BY data)`.",
+"bad": [
+[
+"`SUM(suma)` cu `GROUP BY client` și `ORDER BY data` la final.",
+"Dă un singur total, nu cumulat."
+],
+[
+"`COUNT(*) OVER ()`.",
+"Numără tot setul, fără ordine sau partiție."
+],
+[
+"`MAX(data)` cu `GROUP BY client`.",
+"Dă ultima dată, nu totalul."
+]
+],
+"e": "Funcțiile fereastră cu ORDER BY calculează agregate cumulative pe partiție."
+},
+{
+"exam": "dbra",
+"dom": "Transformare și modelare",
+"src": "https://spark.apache.org/docs/latest/sql-programming-guide.html",
+"q": "Vrei o interogare reutilizabilă, vizibilă și altor utilizatori, care nu stochează date. Ce creezi?",
+"ok": "O vedere în Unity Catalog.",
+"bad": [
+[
+"O vedere temporară.",
+"Există doar în sesiunea curentă."
+],
+[
+"Un tabel creat cu CTAS și reîmprospătat zilnic.",
+"Stochează date."
+],
+[
+"Un notebook partajat.",
+"Nu e un obiect interogabil."
+]
+],
+"e": "Răspunsul complet: O vedere (`CREATE VIEW`) în Unity Catalog. Vederile din Unity Catalog sunt persistente și guvernate; vederile temporare sunt doar ale sesiunii."
+},
+{
+"exam": "dbra",
+"dom": "Transformare și modelare",
+"src": "https://docs.databricks.com/structured-streaming/watermarks",
+"q": "Un stream poate livra același eveniment de mai multe ori, la câteva minute distanță. Cum deduplici fără ca starea să crească nelimitat?",
+"ok": "Watermark și deduplicare după ID.",
+"bad": [
+[
+"`dropDuplicates` fără watermark.",
+"Starea ține toate ID-urile pentru totdeauna."
+],
+[
+"Deduplicare doar în gold, o dată pe lună.",
+"Duplicatele ajung în silver și în rapoarte."
+],
+[
+"`distinct()` pe tot stream-ul.",
+"Aceeași problemă de stare nelimitată."
+]
+],
+"e": "Răspunsul complet: Watermark, apoi deduplicare după ID-ul evenimentului. Cu watermark, Spark poate elimina din stare ID-urile mai vechi decât pragul, păstrând deduplicarea corectă."
+},
+{
+"exam": "dbra",
+"dom": "Transformare și modelare",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Mai multe echipe repetă aceeași formulă SQL de calcul al TVA-ului. Cum o centralizezi?",
+"ok": "O funcție SQL în Unity Catalog.",
+"bad": [
+[
+"O copie a formulei în fiecare interogare, cu un comentariu explicativ.",
+"Exact problema de rezolvat."
+],
+[
+"O vedere temporară cu formula.",
+"Dispare la finalul sesiunii."
+],
+[
+"Un comentariu pe tabel cu formula.",
+"Nu poate fi apelat."
+]
+],
+"e": "Răspunsul complet: O funcție SQL în Unity Catalog (`CREATE FUNCTION`). Funcțiile SQL din Unity Catalog sunt reutilizabile și guvernate, cu permisiuni ca orice obiect."
+},
+{
+"exam": "dbra",
+"dom": "Transformare și modelare",
+"src": "https://spark.apache.org/docs/latest/sql-programming-guide.html",
+"q": "Ai vânzări pe lună în rânduri și vrei câte o coloană pentru fiecare lună. Ce operație SQL folosești?",
+"ok": "`PIVOT` pe coloana lunii, cu o agregare `SUM` pe vânzări.",
+"bad": [
+[
+"`UNPIVOT`, care transformă coloane în rânduri.",
+"Face invers."
+],
+[
+"`EXPLODE` pe coloana lunii.",
+"Produce rânduri, nu coloane."
+],
+[
+"`UNION ALL` pentru fiecare lună.",
+"Adaugă rânduri, nu coloane."
+]
+],
+"e": "PIVOT rotește valorile unei coloane în coloane separate, cu o agregare."
+},
+{
+"exam": "dbra",
+"dom": "Lucrul cu Lakeflow Jobs",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Același notebook trebuie rulat pentru o listă de 30 de tabele, câte o rulare per tabel. Ce tip de task folosești?",
+"ok": "Un task For each peste lista de tabele.",
+"bad": [
+[
+"30 de taskuri copiate manual în job.",
+"Greu de întreținut."
+],
+[
+"Un `for` în notebook care rulează totul secvențial.",
+"Pierzi paralelismul și vizibilitatea per tabel."
+],
+[
+"30 de joburi separate, cu același program.",
+"Fără dependențe și greu de urmărit."
+]
+],
+"e": "Taskul For each rulează un task interior pentru fiecare element dintr-o listă, cu concurență configurabilă."
+},
+{
+"exam": "dbra",
+"dom": "Lucrul cu Lakeflow Jobs",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Jobul trebuie să ruleze transformarea doar dacă taskul anterior a raportat rânduri noi. Ce folosești?",
+"ok": "Un task If/else pe valoarea transmisă.",
+"bad": [
+[
+"Un `exit()` la începutul notebook-ului de transformare.",
+"Taskul pornește oricum și ascunde logica."
+],
+[
+"Două joburi, pornite manual după caz.",
+"Nu e automatizat."
+],
+[
+"Retry pe taskul de transformare.",
+"Nu decide dacă trebuie rulat."
+]
+],
+"e": "Taskurile condiționale If/else ramifică jobul după valori (de exemplu task values) sau parametri."
+},
+{
+"exam": "dbra",
+"dom": "Lucrul cu Lakeflow Jobs",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Un job clasic are 5 taskuri scurte, fiecare pornind propriul cluster, iar pornirile durează mai mult decât procesarea. Ce schimbi?",
+"ok": "Un job cluster partajat între taskuri.",
+"bad": [
+[
+"Un cluster all-purpose pornit nonstop.",
+"Plătești și când nu rulează nimic."
+],
+[
+"Mai mulți workeri pe fiecare cluster.",
+"Pornirile rămân la fel de multe."
+],
+[
+"Unirea tuturor taskurilor într-un notebook.",
+"Pierzi structura și vizibilitatea."
+]
+],
+"e": "Taskurile pot partaja același job compute, care pornește o dată pentru tot jobul."
+},
+{
+"exam": "dbra",
+"dom": "Lucrul cu Lakeflow Jobs",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Un job trebuie să ruleze la 06:00 ora României, inclusiv după trecerea la ora de vară. Ce configurezi?",
+"ok": "Program cron cu fusul `Europe/Bucharest`.",
+"bad": [
+[
+"Program cron în UTC la 04:00.",
+"Se decalează cu o oră la schimbarea orei."
+],
+[
+"Pornire manuală a jobului în fiecare dimineață, de către operator.",
+"Nu e automatizat."
+],
+[
+"Un trigger la sosirea fișierelor.",
+"Nu corespunde unei ore fixe."
+]
+],
+"e": "Programul jobului acceptă expresii cron cu fus orar, ca ora locală să fie respectată tot anul."
+},
+{
+"exam": "dbra",
+"dom": "Lucrul cu Lakeflow Jobs",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Echipa vrea un mesaj pe canalul de chat când jobul eșuează. Ce configurezi?",
+"ok": "O notificare de eșec către un webhook.",
+"bad": [
+[
+"Un `print` în notebook la final.",
+"Nu ajunge la nimeni."
+],
+[
+"Retry nelimitat pe job.",
+"Ascunde eșecul."
+],
+[
+"Un comentariu în descrierea jobului.",
+"Nu notifică pe nimeni."
+]
+],
+"e": "Joburile suportă notificări la start, succes, eșec sau durată, prin e-mail și destinații de sistem (webhooks)."
+},
+{
+"exam": "dbra",
+"dom": "Lucrul cu Lakeflow Jobs",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Un task care citește dintr-un API extern eșuează uneori pentru câteva secunde. Ce configurezi pe task?",
+"ok": "Reîncercări, cu interval între ele.",
+"bad": [
+[
+"Un timeout de 1 secundă pe task.",
+"Ar opri și rulările normale."
+],
+[
+"Dezactivarea notificărilor de eșec.",
+"Doar ascunde problema."
+],
+[
+"Un cluster mai mare pentru task.",
+"Nu rezolvă erorile tranzitorii ale API-ului."
+]
+],
+"e": "Politica de retry cu interval minim acoperă erorile tranzitorii; timeout-ul oprește rulările blocate."
+},
+{
+"exam": "dbra",
+"dom": "CI/CD",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "Pornești un proiect nou și vrei structura standard pentru un Asset Bundle. Ce comandă rulezi?",
+"ok": "`databricks bundle init`, care generează proiectul dintr-un șablon.",
+"bad": [
+[
+"`databricks bundle deploy -t prod`.",
+"Publică un bundle existent, nu creează structura."
+],
+[
+"`git init` fără fișiere de configurare.",
+"Nu creează configurarea bundle-ului."
+],
+[
+"`databricks workspace export`.",
+"Exportă obiecte existente."
+]
+],
+"e": "`bundle init` generează un proiect din șablon, cu `databricks.yml` și structura de resurse."
+},
+{
+"exam": "dbra",
+"dom": "CI/CD",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "Mai mulți dezvoltatori publică același bundle în workspace-ul de dev și își suprascriu joburile unii altora. Ce rezolvă problema?",
+"ok": "Target cu `mode: development`.",
+"bad": [
+[
+"Un workspace separat pentru fiecare dezvoltator.",
+"Posibil, dar mult mai costisitor."
+],
+[
+"Publicare doar noaptea.",
+"Nu elimină coliziunile."
+],
+[
+"Ștergerea joburilor după fiecare test.",
+"Nu previne suprascrierea."
+]
+],
+"e": "Modul development prefixează resursele cu numele utilizatorului și pune programările pe pauză, evitând coliziunile."
+},
+{
+"exam": "dbra",
+"dom": "CI/CD",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "Pipeline-ul CI trebuie să se autentifice la Databricks fără tokenul personal al cuiva. Ce folosești?",
+"ok": "Un service principal cu OAuth.",
+"bad": [
+[
+"Tokenul personal al liderului de echipă.",
+"Leagă CI de o persoană și expune un secret."
+],
+[
+"Parola unui utilizator în repo.",
+"Expune o parolă în cod."
+],
+[
+"Acces anonim la workspace.",
+"Nu există și ar fi nesigur."
+]
+],
+"e": "Service principal-ii cu OAuth (machine-to-machine) sunt identitatea recomandată pentru automatizări."
+},
+{
+"exam": "dbra",
+"dom": "CI/CD",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Lucrezi la o funcționalitate nouă într-un Git folder și vrei să nu afectezi codul din `main`. Ce faci?",
+"ok": "Creezi o ramură nouă în Git folder.",
+"bad": [
+[
+"Modifici direct `main` și faci commit.",
+"Afectează codul principal fără revizie."
+],
+[
+"Copiezi notebook-urile în folderul personal.",
+"Pierzi legătura cu Git."
+],
+[
+"Dezactivezi integrarea Git.",
+"Pierzi versionarea."
+]
+],
+"e": "Git folders permit lucrul pe ramuri, commit, push și pull, iar integrarea în main trece prin pull request."
+},
+{
+"exam": "dbra",
+"dom": "Depanare, monitorizare, optimizare",
+"src": "https://docs.databricks.com/aws/en/optimizations/",
+"q": "O interogare SQL e lentă și vrei să vezi ce operator consumă cel mai mult timp și dacă apare spill pe disc. Unde te uiți?",
+"ok": "În query profile.",
+"bad": [
+[
+"În istoricul tabelului.",
+"Arată scrierile, nu execuția interogării."
+],
+[
+"În permisiunile tabelului.",
+"Nu au legătură cu performanța."
+],
+[
+"În jurnalul de audit.",
+"Înregistrează accesul, nu execuția."
+]
+],
+"e": "Query profile arată planul executat, timpul pe operator, datele citite și spill-ul."
+},
+{
+"exam": "dbra",
+"dom": "Depanare, monitorizare, optimizare",
+"src": "https://docs.databricks.com/aws/en/optimizations/",
+"q": "Un tabel scris des de un stream are zeci de mii de fișiere mici, iar citirile sunt lente. Ce rezolvă problema?",
+"ok": "OPTIMIZE sau compactare automată.",
+"bad": [
+[
+"VACUUM cu retenție zero.",
+"Șterge fișiere vechi, nu le compactează."
+],
+[
+"Mai multe partiții pe dată.",
+"Mărește numărul de fișiere."
+],
+[
+"Un cluster cu mai multe noduri și mai multă memorie.",
+"Ascunde costul, nu reduce fișierele."
+]
+],
+"e": "Compactarea unește fișierele mici în fișiere mai mari, reducând costul citirii."
+},
+{
+"exam": "dbra",
+"dom": "Depanare, monitorizare, optimizare",
+"src": "https://spark.apache.org/docs/latest/sql-performance-tuning.html",
+"q": "În Spark UI, un stage are mediana duratei taskurilor de 10 secunde, dar maximul de 20 de minute. Ce indică?",
+"ok": "Skew: o partiție are mult mai multe date.",
+"bad": [
+[
+"Prea puțină memorie pe driver.",
+"Driverul nu rulează taskurile stage-ului."
+],
+[
+"Rețea lentă spre storage pe toate nodurile.",
+"Ar încetini toate taskurile, nu unul."
+],
+[
+"Un număr prea mare de executori.",
+"Nu produce diferențe atât de mari între taskuri."
+]
+],
+"e": "Diferența mare dintre mediană și maxim indică distribuție inegală a datelor (skew)."
+},
+{
+"exam": "dbra",
+"dom": "Depanare, monitorizare, optimizare",
+"src": "https://docs.databricks.com/aws/en/optimizations/",
+"q": "Vrei să accelerezi interogările SQL și DataFrame fără să schimbi codul. Ce activezi pe compute?",
+"ok": "Photon, motorul vectorizat compatibil cu API-urile Spark.",
+"bad": [
+[
+"Un runtime fără Delta Lake.",
+"Ar elimina funcționalități."
+],
+[
+"Dezactivarea AQE.",
+"Pierzi optimizările adaptive."
+],
+[
+"Cache explicit pe toate tabelele.",
+"Consumă memorie și nu e mereu util."
+]
+],
+"e": "Photon e motorul de execuție vectorizat al Databricks, compatibil cu API-urile Spark."
+},
+{
+"exam": "dbra",
+"dom": "Guvernanță și securitate",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Un job trebuie să insereze și să actualizeze rânduri în `prod.vanzari.comenzi`. Ce privilegiu are nevoie pe tabel, pe lângă SELECT?",
+"ok": "`MODIFY` pe tabel, care permite INSERT, UPDATE și DELETE.",
+"bad": [
+[
+"`CREATE TABLE` pe schemă.",
+"Permite crearea de tabele noi."
+],
+[
+"`ALL PRIVILEGES` pe tot metastore-ul.",
+"Mult mai mult decât necesar."
+],
+[
+"`READ FILES` pe external location.",
+"E pentru fișiere, nu pentru tabel."
+]
+],
+"e": "MODIFY permite inserarea, actualizarea și ștergerea datelor din tabel; restul se acordă după principiul celui mai mic privilegiu."
+},
+{
+"exam": "dbra",
+"dom": "Guvernanță și securitate",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Într-o vedere dinamică, vrei ca doar membrii grupului `hr` să vadă coloana `salariu`. Ce funcție folosești?",
+"ok": "`is_account_group_member('hr')`.",
+"bad": [
+[
+"`current_date()`.",
+"Nu identifică utilizatorul."
+],
+[
+"`session_user() = 'hr'` în clauza `WHERE` a vederii.",
+"Compară cu un utilizator, nu cu un grup."
+],
+[
+"`input_file_name()`.",
+"Returnează fișierul sursă al rândului."
+]
+],
+"e": "Vederile dinamice folosesc funcții precum `is_account_group_member` pentru a masca coloane sau filtra rânduri."
+},
+{
+"exam": "dbra",
+"dom": "Guvernanță și securitate",
+"src": "https://docs.databricks.com/aws/en/optimizations/",
+"q": "Pentru un tabel nou, fără cerințe speciale de locație, ce tip recomandă Databricks?",
+"ok": "Un tabel managed în Unity Catalog.",
+"bad": [
+[
+"Un tabel external în orice cont de storage.",
+"Pierzi gestionarea automată a fișierelor."
+],
+[
+"Un tabel în Hive metastore.",
+"Nu e guvernat de Unity Catalog."
+],
+[
+"Fișiere Parquet citite fără tabel.",
+"Fără tranzacții și guvernanță."
+]
+],
+"e": "Tabelele managed lasă Unity Catalog să gestioneze fișierele și permit optimizări automate."
+},
+{
+"exam": "dbra",
+"dom": "Guvernanță și securitate",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Partenerul folosește tot Databricks, în alt cont. Cum îi partajezi un tabel fără copiere?",
+"ok": "Delta Sharing între conturi.",
+"bad": [
+[
+"Export CSV pe un server SFTP.",
+"Creează copii."
+],
+[
+"Acces direct la storage-ul tabelului.",
+"Ocolește guvernanța."
+],
+[
+"Un utilizator comun în workspace-ul tău.",
+"Nesigur și greu de controlat."
+]
+],
+"e": "Răspunsul complet: Delta Sharing de la Databricks la Databricks. Delta Sharing permite partajarea guvernată, inclusiv între conturi Databricks, fără copierea datelor."
+},
+{
+"exam": "dbra",
+"dom": "Guvernanță și securitate",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Un fost membru al echipei de marketing nu mai trebuie să citească schema `prod.marketing`. Ce comandă folosești?",
+"ok": "`REVOKE` pe schemă.",
+"bad": [
+[
+"`DROP SCHEMA prod.marketing`.",
+"Șterge datele pentru toată lumea."
+],
+[
+"`DENY` pe fiecare tabel din schemă.",
+"Unity Catalog nu folosește DENY."
+],
+[
+"Un comentariu pe schemă cu interdicția.",
+"Nu schimbă permisiunile."
+]
+],
+"e": "Răspunsul complet: `REVOKE` pe schemă pentru acel principal. REVOKE retrage privilegiile acordate; de preferat, accesul se gestionează prin grupuri, iar persoana e scoasă din grup."
+},
+{
+"exam": "dbra",
+"dom": "Guvernanță și securitate",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Catalogul `prod` trebuie să fie accesibil doar din workspace-ul de producție, nu și din cel de dezvoltare, deși au același metastore. Ce folosești?",
+"ok": "Legarea catalogului de workspace-ul de producție.",
+"bad": [
+[
+"Un metastore separat doar pentru catalog.",
+"Un metastore se partajează pe regiune."
+],
+[
+"Redenumirea catalogului în `prod_secret`.",
+"Numele nu restricționează accesul."
+],
+[
+"Permisiuni pe fiecare tabel, pe toți utilizatorii.",
+"Greu de întreținut și nu leagă workspace-ul."
+]
+],
+"e": "Workspace-catalog binding limitează în ce workspace-uri poate fi folosit un catalog, independent de permisiunile utilizatorilor."
+}
+]

@@ -1,0 +1,44 @@
+name: Verificări de calitate
+
+# Rulează toată suita (conținut, funcționalitate, ecrane și accesibilitate) la fiecare push și pull request.
+on:
+  push:
+    branches:
+      - "claude/etapa-d-private-repo-fo4avo"
+      - "main"
+    paths:
+      - "app/**"
+      - "content/**"
+      - "tools/**"
+      - ".github/workflows/qa.yml"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Instalează Playwright și Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Rulează toate verificările
+        run: bash tools/run_all_tests.sh app/assets qa-reports
+      - name: Publică rapoartele
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapoarte-calitate
+          path: qa-reports/
+      - name: Rezumat în pagina rulării
+        if: always()
+        run: |
+          for f in qa-reports/*.md; do [ -f "$f" ] && sed -n '1,40p' "$f" >> "$GITHUB_STEP_SUMMARY"; echo >> "$GITHUB_STEP_SUMMARY"; done

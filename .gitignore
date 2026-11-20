@@ -1,0 +1,10 @@
+signing/
+*.pem
+*.unsigned
+node_modules/
+__pycache__/
+shot_*.png
+*.png
+!app/**/*.png
+!app/signing-cert.pem
+dist/

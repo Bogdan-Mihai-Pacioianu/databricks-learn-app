@@ -1,0 +1,1149 @@
+{
+ "checked": "2026-11-19",
+ "source": "GitHub Actions run 44612897227",
+ "summary": {
+  "ok": 356,
+  "blocked": 9,
+  "broken": 7
+ },
+ "urls": {
+  "https://15445.courses.cs.cmu.edu/fall2025/schedule.html": {
+   "code": 200
+  },
+  "https://academy.astronomer.io/": {
+   "code": 200
+  },
+  "https://airflow.apache.org/docs/apache-airflow/stable/index.html": {
+   "code": 200
+  },
+  "https://airflow.apache.org/docs/apache-airflow/stable/installation/upgrading_to_airflow3.html": {
+   "code": 200
+  },
+  "https://airflow.apache.org/docs/apache-airflow/stable/tutorial/fundamentals.html": {
+   "code": 200
+  },
+  "https://airflow.apache.org/docs/apache-airflow/stable/tutorial/taskflow.html": {
+   "code": 200
+  },
+  "https://aka.ms/kustofree": {
+   "code": 200,
+   "final": "https://dataexplorer.azure.com/freecluster"
+  },
+  "https://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf": {
+   "code": 200
+  },
+  "https://algs4.cs.princeton.edu/home/": {
+   "code": 200
+  },
+  "https://allendowney.github.io/ThinkStats/": {
+   "code": 200
+  },
+  "https://arrow.apache.org/docs/format/Columnar.html": {
+   "code": 200
+  },
+  "https://astronomer.io/certification": {
+   "code": 200
+  },
+  "https://avro.apache.org/docs/1.12.0/specification/": {
+   "code": 200
+  },
+  "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/": {
+   "code": 200,
+   "final": "https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter"
+  },
+  "https://aws.amazon.com/certification/certified-data-engineer-associate/": {
+   "code": 200
+  },
+  "https://azure.microsoft.com/free/": {
+   "code": 200
+  },
+  "https://beam.apache.org/documentation/programming-guide/": {
+   "code": 200
+  },
+  "https://beej.us/guide/bgnet0/": {
+   "code": 200
+  },
+  "https://bitol-io.github.io/open-data-contract-standard/": {
+   "code": 200
+  },
+  "https://cassandra.apache.org/doc/latest/cassandra/developing/data-modeling/index.html": {
+   "code": 200
+  },
+  "https://cheatsheetseries.owasp.org/": {
+   "code": 200
+  },
+  "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html": {
+   "code": 200
+  },
+  "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html": {
+   "code": 200
+  },
+  "https://classcentral.com/course/exam-prep-official-practice-question-set-aws-certified-data-engineer-associate-dea-c01-english-264809": {
+   "code": 403
+  },
+  "https://classcentral.com/course/exam-prep-standard-course-aws-certified-data-engineer-associate-dea-c01-278019": {
+   "code": 403
+  },
+  "https://cloud.google.com/bigtable/docs/schema-design": {
+   "code": 200,
+   "final": "https://docs.cloud.google.com/bigtable/docs/schema-design"
+  },
+  "https://cloud.google.com/free": {
+   "code": 200
+  },
+  "https://cloud.google.com/learn/certification/data-engineer": {
+   "code": 200
+  },
+  "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final": {
+   "code": 200
+  },
+  "https://customer-academy.databricks.com/": {
+   "code": 200
+  },
+  "https://customer-academy.databricks.com/learn/course/112/introduction-to-apache-spark-architecture": {
+   "code": 200
+  },
+  "https://customer-academy.databricks.com/learn/public/catalog/view/141": {
+   "code": 200
+  },
+  "https://dataexplorer.azure.com/": {
+   "code": 200
+  },
+  "https://datahubproject.io/docs/": {
+   "code": 200,
+   "final": "https://docs.datahub.com/docs/"
+  },
+  "https://datalemur.com/": {
+   "code": 200
+  },
+  "https://datasketches.apache.org/": {
+   "code": 200
+  },
+  "https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/": {
+   "code": 200
+  },
+  "https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-ratelimit-headers": {
+   "code": 200
+  },
+  "https://dax.guide/": {
+   "code": 200
+  },
+  "https://delta-io.github.io/delta-rs/": {
+   "code": 200
+  },
+  "https://delta.io/blog/": {
+   "code": 200
+  },
+  "https://delta.io/learn/getting-started": {
+   "code": 200
+  },
+  "https://detective.kusto.io/": {
+   "code": 200
+  },
+  "https://developer.confluent.io/courses/": {
+   "code": 200
+  },
+  "https://developer.confluent.io/courses/apache-flink": {
+   "code": 200
+  },
+  "https://developer.confluent.io/courses/apache-kafka/events/": {
+   "code": 200
+  },
+  "https://developer.confluent.io/courses/flink-java/overview/": {
+   "code": 200
+  },
+  "https://developer.confluent.io/courses/kafka-connect/intro/": {
+   "code": 200
+  },
+  "https://developer.confluent.io/courses/schema-registry/key-concepts/": {
+   "code": 200
+  },
+  "https://developer.confluent.io/tutorials/": {
+   "code": 200
+  },
+  "https://developer.hashicorp.com/terraform/language": {
+   "code": 200
+  },
+  "https://developer.hashicorp.com/terraform/tutorials": {
+   "code": 200
+  },
+  "https://developer.hashicorp.com/terraform/tutorials/certification-004/associate-questions-004": {
+   "code": 200
+  },
+  "https://developer.hashicorp.com/terraform/tutorials/certification-004/associate-study-004": {
+   "code": 200
+  },
+  "https://developer.hashicorp.com/terraform/tutorials/configuration-language": {
+   "code": 200
+  },
+  "https://developer.hashicorp.com/terraform/tutorials/docker-get-started": {
+   "code": 200
+  },
+  "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview": {
+   "code": 200
+  },
+  "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status": {
+   "code": 200
+  },
+  "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/429": {
+   "code": 200
+  },
+  "https://developers.cloudflare.com/support/troubleshooting/http-status-codes/4xx-client-error/error-429/": {
+   "code": 200
+  },
+  "https://developers.google.com/machine-learning/crash-course": {
+   "code": 200
+  },
+  "https://discourse.getdbt.com/": {
+   "code": 200
+  },
+  "https://dlthub.com/docs/dlt-ecosystem/verified-sources/rest_api/basic": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/athena/latest/ug/what-is.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/aws-certification/latest/data-engineer-associate-01/data-engineer-associate-01.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-what-is-emr.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/glue/latest/dg/what-is-glue.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/redshift/latest/gsg/new-user-serverless.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/streams/latest/dev/introduction.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/wellarchitected/latest/analytics-lens/analytics-lens.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html": {
+   "code": 200
+  },
+  "https://docs.aws.amazon.com/whitepapers/latest/building-data-lakes/building-data-lake-aws.html": {
+   "code": 200
+  },
+  "https://docs.cloud.google.com/architecture/framework": {
+   "code": 200
+  },
+  "https://docs.cloud.google.com/architecture/framework/cost-optimization": {
+   "code": 200
+  },
+  "https://docs.cloud.google.com/bigquery/docs/best-practices-performance-overview": {
+   "code": 200
+  },
+  "https://docs.cloud.google.com/bigquery/docs/introduction": {
+   "code": 200
+  },
+  "https://docs.cloud.google.com/bigquery/docs/sandbox": {
+   "code": 200
+  },
+  "https://docs.cloud.google.com/dataflow/docs/overview": {
+   "code": 200
+  },
+  "https://docs.cloud.google.com/dataplex/docs/introduction": {
+   "code": 200,
+   "final": "https://docs.cloud.google.com/knowledge-catalog/docs/introduction"
+  },
+  "https://docs.cloud.google.com/dataproc/docs/concepts/overview": {
+   "code": 200,
+   "final": "https://docs.cloud.google.com/managed-spark/docs/concepts/clusters-overview"
+  },
+  "https://docs.cloud.google.com/iam/docs/using-iam-securely": {
+   "code": 200
+  },
+  "https://docs.cloud.google.com/pubsub/docs/overview": {
+   "code": 200
+  },
+  "https://docs.confluent.io/platform/current/schema-registry/index.html": {
+   "code": 200
+  },
+  "https://docs.dagster.io/": {
+   "code": 200,
+   "final": "https://dagster.io/docs"
+  },
+  "https://docs.databricks.com/aws/en/": {
+   "code": 200
+  },
+  "https://docs.databricks.com/aws/en/delta/": {
+   "code": 200
+  },
+  "https://docs.databricks.com/aws/en/ldp/developer/python-ref": {
+   "code": 200
+  },
+  "https://docs.databricks.com/aws/en/optimizations/": {
+   "code": 200
+  },
+  "https://docs.databricks.com/gcp/en/resources/product-name-changes": {
+   "code": 200
+  },
+  "https://docs.databricks.com/structured-streaming/watermarks": {
+   "code": 200
+  },
+  "https://docs.delta.io": {
+   "code": 200
+  },
+  "https://docs.delta.io/quick-start/": {
+   "code": 200
+  },
+  "https://docs.docker.com/build/building/best-practices/": {
+   "code": 200
+  },
+  "https://docs.docker.com/compose/": {
+   "code": 200
+  },
+  "https://docs.docker.com/get-started/": {
+   "code": 200,
+   "final": "https://docs.docker.com/learn/"
+  },
+  "https://docs.docker.com/get-started/hands-on-overview/": {
+   "code": 200,
+   "final": "https://docs.docker.com/learn/paths/get-started-with-docker-containers/"
+  },
+  "https://docs.feast.dev/": {
+   "code": 200
+  },
+  "https://docs.getdbt.com/best-practices": {
+   "code": 200
+  },
+  "https://docs.getdbt.com/blog/kimball-dimensional-model": {
+   "code": 200
+  },
+  "https://docs.getdbt.com/docs/build/data-tests": {
+   "code": 200
+  },
+  "https://docs.getdbt.com/docs/build/snapshots": {
+   "code": 200
+  },
+  "https://docs.getdbt.com/docs/collaborate/govern/model-contracts": {
+   "code": 200,
+   "final": "https://docs.getdbt.com/docs/mesh/govern/model-contracts"
+  },
+  "https://docs.getdbt.com/docs/introduction": {
+   "code": 200
+  },
+  "https://docs.getdbt.com/guides/fusion": {
+   "code": 200
+  },
+  "https://docs.getdbt.com/guides/manual-install": {
+   "code": 200
+  },
+  "https://docs.github.com/en/rest/using-the-rest-api/using-pagination-in-the-rest-api": {
+   "code": 200
+  },
+  "https://docs.google.com/forms/d/e/1FAIpQLSfkWEzBCP0wQ09ZuFm7G2_4qtkYbfmk_0getojdnPdCYmq37Q/viewform": {
+   "code": 200
+  },
+  "https://docs.greatexpectations.io/": {
+   "code": 200
+  },
+  "https://docs.greatexpectations.io/docs/core/introduction/try_gx/": {
+   "code": 200
+  },
+  "https://docs.llamaindex.ai/en/stable/": {
+   "code": 200,
+   "final": "https://developers.llamaindex.ai/python/framework/"
+  },
+  "https://docs.pola.rs/user-guide/getting-started/": {
+   "code": 200
+  },
+  "https://docs.prefect.io/": {
+   "code": 200,
+   "final": "https://www.prefect.io/docs/v3/get-started"
+  },
+  "https://docs.pytest.org/en/stable/getting-started.html": {
+   "code": 200
+  },
+  "https://docs.python.org/3/howto/logging.html": {
+   "code": 200
+  },
+  "https://docs.python.org/3/tutorial/": {
+   "code": 200
+  },
+  "https://docs.python.org/ro/3/tutorial/": {
+   "code": 200
+  },
+  "https://docs.ragas.io/": {
+   "code": 200
+  },
+  "https://docs.snowflake.com/en/developer-guide/snowpark/index": {
+   "code": 200
+  },
+  "https://docs.snowflake.com/en/user-guide/data-load-snowpipe-intro": {
+   "code": 200
+  },
+  "https://docs.snowflake.com/en/user-guide/data-time-travel": {
+   "code": 200
+  },
+  "https://docs.snowflake.com/en/user-guide/streams-intro": {
+   "code": 200
+  },
+  "https://docs.soda.io/data-contracts": {
+   "code": 0
+  },
+  "https://docs.stripe.com/api/idempotent_requests": {
+   "code": 200
+  },
+  "https://docs.stripe.com/api/pagination": {
+   "code": 200
+  },
+  "https://docs.unitycatalog.io/": {
+   "code": 200,
+   "final": "https://unitycatalog.io/docs/"
+  },
+  "https://docs.weaviate.io/weaviate": {
+   "code": 200
+  },
+  "https://dsg.csail.mit.edu/6.5830/syllabus.php": {
+   "code": 200
+  },
+  "https://duckdb.org/docs/stable/data/parquet/overview": {
+   "code": 200
+  },
+  "https://en.wikipedia.org/wiki/Data_vault_modeling": {
+   "code": 200
+  },
+  "https://en.wikipedia.org/wiki/Database_normalization": {
+   "code": 200
+  },
+  "https://en.wikipedia.org/wiki/Slowly_changing_dimension": {
+   "code": 200
+  },
+  "https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying": {
+   "code": 502
+  },
+  "https://eur-lex.europa.eu/legal-content/RO/TXT/?uri=CELEX:32016R0679": {
+   "code": 200
+  },
+  "https://github.com/ByteByteGoHq/system-design-101": {
+   "code": 200
+  },
+  "https://github.com/DataExpert-io/data-engineer-handbook": {
+   "code": 200
+  },
+  "https://github.com/DataTalksClub/data-engineering-zoomcamp": {
+   "code": 200
+  },
+  "https://github.com/DataTalksClub/llm-zoomcamp": {
+   "code": 200
+  },
+  "https://github.com/DataTalksClub/mlops-zoomcamp": {
+   "code": 200
+  },
+  "https://github.com/andkret/Cookbook": {
+   "code": 200
+  },
+  "https://github.com/apache/flink-training": {
+   "code": 200
+  },
+  "https://github.com/apache/spark/tree/master/examples/src/main/python": {
+   "code": 200
+  },
+  "https://github.com/databricks/LearningSparkV2": {
+   "code": 200
+  },
+  "https://github.com/databricks/docker-spark-iceberg": {
+   "code": 200
+  },
+  "https://github.com/dbt-labs/jaffle-shop": {
+   "code": 200
+  },
+  "https://github.com/delta-io/delta": {
+   "code": 200
+  },
+  "https://github.com/donnemartin/system-design-primer": {
+   "code": 200
+  },
+  "https://github.com/microsoft/api-guidelines": {
+   "code": 200
+  },
+  "https://github.com/opentofu/opentofu/releases": {
+   "code": 200
+  },
+  "https://github.com/pgvector/pgvector": {
+   "code": 200
+  },
+  "https://github.com/sifatnotes/Microsoft-DP-750-Study-Guide-Azure-Databricks-Data-Engineer-Associate": {
+   "code": 200
+  },
+  "https://github.com/snowflake-labs/sfquickstarts": {
+   "code": 200
+  },
+  "https://github.com/sodadata/soda-core": {
+   "code": 200
+  },
+  "https://graphacademy.neo4j.com/": {
+   "code": 200
+  },
+  "https://hpbn.co/": {
+   "code": 200
+  },
+  "https://hub.docker.com/_/spark": {
+   "code": 200
+  },
+  "https://hudi.apache.org/docs/concepts": {
+   "code": 200
+  },
+  "https://hudi.apache.org/docs/docker_demo": {
+   "code": 200
+  },
+  "https://hudi.apache.org/docs/overview": {
+   "code": 200
+  },
+  "https://hudi.apache.org/docs/quick-start-guide": {
+   "code": 200
+  },
+  "https://hudi.apache.org/docs/table_types": {
+   "code": 200
+  },
+  "https://huggingface.co/learn/cookbook/index": {
+   "code": 200
+  },
+  "https://huggingface.co/learn/llm-course/chapter1/1": {
+   "code": 200
+  },
+  "https://huyenchip.com/ml-interviews-book/": {
+   "code": 200
+  },
+  "https://iceberg.apache.org/docs/latest/": {
+   "code": 200
+  },
+  "https://iceberg.apache.org/docs/latest/maintenance/": {
+   "code": 200
+  },
+  "https://iceberg.apache.org/docs/latest/spark-ddl/": {
+   "code": 200
+  },
+  "https://iceberg.apache.org/spark-quickstart/": {
+   "code": 200
+  },
+  "https://iceberg.apache.org/spec/": {
+   "code": 200
+  },
+  "https://jeffe.cs.illinois.edu/teaching/algorithms/": {
+   "code": 200
+  },
+  "https://jepsen.io/consistency": {
+   "code": 200
+  },
+  "https://jsonlines.org/": {
+   "code": 200
+  },
+  "https://jvns.ca/": {
+   "code": 200
+  },
+  "https://kafka.apache.org/blog/2025/03/18/apache-kafka-4.0.0-release-announcement/": {
+   "code": 200
+  },
+  "https://kafka.apache.org/documentation/": {
+   "code": 200
+  },
+  "https://kafka.apache.org/documentation/streams/": {
+   "code": 200
+  },
+  "https://killercoda.com/playgrounds": {
+   "code": 200
+  },
+  "https://kubernetes.io/docs/concepts/": {
+   "code": 200
+  },
+  "https://kubernetes.io/docs/tutorials/kubernetes-basics/": {
+   "code": 200
+  },
+  "https://labs.iximiuz.com/": {
+   "code": 200
+  },
+  "https://lamport.azurewebsites.net/pubs/time-clocks.pdf": {
+   "code": 200
+  },
+  "https://learn.finops.org/finops-for-engineers-introduction": {
+   "code": 404
+  },
+  "https://learn.finops.org/introduction-to-finops": {
+   "code": 200
+  },
+  "https://learn.getdbt.com/catalog": {
+   "code": 200
+  },
+  "https://learn.getdbt.com/courses/dbt-fundamentals": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/credentials/certifications/exams/dp-700": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/credentials/certifications/implementing-data-engineering-solutions-using-azure-databricks/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/answers/questions/2148495/do-i-need-to-take-the-dp-203-exam-as-it-will-be-re": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/azure-sql/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/data-explorer/ingest-sample-data": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/data-explorer/web-ui-samples-query": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/data-factory/quickstart-learn-modules": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/databricks/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/databricks/jobs/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/databricks/ldp/where-is-dlt": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/event-hubs/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-kafka-overview": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/key-vault/general/overview": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/kusto/query/tutorial": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/azure/well-architected/cost-optimization/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-engineer/renew": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/fabric-data-engineer-associate/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/fabric-data-engineer-associate/practice/assessment?assessment-type=practice&assessmentId=90": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-600": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-700": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-750": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/dax/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/fabric/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/fabric/fundamentals/fabric-trial": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/kusto/query/kql-learning-resources": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/kusto/query/kql-quick-reference": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/power-bi/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/shows/exam-readiness-zone/preparing-for-dp-600-plan-implement-and-manage-a-solution-for-data-analytics": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/training/career-paths/data-engineer": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/training/courses/dp-750t00": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/training/modules/microsoft-azure-data-engineering-academic-programs/2-objective-domains": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/training/paths/azure-databricks-data-engineer-deploy-maintain-data-pipelines-workloads/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/training/paths/azure-databricks-data-engineer-prepare-process-data/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/training/paths/azure-databricks-data-engineer-set-up-configure-environment/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/training/paths/data-analysis-data-explorer-kusto-query-language/": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/training/paths/get-started-data-engineering": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/training/roles/data-engineer": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/en-us/training/topics/azure-data-and-ai": {
+   "code": 200
+  },
+  "https://learn.microsoft.com/training/purview": {
+   "code": 200
+  },
+  "https://learn.mongodb.com/": {
+   "code": 200
+  },
+  "https://learn.snowflake.com/en/certifications/snowpro-core-c03": {
+   "code": 200
+  },
+  "https://learn.snowflake.com/en/courses/OD-ESS-DWW": {
+   "code": 200
+  },
+  "https://learn.snowflake.com/en/pages/hands-on-essentials-track": {
+   "code": 200
+  },
+  "https://linuxcommand.org/lc3_learning_the_shell.php": {
+   "code": 200
+  },
+  "https://linuxcommand.org/tlcl.php": {
+   "code": 200
+  },
+  "https://man7.org/linux/man-pages/man5/crontab.5.html": {
+   "code": 200
+  },
+  "https://missing.csail.mit.edu/": {
+   "code": 200
+  },
+  "https://mode.com/sql-tutorial": {
+   "code": 200,
+   "final": "https://www.thoughtspot.com/sql-tutorial"
+  },
+  "https://mode.com/sql-tutorial/": {
+   "code": 200,
+   "final": "https://www.thoughtspot.com/sql-tutorial"
+  },
+  "https://modern-sql.com/": {
+   "code": 200
+  },
+  "https://mywiki.wooledge.org/BashGuide": {
+   "code": 200
+  },
+  "https://neo4j.com/docs/getting-started/data-modeling/": {
+   "code": 200
+  },
+  "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/": {
+   "code": 200
+  },
+  "https://nightlies.apache.org/flink/flink-docs-stable/docs/learn-flink/fault_tolerance/": {
+   "code": 200
+  },
+  "https://nightlies.apache.org/flink/flink-docs-stable/docs/learn-flink/overview/": {
+   "code": 200
+  },
+  "https://nightlies.apache.org/flink/flink-docs-stable/docs/try-flink/table_api/": {
+   "code": 404
+  },
+  "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/": {
+   "code": 200
+  },
+  "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/": {
+   "code": 200
+  },
+  "https://online.stat.psu.edu/stat500/": {
+   "code": null,
+   "note": "certificat TLS neverificabil automat"
+  },
+  "https://opendatastructures.org/": {
+   "code": 200
+  },
+  "https://openlineage.io/docs/": {
+   "code": 200
+  },
+  "https://openstax.org/details/books/introductory-statistics-2e": {
+   "code": 200
+  },
+  "https://opentelemetry.io/docs/": {
+   "code": 200
+  },
+  "https://opentelemetry.io/docs/languages/python/getting-started/": {
+   "code": 200
+  },
+  "https://opentextbc.ca/dbdesign01/": {
+   "code": 403
+  },
+  "https://opentofu.org/docs/": {
+   "code": 200
+  },
+  "https://orc.apache.org/specification/": {
+   "code": 200
+  },
+  "https://owasp.org/API-Security/editions/2023/en/0x00-header/": {
+   "code": 200
+  },
+  "https://owasp.org/www-project-top-ten/": {
+   "code": 200
+  },
+  "https://packaging.python.org/en/latest/tutorials/packaging-projects/": {
+   "code": 200
+  },
+  "https://pages.databricks.com/202003-US-EB-Learning-Spark-2nd-Edition_01_Downloadpage.html": {
+   "code": 200,
+   "note": "redirecționează spre alt e-book Databricks"
+  },
+  "https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html": {
+   "code": 200
+  },
+  "https://pandas.pydata.org/docs/whatsnew/v3.0.0.html": {
+   "code": 200
+  },
+  "https://parquet.apache.org/docs/": {
+   "code": 200
+  },
+  "https://parquet.apache.org/docs/file-format/data-pages/encodings/": {
+   "code": 200
+  },
+  "https://partner.microsoft.com/en-jo/asset/collection/microsoft-learn-self-guided-study-materials-dp-700": {
+   "code": null,
+   "note": "certificat TLS neverificabil automat"
+  },
+  "https://pdos.csail.mit.edu/6.824/": {
+   "code": 200
+  },
+  "https://pgexercises.com/": {
+   "code": 200
+  },
+  "https://play.beam.apache.org/": {
+   "code": 200
+  },
+  "https://polaris.apache.org/docs/quickstart": {
+   "code": 404
+  },
+  "https://prometheus.io/docs/introduction/overview/": {
+   "code": 200
+  },
+  "https://py-pkgs.org/": {
+   "code": 200
+  },
+  "https://py.iceberg.apache.org/": {
+   "code": 200
+  },
+  "https://qdrant.tech/documentation/": {
+   "code": 200
+  },
+  "https://raft.github.io/": {
+   "code": 200
+  },
+  "https://redis.io/docs/latest/develop/data-types/": {
+   "code": 200
+  },
+  "https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/": {
+   "code": 200
+  },
+  "https://research.google/pubs/hyperloglog-in-practice-algorithmic-engineering-of-a-state-of-the-art-cardinality-estimation-algorithm/": {
+   "code": 200
+  },
+  "https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/": {
+   "code": 200
+  },
+  "https://roadmap.sh/data-engineer": {
+   "code": 200
+  },
+  "https://sadservers.com/": {
+   "code": 200
+  },
+  "https://seeing-theory.brown.edu/": {
+   "code": 200
+  },
+  "https://selectstarsql.com/": {
+   "code": 200
+  },
+  "https://services.google.com/fh/files/misc/professional_data_engineer_exam_guide_english.pdf": {
+   "code": 200
+  },
+  "https://signup.snowflake.com/": {
+   "code": 200
+  },
+  "https://spark.apache.org/docs/latest/": {
+   "code": 200
+  },
+  "https://spark.apache.org/docs/latest/api/python/index.html": {
+   "code": 200
+  },
+  "https://spark.apache.org/docs/latest/quick-start.html": {
+   "code": 200
+  },
+  "https://spark.apache.org/docs/latest/spark-connect-overview.html": {
+   "code": 200
+  },
+  "https://spark.apache.org/docs/latest/sql-performance-tuning.html": {
+   "code": 200
+  },
+  "https://spark.apache.org/docs/latest/sql-programming-guide.html": {
+   "code": 200
+  },
+  "https://spark.apache.org/docs/latest/streaming/index.html": {
+   "code": 200
+  },
+  "https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html": {
+   "code": 200
+  },
+  "https://sqlbolt.com/": {
+   "code": 200
+  },
+  "https://sre.google/books/": {
+   "code": 200
+  },
+  "https://sre.google/sre-book/table-of-contents/": {
+   "code": 200
+  },
+  "https://sre.google/workbook/implementing-slos/": {
+   "code": 200
+  },
+  "https://sre.google/workbook/table-of-contents/": {
+   "code": 200
+  },
+  "https://techcommunity.microsoft.com/blog/iltcommunicationblog/dp-203t00-available-for-ilt-until-december-31st-2025/4397741": {
+   "code": 200
+  },
+  "https://techcommunity.microsoft.com/blog/skills-hub-blog/new-microsoft-certified-azure-databricks-data-engineer-associate-certification/4494114": {
+   "code": 200
+  },
+  "https://tour.beam.apache.org/": {
+   "code": 200
+  },
+  "https://training.linuxfoundation.org/training/introduction-to-kubernetes/": {
+   "code": 200
+  },
+  "https://typing.python.org/en/latest/": {
+   "code": 200
+  },
+  "https://use-the-index-luke.com/": {
+   "code": 200
+  },
+  "https://wesmckinney.com/book/": {
+   "code": 200
+  },
+  "https://wizardzines.com/": {
+   "code": 200
+  },
+  "https://workshops.aws/categories/Big%20Data": {
+   "code": 200,
+   "final": "https://builder.aws.com/build/workshops"
+  },
+  "https://www.alexdebrie.com/posts/dynamodb-single-table/": {
+   "code": 200
+  },
+  "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf": {
+   "code": 200
+  },
+  "https://www.astronomer.io/uploads/Apache-Airflow-Fundamentals-Study-Guide.pdf": {
+   "code": 200
+  },
+  "https://www.cl.cam.ac.uk/teaching/2122/ConcDisSys/dist-sys-notes.pdf": {
+   "code": 200
+  },
+  "https://www.cloudflare.com/learning/dns/what-is-dns/": {
+   "code": 403
+  },
+  "https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/": {
+   "code": 403
+  },
+  "https://www.cloudskillsboost.google/paths/16": {
+   "code": 200,
+   "final": "https://www.skills.google/paths/16"
+  },
+  "https://www.confluent.io/blog/exactly-once-semantics-are-possible-heres-how-apache-kafka-does-it/": {
+   "code": 200
+  },
+  "https://www.databricks.com/learn/free-edition": {
+   "code": 200
+  },
+  "https://www.databricks.com/p/ebook/delta-lake-the-definitive-guide-by-oreilly": {
+   "code": 200,
+   "note": "redirecționează spre pagina generală de resurse Databricks"
+  },
+  "https://www.databricks.com/resources/ebook/apache-spark-delta-lake-under-the-hood": {
+   "code": 200
+  },
+  "https://www.databricks.com/resources/ebook/big-book-of-data-engineering": {
+   "code": 200
+  },
+  "https://www.databricks.com/training/catalog/get-started-with-databricks-free-edition-4486": {
+   "code": 200
+  },
+  "https://www.dataprotection.ro/": {
+   "code": 200
+  },
+  "https://www.dbdemos.ai/": {
+   "code": 200
+  },
+  "https://www.dremio.com/guides/apache-iceberg-the-definitive-guide/": {
+   "code": 200
+  },
+  "https://www.edpb.europa.eu/sme-data-protection-guide/home_en": {
+   "code": 200,
+   "final": "https://www.edpb.europa.eu/sme_en"
+  },
+  "https://www.finops.org/framework/": {
+   "code": 200
+  },
+  "https://www.freedesktop.org/software/systemd/man/latest/systemd.timer.html": {
+   "code": 200
+  },
+  "https://www.gnu.org/software/bash/manual/": {
+   "code": 200
+  },
+  "https://www.gnu.org/software/coreutils/manual/": {
+   "code": 200
+  },
+  "https://www.holistics.io/books/setup-analytics/": {
+   "code": 200
+  },
+  "https://www.itl.nist.gov/div898/handbook/": {
+   "code": 200
+  },
+  "https://www.itl.nist.gov/div898/handbook/eda/eda.htm": {
+   "code": 200
+  },
+  "https://www.kimballgroup.com/category/design-tips/": {
+   "code": 200
+  },
+  "https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/": {
+   "code": 200
+  },
+  "https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/type-2/": {
+   "code": 200
+  },
+  "https://www.microsoft.com/en-us/microsoft-fabric/blog/?p=2450": {
+   "code": 200
+  },
+  "https://www.microsoft.com/en-us/microsoft-fabric/getting-started": {
+   "code": 200
+  },
+  "https://www.microsoft.com/en-us/research/wp-content/uploads/2017/09/Kafka.pdf": {
+   "code": 200
+  },
+  "https://www.mongodb.com/docs/manual/data-modeling/": {
+   "code": 200
+  },
+  "https://www.openintro.org/book/os/": {
+   "code": 200
+  },
+  "https://www.oreilly.com/radar/the-world-beyond-batch-streaming-101/": {
+   "code": 200
+  },
+  "https://www.oreilly.com/radar/the-world-beyond-batch-streaming-102/": {
+   "code": 200
+  },
+  "https://www.postgresql.org/docs/current/mvcc.html": {
+   "code": 200
+  },
+  "https://www.postgresql.org/docs/current/queries-with.html": {
+   "code": 200
+  },
+  "https://www.postgresql.org/docs/current/transaction-iso.html": {
+   "code": 200
+  },
+  "https://www.postgresql.org/docs/current/tutorial-window.html": {
+   "code": 200
+  },
+  "https://www.postgresql.org/docs/current/tutorial.html": {
+   "code": 200
+  },
+  "https://www.postgresql.org/docs/current/using-explain.html": {
+   "code": 200
+  },
+  "https://www.py4e.com/": {
+   "code": 200
+  },
+  "https://www.rfc-editor.org/rfc/rfc4180": {
+   "code": 200
+  },
+  "https://www.rfc-editor.org/rfc/rfc8259": {
+   "code": 200
+  },
+  "https://www.shellcheck.net/": {
+   "code": 200
+  },
+  "https://www.snowflake.com/en/developers/guides/": {
+   "code": 403
+  },
+  "https://www.snowflake.com/en/developers/guides/data-engineering-pipelines-with-snowpark-python/": {
+   "code": 403
+  },
+  "https://www.snowflake.com/en/developers/guides/data-engineering-with-snowpark-python-intro/": {
+   "code": 403
+  },
+  "https://www.sqlbi.com/articles/": {
+   "code": 200
+  },
+  "https://www.sqlbi.com/p/introducing-dax-video-course/": {
+   "code": 200
+  },
+  "https://www.sqlite.org/eqp.html": {
+   "code": 200
+  },
+  "https://www.sqlite.org/isolation.html": {
+   "code": 200
+  },
+  "https://www.sqlite.org/lang.html": {
+   "code": 200
+  },
+  "https://www.sqlite.org/queryplanner.html": {
+   "code": 200
+  },
+  "https://www.sqlite.org/windowfunctions.html": {
+   "code": 200
+  },
+  "https://www.startdataengineering.com/": {
+   "code": 200
+  },
+  "https://www.techinterviewhandbook.org/": {
+   "code": 403
+  },
+  "https://www.usenix.org/conference/osdi12/technical-sessions/presentation/corbett": {
+   "code": 200
+  },
+  "https://www.usenix.org/legacy/event/osdi06/tech/chang/chang.pdf": {
+   "code": 200
+  },
+  "https://www.youtube.com/@DataTalksClub": {
+   "code": 200
+  },
+  "https://xtable.apache.org/": {
+   "code": 200
+  }
+ }
+}

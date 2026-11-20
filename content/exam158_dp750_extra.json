@@ -1,0 +1,904 @@
+[
+{
+"exam": "dp750",
+"dom": "Pregătirea și configurarea mediului Azure Databricks",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Politica de securitate cere ca nodurile clusterelor să nu aibă adrese IP publice și să ruleze în rețeaua virtuală a firmei. Ce configurezi la crearea workspace-ului?",
+"ok": "VNet injection și secure cluster connectivity.",
+"bad": [
+[
+"Un firewall doar pe contul de storage.",
+"Nu schimbă adresele nodurilor de compute."
+],
+[
+"Un SQL warehouse în locul clusterelor.",
+"Nu răspunde cerinței de rețea pentru clustere."
+],
+[
+"Un IP public fix pe fiecare nod de cluster.",
+"Exact opusul cerinței."
+]
+],
+"e": "VNet injection plasează compute-ul în rețeaua ta, iar secure cluster connectivity elimină IP-urile publice ale nodurilor."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și configurarea mediului Azure Databricks",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Firma are trei workspace-uri Azure Databricks în aceeași regiune și vrea guvernanță comună a datelor. Câte metastore-uri Unity Catalog folosește?",
+"ok": "Unul, atașat tuturor celor trei workspace-uri.",
+"bad": [
+[
+"Trei, câte unul pentru fiecare workspace.",
+"Metastore-ul se partajează la nivel de regiune."
+],
+[
+"Niciunul; Unity Catalog e opțional pe workspace.",
+"Guvernanța comună cere un metastore."
+],
+[
+"Câte unul pentru fiecare echipă din firmă.",
+"Echipele se separă prin cataloage, nu prin metastore-uri."
+]
+],
+"e": "Modelul recomandat: un metastore per regiune, atașat workspace-urilor din acea regiune; separarea se face prin cataloage și permisiuni."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și configurarea mediului Azure Databricks",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Un notebook folosește API-ul RDD și biblioteci care cer acces la mașina clusterului. Pe un cluster în modul de acces standard (partajat) eșuează. Ce mod de acces alegi?",
+"ok": "Modul dedicated (single user) pentru acel compute.",
+"bad": [
+[
+"Standard, cu mai mulți workeri.",
+"Restricțiile modului rămân, indiferent de mărime."
+],
+[
+"Un SQL warehouse serverless.",
+"Nu rulează cod Python cu RDD."
+],
+[
+"Fără Unity Catalog, cu acces neizolat la date.",
+"Pierzi guvernanța; nu e soluția recomandată."
+]
+],
+"e": "Modul standard izolează utilizatorii și limitează unele API-uri (de exemplu RDD); modul dedicated permite funcționalitatea completă pentru un utilizator sau grup."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și configurarea mediului Azure Databricks",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Joburile de pe clustere clasice pierd câteva minute la fiecare pornire, cât se alocă mașinile virtuale. Ce reduce timpul fără compute serverless?",
+"ok": "Un instance pool cu instanțe inactive pregătite.",
+"bad": [
+[
+"Un cluster all-purpose pornit nonstop pentru toate joburile.",
+"Reduce pornirea, dar plătești permanent."
+],
+[
+"Mai puține taskuri în job.",
+"Nu schimbă timpul de alocare a mașinilor."
+],
+[
+"Un runtime mai vechi, care pornește mai repede.",
+"Versiunea runtime nu decide alocarea VM-urilor."
+]
+],
+"e": "Pool-urile păstrează instanțe pregătite, astfel încât clusterele pornesc mai repede; costul instanțelor inactive e de la furnizorul cloud."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și configurarea mediului Azure Databricks",
+"src": "https://learn.microsoft.com/en-us/azure/key-vault/general/overview",
+"q": "Parola unei baze SQL trebuie folosită în notebook-uri fără să apară în cod sau în rezultate. Ce folosești?",
+"ok": "Un secret scope legat de Azure Key Vault și `dbutils.secrets.get`.",
+"bad": [
+[
+"O variabilă definită în prima celulă a notebook-ului.",
+"Parola rămâne în cod și în istoric."
+],
+[
+"Un fișier text în volumul echipei.",
+"Secretul stă în clar, accesibil cititorilor."
+],
+[
+"Parola codată Base64 în parametrii jobului.",
+"Base64 nu protejează nimic."
+]
+],
+"e": "Secretele din scope-uri sunt citite la rulare, iar valorile lor sunt ascunse (redacted) în rezultatele notebook-urilor."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și configurarea mediului Azure Databricks",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "O echipă vrea notebook-uri și joburi care pornesc în câteva secunde, fără administrarea clusterelor și facturate doar cât rulează. Ce compute recomanzi?",
+"ok": "Compute serverless pentru notebook-uri și joburi.",
+"bad": [
+[
+"Clustere all-purpose cu auto-terminare după 8 ore.",
+"Pornesc lent și se plătesc și când stau."
+],
+[
+"Un instance pool mare, ținut mereu plin.",
+"Reduce pornirea, dar administrezi și plătești rezerva."
+],
+[
+"Un cluster per utilizator, pornit dimineața.",
+"Necesită administrare și costă inutil."
+]
+],
+"e": "Compute serverless e gestionat de Databricks, pornește rapid și se facturează pe utilizare."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și configurarea mediului Azure Databricks",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Un job are nevoie de aceeași versiune a unei biblioteci Python la fiecare rulare, ca rezultatele să fie reproductibile. Ce faci?",
+"ok": "Fixezi versiunea bibliotecii în dependențele jobului.",
+"bad": [
+[
+"Instalezi ultima versiune la fiecare rulare.",
+"O versiune nouă poate schimba comportamentul fără avertisment."
+],
+[
+"Copiezi codul bibliotecii în notebook.",
+"Greu de întreținut și de actualizat controlat."
+],
+[
+"Lași biblioteca să fie aleasă de runtime.",
+"Versiunea se poate schimba la actualizarea runtime-ului."
+]
+],
+"e": "Dependențele fixate (în specificația jobului sau a mediului serverless) fac rulările reproductibile."
+},
+{
+"exam": "dp750",
+"dom": "Securizarea și guvernanța obiectelor Unity Catalog",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Acorzi `SELECT` grupului `analisti` pe schema `prod.vanzari`. Ce se întâmplă cu tabelele create ulterior în schemă?",
+"ok": "Sunt citibile de grup: privilegiul se moștenește.",
+"bad": [
+[
+"Trebuie acordat SELECT separat pe fiecare tabel nou.",
+"În Unity Catalog privilegiile se moștenesc în ierarhie."
+],
+[
+"Grupul primește și drept de scriere pe ele.",
+"SELECT nu include MODIFY."
+],
+[
+"Grupul devine proprietarul tabelelor noi.",
+"Proprietarul e cel care creează obiectul."
+]
+],
+"e": "Privilegiile acordate pe catalog sau schemă se aplică și obiectelor copil, inclusiv celor create ulterior."
+},
+{
+"exam": "dp750",
+"dom": "Securizarea și guvernanța obiectelor Unity Catalog",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Un tabel de producție are ca proprietar un inginer care pleacă din firmă. Ce practică previne problema pe viitor?",
+"ok": "Proprietar un grup, de exemplu `ALTER TABLE ... OWNER TO`.",
+"bad": [
+[
+"Proprietar adminul workspace-ului, personal.",
+"Tot o persoană; problema se repetă."
+],
+[
+"Recrearea tabelului de fiecare dată când pleacă cineva.",
+"Inutil și riscant pentru date."
+],
+[
+"Fără proprietar definit pe tabel.",
+"Orice obiect are un proprietar."
+]
+],
+"e": "Obiectele de producție ar trebui să aibă ca proprietar un grup sau un service principal, nu o persoană."
+},
+{
+"exam": "dp750",
+"dom": "Securizarea și guvernanța obiectelor Unity Catalog",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Vrei să afli ce rapoarte și tabele din aval folosesc coloana `pret_unitar` înainte să-i schimbi tipul. Unde verifici?",
+"ok": "În lineage-ul Unity Catalog, la nivel de coloană.",
+"bad": [
+[
+"În istoricul `DESCRIBE HISTORY` al tabelului.",
+"Arată operațiile pe tabel, nu consumatorii."
+],
+[
+"În jurnalul driverului clusterului.",
+"Nu conține dependențele dintre tabele."
+],
+[
+"În lista de fișiere din storage.",
+"Nu arată cine folosește coloana."
+]
+],
+"e": "Unity Catalog capturează automat lineage-ul, inclusiv pe coloane, pentru interogările rulate prin el."
+},
+{
+"exam": "dp750",
+"dom": "Securizarea și guvernanța obiectelor Unity Catalog",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Auditul cere lista celor care au citit tabelul `prod.hr.salarii` în ultima lună. Ce interoghezi?",
+"ok": "Tabela de sistem `system.access.audit`.",
+"bad": [
+[
+"`DESCRIBE HISTORY prod.hr.salarii`.",
+"Arată scrierile, nu citirile."
+],
+[
+"Jurnalul de evenimente al clusterului.",
+"Nu acoperă toți utilizatorii și toate tipurile de compute."
+],
+[
+"Permisiunile curente ale tabelului.",
+"Arată cine poate citi, nu cine a citit."
+]
+],
+"e": "Tabelele de sistem pentru audit înregistrează evenimentele de acces pe obiectele guvernate."
+},
+{
+"exam": "dp750",
+"dom": "Securizarea și guvernanța obiectelor Unity Catalog",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Vrei ca toate coloanele cu date personale să fie ușor de găsit și raportat în catalog. Ce folosești?",
+"ok": "Tag-uri pe coloane, de exemplu `SET TAGS ('pii' = 'true')`.",
+"bad": [
+[
+"Un comentariu liber pe fiecare tabel.",
+"Greu de căutat consecvent."
+],
+[
+"Un prefix `pii_` adăugat la numele coloanelor.",
+"Schimbi schema și strici consumatorii."
+],
+[
+"Un fișier Excel cu lista coloanelor.",
+"Iese ușor din sincronizare cu catalogul."
+]
+],
+"e": "Tag-urile Unity Catalog pe tabele și coloane pot fi căutate și folosite pentru raportare și guvernanță."
+},
+{
+"exam": "dp750",
+"dom": "Securizarea și guvernanța obiectelor Unity Catalog",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/",
+"q": "Un inginer trebuie să citească fișiere brute dintr-un external location, fără să creeze tabele. Ce privilegiu primește?",
+"ok": "`READ FILES` pe external location.",
+"bad": [
+[
+"`SELECT` pe toate tabelele din catalog.",
+"SELECT e pentru tabele, nu pentru fișiere."
+],
+[
+"`CREATE EXTERNAL TABLE` pe locație.",
+"Permite crearea de tabele, nu doar citirea fișierelor."
+],
+[
+"Cheia contului de storage.",
+"Ocolește Unity Catalog."
+]
+],
+"e": "Pe external locations, READ FILES și WRITE FILES controlează accesul direct la fișiere."
+},
+{
+"exam": "dp750",
+"dom": "Securizarea și guvernanța obiectelor Unity Catalog",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Grupurile din Microsoft Entra ID trebuie să fie disponibile în Azure Databricks pentru acordarea permisiunilor, fără crearea lor manuală. Ce folosești?",
+"ok": "Sincronizarea identităților din Entra ID.",
+"bad": [
+[
+"Crearea manuală a fiecărui utilizator în workspace.",
+"Nu scalează și se desincronizează."
+],
+[
+"Un singur cont partajat de toată echipa.",
+"Pierzi trasabilitatea și controlul."
+],
+[
+"Grupuri locale definite în fiecare notebook.",
+"Notebook-urile nu definesc identități."
+]
+],
+"e": "Utilizatorii, grupurile și service principal-ii se sincronizează din Entra ID (de exemplu prin gestionarea automată a identităților sau SCIM)."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Auto Loader citește JSON-uri, iar unele câmpuri au alt tip decât schema așteptată. Nu vrei să pierzi aceste valori. Unde ajung implicit?",
+"ok": "În coloana `_rescued_data`.",
+"bad": [
+[
+"Sunt șterse fără urmă la citire.",
+"Auto Loader le salvează pentru analiză."
+],
+[
+"Oprește stream-ul la primul rând invalid.",
+"Nu e comportamentul implicit al schemei cu rescued data."
+],
+[
+"Sunt convertite automat la tipul așteptat.",
+"Conversia ar putea strica valorile."
+]
+],
+"e": "Coloana de rescued data păstrează câmpurile care nu se potrivesc schemei, ca să le poți inspecta și reprocesa."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "În arhitectura medallion, în ce strat păstrezi datele exact cum au venit din sursă, ca să poți reprocesa oricând?",
+"ok": "Bronze, cu datele brute neschimbate.",
+"bad": [
+[
+"Silver, după curățare și deduplicare.",
+"Silver conține deja date transformate."
+],
+[
+"Gold, unde sunt agregatele pentru rapoarte.",
+"Gold e stratul de consum."
+],
+[
+"Într-un strat temporar șters zilnic.",
+"Pierzi posibilitatea de reprocesare."
+]
+],
+"e": "Bronze păstrează datele brute (adesea append-only), silver le curăță și conformează, gold le agregă pentru consum."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://docs.delta.io/quick-start/",
+"q": "Vrei să compari conținutul tabelului `vanzari` de azi cu cel de acum trei versiuni, fără restaurare. Ce scrii?",
+"ok": "`SELECT ... FROM vanzari VERSION AS OF <n>`.",
+"bad": [
+[
+"`RESTORE TABLE vanzari TO VERSION AS OF <n>`.",
+"Modifică tabelul curent; cerința e doar comparația."
+],
+[
+"`DESCRIBE HISTORY vanzari`.",
+"Arată operațiile, nu conținutul versiunii."
+],
+[
+"`VACUUM vanzari RETAIN 0 HOURS`.",
+"Ar șterge fișierele vechi necesare time travel."
+]
+],
+"e": "Time travel citește o versiune anterioară (după număr sau timestamp) fără să schimbe tabelul."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://docs.delta.io/quick-start/",
+"q": "Un job a suprascris greșit tabelul `clienti` acum o oră. Vrei să revii la starea dinainte, păstrând istoricul. Ce comandă folosești?",
+"ok": "`RESTORE TABLE clienti TO VERSION AS OF <n>`.",
+"bad": [
+[
+"`DROP TABLE clienti` și reîncărcare din sursă.",
+"Pierzi istoricul și durează."
+],
+[
+"`VACUUM clienti`.",
+"Șterge fișiere vechi; poate face restaurarea imposibilă."
+],
+[
+"`OPTIMIZE clienti`.",
+"Compactează fișierele, nu revine la o versiune."
+]
+],
+"e": "RESTORE creează o versiune nouă cu conținutul versiunii alese; istoricul rămâne disponibil."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://docs.databricks.com/aws/en/optimizations/",
+"q": "Pentru tabelele managed din Unity Catalog nu vrei să programezi manual OPTIMIZE și VACUUM. Ce activezi?",
+"ok": "Predictive optimization pe tabelele managed.",
+"bad": [
+[
+"Un job nocturn care rulează OPTIMIZE pe tot catalogul.",
+"Exact munca manuală pe care vrei s-o eviți."
+],
+[
+"Partiționare pe toate coloanele.",
+"Creează fișiere mici și nu face întreținere."
+],
+[
+"Dezactivarea time travel pe tabele.",
+"Nu automatizează întreținerea."
+]
+],
+"e": "Predictive optimization rulează automat întreținerea (de exemplu OPTIMIZE și VACUUM) pe tabelele managed, când e utilă."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://docs.delta.io/quick-start/",
+"q": "Rulezi `VACUUM` cu retenție de 0 ore ca să eliberezi spațiu imediat. Ce riști?",
+"ok": "Pierzi time travel și pot cădea citirile în curs.",
+"bad": [
+[
+"Nimic, VACUUM șterge doar fișiere temporare.",
+"Șterge fișiere de date nereferite de versiunea curentă."
+],
+[
+"Tabelul se convertește în Parquet simplu.",
+"VACUUM nu schimbă formatul."
+],
+[
+"Se pierd rânduri din versiunea curentă.",
+"Versiunea curentă rămâne intactă."
+]
+],
+"e": "Retenția implicită e de 7 zile; sub ea, versiunile vechi devin inaccesibile, iar cititorii concurenți pot eșua."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://docs.delta.io/quick-start/",
+"q": "DELETE-urile mici pe un tabel Delta mare sunt lente, pentru că rescriu fișiere întregi. Ce funcționalitate reduce rescrierea?",
+"ok": "Deletion vectors.",
+"bad": [
+[
+"Partiționarea pe toate coloanele.",
+"Creează fișiere mici și nu evită rescrierea."
+],
+[
+"Conversia tabelului în CSV.",
+"CSV nu suportă ștergeri eficiente."
+],
+[
+"Dezactivarea Change Data Feed.",
+"CDF nu e cauza rescrierii."
+]
+],
+"e": "Deletion vectors marchează rândurile șterse sau modificate fără rescrierea imediată a fișierelor; compactarea ulterioară le aplică."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://spark.apache.org/docs/latest/streaming/index.html",
+"q": "Vrei să procesezi incremental, o dată pe oră, tot ce a sosit de la ultima rulare, apoi clusterul să se oprească. Ce trigger folosești?",
+"ok": "`trigger(availableNow=True)` cu checkpoint.",
+"bad": [
+[
+"`trigger(processingTime='1 second')` pornit permanent.",
+"Stream-ul rulează continuu, cu cost permanent."
+],
+[
+"Fără trigger, în modul continuu implicit.",
+"Rulează non-stop."
+],
+[
+"Recitirea completă a sursei cu `spark.read`.",
+"Nu e incremental."
+]
+],
+"e": "availableNow procesează tot ce e disponibil, în unul sau mai multe micro-batch-uri, apoi se oprește; checkpoint-ul ține progresul."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/ldp/where-is-dlt",
+"q": "Într-un pipeline Lakeflow, ingeri evenimente append-only și calculezi un agregat zilnic peste ele. Ce tipuri de dataset alegi?",
+"ok": "Streaming table, apoi materialized view.",
+"bad": [
+[
+"Materialized view pentru ingestie, streaming table pentru agregat.",
+"Invers: ingestia append-only se potrivește streaming table."
+],
+[
+"Două vederi temporare.",
+"Nu persistă rezultatul."
+],
+[
+"Un tabel creat cu `CREATE TABLE AS SELECT` rulat manual.",
+"Pierzi gestionarea incrementală a pipeline-ului."
+]
+],
+"e": "Streaming tables procesează incremental surse append-only; materialized views mențin rezultate agregate actualizate de pipeline."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://docs.delta.io/quick-start/",
+"q": "Coloana `suma` dintr-un tabel Delta nu trebuie să accepte valori negative, indiferent de jobul care scrie. Ce adaugi?",
+"ok": "Un constraint `CHECK (suma >= 0)`.",
+"bad": [
+[
+"Un filtru în fiecare job care scrie în tabel.",
+"Un job nou poate uita filtrul."
+],
+[
+"Un comentariu pe coloană.",
+"Nu împiedică nimic."
+],
+[
+"Un tag `non_negativ` pe coloană.",
+"Tag-urile nu validează datele."
+]
+],
+"e": "Constraint-urile CHECK sunt verificate la fiecare scriere; o tranzacție care le încalcă e respinsă."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://docs.delta.io/quick-start/",
+"q": "Un job face append cu coloana `cantitate` ca șir de caractere, dar în tabel e întreg. Ce face Delta Lake implicit?",
+"ok": "Respinge scrierea: schema e impusă.",
+"bad": [
+[
+"Convertește automat toate valorile la întreg.",
+"Delta nu face conversii implicite riscante."
+],
+[
+"Adaugă o coloană nouă `cantitate_2`.",
+"Asta ar fi evoluție de schemă, nu activată implicit."
+],
+[
+"Scrie datele, dar marchează tabelul invalid.",
+"Scrierea e respinsă atomic."
+]
+],
+"e": "Schema enforcement împiedică scrierea datelor incompatibile; evoluția schemei trebuie activată explicit."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://spark.apache.org/docs/latest/sql-performance-tuning.html",
+"q": "Unești un tabel de fapte de 800 GB cu o dimensiune de 20 MB. Planul arată sort-merge join cu shuffle pe ambele părți. Ce încerci?",
+"ok": "Un broadcast join pentru dimensiune.",
+"bad": [
+[
+"`repartition(2000)` pe tabelul de fapte.",
+"Adaugă shuffle, nu-l elimină."
+],
+[
+"Colectarea dimensiunii pe driver și un join în Python.",
+"Mută calculul în afara Spark."
+],
+[
+"Mai multe partiții la shuffle.",
+"Shuffle-ul tot are loc."
+]
+],
+"e": "Broadcast trimite dimensiunea mică la executori și evită shuffle-ul tabelului mare."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Analiștii vor să interogheze dintr-un notebook tabelele unei baze Azure SQL, alături de tabelele Delta, fără un pipeline de copiere. Ce folosești?",
+"ok": "Lakehouse Federation, cu un catalog extern.",
+"bad": [
+[
+"Export zilnic al bazei în CSV.",
+"Creezi copii și o întârziere de o zi."
+],
+[
+"Un shortcut OneLake în workspace-ul Databricks.",
+"Shortcut-urile sunt din Fabric."
+],
+[
+"Montarea bazei SQL în DBFS.",
+"O bază relațională nu se montează ca sistem de fișiere."
+]
+],
+"e": "Lakehouse Federation expune bazele externe ca cataloage străine în Unity Catalog, interogabile fără copiere."
+},
+{
+"exam": "dp750",
+"dom": "Pregătirea și procesarea datelor",
+"src": "https://docs.delta.io/quick-start/",
+"q": "O dimensiune clienți trebuie să păstreze istoricul adreselor, cu perioadă de valabilitate pe fiecare versiune. Ce model aplici?",
+"ok": "SCD tip 2, cu perioade de valabilitate.",
+"bad": [
+[
+"SCD tip 1, cu suprascrierea adresei.",
+"Pierzi istoricul."
+],
+[
+"Un tabel nou pentru fiecare zi.",
+"Greu de interogat și duplică datele."
+],
+[
+"Ștergerea clientului și reinserarea lui.",
+"Pierzi istoricul și cheile."
+]
+],
+"e": "SCD tip 2 adaugă o versiune nouă la fiecare schimbare, cu începutul și sfârșitul valabilității."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Un task de curățare trebuie să ruleze după celelalte taskuri, chiar dacă unele au eșuat. Ce condiție setezi?",
+"ok": "Condiția Run if: All done pe task.",
+"bad": [
+[
+"Run if: All succeeded, setarea implicită.",
+"Nu rulează dacă un task a eșuat."
+],
+[
+"Un job separat programat la o oră fixă.",
+"Nu se leagă de finalul jobului."
+],
+[
+"Retry nelimitat pe taskurile eșuate.",
+"Poate bloca jobul la nesfârșit."
+]
+],
+"e": "Condiția „All done” rulează taskul după finalizarea dependențelor, indiferent de rezultat."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Un job trebuie să pornească imediat ce un partener încarcă fișierul zilnic, la ore variabile. Ce declanșator folosești?",
+"ok": "File arrival trigger pe locația fișierelor.",
+"bad": [
+[
+"Un schedule la fiecare 5 minute care verifică directorul.",
+"Consumă compute la fiecare verificare."
+],
+[
+"Pornire manuală de către un operator.",
+"Depinde de cineva și întârzie."
+],
+[
+"Un schedule fix la miezul nopții.",
+"Fișierul poate sosi mai târziu."
+]
+],
+"e": "Trigger-ul la sosirea fișierelor pornește jobul când apar fișiere noi într-o locație de storage guvernată."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Același job rulează pentru mai multe țări, iar codul primește țara ca parametru. Cum o transmiți?",
+"ok": "Ca parametru de job, citit în notebook.",
+"bad": [
+[
+"Câte o copie a notebook-ului pentru fiecare țară.",
+"Duplici codul."
+],
+[
+"O variabilă globală setată de alt job.",
+"Joburile nu partajează variabile."
+],
+[
+"Țara scrisă în numele clusterului.",
+"Fragil și neobișnuit."
+]
+],
+"e": "Parametrii de job ajung în taskuri (de exemplu ca widgets în notebook-uri) și pot fi suprascriși la fiecare rulare."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "În CI vrei să prinzi erorile din configurarea unui Asset Bundle înainte de deploy. Ce pas adaugi?",
+"ok": "`databricks bundle validate`.",
+"bad": [
+[
+"Deploy direct în producție, apoi verificare.",
+"Erorile ajung în producție."
+],
+[
+"Rularea manuală a joburilor după deploy.",
+"Prinzi problemele prea târziu."
+],
+[
+"Ștergerea fișierului YAML înainte de deploy.",
+"Bundle-ul nu mai are definiții."
+]
+],
+"e": "validate verifică sintaxa și configurarea bundle-ului pentru target, fără să publice nimic."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "În dev, joburile scriu în catalogul `dev`, iar în producție în `prod`, cu același cod. Cum configurezi bundle-ul?",
+"ok": "O variabilă de catalog, setată per target.",
+"bad": [
+[
+"Două copii ale codului, una pentru fiecare mediu.",
+"Duplici codul și pot apărea diferențe."
+],
+[
+"Numele catalogului schimbat manual înainte de deploy.",
+"Ușor de uitat și nerepetabil."
+],
+[
+"Un singur catalog comun pentru dev și prod.",
+"Amestecă datele de test cu producția."
+]
+],
+"e": "Variabilele din bundle primesc valori diferite pe target, iar resursele le folosesc la deploy."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Echipa vrea revizie de cod înainte ca modificările din notebook-uri să ajungă în producție. Ce folosește?",
+"ok": "Git folders, cu ramuri și pull request-uri.",
+"bad": [
+[
+"Editarea directă a notebook-urilor din producție.",
+"Fără revizie și fără istoric clar."
+],
+[
+"Copii de rezervă zilnice ale notebook-urilor.",
+"Nu oferă revizie."
+],
+[
+"Un singur utilizator cu drept de editare.",
+"Nu e revizie de cod."
+]
+],
+"e": "Git folders leagă workspace-ul de un repository Git; revizia se face prin pull request-uri."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/ldp/where-is-dlt",
+"q": "Iterezi rapid la un pipeline Lakeflow și vrei ca o eroare să nu declanșeze reîncercări lungi, iar clusterul să rămână pornit între rulări. Ce mod folosești?",
+"ok": "Development mode pentru pipeline.",
+"bad": [
+[
+"Production mode cu retry mărit.",
+"Production reîncearcă și oprește clusterul."
+],
+[
+"Full refresh la fiecare modificare.",
+"Recalculează tot, mai lent."
+],
+[
+"Un job separat pentru fiecare tabel.",
+"Pierzi gestionarea dependențelor din pipeline."
+]
+],
+"e": "Development mode reutilizează clusterul și dezactivează reîncercările automate; production mode le activează."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/ldp/where-is-dlt",
+"q": "Un streaming table citește din Kafka, unde mesajele se păstrează 7 zile. Ce riști la un full refresh al pipeline-ului?",
+"ok": "Pierzi datele mai vechi de 7 zile.",
+"bad": [
+[
+"Nimic, full refresh păstrează datele vechi.",
+"Full refresh golește și recalculează tabelul."
+],
+[
+"Doar o rulare mai lungă decât de obicei.",
+"Problema reală e pierderea datelor."
+],
+[
+"Dublarea tuturor rândurilor din tabel.",
+"Tabelul e golit înainte de recalculare."
+]
+],
+"e": "Full refresh recalculează din sursă; dacă sursa nu mai are datele vechi, acestea dispar din tabel."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/ldp/where-is-dlt",
+"q": "Vrei să urmărești în timp câte rânduri sunt eliminate de expectations într-un pipeline Lakeflow. Ce sursă interoghezi?",
+"ok": "Event log-ul pipeline-ului.",
+"bad": [
+[
+"Spark UI al ultimei rulări.",
+"Nu păstrează istoricul metricilor de calitate."
+],
+[
+"`DESCRIBE HISTORY` pe tabelul gold.",
+"Arată operațiile, nu metricile expectations."
+],
+[
+"Jurnalul de audit al workspace-ului.",
+"Înregistrează accesul, nu calitatea datelor."
+]
+],
+"e": "Event log-ul conține metricile de calitate (rânduri trecute și eliminate) pentru fiecare actualizare."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/",
+"q": "Echipa vrea un e-mail când procentul de comenzi fără client depășește 1% în tabelul gold. Ce folosești?",
+"ok": "O alertă SQL pe o interogare cu prag.",
+"bad": [
+[
+"Verificarea manuală a dashboard-ului.",
+"Depinde de cineva care se uită."
+],
+[
+"Retry pe jobul care scrie tabelul.",
+"Nu detectează problema de calitate."
+],
+[
+"Un comentariu pe tabel.",
+"Nu notifică pe nimeni."
+]
+],
+"e": "Alertele Databricks SQL rulează periodic o interogare și notifică atunci când rezultatul depășește condiția."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Un job programat la fiecare 15 minute durează uneori 20 de minute, iar rulările suprapuse scriu în același tabel. Ce setezi?",
+"ok": "Maximum concurrent runs = 1.",
+"bad": [
+[
+"Un cluster mai mare, ca jobul să termine sigur.",
+"Nu garantează că rulările nu se suprapun."
+],
+[
+"Program la fiecare minut.",
+"Agravează suprapunerea."
+],
+[
+"Retry infinit la eșec.",
+"Nu previne suprapunerea."
+]
+],
+"e": "Limitarea concurenței la 1 împiedică pornirea unei noi rulări cât timp cea anterioară e activă."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://learn.microsoft.com/en-us/azure/databricks/jobs/",
+"q": "Joburile programate rulează pe un cluster all-purpose comun și costă mult. Ce compute folosești pentru ele?",
+"ok": "Job compute sau serverless pentru joburi.",
+"bad": [
+[
+"Același cluster all-purpose, cu mai mulți workeri.",
+"Crește costul și concurența cu utilizatorii."
+],
+[
+"Un SQL warehouse pentru cod Python.",
+"Nu rulează cod Python general."
+],
+[
+"Laptopul unui inginer, conectat remote.",
+"Nu e fiabil și nici sigur."
+]
+],
+"e": "Compute-ul de job e creat pentru rulare și oprit la final, la tarif mai mic decât all-purpose; serverless elimină și administrarea."
+},
+{
+"exam": "dp750",
+"dom": "Livrarea și întreținerea pipeline-urilor",
+"src": "https://docs.databricks.com/aws/en/",
+"q": "Vrei să prinzi erorile din funcțiile de transformare înainte de deploy, automat la fiecare pull request. Ce adaugi în CI?",
+"ok": "Teste unitare cu pytest pe funcțiile de transformare.",
+"bad": [
+[
+"Rularea jobului de producție după merge.",
+"Prinde erorile prea târziu."
+],
+[
+"Un review vizual al notebook-urilor.",
+"Util, dar nu verifică automat logica."
+],
+[
+"Mai multe reîncercări pe job.",
+"Reîncercările nu repară logica greșită."
+]
+],
+"e": "Funcțiile de transformare separate de notebook-uri pot fi testate cu pytest pe date mici, în CI, înainte de deploy."
+}
+]

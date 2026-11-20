@@ -1,0 +1,79 @@
+name: Release APK
+
+# La fiecare versiune nouă din app/AndroidManifest.xml, GitHub construiește APK-ul din app/,
+# îl semnează cu cheia din secretul APK_SIGNING_KEY și publică release-ul v<versiune>.
+# Dacă release-ul există deja, nu face nimic.
+on:
+  push:
+    branches:
+      - "claude/etapa-d-private-repo-fo4avo"
+    paths:
+      - "app/**"
+      - "tools/build_apk.py"
+      - ".github/release-notes.md"
+      - ".github/workflows/release.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Versiunea din manifest
+        id: meta
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          v=$(python3 tools/apk_version.py app/AndroidManifest.xml)
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+          if gh release view "v$v" >/dev/null 2>&1; then
+            echo "Release-ul v$v există deja; nimic de făcut."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Construiește și semnează APK-ul
+        if: steps.meta.outputs.exists == 'false'
+        env:
+          APK_SIGNING_KEY: ${{ secrets.APK_SIGNING_KEY }}
+          V: ${{ steps.meta.outputs.version }}
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/out/DataEng-Learn-$V.apk"
+          mkdir -p "$RUNNER_TEMP/out"
+          if [ -n "$APK_SIGNING_KEY" ]; then
+            pip install --quiet cryptography
+            k="$RUNNER_TEMP/signing"
+            (umask 077 && mkdir -p "$k" && printf '%s\n' "$APK_SIGNING_KEY" > "$k/key.pem")
+            cp app/signing-cert.pem "$k/cert.pem"
+            APK_REQUIRE_KEY=1 python3 tools/build_apk.py app/base/shell.apk app/assets "$out" "$k"
+            rm -rf "$k"
+          else
+            echo "::error::Secretul APK_SIGNING_KEY nu e setat (Settings → Secrets and variables → Actions)."
+            exit 1
+          fi
+          # Verificare independentă cu apksigner din Android SDK: semnătura e validă
+          # și certificatul e cel din app/signing-cert.pem (altfel actualizarea nu s-ar instala).
+          tools_dir=$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -n1)
+          "${tools_dir}apksigner" verify --print-certs "$out" | tee "$RUNNER_TEMP/certs.txt"
+          want=$(openssl x509 -in app/signing-cert.pem -noout -fingerprint -sha256 | cut -d= -f2 | tr -d ':' | tr 'A-F' 'a-f')
+          if ! grep -qi "SHA-256 digest: $want" "$RUNNER_TEMP/certs.txt"; then
+            echo "::error::APK-ul nu e semnat cu certificatul din app/signing-cert.pem."
+            exit 1
+          fi
+          echo "APK=$out" >> "$GITHUB_ENV"
+
+      - name: Publică release-ul
+        if: steps.meta.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.meta.outputs.version }}
+          target_commitish: ${{ github.sha }}
+          name: DataEng Learn v${{ steps.meta.outputs.version }}
+          files: ${{ env.APK }}
+          body_path: .github/release-notes.md
