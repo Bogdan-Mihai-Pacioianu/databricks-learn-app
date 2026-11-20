@@ -6,7 +6,7 @@ const fs = require("fs"), path = require("path");
 const dir = path.resolve(process.argv[2] || "app/assets"), reportPath = process.argv[3];
 global.window = {};
 const load = f => { const p = path.join(dir, f); if (fs.existsSync(p)) (0, eval)(fs.readFileSync(p, "utf8")); };
-["cards.js", "enrich157.js", "courses145-data.js", "atelier159.js", "resources156.js"].forEach(load);
+["cards.js", "balance161.js", "enrich157.js", "courses145-data.js", "atelier159.js", "resources156.js"].forEach(load);
 const S = window.SEED, A = window.ATELIER159 || { exercises: [], cards: [], skills: [] }, R = window.RESOURCES156 || { decks: {} };
 const errors = [], warns = [], info = [];
 const err = (check, msg) => errors.push([check, msg]), warn = (check, msg) => warns.push([check, msg]);
@@ -22,7 +22,7 @@ const banks = { "întrebări (SEED.questions)": S.questions || [] };
 Object.keys(S.teste || {}).forEach(k => { banks["test " + k] = S.teste[k]; });
 const seenText = {};
 Object.entries(banks).forEach(([bank, qs]) => {
-  let longest = 0, single = 0, newLongest = 0, newSingle = 0, missingW = 0;
+  let longest = 0, shortest = 0, single = 0, newLongest = 0, newSingle = 0, missingW = 0;
   qs.forEach(q => {
     const opts = q.o || [], ok = opts.filter(o => o.ok), multi = q.mode === "multiple";
     if (!q.q || !String(q.q).trim()) err("întrebare goală", bank + " · " + q.id);
@@ -37,6 +37,7 @@ Object.entries(banks).forEach(([bank, qs]) => {
     if (!multi && ok.length === 1) {
       const okLen = ok[0].t.length, isLongest = opts.filter(o => !o.ok).every(o => o.t.length < okLen);
       single++; if (isLongest) longest++;
+      if (opts.filter(o => !o.ok).every(o => o.t.length > okLen)) shortest++;
       if (isNew(q.id)) { newSingle++; if (isLongest) newLongest++; }
     }
     const k = norm(q.q);
@@ -44,8 +45,11 @@ Object.entries(banks).forEach(([bank, qs]) => {
   });
   if (single) {
     const pct = Math.round(longest / single * 100);
-    info.push(["lungimea variantelor", bank + ": corecta e cea mai lungă în " + pct + "% din " + single]);
-    if (pct > 40) warn("lungimea variantelor", bank + ": corecta e cea mai lungă în " + pct + "% (nivelul hazardului: 25%)");
+    const spct = Math.round(shortest / single * 100);
+    info.push(["lungimea variantelor", bank + ": corecta e cea mai lungă în " + pct + "% și cea mai scurtă în " + spct + "% din " + single]);
+    if (spct > 45) warn("lungimea variantelor (invers)", bank + ": corecta e cea mai scurtă în " + spct + "%");
+    if (pct > 45) err("lungimea variantelor", bank + ": corecta e cea mai lungă în " + pct + "% (limita: 45%, hazardul: 25%)");
+    else if (pct > 35) warn("lungimea variantelor", bank + ": corecta e cea mai lungă în " + pct + "% (ținta: sub 35%, hazardul: 25%)");
   }
   if (newSingle >= 8) {
     const pct = Math.round(newLongest / newSingle * 100);
@@ -86,7 +90,7 @@ function textChecks(owner, fieldTexts, strict) {
     if ((text.match(/```/g) || []).length % 2) (strict ? err : warn)("bloc de cod neînchis", owner + " · " + field);
     const ticks = (text.replace(/```[\s\S]*?```/g, "").match(/`/g) || []).length;
     if (ticks % 2) (strict ? err : warn)("cod inline neînchis (`)", owner + " · " + field);
-    if ((text.replace(/```[\s\S]*?```/g, "").match(/\*\*/g) || []).length % 2) (strict ? err : warn)("îngroșare neînchisă (**)", owner + " · " + field);
+    if ((text.replace(/```[\s\S]*?```/g, "").replace(/`[^`]*`/g, "").replace(/\*{3,}/g, "").match(/\*\*/g) || []).length % 2) (strict ? err : warn)("îngroșare neînchisă (**)", owner + " · " + field);
   });
 }
 (S.cards || []).forEach(c => textChecks("card " + c.id, [["q", c.q], ["a", c.a]], isNew(c.id)));
@@ -103,7 +107,8 @@ A.cards.forEach(c => textChecks("fișă atelier " + c.id, [["body", c.body]], tr
     const m = /(\d+)\s*[–-]\s*(\d+)/.exec(d.pondere || "") || /(\d+)/.exec(d.pondere || "");
     if (!m) return;
     const lo = +m[1], hi = +(m[2] || m[1]);
-    const n = qs.filter(q => q.dom === d.nume || (q.domains || []).indexOf(d.nume) >= 0).length, pct = Math.round(n / qs.length * 100);
+    const al = (S.examDomainAliases || {})[c.id] || {}, idx = doms.indexOf(d);
+    const n = qs.filter(q => (q.domains || [q.dom]).some(x => x === d.nume || al[x] === idx)).length, pct = Math.round(n / qs.length * 100);
     info.push(["acoperire examen", c.id + " · " + d.nume + ": " + pct + "% (oficial " + d.pondere + ")"]);
     if (pct < lo - 7) warn("domeniu de examen subreprezentat", c.id + " · " + d.nume + ": " + pct + "% din întrebări, oficial " + d.pondere);
     if (pct > hi + 12) warn("domeniu de examen suprareprezentat", c.id + " · " + d.nume + ": " + pct + "% din întrebări, oficial " + d.pondere);

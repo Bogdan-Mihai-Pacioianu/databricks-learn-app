@@ -19,6 +19,9 @@ const path = require("path");
     });
     return out;
   });
+  const unassigned = await p.evaluate(() => { const D = window.DECARDS, out = {}; Object.keys(window.SEED.teste).forEach(ex => { const m = D.examDomainMastery(ex); if (m.rows.length && m.unassigned.length) out[ex] = m.unassigned.length; }); return out; });
+  console.log("întrebări de examen fără domeniu:", JSON.stringify(unassigned));
+  Object.entries(unassigned).forEach(([ex, n]) => fail(ex + ": " + n + " întrebări nu apar în Progres pe domenii"));
   Object.entries(r).forEach(([ex, v]) => { console.log(ex.padEnd(10), "total", v.total, "· noi", v.noi, v.faraDomeniu.length ? "· FĂRĂ DOMENIU: " + v.faraDomeniu.join(", ") : ""); if (v.faraDomeniu.length) fail(ex + " are întrebări neatribuite"); });
   // Un test complet pe DP-750 include întrebările noi și se poate parcurge.
   await p.evaluate(() => { const D = window.DECARDS; D.state.settings.setup = true; const su = document.getElementById("setup"); if (su) su.hidden = true; D.startExamPractice("dp750", "all", ""); });

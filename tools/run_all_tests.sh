@@ -20,6 +20,8 @@ run() {
 }
 echo "== Conținut"
 run "qa_content" node "$ROOT/tools/qa_content.js" "$ASSETS" "$REPORTS/calitate-continut.md"
+run "qa_python_labs" python3 "$ROOT/tools/qa_python_labs.py" "$ASSETS" "$REPORTS/laboratoare-python.md"
+run "qa_sql_labs" node "$ROOT/tools/qa_sql_labs.js" "$ASSETS" "$REPORTS/laboratoare-sql.md"
 run "build_atelier" node "$ROOT/tools/build_atelier.js" "$ROOT/content/atelier159.json" "$ROOT/content/atelier_mental160.json" "$SHOTS"
 echo "== Funcționalitate (Playwright)"
 for t in test_terms test_dictionary test_modes test_tabmodes test_setup test_resources test_enrich test_exams test_atelier test_mental; do
@@ -30,6 +32,6 @@ run "qa_app" node "$ROOT/tools/qa_app.js" "$ASSETS" "$REPORTS/calitate-aplicatie
 fail=0; for r in "${RESULTS[@]}"; do [ "$r" = "trece" ] || fail=1; done
 echo
 echo "Rezumat: $(printf '%s\n' "${RESULTS[@]}" | grep -c '^trece$') din ${#RESULTS[@]} verificări trec."
-echo "Rapoarte: $REPORTS/calitate-continut.md, $REPORTS/calitate-aplicatie.md"
+echo "Rapoarte: $REPORTS/calitate-continut.md, $REPORTS/calitate-aplicatie.md, $REPORTS/laboratoare-sql.md, $REPORTS/laboratoare-python.md"
 rm -rf "$SHOTS"
 exit $fail

@@ -4,7 +4,7 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 
 ## Conținut
 
-- `app/assets/`: codul aplicației (versiunea 1.50.1, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.50.1), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
+- `app/assets/`: codul aplicației (versiunea 1.51.0, cu conținutul din 1.48.0 plus conținutul nou din 1.48.4–1.51.0), cu îmbunătățirile pentru învățarea termenilor deja aplicate.
 - `app/assets/dictionary156.js`: inventarul dicționarului (generat).
 - `tools/build_dictionary.js`: generează inventarul: unde apare fiecare termen și ce termeni din conținut nu au fișă.
 - `tools/patch_dictionary.py`: adaugă ecranul Dicționar în `app.js` și `index.html`. Se aplică după `patch_terms.py`.
@@ -34,12 +34,58 @@ DataEng Learn: o aplicație Android offline, în limba română, pentru învăț
 - `tools/test_mental.js`: test Playwright pentru traseul Modele mentale.
 - `tools/qa_content.js`, `tools/qa_app.js`, `tools/run_all_tests.sh`: suita de calitate (vezi mai jos); `tools/patch_a11y.py`: corecturile de accesibilitate.
 - `docs/calitate-continut.md`, `docs/calitate-aplicatie.md`: ultimele rapoarte de calitate.
+- `content/balance161.py`: hook-ul Etapei D. Generează `app/assets/balance161.js`, încărcat după `cards.js`. Datele lui sunt `content/balance161_overrides.json` (360 de întrebări rescrise) și `content/explanations161.json` (25 de explicații noi).
+- `tools/patch_balance.py`: încarcă hook-ul în `index.html`.
+- `tools/qa_sql_labs.js`, `tools/qa_python_labs.py`: rulează soluțiile laboratoarelor SQL (motorul aplicației) și Python (CPython). Rapoartele lor sunt `docs/laboratoare-sql.md` și `docs/laboratoare-python.md`.
 - `tools/patch_terms.py`: aplică aceleași îmbunătățiri peste alt `app.js`, de exemplu cel din sursa 1.54. Scriptul se oprește dacă o bucată de cod nu se potrivește.
 - `patches/termeni-app.js.diff`: diferențele față de `app.js` 1.48.0, ca referință.
 - `tools/build_apk.py`: reîmpachetează APK-ul cu asset-urile modificate și îl semnează cu APK Signature Scheme v2. Cheia se generează local în `signing/`, care nu se publică.
 - `tools/test_terms.js`: test Playwright pentru exercițiile noi.
-- `dist/DataEng-Learn-1.50.1.apk`: versiunea 1.50.1 (versionCode 12041), semnată cu o cheie de test.
-- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.50.1; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+- `dist/DataEng-Learn-1.51.0.apk`: versiunea 1.51.0 (versionCode 12042), semnată cu o cheie de test.
+- `app/AndroidManifest.xml`: manifestul binar cu versiunea 1.51.0; `tools/build_apk.py` îl folosește în locul celui din APK-ul original.
+
+## Etapa D (1.51.0): auditul și repararea conținutului
+
+Etapa a pornit în sesiunea de pe calculator și s-a terminat aici, pe conținutul din repo. Hook-ul `content/balance161.py` reia regula din `balance155` și adaugă rescrierile manuale.
+
+### Reechilibrarea întrebărilor grilă
+
+| Bancă | Corecta cea mai lungă, înainte | După |
+|---|---:|---:|
+| Banca generală | 62% | 25% |
+| DP-750 | 64% | 20% |
+| Databricks DE Associate | 63% | 24% |
+| DP-700 | 64% | 32% |
+| Spark Developer | 67% | 19% |
+
+Cum s-a făcut:
+- **Regula automată:** 268 de întrebări. Unde varianta corectă era de peste 1,6 ori mai lungă, decizia rămâne în variantă, iar justificarea trece în explicație („De ce: …”).
+- **Rescrieri manuale:** 360 de întrebări unice, aplicate și copiilor lor din băncile de examen, în total 556. Varianta corectă e scurtată, iar unele variante greșite sunt făcute mai precise. Ordinea și răspunsul corect nu se schimbă.
+- **Verificarea lor:** fiecare rescriere a fost verificată automat: același număr de variante, același răspuns corect, codul păstrat, nicio diacritică cu sedilă.
+- **Efectul invers:** varianta corectă e cea mai scurtă în 15–26% din cazuri, deci lungimea nu indică răspunsul în niciun sens.
+
+### Celelalte reparații din audit
+
+- **Explicații:** 25 de explicații noi, la întrebările care doar repetau răspunsul.
+- **Legături:** 176 de legături interne spre o bancă veche de întrebări DE Professional, care nu mai exista, sunt eliminate.
+- **Cuvinte lipite:** 139 despărțite („Nu.Verific” → „Nu. Verific”), după o listă de cuvinte românești. Codul, de exemplu `States.Timeout`, rămâne neatins.
+- **Termeni dublați:** 5 perechi diferențiate prin context: Executor, Volume, Lakehouse, Manifest, Read committed. Dublura „ADLS Gen2” e eliminată.
+- **Denumiri depășite:** „Databricks Workflows” → „Lakeflow Jobs”, „DLT pipeline” → „pipeline Lakeflow (fost DLT)”.
+- **Progres pe domenii:** 51 de întrebări Spark Developer și 4 DP-750 nu apăreau deloc. Erau etichetate cu denumiri alternative sau aveau lista de domenii goală.
+- **Plan de lecții:** 3 trimiteri spre termeni inexistenți.
+
+### Exemplele de cod
+
+| Laboratoare | Rezultat |
+|---|---|
+| SQL, 124 de exerciții | toate soluțiile trec propria verificare; nicio variantă-capcană nu dă același rezultat |
+| Python, 62 de laboratoare | toate soluțiile trec toate testele cu CPython; niciun cod de pornire nu le trece deja |
+
+### Ce rămâne
+
+- **Băncile AWS și Google:** varianta corectă e cea mai scurtă în 54% și 60% din cazuri. Multe răspunsuri sunt valori scurte.
+- **DE Associate:** aria Ingestie are 13% din întrebări, față de 21% oficial.
+- **Resurse:** 4 linkuri nefuncționale, ascunse deja în aplicație.
 
 ## Verificări de calitate (1.50.1)
 
@@ -385,6 +431,8 @@ python tools/patch_resources.py app/assets
 python tools/patch_enrich.py app/assets
 python tools/patch_atelier.py app/assets
 python tools/patch_a11y.py app/assets
+python tools/patch_balance.py app/assets
+python3 content/balance161.py app/assets
 node tools/build_atelier.js content/atelier159.json content/atelier_mental160.json app/assets
 python tools/build_enrich.py content app/assets
 python tools/build_resources.py "research_notes/Resurse învățare data engineering" app/assets

@@ -9,6 +9,11 @@
   ],
   "t-dl-11": [
    "CDF"
+  ],
+  "t-az-24": [
+   "ADLS",
+   "Azure Data Lake Storage",
+   "Azure Data Lake Storage Gen2"
   ]
  },
  "nosource": [
